@@ -1,0 +1,30 @@
+{"frames": {
+
+"Bitmap1":
+{
+	"frame": {"x":2,"y":232,"w":116,"h":108},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":108},
+	"sourceSize": {"w":116,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"Bitmap2":
+{
+	"frame": {"x":2,"y":2,"w":228,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":228},
+	"sourceSize": {"w":228,"h":228},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "ColorEffects_atlas_.png",
+	"format": "RGBA8888",
+	"size": {"w":232,"h":342},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6bbbca3504cad2544fbecd051389410a:0008f4b844134584f23f6722ff4f814b:ce04dd447fc12ae2990efd23052811ef$"
+}
+}

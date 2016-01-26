@@ -1,0 +1,32 @@
+{
+	"name": "pixi-animate",
+	"version": "0.3.0",
+	"main": "dist/pixi-animate.min.js",
+	"dependencies":
+	{
+		"pixi.js": "^3.0.9"
+	},
+	"devDependencies":
+	{
+		"qunit": "*",
+		"google-code-prettify": "*",
+		"bind-polyfill": "*"
+	},
+	"ignore": [
+		"Gruntfile.js",
+		"tasks",
+		"examples",
+		"docs",
+		"src",
+		"test",
+		".jsbeautifyrc",
+		".bowerrc",
+		".editorconfig",
+		".npmignore",
+		".travis.yml",
+		".gitattributes",
+		"library.json",
+		"package.json",
+		".gitignore"
+	]
+}

@@ -1,0 +1,54 @@
+<profiles>
+<profile version="1.0" name="Default" current="true">
+  <PublishFormatProperties enabled="true">
+    <defaultNames>1</defaultNames>
+    <jpeg>0</jpeg>
+    <jpegDefaultName>1</jpegDefaultName>
+    <jpegFileName>ColorEffects.jpg</jpegFileName>
+    <publishFormat id="BBC1F406-65F2-4219-9304-FA48C7549E44">0</publishFormat>
+    <publishFormat id="C6B9CB0C-C6DC-4FBC-9805-93E9EB37A444">1</publishFormat>
+  </PublishFormatProperties>
+  <PublishJpegProperties enabled="true">
+    <Width>500</Width>
+    <Height>720</Height>
+    <Progressive>0</Progressive>
+    <DPI>4718592</DPI>
+    <Size>0</Size>
+    <Quality>80</Quality>
+    <MatchMovieDim>1</MatchMovieDim>
+  </PublishJpegProperties>
+  <PublishProperties id="BBC1F406-65F2-4219-9304-FA48C7549E44" name="SVG Image" enabled="true">
+    <Property name="copy">true</Property>
+    <Property name="default">true</Property>
+    <Property name="embed">false</Property>
+    <Property name="filename">ColorEffects.svg</Property>
+    <Property name="imagesPath">images</Property>
+    <Property name="includeHiddenLayers">true</Property>
+    <Property name="version">0.1</Property>
+  </PublishProperties>
+  <PublishProperties id="C6B9CB0C-C6DC-4FBC-9805-93E9EB37A444" name="JavaScript/HTML" enabled="true">
+    <Property name="compactPaths">true</Property>
+    <Property name="createjsNS">pixiflash</Property>
+    <Property name="default">true</Property>
+    <Property name="exportAsSpritesheet">true</Property>
+    <Property name="exportHTML">false</Property>
+    <Property name="exportImages">true</Property>
+    <Property name="exportLibs">true</Property>
+    <Property name="exportSounds">true</Property>
+    <Property name="filename">ColorEffects.js</Property>
+    <Property name="frameBounds">false</Property>
+    <Property name="hostedLibs">true</Property>
+    <Property name="imagesNS">pixiflash_images</Property>
+    <Property name="imagesPath">.</Property>
+    <Property name="includeHiddenLayers">true</Property>
+    <Property name="libNS">pixiflash_lib</Property>
+    <Property name="libraryPath">libs/</Property>
+    <Property name="loop">true</Property>
+    <Property name="optimizeExport">true</Property>
+    <Property name="sheetHeight">8192</Property>
+    <Property name="sheetWidth">8192</Property>
+    <Property name="soundsPath">sounds/</Property>
+    <Property name="version">0.1</Property>
+  </PublishProperties>
+</profile>
+</profiles>

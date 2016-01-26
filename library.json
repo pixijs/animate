@@ -1,0 +1,24 @@
+{
+	"name": "PixiAnimate",
+	"version": "0.3.0",
+	"description": "Runtime library to play Pixi.js content from Adobe Animate CC",
+	"url": "https://github.com/jiborobot/pixi-animate",
+	"output": "pixi-animate",
+	"main": [
+		"src/data/BISON.js",
+		"src/animate/main.js",
+		"src/animate/GraphicsCache.js",
+		"src/animate/SymbolLoader.js",
+		"src/mixins/*.js"
+	],
+	"modules":
+	{
+		"springroll": [
+			"src/plugins/springroll/FlashArt.js",
+			"src/plugins/springroll/FlashArtTask.js",
+			"src/plugins/springroll/MovieClipInstance.js",
+			"src/plugins/springroll/PixiAnimatePlugin.js",
+			"src/plugins/springroll/SpriteSheetTask.js"
+		]
+	}
+}

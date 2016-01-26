@@ -1,0 +1,8 @@
+{
+	"js": 
+	{
+		"braceStyle": "expand",
+		"indentWithTabs": true,
+		"endWithNewline": false
+	}
+}
