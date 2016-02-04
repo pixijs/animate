@@ -9,6 +9,9 @@
 		"src/animate/main.js",
 		"src/animate/GraphicsCache.js",
 		"src/animate/SymbolLoader.js",
+		"src/animate/MovieClip.js",
+		"src/animate/Timeline.js",
+		"src/animate/Tween.js",
 		"src/mixins/*.js"
 	],
 	"modules":
