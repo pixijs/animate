@@ -1219,7 +1219,7 @@
 				fps = o._framerate;
 			while ((o = o.parent) && !fps)
 			{
-				if (o.mode == independent)
+				if (o.mode == MovieClip.INDEPENDENT)
 				{
 					fps = o._framerate;
 				}
@@ -1230,7 +1230,7 @@
 		if (time)
 			this._t += time;
 		if (this._t > this._duration)
-			this._t = this.timeline.loop ? this._t - this._duration : this._duration;
+			this._t = this.loop ? this._t - this._duration : this._duration;
 		//add a tiny amount to account for potential floating point errors
 		this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
 		//final error checking
