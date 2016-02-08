@@ -56,15 +56,14 @@
 	 * @method cp
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.cp = function()
-	{
-		var currentPath = this.currentPath;
-		if (currentPath && currentPath.shape)
-		{
-			currentPath.shape.closed = true;
-		}
-		return this;
-	};
+	p.cp = p.closePath;
+
+	/**
+	 * Alias for addHole
+	 * @method ch
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.ah = p.addHole;
 
 	/**
 	 * Shortcut to moveTo.
