@@ -10,25 +10,12 @@
 	var p = PIXI.Container.prototype;
 
 	/**
-	 * Add multiple children instead of one at a time.
-	 * @method addChildren
-	 * @param {*} [child*] N-number of children
-	 * @return {Container} Instance of this container
-	 */
-	/**
-	 * Shortcut for addChildren.
+	 * Shortcut for addChild.
 	 * @method ac
 	 * @param {*} [child*] N-number of children
 	 * @return {Container} Instance of this container
 	 */
-	p.addChildren = p.ac = function(child)
-	{
-		for (var i = 0; i < arguments.length; i++)
-		{
-			this.addChild(arguments[i]);
-		}
-		return this;
-	};
+	p.ac = p.addChild;
 
 	/**
 	 * Extend a container
