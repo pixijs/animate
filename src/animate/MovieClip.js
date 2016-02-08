@@ -633,6 +633,8 @@
 		if (synched)
 		{
 			this.currentFrame = this.startPosition + (this.mode == MovieClip.SINGLE_FRAME ? 0 : this._synchOffset);
+			if(this.currentFrame >= this._frameDuration)
+				this.currentFrame %= this._frameDuration;
 		}
 
 		if (this._prevPos == this.currentFrame)
@@ -671,12 +673,30 @@
 		//TODO: handle children removal and adding - try to avoid adding & removing each child
 		//each frame the way CreateJS does
 
-		//TODO: go through all children and update synched movieclips that are not single frames
+		//go through all children and update synched movieclips that are not single frames
+		var children = this.children;
+		for(i = 0, length = children.length; i < length; ++i)
+		{
+			if(children[i].mode == MovieClip.SYNCHED)
+			{
+				children[i]._synchOffset = this.currentFrame - children[i].parentStartPosition;
+				children[i]._updateTimeline();
+			}
+		}
 
 		//handle actions
 		if (doActions)
 		{
 			var actions = this._actions;
+			//handle looping around
+			var needsLoop = false;
+			if(currentFrame < startFrame)
+			{
+				length = actions.length;
+				needsLoop = true;
+			}
+			else
+				length = Math.min(currentFrame + 1, actions.length)
 			for (i = startFrame, length = Math.min(currentFrame + 1, actions.length); i < length; ++i)
 			{
 				if (actions[i])
@@ -684,6 +704,13 @@
 					var frameActions = actions[i];
 					for (j = 0; j < frameActions.length; ++j)
 						frameActions[j].call(this);
+				}
+				//handle looping around
+				if(needsLoop && i == length - 1)
+				{
+					i = 0;
+					length = currentFrame + 1;
+					needsLoop = false;
 				}
 			}
 		}
