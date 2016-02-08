@@ -166,12 +166,22 @@
 
 		/**
 		 * Standard tween timelines for all objects. Each element in the _timelines array
-		 * is an array of tweens for one target, in order of occurrence.
+		 * is a Timeline object - an array of tweens for one target, in order of occurrence.
 		 * @property _timelines
 		 * @type Array
 		 * @protected
 		 **/
 		this._timelines = [];
+		
+		/**
+		 * Array of child timelines denoting if a child is actively a child of this movieclip
+		 * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
+		 * property, and is an array of boolean values indexed by frame.
+		 * @property _timedChildTimelines
+		 * @type {Array}
+		 * @protected
+		 */
+		this._timedChildTimelines = [];
 
 		/**
 		 * Array of frame scripts, indexed by frame.
@@ -412,9 +422,55 @@
 			startFrame = 0;
 		if (duration == null || duration < 1) // jshint ignore:line
 			duration = 1;
-		//TODO: add tweening info about this child's visibility/presence on stage
-		//when the child is added, if it has 'autoReset' set to true, then it should be set back to
-		//frame 0
+		//add tweening info about this child's presence on stage
+		//when the child is (re)added, if it has 'autoReset' set to true, then it
+		//should be set back to frame 0
+		var timeline, i;
+		//get existing timeline
+		for (i = this._timedChildTimelines.length - 1; i >= 0; --i)
+		{
+			if (this._timedChildTimelines[i].target == instance)
+			{
+				timeline = this._timedChildTimelines[i];
+				break;
+			}
+		}
+		//if there wasn't one, make a new one
+		if (!timeline)
+		{
+			timeline = [];
+			timeline.target = instance;
+			this._timedChildTimelines.push(timeline);
+		}
+		//ensure that the timeline is long enough
+		var oldLength = timeline.length;
+		if(oldLength < startFrame + duration)
+		{
+			timeline.length = startFrame + duration;
+			//fill any gaps with false to denote that the child should be removed for a bit
+			if(oldLength < startFrame)
+			{
+				//if the browser has implemented the ES6 fill() function, use that
+				if(timeline.fill)
+					timeline.fill(false, oldLength, startFrame);
+				else
+				{
+					//if we can't use fill, then do a for loop to fill it
+					for(i = oldLength; i < startFrame; ++i)
+						timeline[i] = false;
+				}
+			}
+		}
+		//if the browser has implemented the ES6 fill() function, use that
+		if(timeline.fill)
+			timeline.fill(true, startFrame, startFrame + duration);
+		else
+		{
+			var length = timeline.length;
+			//if we can't use fill, then do a for loop to fill it
+			for(i = startFrame; i < length; ++i)
+				timeline[i] = true;
+		}
 		return this;
 	};
 
@@ -652,7 +708,7 @@
 		{
 			child._synchOffset = offset;
 			child._updateTimeline();
-			// TODO: this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
+			// this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
 			if (child.mode == MovieClip.INDEPENDENT && child.autoReset && !this._managed[child.id])
 			{
 				child._reset();
