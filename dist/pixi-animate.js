@@ -732,7 +732,7 @@
 		SharedTicker = PIXI.ticker.shared;
 
 	/**
-	 * The class to emulate createjs.MovieClip, requires TweenJS
+	 * Provide timeline playback of movieclip
 	 * @class MovieClip
 	 * @extends PIXI.Container
 	 */
@@ -744,7 +744,7 @@
 		 * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
 		 * See each constant for a description of the behaviour.
 		 * @property mode
-		 * @type String
+		 * @type int
 		 * @default null
 		 **/
 		this.mode = mode || MovieClip.INDEPENDENT;
@@ -918,20 +918,20 @@
 	 * @property INDEPENDENT
 	 * @static
 	 * @type String
-	 * @default "independent"
+	 * @default 0
 	 * @readonly
 	 **/
-	MovieClip.INDEPENDENT = "independent";
+	MovieClip.INDEPENDENT = 0;
 
 	/**
 	 * The MovieClip will only display a single frame (as determined by the startPosition property).
 	 * @property SINGLE_FRAME
 	 * @static
 	 * @type String
-	 * @default "single"
+	 * @default 1
 	 * @readonly
 	 **/
-	MovieClip.SINGLE_FRAME = "single";
+	MovieClip.SINGLE_FRAME = 1;
 
 	/**
 	 * The MovieClip will be advanced only when its parent advances and will be synched to the position of
@@ -939,10 +939,10 @@
 	 * @property SYNCHED
 	 * @static
 	 * @type String
-	 * @default "synched"
+	 * @default 2
 	 * @readonly
 	 **/
-	MovieClip.SYNCHED = "synched";
+	MovieClip.SYNCHED = 2;
 
 	var p = MovieClip.prototype = Object.create(Container.prototype);
 
