@@ -1393,6 +1393,23 @@
 		}
 		//TODO: handle children removal and adding - try to avoid adding & removing each child
 		//each frame the way CreateJS does
+		var _timedChildTimelines = this._timedChildTimelines;
+		for (i = 0, length = _timedChildTimelines.length; i < length; ++i)
+		{
+			var target = _timedChildTimelines[i].target;
+			var shouldBeChild = _timedChildTimelines[i][currentFrame];
+			//if child should be on stage and is not:
+			if (shouldBeChild && target.parent != this)
+			{
+				this.addChild(target);
+				if (target.mode == MovieClip.INDEPENDENT && target.autoReset)
+					target.reset();
+			}
+			else if (!shouldBeChild && target.parent == this)
+			{
+				this.removeChild(target);
+			}
+		}
 
 		//go through all children and update synched movieclips that are not single frames
 		var children = this.children;
@@ -1400,7 +1417,7 @@
 		{
 			if (children[i].mode == MovieClip.SYNCHED)
 			{
-				children[i]._synchOffset = this.currentFrame - children[i].parentStartPosition;
+				children[i]._synchOffset = currentFrame - children[i].parentStartPosition;
 				children[i]._updateTimeline();
 			}
 		}
@@ -1435,34 +1452,6 @@
 				}
 			}
 		}
-	};
-
-	/**
-	 * Adds a child to the timeline, and sets it up as a managed child.
-	 * @method _addManagedChild
-	 * @param {MovieClip} child The child MovieClip to manage
-	 * @param {Number} offset
-	 * @private
-	 **/
-	p._addManagedChild = function(child, offset)
-	{
-		if (child._off)
-		{
-			return;
-		}
-		this.addChildAt(child, 0);
-
-		if (child instanceof MovieClip)
-		{
-			child._synchOffset = offset;
-			child._updateTimeline();
-			// this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
-			if (child.mode == MovieClip.INDEPENDENT && child.autoReset && !this._managed[child.id])
-			{
-				child._reset();
-			}
-		}
-		this._managed[child.id] = 2;
 	};
 
 	p.__Container_destroy = p.destroy;
