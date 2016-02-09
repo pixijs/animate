@@ -225,7 +225,7 @@
 					target.mode = value.m;
 					target.startPosition = value.sp;
 					target.parentStartPosition = value.parentSP;
-					if(target.mode == 1)//MovieClip.SINGLE_FRAME
+					if (target.mode == 1) //MovieClip.SINGLE_FRAME
 					{
 						target.gotoAndStop(target.startPosition);
 					}
@@ -233,7 +233,7 @@
 				else
 				{
 					//clear target mode/start position (make it an independent movieclip)
-					target.mode = 0;//MovieClip.INDEPENDENT
+					target.mode = 0; //MovieClip.INDEPENDENT
 					target.startPosition = -1;
 					target.parentStartPosition = -1;
 				}

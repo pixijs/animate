@@ -53,39 +53,52 @@
 	/**
 	 * Closes the current path, effectively drawing a line from the current drawing point to the first drawing point specified
 	 * since the fill or stroke was last set.
-	 * @method cp
+	 * @method c
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.cp = p.closePath;
+	p.c = p.closePath;
 
 	/**
 	 * Alias for addHole
-	 * @method ch
+	 * @method h
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.ah = p.addHole;
+	p.h = p.addHole;
 
 	/**
 	 * Shortcut to moveTo.
-	 * @method mt
+	 * @method m
 	 * @param {Number} x The x coordinate the drawing point should move to.
 	 * @param {Number} y The y coordinate the drawing point should move to.
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls).
 	 **/
-	p.mt = p.moveTo;
+	p.m = p.moveTo;
 
 	/**
 	 * Shortcut to lineTo.
-	 * @method lt
+	 * @method l
 	 * @param {Number} x The x coordinate the drawing point should draw to.
 	 * @param {Number} y The y coordinate the drawing point should draw to.
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.lt = p.lineTo;
+	p.l = p.lineTo;
+
+	/**
+	 * Draws a quadratic curve from the current drawing point to (x, y) using the control point (cpx, cpy). For detailed
+	 * information, read the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-quadraticcurveto">
+	 * whatwg spec</a>. A tiny API method "qt" also exists.
+	 * @method q
+	 * @param {Number} cpx
+	 * @param {Number} cpy
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.q = p.quadraticCurveTo;
 
 	/**
 	 * Shortcut to bezierCurveTo.
-	 * @method bt
+	 * @method b
 	 * @param {Number} cp1x
 	 * @param {Number} cp1y
 	 * @param {Number} cp2x
@@ -94,39 +107,7 @@
 	 * @param {Number} y
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.bt = p.bezierCurveTo;
-
-	/**
-	 * Shortcut to drawRect.
-	 * @method dr
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	/**
-	 * Shortcut to drawRect.
-	 * @method r
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.dr = p.r = p.drawRect;
-
-	/**
-	 * Shortcut to drawRoundedRect.
-	 * @method rr
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @param {Number} radius The corner radius
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.rr = p.drawRoundedRect;
+	p.b = p.bezierCurveTo;
 
 	/**
 	 * Shortcut to beginFill.
@@ -148,6 +129,38 @@
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
 	p.s = p.lineStyle;
+
+	/**
+	 * Shortcut to drawRect.
+	 * @method dr
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	/**
+	 * Shortcut to drawRect.
+	 * @method r
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.dr = p.drawRect;
+
+	/**
+	 * Shortcut to drawRoundedRect.
+	 * @method rr
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @param {Number} radius The corner radius
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.rr = p.drawRoundedRect;
 
 	/**
 	 * Shortcut to drawRoundedRect.
@@ -208,19 +221,6 @@
 	 * @param  {Number} height [description]
 	 */
 	p.de = p.drawEllipse;
-
-	/**
-	 * Draws a quadratic curve from the current drawing point to (x, y) using the control point (cpx, cpy). For detailed
-	 * information, read the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-quadraticcurveto">
-	 * whatwg spec</a>. A tiny API method "qt" also exists.
-	 * @method qt
-	 * @param {Number} cpx
-	 * @param {Number} cpy
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.qt = p.quadraticCurveTo;
 
 	/**
 	 * Placeholder method for a linear fill. Pixi does not support linear fills,

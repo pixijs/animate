@@ -887,12 +887,22 @@
 
 		/**
 		 * Standard tween timelines for all objects. Each element in the _timelines array
-		 * is an array of tweens for one target, in order of occurrence.
+		 * is a Timeline object - an array of tweens for one target, in order of occurrence.
 		 * @property _timelines
 		 * @type Array
 		 * @protected
 		 **/
 		this._timelines = [];
+
+		/**
+		 * Array of child timelines denoting if a child is actively a child of this movieclip
+		 * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
+		 * property, and is an array of boolean values indexed by frame.
+		 * @property _timedChildTimelines
+		 * @type {Array}
+		 * @protected
+		 */
+		this._timedChildTimelines = [];
 
 		/**
 		 * Array of frame scripts, indexed by frame.
@@ -1133,9 +1143,55 @@
 			startFrame = 0;
 		if (duration == null || duration < 1) // jshint ignore:line
 			duration = 1;
-		//TODO: add tweening info about this child's visibility/presence on stage
-		//when the child is added, if it has 'autoReset' set to true, then it should be set back to
-		//frame 0
+		//add tweening info about this child's presence on stage
+		//when the child is (re)added, if it has 'autoReset' set to true, then it
+		//should be set back to frame 0
+		var timeline, i;
+		//get existing timeline
+		for (i = this._timedChildTimelines.length - 1; i >= 0; --i)
+		{
+			if (this._timedChildTimelines[i].target == instance)
+			{
+				timeline = this._timedChildTimelines[i];
+				break;
+			}
+		}
+		//if there wasn't one, make a new one
+		if (!timeline)
+		{
+			timeline = [];
+			timeline.target = instance;
+			this._timedChildTimelines.push(timeline);
+		}
+		//ensure that the timeline is long enough
+		var oldLength = timeline.length;
+		if (oldLength < startFrame + duration)
+		{
+			timeline.length = startFrame + duration;
+			//fill any gaps with false to denote that the child should be removed for a bit
+			if (oldLength < startFrame)
+			{
+				//if the browser has implemented the ES6 fill() function, use that
+				if (timeline.fill)
+					timeline.fill(false, oldLength, startFrame);
+				else
+				{
+					//if we can't use fill, then do a for loop to fill it
+					for (i = oldLength; i < startFrame; ++i)
+						timeline[i] = false;
+				}
+			}
+		}
+		//if the browser has implemented the ES6 fill() function, use that
+		if (timeline.fill)
+			timeline.fill(true, startFrame, startFrame + duration);
+		else
+		{
+			var length = timeline.length;
+			//if we can't use fill, then do a for loop to fill it
+			for (i = startFrame; i < length; ++i)
+				timeline[i] = true;
+		}
 		return this;
 	};
 
@@ -1298,6 +1354,8 @@
 		if (synched)
 		{
 			this.currentFrame = this.startPosition + (this.mode == MovieClip.SINGLE_FRAME ? 0 : this._synchOffset);
+			if (this.currentFrame >= this._frameDuration)
+				this.currentFrame %= this._frameDuration;
 		}
 
 		if (this._prevPos == this.currentFrame)
@@ -1336,12 +1394,30 @@
 		//TODO: handle children removal and adding - try to avoid adding & removing each child
 		//each frame the way CreateJS does
 
-		//TODO: go through all children and update synched movieclips that are not single frames
+		//go through all children and update synched movieclips that are not single frames
+		var children = this.children;
+		for (i = 0, length = children.length; i < length; ++i)
+		{
+			if (children[i].mode == MovieClip.SYNCHED)
+			{
+				children[i]._synchOffset = this.currentFrame - children[i].parentStartPosition;
+				children[i]._updateTimeline();
+			}
+		}
 
 		//handle actions
 		if (doActions)
 		{
 			var actions = this._actions;
+			//handle looping around
+			var needsLoop = false;
+			if (currentFrame < startFrame)
+			{
+				length = actions.length;
+				needsLoop = true;
+			}
+			else
+				length = Math.min(currentFrame + 1, actions.length);
 			for (i = startFrame, length = Math.min(currentFrame + 1, actions.length); i < length; ++i)
 			{
 				if (actions[i])
@@ -1349,6 +1425,13 @@
 					var frameActions = actions[i];
 					for (j = 0; j < frameActions.length; ++j)
 						frameActions[j].call(this);
+				}
+				//handle looping around
+				if (needsLoop && i == length - 1)
+				{
+					i = 0;
+					length = currentFrame + 1;
+					needsLoop = false;
 				}
 			}
 		}
@@ -1373,7 +1456,7 @@
 		{
 			child._synchOffset = offset;
 			child._updateTimeline();
-			// TODO: this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
+			// this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
 			if (child.mode == MovieClip.INDEPENDENT && child.autoReset && !this._managed[child.id])
 			{
 				child._reset();
@@ -1771,10 +1854,17 @@
 					target.mode = value.m;
 					target.startPosition = value.sp;
 					target.parentStartPosition = value.parentSP;
+					if (target.mode == 1) //MovieClip.SINGLE_FRAME
+					{
+						target.gotoAndStop(target.startPosition);
+					}
 				}
 				else
 				{
-					//TODO: clear target mode/start position (make it an independent movieclip)
+					//clear target mode/start position (make it an independent movieclip)
+					target.mode = 0; //MovieClip.INDEPENDENT
+					target.startPosition = -1;
+					target.parentStartPosition = -1;
 				}
 				break;
 		}
@@ -1973,39 +2063,52 @@
 	/**
 	 * Closes the current path, effectively drawing a line from the current drawing point to the first drawing point specified
 	 * since the fill or stroke was last set.
-	 * @method cp
+	 * @method c
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.cp = p.closePath;
+	p.c = p.closePath;
 
 	/**
 	 * Alias for addHole
-	 * @method ch
+	 * @method h
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.ah = p.addHole;
+	p.h = p.addHole;
 
 	/**
 	 * Shortcut to moveTo.
-	 * @method mt
+	 * @method m
 	 * @param {Number} x The x coordinate the drawing point should move to.
 	 * @param {Number} y The y coordinate the drawing point should move to.
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls).
 	 **/
-	p.mt = p.moveTo;
+	p.m = p.moveTo;
 
 	/**
 	 * Shortcut to lineTo.
-	 * @method lt
+	 * @method l
 	 * @param {Number} x The x coordinate the drawing point should draw to.
 	 * @param {Number} y The y coordinate the drawing point should draw to.
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.lt = p.lineTo;
+	p.l = p.lineTo;
+
+	/**
+	 * Draws a quadratic curve from the current drawing point to (x, y) using the control point (cpx, cpy). For detailed
+	 * information, read the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-quadraticcurveto">
+	 * whatwg spec</a>. A tiny API method "qt" also exists.
+	 * @method q
+	 * @param {Number} cpx
+	 * @param {Number} cpy
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.q = p.quadraticCurveTo;
 
 	/**
 	 * Shortcut to bezierCurveTo.
-	 * @method bt
+	 * @method b
 	 * @param {Number} cp1x
 	 * @param {Number} cp1y
 	 * @param {Number} cp2x
@@ -2014,39 +2117,7 @@
 	 * @param {Number} y
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.bt = p.bezierCurveTo;
-
-	/**
-	 * Shortcut to drawRect.
-	 * @method dr
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	/**
-	 * Shortcut to drawRect.
-	 * @method r
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.dr = p.r = p.drawRect;
-
-	/**
-	 * Shortcut to drawRoundedRect.
-	 * @method rr
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @param {Number} w Width of the rectangle
-	 * @param {Number} h Height of the rectangle
-	 * @param {Number} radius The corner radius
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.rr = p.drawRoundedRect;
+	p.b = p.bezierCurveTo;
 
 	/**
 	 * Shortcut to beginFill.
@@ -2068,6 +2139,38 @@
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
 	p.s = p.lineStyle;
+
+	/**
+	 * Shortcut to drawRect.
+	 * @method dr
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	/**
+	 * Shortcut to drawRect.
+	 * @method r
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.dr = p.drawRect;
+
+	/**
+	 * Shortcut to drawRoundedRect.
+	 * @method rr
+	 * @param {Number} x
+	 * @param {Number} y
+	 * @param {Number} w Width of the rectangle
+	 * @param {Number} h Height of the rectangle
+	 * @param {Number} radius The corner radius
+	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+	 **/
+	p.rr = p.drawRoundedRect;
 
 	/**
 	 * Shortcut to drawRoundedRect.
@@ -2128,19 +2231,6 @@
 	 * @param  {Number} height [description]
 	 */
 	p.de = p.drawEllipse;
-
-	/**
-	 * Draws a quadratic curve from the current drawing point to (x, y) using the control point (cpx, cpy). For detailed
-	 * information, read the <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#dom-context-2d-quadraticcurveto">
-	 * whatwg spec</a>. A tiny API method "qt" also exists.
-	 * @method qt
-	 * @param {Number} cpx
-	 * @param {Number} cpy
-	 * @param {Number} x
-	 * @param {Number} y
-	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
-	 **/
-	p.qt = p.quadraticCurveTo;
 
 	/**
 	 * Placeholder method for a linear fill. Pixi does not support linear fills,

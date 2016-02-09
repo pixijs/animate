@@ -172,7 +172,7 @@
 		 * @protected
 		 **/
 		this._timelines = [];
-		
+
 		/**
 		 * Array of child timelines denoting if a child is actively a child of this movieclip
 		 * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
@@ -444,31 +444,31 @@
 		}
 		//ensure that the timeline is long enough
 		var oldLength = timeline.length;
-		if(oldLength < startFrame + duration)
+		if (oldLength < startFrame + duration)
 		{
 			timeline.length = startFrame + duration;
 			//fill any gaps with false to denote that the child should be removed for a bit
-			if(oldLength < startFrame)
+			if (oldLength < startFrame)
 			{
 				//if the browser has implemented the ES6 fill() function, use that
-				if(timeline.fill)
+				if (timeline.fill)
 					timeline.fill(false, oldLength, startFrame);
 				else
 				{
 					//if we can't use fill, then do a for loop to fill it
-					for(i = oldLength; i < startFrame; ++i)
+					for (i = oldLength; i < startFrame; ++i)
 						timeline[i] = false;
 				}
 			}
 		}
 		//if the browser has implemented the ES6 fill() function, use that
-		if(timeline.fill)
+		if (timeline.fill)
 			timeline.fill(true, startFrame, startFrame + duration);
 		else
 		{
 			var length = timeline.length;
 			//if we can't use fill, then do a for loop to fill it
-			for(i = startFrame; i < length; ++i)
+			for (i = startFrame; i < length; ++i)
 				timeline[i] = true;
 		}
 		return this;
@@ -633,7 +633,7 @@
 		if (synched)
 		{
 			this.currentFrame = this.startPosition + (this.mode == MovieClip.SINGLE_FRAME ? 0 : this._synchOffset);
-			if(this.currentFrame >= this._frameDuration)
+			if (this.currentFrame >= this._frameDuration)
 				this.currentFrame %= this._frameDuration;
 		}
 
@@ -675,9 +675,9 @@
 
 		//go through all children and update synched movieclips that are not single frames
 		var children = this.children;
-		for(i = 0, length = children.length; i < length; ++i)
+		for (i = 0, length = children.length; i < length; ++i)
 		{
-			if(children[i].mode == MovieClip.SYNCHED)
+			if (children[i].mode == MovieClip.SYNCHED)
 			{
 				children[i]._synchOffset = this.currentFrame - children[i].parentStartPosition;
 				children[i]._updateTimeline();
@@ -690,13 +690,13 @@
 			var actions = this._actions;
 			//handle looping around
 			var needsLoop = false;
-			if(currentFrame < startFrame)
+			if (currentFrame < startFrame)
 			{
 				length = actions.length;
 				needsLoop = true;
 			}
 			else
-				length = Math.min(currentFrame + 1, actions.length)
+				length = Math.min(currentFrame + 1, actions.length);
 			for (i = startFrame, length = Math.min(currentFrame + 1, actions.length); i < length; ++i)
 			{
 				if (actions[i])
@@ -706,7 +706,7 @@
 						frameActions[j].call(this);
 				}
 				//handle looping around
-				if(needsLoop && i == length - 1)
+				if (needsLoop && i == length - 1)
 				{
 					i = 0;
 					length = currentFrame + 1;
