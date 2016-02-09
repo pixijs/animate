@@ -162,6 +162,7 @@
 		var time = (currentFrame - this.startFrame) / this.duration;
 		if (this.ease)
 			time = this.ease(time);
+		var target = this.target;
 		var startProps = this.startProps;
 		var endProps = this.endProps;
 		for (var prop in endProps)
@@ -169,12 +170,15 @@
 			var lerp = Tween.propDict[prop];
 			if (lerp)
 				setPropFromShorthand(target, prop, lerp(startProps[prop], endProps[prop], time));
+			else
+				setPropFromShorthand(target, prop, startProps[prop]);
 		}
 	};
 
 	p.setToEnd = function()
 	{
 		var endProps = this.endProps;
+		var target = this.target;
 		for (var prop in endProps)
 		{
 			setPropFromShorthand(target, prop, endProps[prop]);

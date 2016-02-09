@@ -719,6 +719,389 @@
 	Loader.addPixiMiddleware(SymbolLoader);
 
 }(PIXI));
+(function(PIXI)
+{
+	var Tween = function(target, startProps, endProps, startFrame, duration, ease)
+	{
+		//target display object
+		this.target = target;
+
+		//properties at the start of the tween
+		this.startProps = startProps;
+
+		//properties at the end of the tween, as well as any properties that are set
+		//instead of tweened
+		this.endProps = {};
+		var prop;
+
+		//make a copy to safely include any unchanged values from the start of the tween
+		for (prop in endProps)
+		{
+			this.endProps[prop] = endProps[prop];
+			//for a synchronized movieclip, add additional data so we always know that it is correct
+			if (prop == "p")
+			{
+				this.endProps.p.parentSP = startFrame;
+			}
+		}
+
+		//copy in any starting properties don't change
+		for (prop in startProps)
+		{
+			if (!this.endProps.hasOwnProperty(prop))
+				this.endProps[prop] = startProps[prop];
+		}
+		//duration of tween in frames. For a keyframe with no tweening, the duration
+		//will be 0.
+		this.duration = duration;
+
+		//the frame that the tween starts on
+		this.startFrame = startFrame;
+
+		//the frame that the tween ends on
+		this.endFrame = startFrame + duration;
+
+		//easing function to use, if any
+		this.ease = ease;
+	};
+
+	// Reference to the prototype
+	var p = Tween.prototype;
+
+	//standard tweening
+	function lerpValue(start, end, t)
+	{
+		return start + (end - start) * t;
+	}
+
+	//split r, g, b into separate values for tweening
+	function lerpColor(start, end, t)
+	{
+		//split start color into components
+		var sR = start >> 16 & 0xFF;
+		var sG = start >> 8 & 0xFF;
+		var sB = start & 0xFF;
+		//split end color into components
+		var eR = end >> 16 & 0xFF;
+		var eG = end >> 8 & 0xFF;
+		var eB = end & 0xFF;
+		//lerp red
+		var r = sR + (eR - sR) * percent;
+		//clamp red to valid values
+		if (r < 0)
+			r = 0;
+		else if (r > 255)
+			r = 255;
+		//lerp green
+		var g = sG + (eG - sG) * percent;
+		//clamp green to valid values
+		if (g < 0)
+			g = 0;
+		else if (g > 255)
+			g = 255;
+		//lerp blue
+		var b = sB + (eB - sB) * percent;
+		//clamp blue to valid values
+		if (b < 0)
+			b = 0;
+		else if (b > 255)
+			b = 255;
+
+		var combined = (r << 16) | (g << 8) | b;
+		return combined;
+	}
+
+	var PI = Math.PI;
+	var TWO_PI = PI * 2;
+
+	//handle 355 -> 5 degrees only going through a 10 degree change instead of
+	//the long way around
+	//Math from http://stackoverflow.com/a/2708740
+	function lerpRotation(start, end, t)
+	{
+		var difference = Math.abs(end - start);
+		if (difference > PI)
+		{
+			// We need to add on to one of the values.
+			if (end > start)
+			{
+				// We'll add it on to start...
+				start += TWO_PI;
+			}
+			else
+			{
+				// Add it on to end.
+				end += PI + TWO_PI;
+			}
+		}
+
+		// Interpolate it.
+		var value = (start + ((end - start) * t));
+
+		// wrap to 0-2PI
+		/*if (value >= 0 && value <= TWO_PI)
+			return value;
+		return value % TWO_PI;*/
+
+		//just return, as it's faster
+		return value;
+	}
+
+	Tween.propDict = {
+		//position
+		x: lerpValue,
+		y: lerpValue,
+		//scale
+		sx: lerpValue,
+		sy: lerpValue,
+		//skew
+		kx: lerpValue,
+		ky: lerpValue,
+		//rotation
+		r: lerpRotation,
+		//alpha
+		a: lerpValue,
+		//tinting
+		t: lerpColor,
+		//values to be set
+		v: null, //visible
+		m: null, //mask
+		g: null, //not sure if we'll actually handle graphics this way?
+		p: null // (Flash) Graphic position/mode
+	};
+
+	p.setPosition = function(currentFrame)
+	{
+		//if this is a single frame with no tweening, or at the end of the tween, then
+		//just speed up the process by setting values
+		if (currentFrame >= this.endFrame)
+		{
+			this.setToEnd();
+			return;
+		}
+
+		var time = (currentFrame - this.startFrame) / this.duration;
+		if (this.ease)
+			time = this.ease(time);
+		var target = this.target;
+		var startProps = this.startProps;
+		var endProps = this.endProps;
+		for (var prop in endProps)
+		{
+			var lerp = Tween.propDict[prop];
+			if (lerp)
+				setPropFromShorthand(target, prop, lerp(startProps[prop], endProps[prop], time));
+			else
+				setPropFromShorthand(target, prop, startProps[prop]);
+		}
+	};
+
+	p.setToEnd = function()
+	{
+		var endProps = this.endProps;
+		var target = this.target;
+		for (var prop in endProps)
+		{
+			setPropFromShorthand(target, prop, endProps[prop]);
+		}
+	};
+
+	function setPropFromShorthand(target, prop, value)
+	{
+		switch (prop)
+		{
+			case "x":
+				target.position.x = value;
+				break;
+			case "y":
+				target.position.y = value;
+				break;
+			case "sx":
+				target.scale.x = value;
+				break;
+			case "sy":
+				target.scale.y = value;
+				break;
+			case "kx":
+				target.skew.x = value;
+				break;
+			case "ky":
+				target.skew.y = value;
+				break;
+			case "r":
+				target.rotation = value;
+				break;
+			case "a":
+				target.alpha = value;
+				break;
+			case "t":
+				target.tint = value;
+				break;
+			case "v":
+				target.visible = value;
+				break;
+			case "m":
+				target.mask = value;
+				break;
+				//g: null,//not sure if we'll actually handle graphics this way?
+			case "p":
+				if (value)
+				{
+					target.mode = value.m;
+					target.startPosition = value.sp;
+					target.parentStartPosition = value.parentSP;
+					if (target.mode == 1) //MovieClip.SINGLE_FRAME
+					{
+						target.gotoAndStop(target.startPosition);
+					}
+				}
+				else
+				{
+					//clear target mode/start position (make it an independent movieclip)
+					target.mode = 0; //MovieClip.INDEPENDENT
+					target.startPosition = -1;
+					target.parentStartPosition = -1;
+				}
+				break;
+		}
+	}
+
+
+	// Assign to namespace
+	PIXI.animate.Tween = Tween;
+
+}(PIXI));
+/**
+ * @module PixiAnimate
+ * @namespace PIXI.animate
+ */
+(function(PIXI)
+{
+	// Import libraries
+	var Tween = PIXI.animate.Tween;
+
+	// constructor
+	/**
+	 * The Timeline class represents a
+	 * @class Timeline
+	 * @param {DisplayObject} Target The target for this string of tweens.
+	 * @extends Array
+	 * @constructor
+	 **/
+	function Timeline(target)
+	{
+		Array.call(this);
+
+		// public properties:
+		/**
+		 * The target DisplayObject.
+		 * @property target
+		 * @type DisplayObject
+		 **/
+		this.target = target;
+
+		/**
+		 * Current properties in the tween, to make building the timeline more
+		 * efficient.
+		 * @property _currentProps
+		 * @type Object
+		 * @private
+		 **/
+		this._currentProps = {};
+	}
+
+	var p = Timeline.prototype = Object.create(Array.prototype);
+
+	// public methods:
+	/**
+	 * Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to remove them from the normal ticking system)
+	 * and managed by this timeline. Adding a tween to multiple timelines will result in unexpected behaviour.
+	 * @method addTween
+	 * @param tween The tween(s) to add. Accepts multiple arguments.
+	 * @return Tween The first tween that was passed in.
+	 **/
+	p.addTween = function(instance, properties, startFrame, duration, ease)
+	{
+		//ownership of startProps is passed to the new Tween - this object should not be reused
+		var startProps = {};
+		var prop;
+		//figure out what the starting values for this tween should be
+		for (prop in properties)
+		{
+			//if we have already set that property in an earlier tween, use the ending value
+			if (this._currentProps.hasOwnProperty(prop))
+				startProps[prop] = this._currentProps[prop];
+			//otherwise, get the current value
+			else
+			{
+				var startValue = startProps[prop] = getPropFromShorthand(instance, prop);
+				//go through previous tweens to set the value so that when the timeline loops
+				//around, the values are set properly - having each tween know what came before
+				//allows us to set to a specific frame without running through the entire timeline
+				for (var i = this.length - 1; i >= 0; --i)
+				{
+					this[i].startProps[prop] = startValue;
+					this[i].endProps[prop] = startValue;
+				}
+			}
+		}
+		//create the new Tween and add it to the list
+		var tween = new Tween(instance, startProps, properties, startFrame, duration, ease);
+		this.push(tween);
+		//update starting values for the next tween - if tweened values included "p", then Tween
+		//parsed that to add additional data that is required
+		properties = tween.endProps;
+		for (prop in properties)
+		{
+			this._currentProps[prop] = properties[prop];
+		}
+	};
+
+	function getPropFromShorthand(target, prop)
+	{
+		switch (prop)
+		{
+			case "x":
+				return target.position.x;
+			case "y":
+				return target.position.y;
+			case "sx":
+				return target.scale.x;
+			case "sy":
+				return target.scale.y;
+			case "kx":
+				return target.skew.x;
+			case "ky":
+				return target.skew.y;
+			case "r":
+				return target.rotation;
+			case "a":
+				return target.alpha;
+			case "t":
+				return target.tint;
+			case "v":
+				//visibility isn't actually tweened anyway
+				return target.visible;
+			case "m":
+				//mask isn't actually tweened anyway
+				return target.mask;
+				//g: null,//not sure if we'll actually handle graphics this way?
+			case "p":
+				//playback mode/frame isn't tweened but we need to provide the original values
+				//in theory this should only be used to get the value from the first frame, so
+				//we are hard coding the parent's starting position at 0.
+				return {
+					m: target.mode,
+					sp: target.startPosition,
+					parentSP: 0
+				};
+		}
+	}
+
+	// Assign to namespace
+	PIXI.animate.Timeline = Timeline;
+
+}(PIXI));
 /**
  * @module PixiAnimate
  * @namespace PIXI.animate
@@ -1126,6 +1509,8 @@
 		//2. create the tween segment, recording the starting values of properties and using the
 		//   supplied properties as the ending values
 		timeline.addTween(instance, properties, startFrame, duration, ease);
+		if (this._frameDuration < startFrame + duration)
+			this._frameDuration = startFrame + duration;
 		return this;
 	};
 
@@ -1192,6 +1577,8 @@
 			for (i = startFrame; i < length; ++i)
 				timeline[i] = true;
 		}
+		if (this._frameDuration < startFrame + duration)
+			this._frameDuration = startFrame + duration;
 		return this;
 	};
 
@@ -1208,7 +1595,7 @@
 		//ensure that the movieclip timeline is long enough to support the target frame
 		if (_actions.length <= startFrame)
 			_actions.length = startFrame + 1;
-		if (this._frameDuration <= startFrame)
+		if (this._frameDuration < startFrame)
 			this._frameDuration = startFrame;
 		//add the action
 		if (_actions[startFrame])
@@ -1393,6 +1780,23 @@
 		}
 		//TODO: handle children removal and adding - try to avoid adding & removing each child
 		//each frame the way CreateJS does
+		var _timedChildTimelines = this._timedChildTimelines;
+		for (i = 0, length = _timedChildTimelines.length; i < length; ++i)
+		{
+			var target = _timedChildTimelines[i].target;
+			var shouldBeChild = _timedChildTimelines[i][currentFrame];
+			//if child should be on stage and is not:
+			if (shouldBeChild && target.parent != this)
+			{
+				this.addChild(target);
+				if (target.mode == MovieClip.INDEPENDENT && target.autoReset)
+					target.reset();
+			}
+			else if (!shouldBeChild && target.parent == this)
+			{
+				this.removeChild(target);
+			}
+		}
 
 		//go through all children and update synched movieclips that are not single frames
 		var children = this.children;
@@ -1400,7 +1804,7 @@
 		{
 			if (children[i].mode == MovieClip.SYNCHED)
 			{
-				children[i]._synchOffset = this.currentFrame - children[i].parentStartPosition;
+				children[i]._synchOffset = currentFrame - children[i].parentStartPosition;
 				children[i]._updateTimeline();
 			}
 		}
@@ -1437,34 +1841,6 @@
 		}
 	};
 
-	/**
-	 * Adds a child to the timeline, and sets it up as a managed child.
-	 * @method _addManagedChild
-	 * @param {MovieClip} child The child MovieClip to manage
-	 * @param {Number} offset
-	 * @private
-	 **/
-	p._addManagedChild = function(child, offset)
-	{
-		if (child._off)
-		{
-			return;
-		}
-		this.addChildAt(child, 0);
-
-		if (child instanceof MovieClip)
-		{
-			child._synchOffset = offset;
-			child._updateTimeline();
-			// this does not precisely match Flash. Flash loses track of the clip if it is renamed or removed from the timeline, which causes it to reset.
-			if (child.mode == MovieClip.INDEPENDENT && child.autoReset && !this._managed[child.id])
-			{
-				child._reset();
-			}
-		}
-		this._managed[child.id] = 2;
-	};
-
 	p.__Container_destroy = p.destroy;
 	p.destroy = function(destroyChildren)
 	{
@@ -1494,385 +1870,6 @@
 
 	// Assign to namespace
 	PIXI.animate.MovieClip = MovieClip;
-
-}(PIXI));
-/**
- * @module PixiAnimate
- * @namespace PIXI.animate
- */
-(function(PIXI)
-{
-	// Import libraries
-	var Tween = PIXI.animate.Tween;
-
-	// constructor
-	/**
-	 * The Timeline class represents a
-	 * @class Timeline
-	 * @param {DisplayObject} Target The target for this string of tweens.
-	 * @extends Array
-	 * @constructor
-	 **/
-	function Timeline(target)
-	{
-		Array.call(this);
-
-		// public properties:
-		/**
-		 * The target DisplayObject.
-		 * @property target
-		 * @type DisplayObject
-		 **/
-		this.target = target;
-
-		/**
-		 * Current properties in the tween, to make building the timeline more
-		 * efficient.
-		 * @property _currentProps
-		 * @type Object
-		 * @private
-		 **/
-		this._currentProps = {};
-	}
-
-	var p = Timeline.prototype = Object.create(Array.prototype);
-
-	// public methods:
-	/**
-	 * Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to remove them from the normal ticking system)
-	 * and managed by this timeline. Adding a tween to multiple timelines will result in unexpected behaviour.
-	 * @method addTween
-	 * @param tween The tween(s) to add. Accepts multiple arguments.
-	 * @return Tween The first tween that was passed in.
-	 **/
-	p.addTween = function(instance, properties, startFrame, duration, ease)
-	{
-		//ownership of startProps is passed to the new Tween - this object should not be reused
-		var startProps = {};
-		var prop;
-		//figure out what the starting values for this tween should be
-		for (prop in properties)
-		{
-			//if we have already set that property in an earlier tween, use the ending value
-			if (this._currentProps.hasOwnProperty(prop))
-				startProps[prop] = this._currentProps[prop];
-			//otherwise, get the current value
-			else
-			{
-				var startValue = startProps[prop] = getPropFromShorthand(instance, prop);
-				//go through previous tweens to set the value so that when the timeline loops
-				//around, the values are set properly - having each tween know what came before
-				//allows us to set to a specific frame without running through the entire timeline
-				for (var i = this.length - 1; i >= 0; --i)
-				{
-					this[i].startProps[prop] = startValue;
-					this[i].endProps[prop] = startValue;
-				}
-			}
-		}
-		//create the new Tween and add it to the list
-		var tween = new Tween(instance, startProps, properties, startFrame, duration, ease);
-		this.push(tween);
-		//update starting values for the next tween - if tweened values included "p", then Tween
-		//parsed that to add additional data that is required
-		properties = tween.endProps;
-		for (prop in properties)
-		{
-			this._currentProps[prop] = properties[prop];
-		}
-	};
-
-	function getPropFromShorthand(target, prop)
-	{
-		switch (prop)
-		{
-			case "x":
-				return target.position.x;
-			case "y":
-				return target.position.y;
-			case "sx":
-				return target.scale.x;
-			case "sy":
-				return target.scale.y;
-			case "kx":
-				return target.skew.x;
-			case "ky":
-				return target.skew.y;
-			case "r":
-				return target.rotation;
-			case "a":
-				return target.alpha;
-			case "t":
-				return target.tint;
-			case "v":
-				//visibility isn't actually tweened anyway
-				return target.visible;
-			case "m":
-				//mask isn't actually tweened anyway
-				return target.mask;
-				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				//playback mode/frame isn't tweened but we need to provide the original values
-				//in theory this should only be used to get the value from the first frame, so
-				//we are hard coding the parent's starting position at 0.
-				return {
-					m: target.mode,
-					sp: target.startPosition,
-					parentSP: 0
-				};
-		}
-	}
-
-	// Assign to namespace
-	PIXI.animate.Timeline = Timeline;
-
-}(PIXI));
-(function(PIXI)
-{
-	var Tween = function(target, startProps, endProps, startFrame, duration, ease)
-	{
-		//target display object
-		this.target = target;
-
-		//properties at the start of the tween
-		this.startProps = startProps;
-
-		//properties at the end of the tween, as well as any properties that are set
-		//instead of tweened
-		this.endProps = {};
-		var prop;
-
-		//make a copy to safely include any unchanged values from the start of the tween
-		for (prop in endProps)
-		{
-			this.endProps[prop] = endProps[prop];
-			//for a synchronized movieclip, add additional data so we always know that it is correct
-			if (prop == "p")
-			{
-				this.endProps.p.parentSP = startFrame;
-			}
-		}
-
-		//copy in any starting properties don't change
-		for (prop in startProps)
-		{
-			if (!this.endProps.hasOwnProperty(prop))
-				this.endProps[prop] = startProps[prop];
-		}
-		//duration of tween in frames. For a keyframe with no tweening, the duration
-		//will be 0.
-		this.duration = duration;
-
-		//the frame that the tween starts on
-		this.startFrame = startFrame;
-
-		//the frame that the tween ends on
-		this.endFrame = startFrame + duration;
-
-		//easing function to use, if any
-		this.ease = ease;
-	};
-
-	// Reference to the prototype
-	var p = Tween.prototype;
-
-	//standard tweening
-	function lerpValue(start, end, t)
-	{
-		return start + (end - start) * t;
-	}
-
-	//split r, g, b into separate values for tweening
-	function lerpColor(start, end, t)
-	{
-		//split start color into components
-		var sR = start >> 16 & 0xFF;
-		var sG = start >> 8 & 0xFF;
-		var sB = start & 0xFF;
-		//split end color into components
-		var eR = end >> 16 & 0xFF;
-		var eG = end >> 8 & 0xFF;
-		var eB = end & 0xFF;
-		//lerp red
-		var r = sR + (eR - sR) * percent;
-		//clamp red to valid values
-		if (r < 0)
-			r = 0;
-		else if (r > 255)
-			r = 255;
-		//lerp green
-		var g = sG + (eG - sG) * percent;
-		//clamp green to valid values
-		if (g < 0)
-			g = 0;
-		else if (g > 255)
-			g = 255;
-		//lerp blue
-		var b = sB + (eB - sB) * percent;
-		//clamp blue to valid values
-		if (b < 0)
-			b = 0;
-		else if (b > 255)
-			b = 255;
-
-		var combined = (r << 16) | (g << 8) | b;
-		return combined;
-	}
-
-	var PI = Math.PI;
-	var TWO_PI = PI * 2;
-
-	//handle 355 -> 5 degrees only going through a 10 degree change instead of
-	//the long way around
-	//Math from http://stackoverflow.com/a/2708740
-	function lerpRotation(start, end, t)
-	{
-		var difference = Math.abs(end - start);
-		if (difference > PI)
-		{
-			// We need to add on to one of the values.
-			if (end > start)
-			{
-				// We'll add it on to start...
-				start += TWO_PI;
-			}
-			else
-			{
-				// Add it on to end.
-				end += PI + TWO_PI;
-			}
-		}
-
-		// Interpolate it.
-		var value = (start + ((end - start) * t));
-
-		// wrap to 0-2PI
-		/*if (value >= 0 && value <= TWO_PI)
-			return value;
-		return value % TWO_PI;*/
-
-		//just return, as it's faster
-		return value;
-	}
-
-	Tween.propDict = {
-		//position
-		x: lerpValue,
-		y: lerpValue,
-		//scale
-		sx: lerpValue,
-		sy: lerpValue,
-		//skew
-		kx: lerpValue,
-		ky: lerpValue,
-		//rotation
-		r: lerpRotation,
-		//alpha
-		a: lerpValue,
-		//tinting
-		t: lerpColor,
-		//values to be set
-		v: null, //visible
-		m: null, //mask
-		g: null, //not sure if we'll actually handle graphics this way?
-		p: null // (Flash) Graphic position/mode
-	};
-
-	p.setPosition = function(currentFrame)
-	{
-		//if this is a single frame with no tweening, or at the end of the tween, then
-		//just speed up the process by setting values
-		if (currentFrame >= this.endFrame)
-		{
-			this.setToEnd();
-			return;
-		}
-
-		var time = (currentFrame - this.startFrame) / this.duration;
-		if (this.ease)
-			time = this.ease(time);
-		var startProps = this.startProps;
-		var endProps = this.endProps;
-		for (var prop in endProps)
-		{
-			var lerp = Tween.propDict[prop];
-			if (lerp)
-				setPropFromShorthand(target, prop, lerp(startProps[prop], endProps[prop], time));
-		}
-	};
-
-	p.setToEnd = function()
-	{
-		var endProps = this.endProps;
-		for (var prop in endProps)
-		{
-			setPropFromShorthand(target, prop, endProps[prop]);
-		}
-	};
-
-	function setPropFromShorthand(target, prop, value)
-	{
-		switch (prop)
-		{
-			case "x":
-				target.position.x = value;
-				break;
-			case "y":
-				target.position.y = value;
-				break;
-			case "sx":
-				target.scale.x = value;
-				break;
-			case "sy":
-				target.scale.y = value;
-				break;
-			case "kx":
-				target.skew.x = value;
-				break;
-			case "ky":
-				target.skew.y = value;
-				break;
-			case "r":
-				target.rotation = value;
-				break;
-			case "a":
-				target.alpha = value;
-				break;
-			case "t":
-				target.tint = value;
-				break;
-			case "v":
-				target.visible = value;
-				break;
-			case "m":
-				target.mask = value;
-				break;
-				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				if (value)
-				{
-					target.mode = value.m;
-					target.startPosition = value.sp;
-					target.parentStartPosition = value.parentSP;
-					if (target.mode == 1) //MovieClip.SINGLE_FRAME
-					{
-						target.gotoAndStop(target.startPosition);
-					}
-				}
-				else
-				{
-					//clear target mode/start position (make it an independent movieclip)
-					target.mode = 0; //MovieClip.INDEPENDENT
-					target.startPosition = -1;
-					target.parentStartPosition = -1;
-				}
-				break;
-		}
-	}
-
-
-	// Assign to namespace
-	PIXI.animate.Tween = Tween;
 
 }(PIXI));
 /**

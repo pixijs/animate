@@ -405,6 +405,8 @@
 		//2. create the tween segment, recording the starting values of properties and using the
 		//   supplied properties as the ending values
 		timeline.addTween(instance, properties, startFrame, duration, ease);
+		if (this._frameDuration < startFrame + duration)
+			this._frameDuration = startFrame + duration;
 		return this;
 	};
 
@@ -471,6 +473,8 @@
 			for (i = startFrame; i < length; ++i)
 				timeline[i] = true;
 		}
+		if (this._frameDuration < startFrame + duration)
+			this._frameDuration = startFrame + duration;
 		return this;
 	};
 
@@ -487,7 +491,7 @@
 		//ensure that the movieclip timeline is long enough to support the target frame
 		if (_actions.length <= startFrame)
 			_actions.length = startFrame + 1;
-		if (this._frameDuration <= startFrame)
+		if (this._frameDuration < startFrame)
 			this._frameDuration = startFrame;
 		//add the action
 		if (_actions[startFrame])
