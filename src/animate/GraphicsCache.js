@@ -14,7 +14,7 @@
 	 * Add an item or itesm to the cache
 	 * @method add
 	 * @static
-	 * @param {String|Object} prop  The id of graphic or map
+	 * @param {String} prop  The id of graphic
 	 * @param {Array} [value] If adding a single property, the draw commands
 	 */
 	Object.defineProperty(GraphicsCache, "add",
@@ -22,22 +22,12 @@
 		enumerable: false,
 		value: function(prop, value)
 		{
-			if (typeof prop == "object")
-			{
-				for (var id in prop)
-				{
-					GraphicsCache.add(id, prop[id]);
-				}
-			}
-			else
-			{
-				GraphicsCache[prop] = value;
-			}
+			GraphicsCache[prop] = value;
 		}
 	});
 
 	/**
-	 * Decode a resource to the cache
+	 * Decode a shapes string into draw commands
 	 * @method decode
 	 * @static
 	 * @param  {String} str The string to decode
@@ -47,7 +37,25 @@
 		enumerable: false,
 		value: function(str)
 		{
-			GraphicsCache.add(BISON.decode(str));
+			// each shape is a new line
+			var shapes = str.split("\n");
+			var isCommand = /^[a-z]{1,2}$/;
+			var isColor = /^#/;
+			for (var i = 0; i < shapes.length; i++)
+			{
+				var shape = shapes[i].split(" "); // arguments are space separated
+				var name = shape.shift(); // first argument is the ID
+				for (var j = 0; j < shape.length; j++)
+				{
+					// Convert colors and numbers into proper types
+					var arg = shape[j];
+					if (isColor.test(arg))
+						shape[j] = parseInt(arg.substr(1), 16);
+					else if (!isCommand.test(arg))
+						shape[j] = parseFloat(arg);
+				}
+				this.add(name, shape);
+			}
 		}
 	});
 

@@ -41,9 +41,6 @@
 			}
 			else
 			{
-				// convert colors to int
-				if (/^#/.test(item))
-					item = parseInt(item.substr(1), 16);
 				params.push(item);
 			}
 		}

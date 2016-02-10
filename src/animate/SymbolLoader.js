@@ -5,6 +5,7 @@
 (function(PIXI)
 {
 	var GraphicsCache = PIXI.animate.GraphicsCache;
+	var LZString = PIXI.animate.LZString;
 	var Texture = PIXI.Texture;
 	var Loader = PIXI.loaders.Loader;
 
@@ -17,13 +18,13 @@
 	{
 		return function(resource, next)
 		{
-			if (/_graphics_\.bson$/i.test(resource.url))
+			if (/\.shapes\.lzw$/i.test(resource.url))
+			{
+				GraphicsCache.decode(LZString.decompress(resource.data));
+			}
+			else if (/\.shapes$/i.test(resource.url))
 			{
 				GraphicsCache.decode(resource.data);
-			}
-			else if (/_graphics_\.json$/i.test(resource.url))
-			{
-				GraphicsCache.add(resource.data);
 			}
 			else if (resource.data.nodeName && resource.data.nodeName == "IMG")
 			{

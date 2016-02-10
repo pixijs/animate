@@ -5,8 +5,8 @@
 	"url": "https://github.com/jiborobot/pixi-animate",
 	"output": "pixi-animate",
 	"main": [
-		"src/data/BISON.js",
 		"src/animate/main.js",
+		"src/data/LZString.js",
 		"src/animate/GraphicsCache.js",
 		"src/animate/SymbolLoader.js",
 		"src/animate/Tween.js",
