@@ -2,9 +2,12 @@
  * @module PixiAnimate
  * @namespace PIXI.animate
  */
-(function(window)
+(function()
 {
-	if (!window.PIXI)
+	// Check for window, fallback to global
+	var global = typeof window !== 'undefined' ? window : GLOBAL;
+
+	if (typeof PIXI === 'undefined')
 	{
 		if (DEBUG)
 		{
@@ -17,6 +20,12 @@
 	}
 
 	// Define PIXI Flash namespace
-	window.PIXI.animate = {};
+	global.PIXI.animate = {};
 
-}(window));
+	// Export for Node-compatible
+	if (typeof module !== 'undefined' && module.exports)
+	{
+		module.exports = global.PIXI.animate;
+	}
+
+}());
