@@ -1610,7 +1610,7 @@
 
 	/**
 	 * Convenience method for setting multiple frames at once and adding the child
-	 * @method addFrames
+	 * @method addChildFrames
 	 * @param {PIXI.DisplayObject} instance The clip to animate
 	 * @param {int} startFrame The starting frame
 	 * @param {int} duration The number of frames to display the child before removing it.
@@ -1622,7 +1622,7 @@
 	 * @method af
 	 * @return {MovieClip}
 	 */
-	p.af = p.addFrames = function(instance, startFrame, duration, keyframes)
+	p.af = p.addChildFrames = function(instance, startFrame, duration, keyframes)
 	{
 		this.addTimedChild(instance, startFrame, duration);
 		for (var i in keyframes)
