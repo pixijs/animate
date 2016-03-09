@@ -1642,9 +1642,20 @@
 	p.af = p.addChildFrames = function(instance, startFrame, duration, keyframes)
 	{
 		this.addTimedChild(instance, startFrame, duration);
+		var properties;
 		for (var i in keyframes)
 		{
-			this.addTween(instance, keyframes[i], parseInt(i, 10));
+			properties = keyframes[i];
+
+			// deserialize properties
+			if (typeof properties == "string")
+			{
+				properties = JSON.parse('{' + properties
+					.replace(/([a-z]{1,2})([\.\d]+)/g, "\"$1\":$2,")
+					.replace(/:\./g, ':0.')
+					.slice(0, -1) + '}');
+			}
+			this.addTween(instance, properties, parseInt(i, 10));
 		}
 		return this;
 	};
