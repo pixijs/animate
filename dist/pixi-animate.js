@@ -1642,8 +1642,22 @@
 	p.af = p.addChildFrames = function(instance, startFrame, duration, keyframes)
 	{
 		this.addTimedChild(instance, startFrame, duration);
-		var properties;
-		for (var i in keyframes)
+		var properties, i, k, keyframe;
+
+		// Convert serialized array into keyframes
+		if (Array.isArray(keyframes))
+		{
+			var map = {};
+			for (i = 0; i < keyframes.length; i++)
+			{
+				keyframe = keyframes[i];
+				k = keyframe.match(/^\d+/)[0];
+				map[k] = keyframe.substr(k.length);
+			}
+			keyframes = map;
+		}
+
+		for (i in keyframes)
 		{
 			properties = keyframes[i];
 
