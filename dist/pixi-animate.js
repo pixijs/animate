@@ -1596,19 +1596,6 @@
 	});
 
 	/**
-	 * Adds a static, un-tweened keyframe for an instance
-	 * @method addFrame
-	 * @param {PIXI.DisplayObject} instance The clip to animate
-	 * @param {int} startFrame The starting frame
-	 * @param {object} properties to animate
-	 * @return {MovieClip}
-	 */
-	p.addFrame = function(instance, startFrame, properties)
-	{
-		return this.addTween(instance, properties, startFrame);
-	};
-
-	/**
 	 * Convenience method for setting multiple frames at once and adding the child
 	 * @method addChildFrames
 	 * @param {PIXI.DisplayObject} instance The clip to animate
@@ -1627,7 +1614,7 @@
 		this.addTimedChild(instance, startFrame, duration);
 		for (var i in keyframes)
 		{
-			this.addFrame(instance, i, keyframes[i]);
+			this.addTween(instance, keyframes[i], parseInt(i, 10));
 		}
 		return this;
 	};
