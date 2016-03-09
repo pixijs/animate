@@ -1645,8 +1645,9 @@
 		var properties, i, k, keyframe;
 
 		// Convert serialized array into keyframes
-		if (Array.isArray(keyframes))
+		if (typeof keyframes == "string")
 		{
+			keyframes = keyframes.split(',');
 			var map = {};
 			for (i = 0; i < keyframes.length; i++)
 			{
