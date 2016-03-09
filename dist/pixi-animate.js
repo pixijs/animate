@@ -1236,10 +1236,40 @@
 	 * Provide timeline playback of movieclip
 	 * @class MovieClip
 	 * @extends PIXI.Container
+	 * @constructor
+	 * @param {Object|int} [options] The options object or the mode to play
+	 * @param {int} [options.mode=0] The playback mode default is independent (0),
+	 * @param {int} [options.startPosition=0] The starting frame
+	 * @param {Boolean} [options.loop=true] If playback is looped
+	 * @param {Object} [options.labels] The frame labels map of label to frames
+	 * @param {int} [options.duration] The duration, if no duration is provided, auto determines length
 	 */
-	var MovieClip = function(mode, startPosition, loop, labels)
+	var MovieClip = function(options)
 	{
 		Container.call(this);
+
+		// Default options
+		options = options ||
+		{};
+
+		// Options can also be the mod
+		if (typeof options == "number")
+		{
+			options = {
+				mode: options
+			};
+		}
+
+		// Apply defaults to options
+		options = Object.assign(
+		{
+			mode: MovieClip.INDEPENDENT,
+			startPosition: 0,
+			loop: true,
+			labels:
+			{},
+			duration: 0
+		}, options);
 
 		/**
 		 * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
@@ -1248,7 +1278,7 @@
 		 * @type int
 		 * @default null
 		 **/
-		this.mode = mode || MovieClip.INDEPENDENT;
+		this.mode = options.mode;
 
 		/**
 		 * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
@@ -1256,7 +1286,7 @@
 		 * @type Number
 		 * @default 0
 		 */
-		this.startPosition = startPosition || 0;
+		this.startPosition = options.startPosition;
 
 		/**
 		 * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
@@ -1264,7 +1294,7 @@
 		 * @type Boolean
 		 * @default true
 		 */
-		this.loop = !!loop;
+		this.loop = !!options.loop;
 
 		/**
 		 * The current frame of the movieclip.
@@ -1276,15 +1306,14 @@
 		this.currentFrame = 0;
 
 		this._labels = [];
-		this._labelDict = labels ||
-		{};
-		if (labels)
+		this._labelDict = options.labels;
+		if (options.labels)
 		{
-			for (var name in labels)
+			for (var name in options.labels)
 			{
 				var label = {
 					label: name,
-					position: labels[name]
+					position: options.labels[name]
 				};
 				this._labels.push(label);
 			}
@@ -1368,6 +1397,7 @@
 		 * @default 0
 		 **/
 		this._framerate = 0;
+
 		/**
 		 * The total time in seconds for the animation. This is changed when setting the framerate.
 		 * @property _duration
@@ -1384,7 +1414,7 @@
 		 * @default 0
 		 * @private
 		 */
-		this._frameDuration = 0;
+		this._frameDuration = options.duration;
 
 		/**
 		 * Standard tween timelines for all objects. Each element in the _timelines array
@@ -1637,6 +1667,8 @@
 	 */
 	p.tw = p.addTween = function(instance, properties, startFrame, duration, ease)
 	{
+		duration = duration || 0;
+
 		//1. determine if there is already a tween for this instance, and if so prepare to add it
 		//   on/insert it - if there isn't, then make one and set up a wait until startFrame
 		var timeline, i;
@@ -2481,6 +2513,37 @@
 	};
 
 }(PIXI));
+// From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+if (typeof Object.assign != 'function')
+{
+	(function()
+	{
+		Object.assign = function(target)
+		{
+			'use strict';
+			if (target === undefined || target === null)
+			{
+				throw new TypeError('Cannot convert undefined or null to object');
+			}
+			var output = Object(target);
+			for (var index = 1; index < arguments.length; index++)
+			{
+				var source = arguments[index];
+				if (source !== undefined && source !== null)
+				{
+					for (var nextKey in source)
+					{
+						if (source.hasOwnProperty(nextKey))
+						{
+							output[nextKey] = source[nextKey];
+						}
+					}
+				}
+			}
+			return output;
+		};
+	})();
+}
 /**
  * @module PixiAnimate
  * @namespace PIXI
