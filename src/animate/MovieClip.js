@@ -374,6 +374,43 @@
 	});
 
 	/**
+	 * Adds a static, un-tweened keyframe for an instance
+	 * @method addFrame
+	 * @param {PIXI.DisplayObject} instance The clip to animate
+	 * @param {int} startFrame The starting frame
+	 * @param {object} properties to animate
+	 * @return {MovieClip}
+	 */
+	p.addFrame = function(instance, startFrame, properties)
+	{
+		return this.addTween(instance, properties, startFrame);
+	};
+
+	/**
+	 * Convenience method for setting multiple frames at once and adding the child
+	 * @method addFrames
+	 * @param {PIXI.DisplayObject} instance The clip to animate
+	 * @param {int} startFrame The starting frame
+	 * @param {int} duration The number of frames to display the child before removing it.
+	 * @param {Object} keyframes The collection of keyframe objects or data string, the key is frame number
+	 * @return {MovieClip}
+	 */
+	/**
+	 * Alias for method `addFrame`
+	 * @method af
+	 * @return {MovieClip}
+	 */
+	p.af = p.addFrames = function(instance, startFrame, duration, keyframes)
+	{
+		this.addTimedChild(instance, startFrame, duration);
+		for (var i in keyframes)
+		{
+			this.addFrame(instance, i, keyframes[i]);
+		}
+		return this;
+	};
+
+	/**
 	 * Add a tween to the clip
 	 * @method addTween
 	 * @param {PIXI.DisplayObject} instance The clip to tween
@@ -382,6 +419,11 @@
 	 * @param {int} [duration=0] Number of frames to tween. If 0, then the properties are set
 	 *                           with no tweening.
 	 * @param {Function} [ease] An optional easing function that takes the tween time from 0-1.
+	 * @return {MovieClip}
+	 */
+	/**
+	 * Alias for method `addTween`
+	 * @method tw
 	 * @return {MovieClip}
 	 */
 	p.tw = p.addTween = function(instance, properties, startFrame, duration, ease)
@@ -416,6 +458,11 @@
 	 * @param {PIXI.DisplayObject} instance The clip to show
 	 * @param {int} startFrame The starting frame
 	 * @param {int} [duration=1] The number of frames to display the child before removing it.
+	 * @return {MovieClip}
+	 */
+	/**
+	 * Alias for method `addTimedChild`
+	 * @method at
 	 * @return {MovieClip}
 	 */
 	p.at = p.addTimedChild = function(instance, startFrame, duration)
