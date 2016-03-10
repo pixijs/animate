@@ -1244,7 +1244,7 @@
 	 * @param {Object} [options.labels] The frame labels map of label to frames
 	 * @param {int} [options.duration] The duration, if no duration is provided, auto determines length
 	 */
-	var MovieClip = function(options)
+	var MovieClip = function(options, duration, loop, labels)
 	{
 		Container.call(this);
 
@@ -1252,11 +1252,15 @@
 		options = options ||
 		{};
 
-		// Options can also be the mod
+		// Options can also be the mode
 		if (typeof options == "number")
 		{
 			options = {
-				mode: options
+				mode: options,
+				duration: duration || 0,
+				loop: loop === undefined ? true : loop,
+				labels: labels ||
+				{},
 			};
 		}
 
