@@ -16,7 +16,7 @@
 	 * @param {Sprite} child The child function
 	 * @return {Sprite} THe child
 	 */
-	PIXI.Sprite.extend = function(child)
+	PIXI.Sprite.extend = PIXI.Sprite.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;

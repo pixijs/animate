@@ -24,7 +24,7 @@
 	 * @param {Container} child The child function
 	 * @return {Container} THe child
 	 */
-	PIXI.Container.extend = function(child)
+	PIXI.Container.extend = PIXI.Container.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;

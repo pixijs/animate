@@ -87,7 +87,7 @@
 	 * @param {DisplayObject} child The child function
 	 * @return {DisplayObject} THe child
 	 */
-	PIXI.DisplayObject.extend = function(child)
+	PIXI.DisplayObject.extend = PIXI.DisplayObject.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;

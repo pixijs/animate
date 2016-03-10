@@ -113,15 +113,6 @@
 				//mask isn't actually tweened anyway
 				return target.mask;
 				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				//playback mode/frame isn't tweened but we need to provide the original values
-				//in theory this should only be used to get the value from the first frame, so
-				//we are hard coding the parent's starting position at 0.
-				return {
-					m: target.mode,
-					sp: target.startPosition,
-					parentSP: 0
-				};
 		}
 	}
 

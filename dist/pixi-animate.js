@@ -856,11 +856,6 @@
 		for (prop in endProps)
 		{
 			this.endProps[prop] = endProps[prop];
-			//for a synchronized movieclip, add additional data so we always know that it is correct
-			if (prop == "p")
-			{
-				this.endProps.p.parentSP = startFrame;
-			}
 		}
 
 		//copy in any starting properties don't change
@@ -1062,25 +1057,6 @@
 				target.mask = value;
 				break;
 				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				if (value)
-				{
-					target.mode = value.m;
-					target.startPosition = value.sp;
-					target.parentStartPosition = value.parentSP;
-					if (target.mode == 1) //MovieClip.SINGLE_FRAME
-					{
-						target.gotoAndStop(target.startPosition);
-					}
-				}
-				else
-				{
-					//clear target mode/start position (make it an independent movieclip)
-					target.mode = 0; //MovieClip.INDEPENDENT
-					target.startPosition = -1;
-					target.parentStartPosition = -1;
-				}
-				break;
 		}
 	}
 
@@ -1204,15 +1180,6 @@
 				//mask isn't actually tweened anyway
 				return target.mask;
 				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				//playback mode/frame isn't tweened but we need to provide the original values
-				//in theory this should only be used to get the value from the first frame, so
-				//we are hard coding the parent's starting position at 0.
-				return {
-					m: target.mode,
-					sp: target.startPosition,
-					parentSP: 0
-				};
 		}
 	}
 
@@ -1631,24 +1598,19 @@
 
 	/**
 	 * Convenience method for setting multiple frames at once and adding the child
-	 * @method addChildFrames
+	 * @method addKeyframes
+	 * @private
 	 * @param {PIXI.DisplayObject} instance The clip to animate
-	 * @param {int} startFrame The starting frame
-	 * @param {int} duration The number of frames to display the child before removing it.
 	 * @param {Object} keyframes The collection of keyframe objects or data string, the key is frame number
-	 * @return {MovieClip}
 	 */
-	/**
-	 * Alias for method `addFrame`
-	 * @method af
-	 * @return {MovieClip}
-	 */
-	p.af = p.addChildFrames = function(instance, startFrame, duration, keyframes)
+	p.addKeyframes = function(instance, keyframes)
 	{
-		this.addTimedChild(instance, startFrame, duration);
-		var properties, i, k, keyframe;
+		if (!keyframes) return;
+
+		var i, keyfram, properties;
 
 		// Convert serialized array into keyframes
+		// "0x100y100,1x150" to { "0": "x100y100", "1": "x150" }
 		if (typeof keyframes == "string")
 		{
 			keyframes = keyframes.split(',');
@@ -1662,6 +1624,8 @@
 			keyframes = map;
 		}
 
+		// Convert the keyframes object into
+		// individual properties
 		for (i in keyframes)
 		{
 			properties = keyframes[i];
@@ -1676,7 +1640,6 @@
 			}
 			this.addTween(instance, properties, parseInt(i, 10));
 		}
-		return this;
 	};
 
 	/**
@@ -1729,6 +1692,7 @@
 	 * @param {PIXI.DisplayObject} instance The clip to show
 	 * @param {int} startFrame The starting frame
 	 * @param {int} [duration=1] The number of frames to display the child before removing it.
+	 * @param {String|Array} [keyframes] The collection of static keyframes to add
 	 * @return {MovieClip}
 	 */
 	/**
@@ -1736,12 +1700,19 @@
 	 * @method at
 	 * @return {MovieClip}
 	 */
-	p.at = p.addTimedChild = function(instance, startFrame, duration)
+	p.at = p.addTimedChild = function(instance, startFrame, duration, keyframes)
 	{
 		if (startFrame == null) // jshint ignore:line
 			startFrame = 0;
 		if (duration == null || duration < 1) // jshint ignore:line
-			duration = 1;
+			duration = this._frameDuration || 1;
+
+		// Add the starting offset for synced movie clips
+		if (instance.mode === MovieClip.SYNCHED)
+		{
+			instance.parentStartPosition = startFrame;
+		}
+
 		//add tweening info about this child's presence on stage
 		//when the child is (re)added, if it has 'autoReset' set to true, then it
 		//should be set back to frame 0
@@ -1793,6 +1764,10 @@
 		}
 		if (this._frameDuration < startFrame + duration)
 			this._frameDuration = startFrame + duration;
+
+		// Add the collection of keyframes
+		this.addKeyframes(instance, keyframes);
+
 		return this;
 	};
 
@@ -2004,7 +1979,7 @@
 			{
 				this.addChild(target);
 				if (target.mode == MovieClip.INDEPENDENT && target.autoReset)
-					target.reset();
+					target._reset();
 			}
 			else if (!shouldBeChild && target.parent == this)
 			{
@@ -2013,13 +1988,15 @@
 		}
 
 		//go through all children and update synched movieclips that are not single frames
-		var children = this.children;
+		var children = this.children,
+			child;
 		for (i = 0, length = children.length; i < length; ++i)
 		{
-			if (children[i].mode == MovieClip.SYNCHED)
+			child = children[i];
+			if (child.mode == MovieClip.SYNCHED)
 			{
-				children[i]._synchOffset = currentFrame - children[i].parentStartPosition;
-				children[i]._updateTimeline();
+				child._synchOffset = currentFrame - child.parentStartPosition;
+				child._updateTimeline();
 			}
 		}
 
@@ -2074,7 +2051,7 @@
 	 * @param {MovieClip} child The child function
 	 * @return {MovieClip} THe child
 	 */
-	MovieClip.extend = function(child)
+	MovieClip.extend = MovieClip.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;
@@ -2112,7 +2089,7 @@
 	 * @param {Container} child The child function
 	 * @return {Container} THe child
 	 */
-	PIXI.Container.extend = function(child)
+	PIXI.Container.extend = PIXI.Container.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;
@@ -2210,7 +2187,7 @@
 	 * @param {DisplayObject} child The child function
 	 * @return {DisplayObject} THe child
 	 */
-	PIXI.DisplayObject.extend = function(child)
+	PIXI.DisplayObject.extend = PIXI.DisplayObject.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;
@@ -2592,7 +2569,7 @@ if (typeof Object.assign != 'function')
 	 * @param {Sprite} child The child function
 	 * @return {Sprite} THe child
 	 */
-	PIXI.Sprite.extend = function(child)
+	PIXI.Sprite.extend = PIXI.Sprite.e = function(child)
 	{
 		child.prototype = Object.create(p);
 		child.prototype.__parent = p;

@@ -17,11 +17,6 @@
 		for (prop in endProps)
 		{
 			this.endProps[prop] = endProps[prop];
-			//for a synchronized movieclip, add additional data so we always know that it is correct
-			if (prop == "p")
-			{
-				this.endProps.p.parentSP = startFrame;
-			}
 		}
 
 		//copy in any starting properties don't change
@@ -223,25 +218,6 @@
 				target.mask = value;
 				break;
 				//g: null,//not sure if we'll actually handle graphics this way?
-			case "p":
-				if (value)
-				{
-					target.mode = value.m;
-					target.startPosition = value.sp;
-					target.parentStartPosition = value.parentSP;
-					if (target.mode == 1) //MovieClip.SINGLE_FRAME
-					{
-						target.gotoAndStop(target.startPosition);
-					}
-				}
-				else
-				{
-					//clear target mode/start position (make it an independent movieclip)
-					target.mode = 0; //MovieClip.INDEPENDENT
-					target.startPosition = -1;
-					target.parentStartPosition = -1;
-				}
-				break;
 		}
 	}
 
