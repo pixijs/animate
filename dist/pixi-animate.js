@@ -683,9 +683,9 @@
 {
 	/**
 	 * Contains the collection of graphics data
-	 * @class GraphicsCache
+	 * @class ShapesCache
 	 */
-	var GraphicsCache = {};
+	var ShapesCache = {};
 
 	/**
 	 * Add an item or itesm to the cache
@@ -694,12 +694,12 @@
 	 * @param {String} prop  The id of graphic
 	 * @param {Array} [value] If adding a single property, the draw commands
 	 */
-	Object.defineProperty(GraphicsCache, "add",
+	Object.defineProperty(ShapesCache, "add",
 	{
 		enumerable: false,
 		value: function(prop, value)
 		{
-			GraphicsCache[prop] = value;
+			ShapesCache[prop] = value;
 		}
 	});
 
@@ -709,7 +709,7 @@
 	 * @static
 	 * @param  {String} str The string to decode
 	 */
-	Object.defineProperty(GraphicsCache, "decode",
+	Object.defineProperty(ShapesCache, "decode",
 	{
 		enumerable: false,
 		value: function(str)
@@ -743,12 +743,12 @@
 	 * @param  {String} id The cache id
 	 * @return {Array} Series of graphic draw commands
 	 */
-	Object.defineProperty(GraphicsCache, "fromCache",
+	Object.defineProperty(ShapesCache, "fromCache",
 	{
 		enumerable: false,
 		value: function(id)
 		{
-			return GraphicsCache[id] || null;
+			return ShapesCache[id] || null;
 		}
 	});
 
@@ -758,15 +758,15 @@
 	 * @static
 	 * @param  {String} id The cache id
 	 */
-	Object.defineProperty(GraphicsCache, "remove",
+	Object.defineProperty(ShapesCache, "remove",
 	{
 		enumerable: false,
 		value: function(id)
 		{
-			if (GraphicsCache[id])
+			if (ShapesCache[id])
 			{
-				GraphicsCache[id].length = 0;
-				delete GraphicsCache[id];
+				ShapesCache[id].length = 0;
+				delete ShapesCache[id];
 			}
 		}
 	});
@@ -776,20 +776,20 @@
 	 * @method  removeAll
 	 * @static
 	 */
-	Object.defineProperty(GraphicsCache, "removeAll",
+	Object.defineProperty(ShapesCache, "removeAll",
 	{
 		enumerable: false,
 		value: function()
 		{
-			for (var id in GraphicsCache)
+			for (var id in ShapesCache)
 			{
-				GraphicsCache.remove(id);
+				ShapesCache.remove(id);
 			}
 		}
 	});
 
 	// Assign to namespace
-	PIXI.animate.GraphicsCache = GraphicsCache;
+	PIXI.animate.ShapesCache = ShapesCache;
 
 }(PIXI));
 /**
@@ -798,7 +798,7 @@
  */
 (function(PIXI)
 {
-	var GraphicsCache = PIXI.animate.GraphicsCache;
+	var ShapesCache = PIXI.animate.ShapesCache;
 	var LZString = PIXI.animate.LZString;
 	var Texture = PIXI.Texture;
 	var Loader = PIXI.loaders.Loader;
@@ -814,11 +814,11 @@
 		{
 			if (/\.shapes\.lzw$/i.test(resource.url))
 			{
-				GraphicsCache.decode(LZString.decompress(resource.data));
+				ShapesCache.decode(LZString.decompress(resource.data));
 			}
 			else if (/\.shapes$/i.test(resource.url))
 			{
-				GraphicsCache.decode(resource.data);
+				ShapesCache.decode(resource.data);
 			}
 			else if (resource.data.nodeName && resource.data.nodeName == "IMG")
 			{

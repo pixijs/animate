@@ -7,7 +7,7 @@
 	"main": [
 		"src/animate/main.js",
 		"src/data/LZString.js",
-		"src/animate/GraphicsCache.js",
+		"src/animate/ShapesCache.js",
 		"src/animate/SymbolLoader.js",
 		"src/animate/Tween.js",
 		"src/animate/Timeline.js",

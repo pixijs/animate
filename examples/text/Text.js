@@ -3,7 +3,7 @@
 var Container = PIXI.Container;
 var Text = PIXI.Text;
 var Graphics = PIXI.Graphics;
-var graphics = PIXI.animate.GraphicsCache;
+var graphics = PIXI.animate.ShapesCache;
 
 // stage content:
 lib.Text = Container.extend(function()
