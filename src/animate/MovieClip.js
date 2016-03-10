@@ -418,10 +418,10 @@
 	{
 		if (!keyframes) return;
 
-		var i, keyfram, properties;
+		var i, k, keyframe, properties;
 
 		// Convert serialized array into keyframes
-		// "0x100y100,1x150" to { "0": "x100y100", "1": "x150" }
+		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
 		if (typeof keyframes == "string")
 		{
 			keyframes = keyframes.split(',');
@@ -430,7 +430,13 @@
 			{
 				keyframe = keyframes[i];
 				k = keyframe.match(/^\d+/)[0];
-				map[k] = keyframe.substr(k.length);
+				properties = keyframe.substr(k.length);
+
+				// deserialize properties
+				map[k] = JSON.parse('{' + properties
+					.replace(/([a-z]{1,2})([\.\d\-]+)/g, "\"$1\":$2,")
+					.replace(/:(\-)?\./g, ':$10.')
+					.slice(0, -1) + '}');
 			}
 			keyframes = map;
 		}
@@ -439,17 +445,7 @@
 		// individual properties
 		for (i in keyframes)
 		{
-			properties = keyframes[i];
-
-			// deserialize properties
-			if (typeof properties == "string")
-			{
-				properties = JSON.parse('{' + properties
-					.replace(/([a-z]{1,2})([\.\d]+)/g, "\"$1\":$2,")
-					.replace(/:\./g, ':0.')
-					.slice(0, -1) + '}');
-			}
-			this.addTween(instance, properties, parseInt(i, 10));
+			this.addTween(instance, keyframes[i], parseInt(i, 10));
 		}
 	};
 
