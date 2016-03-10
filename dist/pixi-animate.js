@@ -1193,11 +1193,12 @@
  */
 (function(PIXI, undefined)
 {
-	var Container = PIXI.Container,
-		DisplayObject = PIXI.DisplayObject,
-		Timeline = PIXI.animate.Timeline,
-		Tween = PIXI.animate.Tween,
-		SharedTicker = PIXI.ticker.shared;
+	var Container = PIXI.Container;
+	var DisplayObject = PIXI.DisplayObject;
+	var Timeline = PIXI.animate.Timeline;
+	var Tween = PIXI.animate.Tween;
+	var SharedTicker = PIXI.ticker.shared;
+	var LZString = PIXI.animate.LZString;
 
 	/**
 	 * Provide timeline playback of movieclip
@@ -1458,9 +1459,6 @@
 
 	var p = MovieClip.prototype = Object.create(Container.prototype);
 
-	//constructor for backwards/Flash exporting compatibility
-	p.initialize = MovieClip;
-
 	p._onAdded = function()
 	{
 		SharedTicker.add(this._tickListener);
@@ -1476,7 +1474,7 @@
 			return;
 		}
 		var seconds = tickerDeltaTime / SharedTicker.speed / PIXI.TARGET_FPMS / 1000;
-		this._tick(seconds);
+		this.advance(seconds);
 	};
 
 	p._onRemoved = function()
@@ -1607,27 +1605,63 @@
 	{
 		if (!keyframes) return;
 
-		var i, k, keyframe, properties;
+		var i = 0;
 
 		// Convert serialized array into keyframes
 		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
 		if (typeof keyframes == "string")
 		{
-			keyframes = keyframes.split(',');
-			var map = {};
-			for (i = 0; i < keyframes.length; i++)
-			{
-				keyframe = keyframes[i];
-				k = keyframe.match(/^\d+/)[0];
-				properties = keyframe.substr(k.length);
+			var result = {};
+			var keysMap = {
+				X: 'x',
+				Y: 'y',
+				A: 'sx',
+				B: 'sy',
+				C: 'kx',
+				D: 'ky',
+				R: 'r'
+			};
+			var c,
+				buffer = "",
+				isFrameStarted = false,
+				prop,
+				frame = {};
 
-				// deserialize properties
-				map[k] = JSON.parse('{' + properties
-					.replace(/([a-z]{1,2})([\.\d\-]+)/g, "\"$1\":$2,")
-					.replace(/:(\-)?\./g, ':$10.')
-					.slice(0, -1) + '}');
+			while (i < keyframes.length)
+			{
+				c = keyframes[i];
+				if (keysMap[c])
+				{
+					if (!isFrameStarted)
+					{
+						isFrameStarted = true;
+						result[buffer] = frame;
+					}
+					if (prop)
+					{
+						frame[prop] = parseFloat(buffer);
+					}
+					prop = keysMap[c];
+					buffer = "";
+					i++;
+				}
+				// Start a new prop
+				else if (c === " ")
+				{
+					i++;
+					frame[prop] = parseFloat(buffer);
+					buffer = "";
+					prop = null;
+					frame = {};
+					isFrameStarted = false;
+				}
+				else
+				{
+					buffer += c;
+					i++;
+				}
 			}
-			keyframes = map;
+			keyframes = result;
 		}
 
 		// Convert the keyframes object into
@@ -1764,6 +1798,9 @@
 		// Add the collection of keyframes
 		this.addKeyframes(instance, keyframes);
 
+		// Set the initial position/add
+		this._updateTimeline();
+
 		return this;
 	};
 
@@ -1866,16 +1903,6 @@
 			this.currentFrame = this._frameDuration - 1;
 		//update all tweens & actions in the timeline
 		this._updateTimeline();
-	};
-
-	/**
-	 * @method _tick
-	 * @param {Number} delta Time elapsed since the previous tick, in seconds.
-	 * @protected
-	 **/
-	p._tick = function(delta)
-	{
-		this.advance(delta);
 	};
 
 	/**
