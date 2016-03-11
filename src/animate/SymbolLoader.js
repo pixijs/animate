@@ -5,7 +5,6 @@
 (function(PIXI)
 {
 	var ShapesCache = PIXI.animate.ShapesCache;
-	var LZString = PIXI.animate.LZString;
 	var Texture = PIXI.Texture;
 	var Loader = PIXI.loaders.Loader;
 
@@ -18,20 +17,26 @@
 	{
 		return function(resource, next)
 		{
-			if (/\.shapes\.lzw$/i.test(resource.url))
+			var url = resource.url;
+			var data = resource.data;
+
+			if (/\.shapes\.txt$/i.test(url))
 			{
-				ShapesCache.decode(LZString.decompress(resource.data));
+				ShapesCache.decode(data);
 			}
-			else if (/\.shapes$/i.test(resource.url))
+			else if (/\.shapes.json$/i.test(url))
 			{
-				ShapesCache.decode(resource.data);
+				for (var name in data)
+				{
+					ShapesCache.add(name, data[name]);
+				}
 			}
-			else if (resource.data.nodeName && resource.data.nodeName == "IMG")
+			else if (data.nodeName && data.nodeName == "IMG")
 			{
 				// Add individual images to the texture cache by their
 				// short symbol name, not the URL
 				Texture.addTextureToCache(
-					Texture.fromFrame(resource.url),
+					Texture.fromFrame(url),
 					resource.name
 				);
 			}

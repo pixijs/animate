@@ -6,7 +6,6 @@
 	"output": "pixi-animate",
 	"main": [
 		"src/animate/main.js",
-		"src/data/LZString.js",
 		"src/animate/ShapesCache.js",
 		"src/animate/SymbolLoader.js",
 		"src/animate/Tween.js",

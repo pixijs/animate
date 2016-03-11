@@ -9,7 +9,6 @@
 	var Timeline = PIXI.animate.Timeline;
 	var Tween = PIXI.animate.Tween;
 	var SharedTicker = PIXI.ticker.shared;
-	var LZString = PIXI.animate.LZString;
 
 	/**
 	 * Provide timeline playback of movieclip

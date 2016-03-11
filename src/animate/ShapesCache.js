@@ -20,9 +20,18 @@
 	Object.defineProperty(ShapesCache, "add",
 	{
 		enumerable: false,
-		value: function(prop, value)
+		value: function(prop, draw)
 		{
-			ShapesCache[prop] = value;
+			// Convert all hex string colors (animate) to int (pixi.js)
+			for (var d in draw)
+			{
+				var arg = draw[d];
+				if (typeof arg == "string" && arg[0] == "#")
+				{
+					draw[d] = parseInt(arg.substr(1), 16);
+				}
+			}
+			ShapesCache[prop] = draw;
 		}
 	});
 
@@ -40,19 +49,18 @@
 			// each shape is a new line
 			var shapes = str.split("\n");
 			var isCommand = /^[a-z]{1,2}$/;
-			var isColor = /^#/;
 			for (var i = 0; i < shapes.length; i++)
 			{
 				var shape = shapes[i].split(" "); // arguments are space separated
 				var name = shape.shift(); // first argument is the ID
 				for (var j = 0; j < shape.length; j++)
 				{
-					// Convert colors and numbers into proper types
+					// Convert all numbers to floats, ignore colors
 					var arg = shape[j];
-					if (isColor.test(arg))
-						shape[j] = parseInt(arg.substr(1), 16);
-					else if (!isCommand.test(arg))
+					if (arg[0] != "#" && !isCommand.test(arg))
+					{
 						shape[j] = parseFloat(arg);
+					}
 				}
 				this.add(name, shape);
 			}
