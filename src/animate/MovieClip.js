@@ -417,19 +417,44 @@
 
 		var i = 0;
 
+		// Parse the value of the compressed keyframe
+		var parseValue = function(frame, prop, buffer)
+		{
+			// if (prop == "c")
+			// {
+			//     buffer = buffer.split(',');
+			//     buffer.forEach(function(val, i, buffer)
+			//     {
+			//         buffer[i] = parseFloat(val);
+			//     });
+			//     frame.c = buffer;
+			// }
+			// else if (prop == "t")
+			//     frame.t = buffer;
+
+			if (prop == "v")
+				frame.v = !!parseInt(buffer);
+			else
+				frame[prop] = parseFloat(buffer);
+		};
+
 		// Convert serialized array into keyframes
 		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
 		if (typeof keyframes == "string")
 		{
 			var result = {};
 			var keysMap = {
-				X: 'x',
-				Y: 'y',
-				A: 'sx',
-				B: 'sy',
-				C: 'kx',
-				D: 'ky',
-				R: 'r'
+				X: 'x', // x position
+				Y: 'y', // y position
+				A: 'sx', // scale x
+				B: 'sy', // scale y
+				C: 'kx', // skew x
+				D: 'ky', // skew y
+				R: 'r', // rotation
+				L: 'a', // alpha
+				// T: 't', // tint
+				// F: 'c', // colorTransform
+				V: 'v' // visibility
 			};
 			var c,
 				buffer = "",
@@ -449,7 +474,7 @@
 					}
 					if (prop)
 					{
-						frame[prop] = parseFloat(buffer);
+						parseValue(frame, prop, buffer);
 					}
 					prop = keysMap[c];
 					buffer = "";
@@ -459,7 +484,7 @@
 				else if (c === " ")
 				{
 					i++;
-					frame[prop] = parseFloat(buffer);
+					parseValue(frame, prop, buffer);
 					buffer = "";
 					prop = null;
 					frame = {};
@@ -518,6 +543,18 @@
 			timeline = new Timeline(instance);
 			this._timelines.push(timeline);
 		}
+
+		// Convert any string colors to uints
+		// if (typeof properties.t == "string")
+		// {
+		//     properties.t = parseInt(properties.t.substr(1), 16);
+		// }
+		// else 
+		if (typeof properties.v == "number")
+		{
+			properties.v = !!properties.v;
+		}
+
 		//2. create the tween segment, recording the starting values of properties and using the
 		//   supplied properties as the ending values
 		timeline.addTween(instance, properties, startFrame, duration, ease);

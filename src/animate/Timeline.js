@@ -104,8 +104,10 @@
 				return target.rotation;
 			case "a":
 				return target.alpha;
-			case "t":
-				return target.tint;
+				// case "t":
+				// 	return target.tint;
+				// case "c": 
+				//     return target.colorTransform;
 			case "v":
 				//visibility isn't actually tweened anyway
 				return target.visible;

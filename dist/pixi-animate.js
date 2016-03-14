@@ -343,12 +343,12 @@
 		//alpha
 		a: lerpValue,
 		//tinting
-		t: lerpColor,
+		// t: lerpColor,
 		//values to be set
 		v: null, //visible
+		c: null, //colorTransform
 		m: null, //mask
-		g: null, //not sure if we'll actually handle graphics this way?
-		p: null // (Flash) Graphic position/mode
+		g: null //not sure if we'll actually handle graphics this way?
 	};
 
 	p.setPosition = function(currentFrame)
@@ -415,9 +415,12 @@
 			case "a":
 				target.alpha = value;
 				break;
-			case "t":
-				target.tint = value;
-				break;
+				// case "t":
+				// 	target.tint = value;
+				// 	break;
+				//          case "c":
+				//              target.colorTransform = value;
+				//              break;
 			case "v":
 				target.visible = value;
 				break;
@@ -539,8 +542,10 @@
 				return target.rotation;
 			case "a":
 				return target.alpha;
-			case "t":
-				return target.tint;
+				// case "t":
+				// 	return target.tint;
+				// case "c": 
+				//     return target.colorTransform;
 			case "v":
 				//visibility isn't actually tweened anyway
 				return target.visible;
@@ -974,19 +979,44 @@
 
 		var i = 0;
 
+		// Parse the value of the compressed keyframe
+		var parseValue = function(frame, prop, buffer)
+		{
+			// if (prop == "c")
+			// {
+			//     buffer = buffer.split(',');
+			//     buffer.forEach(function(val, i, buffer)
+			//     {
+			//         buffer[i] = parseFloat(val);
+			//     });
+			//     frame.c = buffer;
+			// }
+			// else if (prop == "t")
+			//     frame.t = buffer;
+
+			if (prop == "v")
+				frame.v = !!parseInt(buffer);
+			else
+				frame[prop] = parseFloat(buffer);
+		};
+
 		// Convert serialized array into keyframes
 		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
 		if (typeof keyframes == "string")
 		{
 			var result = {};
 			var keysMap = {
-				X: 'x',
-				Y: 'y',
-				A: 'sx',
-				B: 'sy',
-				C: 'kx',
-				D: 'ky',
-				R: 'r'
+				X: 'x', // x position
+				Y: 'y', // y position
+				A: 'sx', // scale x
+				B: 'sy', // scale y
+				C: 'kx', // skew x
+				D: 'ky', // skew y
+				R: 'r', // rotation
+				L: 'a', // alpha
+				// T: 't', // tint
+				// F: 'c', // colorTransform
+				V: 'v' // visibility
 			};
 			var c,
 				buffer = "",
@@ -1006,7 +1036,7 @@
 					}
 					if (prop)
 					{
-						frame[prop] = parseFloat(buffer);
+						parseValue(frame, prop, buffer);
 					}
 					prop = keysMap[c];
 					buffer = "";
@@ -1016,7 +1046,7 @@
 				else if (c === " ")
 				{
 					i++;
-					frame[prop] = parseFloat(buffer);
+					parseValue(frame, prop, buffer);
 					buffer = "";
 					prop = null;
 					frame = {};
@@ -1075,6 +1105,18 @@
 			timeline = new Timeline(instance);
 			this._timelines.push(timeline);
 		}
+
+		// Convert any string colors to uints
+		// if (typeof properties.t == "string")
+		// {
+		//     properties.t = parseInt(properties.t.substr(1), 16);
+		// }
+		// else 
+		if (typeof properties.v == "number")
+		{
+			properties.v = !!properties.v;
+		}
+
 		//2. create the tween segment, recording the starting values of properties and using the
 		//   supplied properties as the ending values
 		timeline.addTween(instance, properties, startFrame, duration, ease);
@@ -1492,12 +1534,19 @@
  * @module PixiAnimate
  * @namespace PIXI
  */
-(function(PIXI)
+(function(PIXI, undefined)
 {
 	/**
 	 * @class DisplayObject
 	 */
 	var p = PIXI.DisplayObject.prototype;
+
+	// Color Matrix filter
+	var ColorMatrixFilter;
+	if (PIXI.filters)
+	{
+		ColorMatrixFilter = PIXI.filters.ColorMatrixFilter;
+	}
 
 	/**
 	 * Function to see if this is renderable or not. Useful for setting masks.
@@ -1530,7 +1579,7 @@
 	 * @param {Number} pivotY The Y pivot value
 	 * @return {DisplayObject} Instance for chaining
 	 */
-	p.tr = p.setTransform;
+	p.t = p.setTransform;
 
 	/**
 	 * Setter for mask to be able to chain.
@@ -1551,24 +1600,129 @@
 	};
 
 	/**
+	 * Setter for the alpha
+	 * @method setAlpha
+	 * @param {Number} alpha The alpha amount to use, from 0 to 1
+	 * @return {DisplayObject} Instance for chaining
+	 */
+	/**
+	 * Shortcut for setAlpha.
+	 * @method a
+	 * @param {Number} alpha The alpha amount to use, from 0 to 1
+	 * @return {DisplayObject} Instance for chaining
+	 */
+	p.setAlpha = p.a = function(alpha)
+	{
+		this.alpha = alpha;
+		return this;
+	};
+
+	/**
 	 * Set the tint values by color.
 	 * @method setTint
-	 * @param {Number} r The red percentage value
-	 * @param {Number} g The green percentage value
-	 * @param {Number} b The blue percentage value
+	 * @param {int} tint The color value to tint
 	 * @return {DisplayObject} Object for chaining
 	 */
 	/**
 	 * Shortcut to setTint.
 	 * @method tn
-	 * @param {Number} ting The red percentage value
+	 * @param {Number} tint The red percentage value
 	 * @return {DisplayObject} Object for chaining
 	 */
-	p.setTint = p.tn = function(tint)
-	{
-		this.tint = tint;
-		return this;
-	};
+	// p.setTint = p.i = function(tint)
+	// {
+	// 	// this.tint = tint
+	// 	// return this;
+	//        // TODO: Replace with DisplayObject.tint setter
+	//        // once the functionality is added to Pixi.js, for
+	//        // now we'll use the slower ColorMatrixFilter to handle
+	//        // the color transformation
+	//        return this.c(tint);
+	// };
+
+	/**
+	 * Set additive and multiply color, tinting
+	 * @method setColorTransform
+	 * @param {Array|int} colorTransform The color unit or array matrix of either 2, or 8 values
+	 * @return {DisplayObject} Object for chaining
+	 */
+	/**
+	 * Shortcut to setColor.
+	 * @method c
+	 * @param {Array|int} colorTransform The color unit or array matrix of either 2, or 8 values
+	 * @return {DisplayObject} Object for chaining
+	 */
+	// p.setColorTransform = p.c = function(colorTransform)
+	// {
+	//     this.colorTransform = colorTransform;
+	//     return this;
+	// };
+
+	/**
+	 * The color matrix of either 2 or 8 values or a single color (multiply only)
+	 * @property {Array|int} colorTransform
+	 */
+	// Object.defineProperty(p, 'colorTransform', 
+	// {
+	//     set: function(color)
+	//     {
+	//         console.log("setter colorTransform", color);
+	//         var colorTransform = this._colorTransform;
+	//         if (!colorTransform)
+	//         {
+	//             colorTransform = this._colorTransform = new ColorMatrixFilter();
+	//             if (Array.isArray(this.filters))
+	//             {
+	//                 this.filters.push(colorTransform);
+	//             }
+	//             else
+	//             {
+	//                 this.filters = [colorTransform];
+	//             }
+	//         }
+	//         if (typeof color == "number")
+	//         {
+	//             // Convert rgb value to color matrix values
+	//             color = convertColorsToMatrix(color);
+	//         }
+	//         // Convert [rgb, a] to color matrix values
+	//         else if (color.length == 2)
+	//         {
+	//             // to the tint later here
+	//             color = convertColorsToMatrix(color[0], color[1]);
+	//         }
+
+	//         // map the [r, r0, g, g0, b, b0, a, a0] to the matrix
+	//         colorTransform.matrix[0] = color[0]; // r
+	//         colorTransform.matrix[4] = color[1]; // r0
+	//         colorTransform.matrix[6] = color[2]; // g
+	//         colorTransform.matrix[9] = color[3]; // g0
+	//         colorTransform.matrix[12] = color[4]; // b
+	//         colorTransform.matrix[14] = color[5]; // b0
+	//         colorTransform.matrix[18] = color[6]; // a
+	//         colorTransform.matrix[19] = color[7]; // a0
+
+	//         console.log(this, this._colorTransform);
+	//     },
+	//     get: function()
+	//     {
+	//         return this._colorTransform;
+	//     }
+	// });
+
+	// Utility to convert a color to 8-length color transform matrix
+	// function convertColorsToMatrix(color, alpha)
+	// {
+	//     var a = alpha !== undefined ? alpha : 1;
+	//     var r = color >> 16 & 0xFF;
+	//     var g = color >> 8 & 0xFF;
+	//     var b = color & 0xFF;
+
+	//     console.log(r, g, b, a);
+
+	//     // Convert rgb values to color matrix values
+	//     return [r, 0, g, 0, b, 0, a, 0];
+	// }
 
 	/**
 	 * Extend a container
@@ -1774,7 +1928,7 @@
 
 	/**
 	 * Shortcut to arc.
-	 * @method a
+	 * @method ac
 	 * @param {Number} x
 	 * @param {Number} y
 	 * @param {Number} radius
@@ -1783,7 +1937,7 @@
 	 * @param {Boolean} anticlockwise
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.a = p.arc;
+	p.ar = p.arc;
 
 	/**
 	 * Shortcut to arcTo.

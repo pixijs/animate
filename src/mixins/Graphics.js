@@ -186,7 +186,7 @@
 
 	/**
 	 * Shortcut to arc.
-	 * @method a
+	 * @method ac
 	 * @param {Number} x
 	 * @param {Number} y
 	 * @param {Number} radius
@@ -195,7 +195,7 @@
 	 * @param {Boolean} anticlockwise
 	 * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
 	 **/
-	p.a = p.arc;
+	p.ar = p.arc;
 
 	/**
 	 * Shortcut to arcTo.

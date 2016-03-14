@@ -136,12 +136,12 @@
 		//alpha
 		a: lerpValue,
 		//tinting
-		t: lerpColor,
+		// t: lerpColor,
 		//values to be set
 		v: null, //visible
+		c: null, //colorTransform
 		m: null, //mask
-		g: null, //not sure if we'll actually handle graphics this way?
-		p: null // (Flash) Graphic position/mode
+		g: null //not sure if we'll actually handle graphics this way?
 	};
 
 	p.setPosition = function(currentFrame)
@@ -208,9 +208,12 @@
 			case "a":
 				target.alpha = value;
 				break;
-			case "t":
-				target.tint = value;
-				break;
+				// case "t":
+				// 	target.tint = value;
+				// 	break;
+				//          case "c":
+				//              target.colorTransform = value;
+				//              break;
 			case "v":
 				target.visible = value;
 				break;
