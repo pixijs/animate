@@ -104,18 +104,18 @@
 				return target.rotation;
 			case "a":
 				return target.alpha;
-				// case "t":
-				// 	return target.tint;
-				// case "c": 
-				//     return target.colorTransform;
 			case "v":
-				//visibility isn't actually tweened anyway
 				return target.visible;
 			case "m":
-				//mask isn't actually tweened anyway
 				return target.mask;
-				//g: null,//not sure if we'll actually handle graphics this way?
+				// case "t":
+				//   return target.tint;
+				// case "c": 
+				//   return target.colorTransform;
+				//not sure if we'll actually handle graphics this way?
+				//g: return null;
 		}
+		return null;
 	}
 
 	// Assign to namespace

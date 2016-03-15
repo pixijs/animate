@@ -420,26 +420,38 @@
 		// Parse the value of the compressed keyframe
 		var parseValue = function(frame, prop, buffer)
 		{
-			// if (prop == "c")
-			// {
-			//     buffer = buffer.split(',');
-			//     buffer.forEach(function(val, i, buffer)
-			//     {
-			//         buffer[i] = parseFloat(val);
-			//     });
-			//     frame.c = buffer;
-			// }
-			// else if (prop == "t")
-			//     frame.t = buffer;
-
-			if (prop == "v")
-				frame.v = !!parseInt(buffer);
-			else
-				frame[prop] = parseFloat(buffer);
+			switch (prop)
+			{
+				case "c":
+					{
+						buffer = buffer.split(',');
+						buffer.forEach(function(val, i, buffer)
+						{
+							buffer[i] = parseFloat(val);
+						});
+						frame.c = buffer;
+						break;
+					}
+				case "t":
+					{
+						frame.t = buffer;
+						break;
+					}
+				case "v":
+					{
+						frame.v = !!parseInt(buffer);
+						break;
+					}
+				default:
+					{
+						frame[prop] = parseFloat(buffer);
+						break;
+					}
+			}
 		};
 
 		// Convert serialized array into keyframes
-		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
+		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": 150} }
 		if (typeof keyframes == "string")
 		{
 			var result = {};
@@ -452,8 +464,8 @@
 				D: 'ky', // skew y
 				R: 'r', // rotation
 				L: 'a', // alpha
-				// T: 't', // tint
-				// F: 'c', // colorTransform
+				T: 't', // tint
+				F: 'c', // colorTransform
 				V: 'v' // visibility
 			};
 			var c,
@@ -545,12 +557,11 @@
 		}
 
 		// Convert any string colors to uints
-		// if (typeof properties.t == "string")
-		// {
-		//     properties.t = parseInt(properties.t.substr(1), 16);
-		// }
-		// else 
-		if (typeof properties.v == "number")
+		if (typeof properties.t == "string")
+		{
+			properties.t = parseInt(properties.t.substr(1), 16);
+		}
+		else if (typeof properties.v == "number")
 		{
 			properties.v = !!properties.v;
 		}
@@ -646,7 +657,7 @@
 		this.addKeyframes(instance, keyframes);
 
 		// Set the initial position/add
-		this._updateTimeline();
+		this._setTimelinePosition(startFrame, this.currentFrame);
 
 		return this;
 	};

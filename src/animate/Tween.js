@@ -137,6 +137,7 @@
 		a: lerpValue,
 		//tinting
 		// t: lerpColor,
+		t: null,
 		//values to be set
 		v: null, //visible
 		c: null, //colorTransform
@@ -208,22 +209,20 @@
 			case "a":
 				target.alpha = value;
 				break;
-				// case "t":
-				// 	target.tint = value;
-				// 	break;
-				//          case "c":
-				//              target.colorTransform = value;
-				//              break;
+			case "t":
+				target.i(value); // i = setTint
+				break;
+			case "c":
+				target.c.apply(target, value); // c = setColorTransform
+				break;
 			case "v":
 				target.visible = value;
 				break;
 			case "m":
 				target.mask = value;
 				break;
-				//g: null,//not sure if we'll actually handle graphics this way?
 		}
 	}
-
 
 	// Assign to namespace
 	PIXI.animate.Tween = Tween;

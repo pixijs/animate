@@ -344,6 +344,7 @@
 		a: lerpValue,
 		//tinting
 		// t: lerpColor,
+		t: null,
 		//values to be set
 		v: null, //visible
 		c: null, //colorTransform
@@ -415,22 +416,20 @@
 			case "a":
 				target.alpha = value;
 				break;
-				// case "t":
-				// 	target.tint = value;
-				// 	break;
-				//          case "c":
-				//              target.colorTransform = value;
-				//              break;
+			case "t":
+				target.i(value); // i = setTint
+				break;
+			case "c":
+				target.c.apply(target, value); // c = setColorTransform
+				break;
 			case "v":
 				target.visible = value;
 				break;
 			case "m":
 				target.mask = value;
 				break;
-				//g: null,//not sure if we'll actually handle graphics this way?
 		}
 	}
-
 
 	// Assign to namespace
 	PIXI.animate.Tween = Tween;
@@ -542,18 +541,18 @@
 				return target.rotation;
 			case "a":
 				return target.alpha;
-				// case "t":
-				// 	return target.tint;
-				// case "c": 
-				//     return target.colorTransform;
 			case "v":
-				//visibility isn't actually tweened anyway
 				return target.visible;
 			case "m":
-				//mask isn't actually tweened anyway
 				return target.mask;
-				//g: null,//not sure if we'll actually handle graphics this way?
+				// case "t":
+				//   return target.tint;
+				// case "c": 
+				//   return target.colorTransform;
+				//not sure if we'll actually handle graphics this way?
+				//g: return null;
 		}
+		return null;
 	}
 
 	// Assign to namespace
@@ -982,26 +981,38 @@
 		// Parse the value of the compressed keyframe
 		var parseValue = function(frame, prop, buffer)
 		{
-			// if (prop == "c")
-			// {
-			//     buffer = buffer.split(',');
-			//     buffer.forEach(function(val, i, buffer)
-			//     {
-			//         buffer[i] = parseFloat(val);
-			//     });
-			//     frame.c = buffer;
-			// }
-			// else if (prop == "t")
-			//     frame.t = buffer;
-
-			if (prop == "v")
-				frame.v = !!parseInt(buffer);
-			else
-				frame[prop] = parseFloat(buffer);
+			switch (prop)
+			{
+				case "c":
+					{
+						buffer = buffer.split(',');
+						buffer.forEach(function(val, i, buffer)
+						{
+							buffer[i] = parseFloat(val);
+						});
+						frame.c = buffer;
+						break;
+					}
+				case "t":
+					{
+						frame.t = buffer;
+						break;
+					}
+				case "v":
+					{
+						frame.v = !!parseInt(buffer);
+						break;
+					}
+				default:
+					{
+						frame[prop] = parseFloat(buffer);
+						break;
+					}
+			}
 		};
 
 		// Convert serialized array into keyframes
-		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": "150"} }
+		// "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": 150} }
 		if (typeof keyframes == "string")
 		{
 			var result = {};
@@ -1014,8 +1025,8 @@
 				D: 'ky', // skew y
 				R: 'r', // rotation
 				L: 'a', // alpha
-				// T: 't', // tint
-				// F: 'c', // colorTransform
+				T: 't', // tint
+				F: 'c', // colorTransform
 				V: 'v' // visibility
 			};
 			var c,
@@ -1107,12 +1118,11 @@
 		}
 
 		// Convert any string colors to uints
-		// if (typeof properties.t == "string")
-		// {
-		//     properties.t = parseInt(properties.t.substr(1), 16);
-		// }
-		// else 
-		if (typeof properties.v == "number")
+		if (typeof properties.t == "string")
+		{
+			properties.t = parseInt(properties.t.substr(1), 16);
+		}
+		else if (typeof properties.v == "number")
 		{
 			properties.v = !!properties.v;
 		}
@@ -1208,7 +1218,7 @@
 		this.addKeyframes(instance, keyframes);
 
 		// Set the initial position/add
-		this._updateTimeline();
+		this._setTimelinePosition(startFrame, this.currentFrame);
 
 		return this;
 	};
@@ -1629,100 +1639,70 @@
 	 * @param {Number} tint The red percentage value
 	 * @return {DisplayObject} Object for chaining
 	 */
-	// p.setTint = p.i = function(tint)
-	// {
-	// 	// this.tint = tint
-	// 	// return this;
-	//        // TODO: Replace with DisplayObject.tint setter
-	//        // once the functionality is added to Pixi.js, for
-	//        // now we'll use the slower ColorMatrixFilter to handle
-	//        // the color transformation
-	//        return this.c(tint);
-	// };
+	p.setTint = p.i = function(tint)
+	{
+		// this.tint = tint
+		// return this;
+		// TODO: Replace with DisplayObject.tint setter
+		// once the functionality is added to Pixi.js, for
+		// now we'll use the slower ColorMatrixFilter to handle
+		// the color transformation
+		var r = tint >> 16 & 0xFF;
+		var g = tint >> 8 & 0xFF;
+		var b = tint & 0xFF;
+		return this.c(r / 255, 0, g / 255, 0, b / 255, 0);
+	};
 
 	/**
 	 * Set additive and multiply color, tinting
 	 * @method setColorTransform
-	 * @param {Array|int} colorTransform The color unit or array matrix of either 2, or 8 values
+	 * @param {Number} r The multiply red value
+	 * @param {Number} rA The additive red value
+	 * @param {Number} g The multiply green value
+	 * @param {Number} gA The additive green value
+	 * @param {Number} b The multiply blue value
+	 * @param {Number} bA The additive blue value
 	 * @return {DisplayObject} Object for chaining
 	 */
 	/**
 	 * Shortcut to setColor.
 	 * @method c
-	 * @param {Array|int} colorTransform The color unit or array matrix of either 2, or 8 values
+	 * @param {Number} r The multiply red value
+	 * @param {Number} rA The additive red value
+	 * @param {Number} g The multiply green value
+	 * @param {Number} gA The additive green value
+	 * @param {Number} b The multiply blue value
+	 * @param {Number} bA The additive blue value
 	 * @return {DisplayObject} Object for chaining
 	 */
-	// p.setColorTransform = p.c = function(colorTransform)
-	// {
-	//     this.colorTransform = colorTransform;
-	//     return this;
-	// };
+	p.setColorTransform = p.c = function(r, rA, g, gA, b, bA)
+	{
+		var filter = this.colorTransformFilter;
+		filter.matrix[0] = r;
+		filter.matrix[4] = rA;
+		filter.matrix[6] = g;
+		filter.matrix[9] = gA;
+		filter.matrix[12] = b;
+		filter.matrix[14] = bA;
+		this.filters = [filter];
+		return this;
+	};
 
 	/**
-	 * The color matrix of either 2 or 8 values or a single color (multiply only)
-	 * @property {Array|int} colorTransform
+	 * The current default color transforming filters
+	 * @property {PIXI.filters.ColorMatrixFilter} colorTransformFilter
 	 */
-	// Object.defineProperty(p, 'colorTransform', 
-	// {
-	//     set: function(color)
-	//     {
-	//         console.log("setter colorTransform", color);
-	//         var colorTransform = this._colorTransform;
-	//         if (!colorTransform)
-	//         {
-	//             colorTransform = this._colorTransform = new ColorMatrixFilter();
-	//             if (Array.isArray(this.filters))
-	//             {
-	//                 this.filters.push(colorTransform);
-	//             }
-	//             else
-	//             {
-	//                 this.filters = [colorTransform];
-	//             }
-	//         }
-	//         if (typeof color == "number")
-	//         {
-	//             // Convert rgb value to color matrix values
-	//             color = convertColorsToMatrix(color);
-	//         }
-	//         // Convert [rgb, a] to color matrix values
-	//         else if (color.length == 2)
-	//         {
-	//             // to the tint later here
-	//             color = convertColorsToMatrix(color[0], color[1]);
-	//         }
-
-	//         // map the [r, r0, g, g0, b, b0, a, a0] to the matrix
-	//         colorTransform.matrix[0] = color[0]; // r
-	//         colorTransform.matrix[4] = color[1]; // r0
-	//         colorTransform.matrix[6] = color[2]; // g
-	//         colorTransform.matrix[9] = color[3]; // g0
-	//         colorTransform.matrix[12] = color[4]; // b
-	//         colorTransform.matrix[14] = color[5]; // b0
-	//         colorTransform.matrix[18] = color[6]; // a
-	//         colorTransform.matrix[19] = color[7]; // a0
-
-	//         console.log(this, this._colorTransform);
-	//     },
-	//     get: function()
-	//     {
-	//         return this._colorTransform;
-	//     }
-	// });
-
-	// Utility to convert a color to 8-length color transform matrix
-	// function convertColorsToMatrix(color, alpha)
-	// {
-	//     var a = alpha !== undefined ? alpha : 1;
-	//     var r = color >> 16 & 0xFF;
-	//     var g = color >> 8 & 0xFF;
-	//     var b = color & 0xFF;
-
-	//     console.log(r, g, b, a);
-
-	//     // Convert rgb values to color matrix values
-	//     return [r, 0, g, 0, b, 0, a, 0];
-	// }
+	Object.defineProperty(p, 'colorTransformFilter',
+	{
+		set: function(filter)
+		{
+			this._colorTransformFilter = filter;
+		},
+		get: function()
+		{
+			return this._colorTransformFilter || new ColorMatrixFilter();
+		}
+	});
 
 	/**
 	 * Extend a container
