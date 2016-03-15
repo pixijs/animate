@@ -657,7 +657,7 @@
 		this.addKeyframes(instance, keyframes);
 
 		// Set the initial position/add
-		this._setTimelinePosition(startFrame, this.currentFrame);
+		this._setTimelinePosition(startFrame, this.currentFrame, true);
 
 		return this;
 	};
@@ -671,20 +671,20 @@
 	 */
 	p.aa = p.addAction = function(callback, startFrame)
 	{
-		var _actions = this._actions;
+		var actions = this._actions;
 		//ensure that the movieclip timeline is long enough to support the target frame
-		if (_actions.length <= startFrame)
-			_actions.length = startFrame + 1;
+		if (actions.length <= startFrame)
+			actions.length = startFrame + 1;
 		if (this._frameDuration < startFrame)
 			this._frameDuration = startFrame;
 		//add the action
-		if (_actions[startFrame])
+		if (actions[startFrame])
 		{
-			_actions[startFrame].push(callback);
+			actions[startFrame].push(callback);
 		}
 		else
 		{
-			_actions[startFrame] = [callback];
+			actions[startFrame] = [callback];
 		}
 		return this;
 	};
@@ -827,6 +827,14 @@
 		this._prevPos = this.currentFrame;
 	};
 
+	/**
+	 * Set the timeline position
+	 * @method _setTimelinePostion
+	 * @protected
+	 * @param {int} startFrame
+	 * @param {int} currentFrame
+	 * @param {Boolean} doActions
+	 */
 	p._setTimelinePosition = function(startFrame, currentFrame, doActions)
 	{
 		//handle all tweens

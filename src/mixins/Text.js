@@ -22,22 +22,22 @@
 	 * @param {String} align Either, center, right, left
 	 * @return {Text} For chaining
 	 */
-	p.setAlign = p.al = function(align)
-	{
-		this.style.align = align || "left";
-		var x = 0;
-		switch (align)
-		{
-			case "center":
-				x = 0.5;
-				break;
-			case "right":
-				x = 1;
-				break;
-		}
-		this.anchor.x = x;
-		return this;
-	};
+	// p.setAlign = p.al = function(align)
+	// {
+	// 	this.style.align = align || "left";
+	// 	var x = 0;
+	// 	switch (align)
+	// 	{
+	// 		case "center":
+	// 			x = 0.5;
+	// 			break;
+	// 		case "right":
+	// 			x = 1;
+	// 			break;
+	// 	}
+	// 	this.anchor.x = x;
+	// 	return this;
+	// };
 
 	/**
 	 * Initial setting of the drop shadow.
