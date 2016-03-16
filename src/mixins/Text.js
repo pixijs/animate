@@ -18,26 +18,79 @@
 	 */
 	/**
 	 * Shortcut for setAlign.
-	 * @method al
-	 * @param {String} align Either, center, right, left
+	 * @method g
+	 * @param {String|int} align Either, center (0), right (1), left (-1)
 	 * @return {Text} For chaining
 	 */
-	// p.setAlign = p.al = function(align)
-	// {
-	// 	this.style.align = align || "left";
-	// 	var x = 0;
-	// 	switch (align)
-	// 	{
-	// 		case "center":
-	// 			x = 0.5;
-	// 			break;
-	// 		case "right":
-	// 			x = 1;
-	// 			break;
-	// 	}
-	// 	this.anchor.x = x;
-	// 	return this;
-	// };
+	p.setAlign = p.g = function(align)
+	{
+		this.style.align = align || "left";
+		var x;
+		if (typeof align == "string")
+		{
+			switch (align)
+			{
+				case "center":
+					x = 0.5;
+					break;
+				case "right":
+					x = 1;
+					break;
+				case "left":
+					x = 0;
+					break;
+			}
+		}
+		else
+		{
+			x = (align + 1) / 2;
+		}
+		this.anchor.x = x;
+		return this;
+	};
+
+	// Map of short names to long names
+	var STYLE_PROPS = {
+		o: 'font',
+		i: 'fill',
+		a: 'align',
+		s: 'stroke',
+		t: 'strokeThickness',
+		w: 'wordWrap',
+		d: 'wordWrapWidth',
+		l: 'lineHeight',
+		h: 'dropShadow',
+		c: 'dropShadowColor',
+		n: 'dropShadowAngle',
+		b: 'dropShadowBlur',
+		p: 'padding',
+		x: 'textBaseline',
+		j: 'lineJoin',
+		m: 'miterLimit',
+		e: 'letterSpacing'
+	};
+
+	// Override the style to allow for shortened names
+	Object.defineProperty(p, 'style',
+	{
+		get: function()
+		{
+			return this._style;
+		},
+		set: function(style)
+		{
+			// Replace short STYLE_PROPS with long names
+			for (var k in stylePropsMap)
+			{
+				if (style[k] !== undefined)
+				{
+					style[STYLE_PROPS[k]] = style[k];
+					delete style[k];
+				}
+			}
+			Object.getOwnPropertyDescriptor(p, 'style').set.call(this, style);
+		}
+	});
 
 	/**
 	 * Initial setting of the drop shadow.
