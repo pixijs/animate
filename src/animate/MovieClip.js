@@ -21,8 +21,9 @@
 	 * @param {Boolean} [options.loop=true] If playback is looped
 	 * @param {Object} [options.labels] The frame labels map of label to frames
 	 * @param {int} [options.duration] The duration, if no duration is provided, auto determines length
+	 * @param {int} [options.framerate=24] The framerate to use for independent mode
 	 */
-	var MovieClip = function(options, duration, loop, labels)
+	var MovieClip = function(options, duration, loop, framerate, labels)
 	{
 		Container.call(this);
 
@@ -39,6 +40,7 @@
 				loop: loop === undefined ? true : loop,
 				labels: labels ||
 				{},
+				framerate: framerate || 0
 			};
 		}
 
@@ -50,7 +52,8 @@
 			loop: true,
 			labels:
 			{},
-			duration: 0
+			duration: 0,
+			framerate: 0
 		}, options);
 
 		/**
@@ -178,7 +181,7 @@
 		 * @type {Number}
 		 * @default 0
 		 **/
-		this._framerate = 0;
+		this._framerate = options.framerate;
 
 		/**
 		 * The total time in seconds for the animation. This is changed when setting the framerate.
@@ -232,6 +235,11 @@
 			this._onRemoved = this._onRemoved.bind(this);
 			this.on("added", this._onAdded);
 			this.on("removed", this._onRemoved);
+		}
+
+		if (options.framerate)
+		{
+			this.framerate = options.framerate;
 		}
 	};
 

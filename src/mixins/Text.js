@@ -85,7 +85,7 @@
 	p.setStyle = p.ss = function(style)
 	{
 		// Replace short STYLE_PROPS with long names
-		for (var k in stylePropsMap)
+		for (var k in STYLE_PROPS)
 		{
 			if (style[k] !== undefined)
 			{

@@ -34,6 +34,74 @@
  * @module PixiAnimate
  * @namespace PIXI.animate
  */
+(function(PIXI, undefined)
+{
+	/**
+	 * Load the stage class and preload any assets
+	 * @function load
+	 * @param {Function} StageClass Reference to the stage class
+	 * @param {Array} [StageClass.assets] Assets used to preload
+	 * @param {PIXI.Container|Function} parentOrComplete Either the container to add the stage to
+	 *        or the callback function when complete.
+	 * @param {Function} [complete] Function to call when complete
+	 */
+	var load = function(StageClass, parent, complete)
+	{
+		if (typeof parent == "function")
+		{
+			complete = parent;
+			parent = null;
+		}
+
+		var assets = StageClass.assets || [];
+		var loader = new PIXI.loaders.Loader();
+
+		function done()
+		{
+			var stage = new StageClass();
+			if (parent)
+			{
+				parent.addChild(stage);
+			}
+			if (complete)
+			{
+				complete(stage);
+			}
+		}
+
+		// Check for assets to preload
+		if (assets && assets.length)
+		{
+			for (var asset, i = 0; i < assets.length; i++)
+			{
+				asset = assets[i];
+				if (Array.isArray(asset))
+				{
+					loader.add.apply(loader, asset);
+				}
+				else
+				{
+					loader.add(asset);
+				}
+			}
+			loader.once('complete', done)
+				.load();
+		}
+		else
+		{
+			// tiny case where there's only text and no shapes/animations
+			done();
+		}
+	};
+
+	// Assign to namespace
+	PIXI.animate.load = load;
+
+}(PIXI));
+/**
+ * @module PixiAnimate
+ * @namespace PIXI.animate
+ */
 (function(PIXI)
 {
 	/**
@@ -582,8 +650,9 @@
 	 * @param {Boolean} [options.loop=true] If playback is looped
 	 * @param {Object} [options.labels] The frame labels map of label to frames
 	 * @param {int} [options.duration] The duration, if no duration is provided, auto determines length
+	 * @param {int} [options.framerate=24] The framerate to use for independent mode
 	 */
-	var MovieClip = function(options, duration, loop, labels)
+	var MovieClip = function(options, duration, loop, framerate, labels)
 	{
 		Container.call(this);
 
@@ -600,6 +669,7 @@
 				loop: loop === undefined ? true : loop,
 				labels: labels ||
 				{},
+				framerate: framerate || 0
 			};
 		}
 
@@ -611,7 +681,8 @@
 			loop: true,
 			labels:
 			{},
-			duration: 0
+			duration: 0,
+			framerate: 0
 		}, options);
 
 		/**
@@ -739,7 +810,7 @@
 		 * @type {Number}
 		 * @default 0
 		 **/
-		this._framerate = 0;
+		this._framerate = options.framerate;
 
 		/**
 		 * The total time in seconds for the animation. This is changed when setting the framerate.
@@ -793,6 +864,11 @@
 			this._onRemoved = this._onRemoved.bind(this);
 			this.on("added", this._onAdded);
 			this.on("removed", this._onRemoved);
+		}
+
+		if (options.framerate)
+		{
+			this.framerate = options.framerate;
 		}
 	};
 
@@ -2197,7 +2273,7 @@ if (typeof Object.assign != 'function')
 	p.setStyle = p.ss = function(style)
 	{
 		// Replace short STYLE_PROPS with long names
-		for (var k in stylePropsMap)
+		for (var k in STYLE_PROPS)
 		{
 			if (style[k] !== undefined)
 			{
