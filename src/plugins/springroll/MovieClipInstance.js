@@ -10,7 +10,7 @@
 	var GenericMovieClipInstance = include('springroll.GenericMovieClipInstance');
 
 	/**
-	 * The plugin for working with movieclip and animator
+	 * The SpringRoll plugin for working with MovieClips and SpringRoll's Animator
 	 * @class MovieClipInstance
 	 * @extends springroll.GenericMovieClipInstance
 	 * @private
