@@ -2129,7 +2129,7 @@ if (typeof Object.assign != 'function')
 	 * @return {Text} For chaining
 	 */
 	/**
-	 * Shortcut for setAlign.
+	 * Shortcut for `setAlign`.
 	 * @method g
 	 * @param {String|int} align Either, center (0), right (1), left (-1)
 	 * @return {Text} For chaining
@@ -2182,27 +2182,32 @@ if (typeof Object.assign != 'function')
 		e: 'letterSpacing'
 	};
 
-	// Override the style to allow for shortened names
-	Object.defineProperty(p, 'style',
+	/**
+	 * Set the style, a chainable version of style setter
+	 * @method setStyle
+	 * @param {Object} style
+	 * @return {PIXI.Text} instance of text field
+	 */
+	/**
+	 * Shortcut for `setStyle`.
+	 * @method ss
+	 * @param {Object} style
+	 * @return {PIXI.Text} instance of text field
+	 */
+	p.setStyle = p.ss = function(style)
 	{
-		get: function()
+		// Replace short STYLE_PROPS with long names
+		for (var k in stylePropsMap)
 		{
-			return this._style;
-		},
-		set: function(style)
-		{
-			// Replace short STYLE_PROPS with long names
-			for (var k in stylePropsMap)
+			if (style[k] !== undefined)
 			{
-				if (style[k] !== undefined)
-				{
-					style[STYLE_PROPS[k]] = style[k];
-					delete style[k];
-				}
+				style[STYLE_PROPS[k]] = style[k];
+				delete style[k];
 			}
-			Object.getOwnPropertyDescriptor(p, 'style').set.call(this, style);
 		}
-	});
+		this.style = style;
+		return this;
+	};
 
 	/**
 	 * Initial setting of the drop shadow.
