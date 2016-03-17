@@ -4,11 +4,11 @@ A library for bridging CreateJS animations from Flash for use in Pixi.js. Publis
 
 ## Examples
 
-* [Animation using all bitmaps](http://cloudkidstudio.github.io/pixi-animate/examples/animation/)
-* [Animation using all vectors](http://cloudkidstudio.github.io/pixi-animate/examples/shapes/)
-* [Masking](http://cloudkidstudio.github.io/pixi-animate/examples/masking/)
-* [Color Effects](http://cloudkidstudio.github.io/pixi-animate/examples/color_effects/)
-* [Text](http://cloudkidstudio.github.io/pixi-animate/examples/text/)
+* [Animation using all bitmaps](http://jiborobot.github.io/pixi-animate/examples/animation/)
+* [Animation using all vectors](http://jiborobot.github.io/pixi-animate/examples/shapes/)
+* [Masking](http://jiborobot.github.io/pixi-animate/examples/masking/)
+* [Color Effects](http://jiborobot.github.io/pixi-animate/examples/color_effects/)
+* [Text](http://jiborobot.github.io/pixi-animate/examples/text/)
 
 _Animated examples are from [Fizzy's Lunch Lab](http://pbskids.org/lunchlab/) and used with permission from Lunch Lab, LLC_
 
