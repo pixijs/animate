@@ -39,26 +39,55 @@
 	/**
 	 * Load the stage class and preload any assets
 	 * @function load
-	 * @param {Function} StageClass Reference to the stage class
-	 * @param {Array} [StageClass.assets] Assets used to preload
-	 * @param {PIXI.Container|Function} parentOrComplete Either the container to add the stage to
-	 *        or the callback function when complete.
+	 * @param {Function} StageRef Reference to the stage class
+	 * @param {Array} [StageRef.assets] Assets used to preload
+	 * @param {PIXI.Container} parent The Container to auto-add the stage to.
 	 * @param {Function} [complete] Function to call when complete
+	 * @param {String} [assetBaseDir] Base root directory
 	 */
-	var load = function(StageClass, parent, complete)
+	/**
+	 * Load the stage class and preload any assets
+	 * @function load
+	 * @param {Function} StageRef Reference to the stage class
+	 * @param {Array} [StageRef.assets] Assets used to preload
+	 * @param {PIXI.Container} parent The Container to auto-add the stage to.
+	 * @param {String} [assetBaseDir] Base root directory
+	 */
+	/**
+	 * Load the stage class and preload any assets
+	 * @function load
+	 * @param {Function} StageRef Reference to the stage class
+	 * @param {Array} [StageRef.assets] Assets used to preload
+	 * @param {Function} complete The callback function when complete.
+	 * @param {String} [assetBaseDir] Base root directory
+	 */
+	var load = function(StageRef, parent, complete, assetBaseDir)
 	{
+		// Support arguments (ref, complete, assetBaseDir)
 		if (typeof parent == "function")
 		{
+			assetBaseDir = complete;
 			complete = parent;
 			parent = null;
 		}
+		else
+		{
+			if (typeof complete == "string")
+			{
+				assetBaseDir = complete;
+				complete = null;
+			}
+		}
 
-		var assets = StageClass.assets || [];
+		// Root load directory
+		assetBaseDir = assetBaseDir || "";
+
+		var assets = StageRef.assets || [];
 		var loader = new PIXI.loaders.Loader();
 
 		function done()
 		{
-			var stage = new StageClass();
+			var stage = new StageRef();
 			if (parent)
 			{
 				parent.addChild(stage);
@@ -72,16 +101,19 @@
 		// Check for assets to preload
 		if (assets && assets.length)
 		{
+			// assetBaseDir can accept either with trailing slash or not
+			if (assetBaseDir) assetBaseDir += "/";
+
 			for (var asset, i = 0; i < assets.length; i++)
 			{
 				asset = assets[i];
 				if (Array.isArray(asset))
 				{
-					loader.add.apply(loader, asset);
+					loader.add(asset[0], assetBaseDir + asset[1]);
 				}
 				else
 				{
-					loader.add(asset);
+					loader.add(assetBaseDir + asset);
 				}
 			}
 			loader.once('complete', done)
