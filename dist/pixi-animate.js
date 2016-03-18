@@ -14,8 +14,12 @@
 	// Export for Node-compatible environments like Electron
 	if (typeof module !== 'undefined' && module.exports)
 	{
-		// Include the Pixi.js module
-		require('pixi.js');
+		// Attempt to require the pixi module
+		if (typeof PIXI === 'undefined')
+		{
+			// Include the Pixi.js module
+			require('pixi.js');
+		}
 
 		// Export the module
 		module.exports = animate;
