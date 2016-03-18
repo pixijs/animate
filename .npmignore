@@ -11,3 +11,6 @@ Gruntfile.js
 examples
 docs
 src
+node_modules
+components
+.grunt
