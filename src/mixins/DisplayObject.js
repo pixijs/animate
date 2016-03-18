@@ -63,6 +63,20 @@
 	 */
 	p.setMask = p.ma = function(mask)
 	{
+		// According to PIXI, only Graphics and Sprites can 
+		// be used as mask, let's ignore everything else, like other
+		// movieclips and displayobjects/containers
+		if (mask)
+		{
+			if (!(mask instanceof PIXI.Graphics) && !(mask instanceof PIXI.Sprite))
+			{
+				if (typeof console !== "undefined" && console.warn)
+				{
+					console.warn("Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.");
+				}
+				return;
+			}
+		}
 		this.mask = mask;
 		return this;
 	};

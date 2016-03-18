@@ -219,7 +219,7 @@
 				target.visible = value;
 				break;
 			case "m":
-				target.mask = value;
+				target.ma(value);
 				break;
 		}
 	}

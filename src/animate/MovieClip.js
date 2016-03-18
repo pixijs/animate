@@ -546,6 +546,35 @@
 	};
 
 	/**
+	 * Add mask or masks
+	 * @method addTimedMask
+	 * @param {PIXI.DisplayObject} instance Instance to mask
+	 * @param {Object} keyframes The map of frames to mask objects
+	 * @return {PIXI.animate.MovieClip} instance of clip for chaining
+	 */
+	/**
+	 * Shortcut alias for `addTimedMask`
+	 * @method am
+	 * @param {PIXI.DisplayObject} instance Instance to mask
+	 * @param {Object} keyframes The map of frames to mask objects
+	 * @return {PIXI.animate.MovieClip} instance of clip for chaining
+	 */
+	p.addTimedMask = p.am = function(instance, keyframes)
+	{
+		for (var i in keyframes)
+		{
+			this.addTween(instance,
+			{
+				m: keyframes[i]
+			}, parseInt(i, 10));
+		}
+
+		// Set the initial position/add
+		this._setTimelinePosition(this.currentFrame, this.currentFrame, true);
+		return this;
+	};
+
+	/**
 	 * Add a tween to the clip
 	 * @method addTween
 	 * @param {PIXI.DisplayObject} instance The clip to tween

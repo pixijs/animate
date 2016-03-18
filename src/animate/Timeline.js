@@ -110,8 +110,6 @@
 				return target.mask;
 				// case "t":
 				//   return target.tint;
-				// case "c": 
-				//   return target.colorTransform;
 				//not sure if we'll actually handle graphics this way?
 				//g: return null;
 		}
