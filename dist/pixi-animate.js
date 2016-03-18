@@ -8,7 +8,20 @@
 	// Check for window, fallback to global
 	var global = typeof window !== 'undefined' ? window : GLOBAL;
 
-	if (typeof PIXI === 'undefined')
+	// Define PIXI Flash namespace
+	var animate = {};
+
+	// Export for Node-compatible environments like Electron
+	if (typeof module !== 'undefined' && module.exports)
+	{
+		// Include the Pixi.js module
+		require('pixi.js');
+
+		// Export the module
+		module.exports = animate;
+	}
+	// If we're in the browser make sure PIXI is available 
+	else if (typeof PIXI === 'undefined')
 	{
 		if (true)
 		{
@@ -20,14 +33,8 @@
 		}
 	}
 
-	// Define PIXI Flash namespace
-	global.PIXI.animate = {};
-
-	// Export for Node-compatible
-	if (typeof module !== 'undefined' && module.exports)
-	{
-		module.exports = global.PIXI.animate;
-	}
+	// Assign to global namespace
+	global.PIXI.animate = animate;
 
 }());
 /**
@@ -36,6 +43,35 @@
  */
 (function(PIXI, undefined)
 {
+	/**
+	 * @class load
+	 * @description Entry point for loading Adobe Animate exports:
+	 * 
+	 * **Load and auto-add to parent**
+	 * ```
+	 * var renderer = new PIXI.autoDetectRenderer(1280, 720);
+	 * var stage = new PIXI.Container();
+	 * PIXI.animate.load(lib.MyStage, stage);
+	 * function update() {
+	 *      renderer.render(stage);
+	 *      update();
+	 * }
+	 * update();
+	 * ```
+	 * **Load and handle with callback**
+	 * ```
+	 * var renderer = new PIXI.autoDetectRenderer(1280, 720);
+	 * var stage = new PIXI.Container();
+	 * PIXI.animate.load(lib.MyStage, function(instance){
+	 *     stage.addChild(instance);
+	 * });
+	 * function update() {
+	 *      renderer.render(stage);
+	 *      update();
+	 * }
+	 * update();
+	 * ```
+	 */
 	/**
 	 * Load the stage class and preload any assets
 	 * @function load
@@ -747,7 +783,7 @@
 		 * @property currentFrame
 		 * @type Number
 		 * @default 0
-		 * @readonly
+		 * @readOnly
 		 */
 		this.currentFrame = 0;
 
@@ -855,12 +891,12 @@
 
 		/**
 		 * The total duration in frames for the animation.
-		 * @property _frameDuration
+		 * @property _totalFrames
 		 * @type Number
 		 * @default 0
 		 * @private
 		 */
-		this._frameDuration = options.duration;
+		this._totalFrames = options.duration;
 
 		/**
 		 * Standard tween timelines for all objects. Each element in the _timelines array
@@ -1021,55 +1057,73 @@
 	catch (e)
 	{}
 
-	/**
-	 * When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
-	 * @property elapsedTime
-	 * @type Number
-	 * @default 0
-	 * @public
-	 */
-	Object.defineProperty(p, 'elapsedTime',
+	Object.defineProperties(p,
 	{
-		get: function()
+		/**
+		 * When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
+		 * @property elapsedTime
+		 * @type Number
+		 * @default 0
+		 * @public
+		 */
+		elapsedTime:
 		{
-			return this._t;
-		},
-		set: function(value)
-		{
-			this._t = value;
-		}
-	});
-
-	/**
-	 * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
-	 * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
-	 * framerate.
-	 *
-	 * For example, if a MovieClip with a framerate of 10 is placed on a Stage being updated at 40fps, then the MovieClip will
-	 * advance roughly one frame every 4 ticks. This will not be exact, because the time between each tick will
-	 * vary slightly between frames.
-	 *
-	 * This feature is dependent on the tick event object (or an object with an appropriate "delta" property) being
-	 * passed into {{#crossLink "Stage/update"}}{{/crossLink}}.
-	 * @property framerate
-	 * @type {Number}
-	 * @default 0
-	 **/
-	Object.defineProperty(p, 'framerate',
-	{
-		get: function()
-		{
-			return this._framerate;
-		},
-		set: function(value)
-		{
-			if (value > 0)
+			get: function()
 			{
-				this._framerate = value;
-				this._duration = value ? this._frameDuration / value : 0;
+				return this._t;
+			},
+			set: function(value)
+			{
+				this._t = value;
 			}
-			else
-				this._framerate = this._duration = 0;
+		},
+
+		/**
+		 * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
+		 * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
+		 * framerate.
+		 *
+		 * For example, if a MovieClip with a framerate of 10 is placed on a Stage being updated at 40fps, then the MovieClip will
+		 * advance roughly one frame every 4 ticks. This will not be exact, because the time between each tick will
+		 * vary slightly between frames.
+		 *
+		 * This feature is dependent on the tick event object (or an object with an appropriate "delta" property) being
+		 * passed into {{#crossLink "Stage/update"}}{{/crossLink}}.
+		 * @property framerate
+		 * @type {Number}
+		 * @default 0
+		 **/
+		framerate:
+		{
+			get: function()
+			{
+				return this._framerate;
+			},
+			set: function(value)
+			{
+				if (value > 0)
+				{
+					this._framerate = value;
+					this._duration = value ? this._totalFrames / value : 0;
+				}
+				else
+					this._framerate = this._duration = 0;
+			}
+		},
+
+		/**
+		 * Get the total number of frames (duration) of this MovieClip
+		 * @property totalFrames
+		 * @type {Number}
+		 * @default 0
+		 * @readOnly
+		 **/
+		totalFrames:
+		{
+			get: function()
+			{
+				return this._totalFrames;
+			}
 		}
 	});
 
@@ -1238,8 +1292,8 @@
 		//2. create the tween segment, recording the starting values of properties and using the
 		//   supplied properties as the ending values
 		timeline.addTween(instance, properties, startFrame, duration, ease);
-		if (this._frameDuration < startFrame + duration)
-			this._frameDuration = startFrame + duration;
+		if (this._totalFrames < startFrame + duration)
+			this._totalFrames = startFrame + duration;
 		return this;
 	};
 
@@ -1262,7 +1316,7 @@
 		if (startFrame == null) // jshint ignore:line
 			startFrame = 0;
 		if (duration == null || duration < 1) // jshint ignore:line
-			duration = this._frameDuration || 1;
+			duration = this._totalFrames || 1;
 
 		// Add the starting offset for synced movie clips
 		if (instance.mode === MovieClip.SYNCHED)
@@ -1319,8 +1373,8 @@
 			for (i = startFrame; i < length; ++i)
 				timeline[i] = true;
 		}
-		if (this._frameDuration < startFrame + duration)
-			this._frameDuration = startFrame + duration;
+		if (this._totalFrames < startFrame + duration)
+			this._totalFrames = startFrame + duration;
 
 		// Add the collection of keyframes
 		this.addKeyframes(instance, keyframes);
@@ -1344,8 +1398,8 @@
 		//ensure that the movieclip timeline is long enough to support the target frame
 		if (actions.length <= startFrame)
 			actions.length = startFrame + 1;
-		if (this._frameDuration < startFrame)
-			this._frameDuration = startFrame;
+		if (this._totalFrames < startFrame)
+			this._totalFrames = startFrame;
 		//add the action
 		if (actions[startFrame])
 		{
@@ -1426,8 +1480,8 @@
 		//add a tiny amount to account for potential floating point errors
 		this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
 		//final error checking
-		if (this.currentFrame >= this._frameDuration)
-			this.currentFrame = this._frameDuration - 1;
+		if (this.currentFrame >= this._totalFrames)
+			this.currentFrame = this._totalFrames - 1;
 		//update all tweens & actions in the timeline
 		this._updateTimeline();
 	};
@@ -1480,8 +1534,8 @@
 		if (synched)
 		{
 			this.currentFrame = this.startPosition + (this.mode == MovieClip.SINGLE_FRAME ? 0 : this._synchOffset);
-			if (this.currentFrame >= this._frameDuration)
-				this.currentFrame %= this._frameDuration;
+			if (this.currentFrame >= this._totalFrames)
+				this.currentFrame %= this._totalFrames;
 		}
 
 		if (this._prevPos == this.currentFrame)

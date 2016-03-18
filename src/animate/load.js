@@ -4,35 +4,35 @@
  */
 (function(PIXI, undefined)
 {
-    /**
-     * @class load
-     * @description Entry point for loading Adobe Animate exports:
-     * 
-     * **Load and auto-add to parent**
-     * ```
-     * var renderer = new PIXI.autoDetectRenderer(1280, 720);
-     * var stage = new PIXI.Container();
-     * PIXI.animate.load(lib.MyStage, stage);
-     * function update() {
-     *      renderer.render(stage);
-     *      update();
-     * }
-     * update();
-     * ```
-     * **Load and handle with callback**
-     * ```
-     * var renderer = new PIXI.autoDetectRenderer(1280, 720);
-     * var stage = new PIXI.Container();
-     * PIXI.animate.load(lib.MyStage, function(instance){
-     *     stage.addChild(instance);
-     * });
-     * function update() {
-     *      renderer.render(stage);
-     *      update();
-     * }
-     * update();
-     * ```
-     */
+	/**
+	 * @class load
+	 * @description Entry point for loading Adobe Animate exports:
+	 * 
+	 * **Load and auto-add to parent**
+	 * ```
+	 * var renderer = new PIXI.autoDetectRenderer(1280, 720);
+	 * var stage = new PIXI.Container();
+	 * PIXI.animate.load(lib.MyStage, stage);
+	 * function update() {
+	 *      renderer.render(stage);
+	 *      update();
+	 * }
+	 * update();
+	 * ```
+	 * **Load and handle with callback**
+	 * ```
+	 * var renderer = new PIXI.autoDetectRenderer(1280, 720);
+	 * var stage = new PIXI.Container();
+	 * PIXI.animate.load(lib.MyStage, function(instance){
+	 *     stage.addChild(instance);
+	 * });
+	 * function update() {
+	 *      renderer.render(stage);
+	 *      update();
+	 * }
+	 * update();
+	 * ```
+	 */
 	/**
 	 * Load the stage class and preload any assets
 	 * @function load
