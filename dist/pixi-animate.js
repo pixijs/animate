@@ -727,14 +727,14 @@
 		Container.call(this);
 
 		// Default options
-		options = options ||
-		{};
+		options = options === undefined ?
+		{} : options;
 
 		// Options can also be the mode
 		if (typeof options == "number")
 		{
 			options = {
-				mode: options,
+				mode: options || MovieClip.INDEPENDENT,
 				duration: duration || 0,
 				loop: loop === undefined ? true : loop,
 				labels: labels ||
@@ -742,18 +742,20 @@
 				framerate: framerate || 0
 			};
 		}
-
-		// Apply defaults to options
-		options = Object.assign(
+		else
 		{
-			mode: MovieClip.INDEPENDENT,
-			startPosition: 0,
-			loop: true,
-			labels:
-			{},
-			duration: 0,
-			framerate: 0
-		}, options);
+			// Apply defaults to options
+			options = Object.assign(
+			{
+				mode: MovieClip.INDEPENDENT,
+				startPosition: 0,
+				loop: true,
+				labels:
+				{},
+				duration: 0,
+				framerate: 0
+			}, options);
+		}
 
 		/**
 		 * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
