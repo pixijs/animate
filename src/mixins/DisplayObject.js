@@ -164,17 +164,20 @@
 	 * The current default color transforming filters
 	 * @property {PIXI.filters.ColorMatrixFilter} colorTransformFilter
 	 */
-	Object.defineProperty(p, 'colorTransformFilter',
+	if (!p.hasOwnProperty('colorTransformFilter'))
 	{
-		set: function(filter)
+		Object.defineProperty(p, 'colorTransformFilter',
 		{
-			this._colorTransformFilter = filter;
-		},
-		get: function()
-		{
-			return this._colorTransformFilter || new ColorMatrixFilter();
-		}
-	});
+			set: function(filter)
+			{
+				this._colorTransformFilter = filter;
+			},
+			get: function()
+			{
+				return this._colorTransformFilter || new ColorMatrixFilter();
+			}
+		});
+	}
 
 	/**
 	 * Extend a container
