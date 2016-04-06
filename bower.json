@@ -1,13 +1,11 @@
 {
 	"name": "pixi-animate",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"main": "dist/pixi-animate.min.js",
-	"dependencies":
-	{
+	"dependencies": {
 		"pixi.js": "^3.0.9"
 	},
-	"devDependencies":
-	{
+	"devDependencies": {
 		"qunit": "*",
 		"google-code-prettify": "*",
 		"bind-polyfill": "*"
