@@ -4,6 +4,9 @@
  */
 (function(PIXI)
 {
+	// Import classes
+	var ColorUtils = PIXI.animate.ColorUtils;
+
 	/**
 	 * Contains the collection of graphics data
 	 * @class ShapesCache
@@ -28,7 +31,7 @@
 				var arg = draw[d];
 				if (typeof arg == "string" && arg[0] == "#")
 				{
-					draw[d] = parseInt(arg.substr(1), 16);
+					draw[d] = ColorUtils.hexToUint(arg);
 				}
 			}
 			ShapesCache[prop] = draw;

@@ -7,6 +7,7 @@
 	"main": [
 		"src/animate/main.js",
 		"src/animate/load.js",
+		"src/animate/ColorUtils.js",
 		"src/animate/ShapesCache.js",
 		"src/animate/SymbolLoader.js",
 		"src/animate/Tween.js",

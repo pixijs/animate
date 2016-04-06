@@ -8,6 +8,7 @@
 	var DisplayObject = PIXI.DisplayObject;
 	var Timeline = PIXI.animate.Timeline;
 	var Tween = PIXI.animate.Tween;
+	var ColorUtils = PIXI.animate.ColorUtils;
 	var SharedTicker = PIXI.ticker.shared;
 
 	/**
@@ -616,7 +617,7 @@
 		// Convert any string colors to uints
 		if (typeof properties.t == "string")
 		{
-			properties.t = parseInt(properties.t.substr(1), 16);
+			properties.t = ColorUtils.hexToUint(properties.t);
 		}
 		else if (typeof properties.v == "number")
 		{
