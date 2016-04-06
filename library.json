@@ -15,7 +15,8 @@
 		"src/animate/MovieClip.js",
 		"src/mixins/*.js"
 	],
-	"modules": {
+	"modules":
+	{
 		"springroll": [
 			"src/plugins/springroll/FlashArt.js",
 			"src/plugins/springroll/FlashArtTask.js",

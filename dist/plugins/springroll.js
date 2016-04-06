@@ -1,4 +1,4 @@
-/*! PixiAnimate 0.3.2 */
+/*! PixiAnimate 0.3.3 */
 /**
  * @module SpringRoll Plugin
  * @namespace PIXI.animate
