@@ -11,13 +11,13 @@ export default class ColorUtils
      * @private
      * @method hexToUint
      */
-    static hexToUint(hex)
+    static hexToUint(hex: string): number
     {
         // Remove the hash
         hex = hex.substr(1);
 
         // Convert shortcolors fc9 to ffcc99
-        if (hex.length == 3)
+        if (hex.length === 3)
         {
             hex = hex.replace(/([a-f0-9])/g, '$1$1');
         }

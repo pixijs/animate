@@ -1,7 +1,5 @@
+/// <reference path="../typings/main.d.ts" />
 import animate from './animate';
-
-// Check for window, fallback to global
-const global = typeof window !== 'undefined' ? window : GLOBAL;
 
 require('./mixins');
 
@@ -21,13 +19,8 @@ if (typeof module !== 'undefined' && module.exports)
 // If we're in the browser make sure PIXI is available 
 else if (typeof PIXI === 'undefined')
 {
-    // @if DEBUG
-    throw "PixiAnimate requires PIXI to be loaded before PixiAnimate is loaded!";
-    // @endif
-    // @if RELEASE
-    throw "Requires PIXI"; // eslint-disable-line no-unreachable
-    // @endif
+    throw "Requires PIXI";
 }
 
 // Assign to global namespace
-global.PIXI.animate = animate;
+(<any>PIXI).animate = animate;
