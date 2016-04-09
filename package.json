@@ -11,7 +11,8 @@
 	{
 		"grunt": "~0.4.5",
 		"grunt-jsbeautifier": "^0.2.10",
-		"library-grunt": "~0.6.0"
+		"library-grunt": "~0.6.0",
+        "yuidoc-bootstrap-theme": "^1.0.6"
 	},
 	"repository":
 	{
