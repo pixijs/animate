@@ -1,39 +1,34 @@
 {
-	"name": "pixi-animate",
-	"version": "0.3.4",
-	"main": "dist/pixi-animate.min.js",
-	"author": "Matt Karl <matt.karl@jibo.com>",
-	"dependencies":
-	{
-		"pixi.js": "https://github.com/jiborobot/pixi.js.git#dev"
-	},
-	"devDependencies":
-	{
-		"grunt": "~0.4.5",
-		"grunt-jsbeautifier": "^0.2.10",
-		"library-grunt": "~0.6.0",
-        "yuidoc-bootstrap-theme": "^1.0.6"
-	},
-	"repository":
-	{
-		"type": "git",
-		"url": "https://github.jibo.com/sdk/pixi-animate"
-	},
-	"bugs":
-	{
-		"url": "https://github.com/jiborobot/pixi-animate/issues"
-	},
-	"scripts":
-	{
-		"test": "grunt default --verbose"
-	},
-	"keywords": [
-		"webgl",
-		"pixi",
-		"pixi.js",
-		"Flash",
-		"Animate CC",
-		"animation"
-	],
-	"license": "MIT"
+  "name": "pixi-animate",
+  "description": "PIXI plugin for the PixiAnimate Extension",
+  "version": "0.3.4",
+  "main": "dist/pixi-animate.js",
+  "author": "Matt Karl <matt.karl@jibo.com>",
+  "dependencies": {
+    "pixi.js": "https://github.com/pixijs/pixi.js.git#dev"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "jibo-gulp": "^1.7.0",
+    "yuidoc-bootstrap-theme": "^1.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.jibo.com/sdk/pixi-animate"
+  },
+  "bugs": {
+    "url": "https://github.com/jiborobot/pixi-animate/issues"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "keywords": [
+    "webgl",
+    "pixi",
+    "pixi.js",
+    "Flash",
+    "Animate CC",
+    "animation"
+  ],
+  "license": "MIT"
 }

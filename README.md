@@ -1,16 +1,6 @@
 # PIXI Animate
 
-A library for bridging CreateJS animations from Flash for use in Pixi.js. Publish Flash content like you normally would for CreateJS (with an HTML5 Canvas document), but export for Pixi.js instead. While there are some [known issues](https://github.com/jiborobot/pixi-animate#known-issues) with this approach, it produces fast animation playback for WebGL and is superior to using Flash's WebGL document.
-
-## Examples
-
-* [Animation using all bitmaps](http://jiborobot.github.io/pixi-animate/examples/animation/)
-* [Animation using all vectors](http://jiborobot.github.io/pixi-animate/examples/shapes/)
-* [Masking](http://jiborobot.github.io/pixi-animate/examples/masking/)
-* [Color Effects](http://jiborobot.github.io/pixi-animate/examples/color_effects/)
-* [Text](http://jiborobot.github.io/pixi-animate/examples/text/)
-
-_Animated examples are from [Fizzy's Lunch Lab](http://pbskids.org/lunchlab/) and used with permission from Lunch Lab, LLC_
+A plugin for Pixi.js which provides a runtime for content export using PixiAnimate Extension. 
 
 ## Running Content
 
@@ -29,39 +19,7 @@ npm install pixi-animate
 
 ### Dependencies
 
-* [Pixi.js](http://pixijs.com) is required
-
-### Usage
-
-Here's a example using PIXI where the images were assembled using TexturePacker. See the **example** folder for an example which uses the Flash SpriteSheet exporting.
-
-```js
-var renderer = new PIXI.autoDetectRenderer(800, 500);
-var stage = new PIXI.Container();
-
-// Load the atlas for the character
-var loader = new PIXI.loaders.Loader()
-	// This atlas is created with TexturePacker from the 
-	// output individual images from Flash publishing
-	.add('CharacterAtlas',"CharacterAtlas.json");
-	.once('complete',function(loader, resources)
-	{
-		// Create the character, all library symbols live
-		// on the lib window object
-		var character = new lib.Character();
-		character.play();
-
-		// Add to stage
-		stage.addChild(character);
-	})
-	.load();
-update();
-function update()
-{
-    requestAnimationFrame(update);
-    renderer.render(stage);
-}
-```
+* [Pixi.js v4](http://pixijs.com) is required
 
 ##Documentation
 

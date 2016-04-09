@@ -4,7 +4,7 @@
 	"main": "dist/pixi-animate.min.js",
 	"dependencies":
 	{
-		"pixi.js": "^3.0.9"
+		"pixi.js": "^4.0.0"
 	},
 	"devDependencies":
 	{
@@ -13,19 +13,14 @@
 		"bind-polyfill": "*"
 	},
 	"ignore": [
-		"Gruntfile.js",
-		"tasks",
-		"examples",
+		"gulpfile.js",
 		"docs",
 		"src",
 		"test",
-		".jsbeautifyrc",
-		".bowerrc",
 		".editorconfig",
 		".npmignore",
 		".travis.yml",
 		".gitattributes",
-		"library.json",
 		"package.json",
 		".gitignore"
 	]
