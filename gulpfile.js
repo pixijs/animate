@@ -58,17 +58,9 @@ const plugins = {
     del: require('del'),
     ghPages: require('gulp-gh-pages'),
     yuidoc: require('gulp-yuidoc'),
-    errors: require('./tasks/common/errors'),
     bundler: require('./tasks/common/bundler'),
-    pkg: pkg,
-    header: function()
-    {
-        var fs = require('fs');
-        var header = require('gulp-header');
-        return header(fs.readFileSync('header.txt', 'utf8'), {
-            pkg: pkg 
-        });
-    },
+    header: require('gulp-header'),
+    fs: require('fs')
 };
 
 require('load-gulp-tasks')(gulp, options, plugins);

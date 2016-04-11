@@ -1,6 +1,15 @@
 "use strict";
 
 module.exports = function(gulp, options, plugins, debug) {
+
+    function header() {
+        return plugins.header(
+            plugins.fs.readFileSync(__dirname + '/header.txt', 'utf8'), {
+                pkg: options.pkg 
+            }
+        );
+    }
+
     return function(done) {
         var bundler = plugins.browserify({
             entries: options.argv.app || options.app,
@@ -18,7 +27,14 @@ module.exports = function(gulp, options, plugins, debug) {
                 sourceMaps: true
             }))
             .bundle()
-            .on('error', plugins.errors(plugins, done));
+            .on('error', function(err) {
+                let error = plugins.chalk.red;
+                let stack = String(err.stack);
+                stack = stack.substr(stack.indexOf('\n') + 1);
+                console.error(error.bold(err));
+                console.error(error(stack));
+                done();
+            });
 
         if (debug)
         {
@@ -39,7 +55,7 @@ module.exports = function(gulp, options, plugins, debug) {
             stream = stream.pipe(plugins.uglify());
         }
         return stream
-            .pipe(plugins.header())
+            .pipe(header())
             .pipe(gulp.dest(options.dest));
     }
 };
