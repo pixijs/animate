@@ -1,15 +1,11 @@
-/**
- * @module PixiAnimate
- * @namespace PIXI.animate
- */
-
 import ColorUtils from './ColorUtils';
 
 /**
  * Contains the collection of graphics data
+ * @namespace PIXI.animate
  * @class ShapesCache
  */
-var ShapesCache = {};
+const ShapesCache = {};
 
 /**
  * Add an item or itesm to the cache
@@ -18,22 +14,18 @@ var ShapesCache = {};
  * @param {String} prop  The id of graphic
  * @param {Array} [value] If adding a single property, the draw commands
  */
-Object.defineProperty(ShapesCache, "add",
-{
-	enumerable: false,
-	value: function(prop, draw)
-	{
-		// Convert all hex string colors (animate) to int (pixi.js)
-		for (var d in draw)
-		{
-			var arg = draw[d];
-			if (typeof arg == "string" && arg[0] == "#")
-			{
-				draw[d] = ColorUtils.hexToUint(arg);
-			}
-		}
-		ShapesCache[prop] = draw;
-	}
+Object.defineProperty(ShapesCache, 'add', {
+    enumerable: false,
+    value: function(prop, draw) {
+        // Convert all hex string colors (animate) to int (pixi.js)
+        for (let d in draw) {
+            let arg = draw[d];
+            if (typeof arg === 'string' && arg[0] === '#') {
+                draw[d] = ColorUtils.hexToUint(arg);
+            }
+        }
+        ShapesCache[prop] = draw;
+    }
 });
 
 /**
@@ -42,30 +34,25 @@ Object.defineProperty(ShapesCache, "add",
  * @static
  * @param  {String} str The string to decode
  */
-Object.defineProperty(ShapesCache, "decode",
-{
-	enumerable: false,
-	value: function(str)
-	{
-		// each shape is a new line
-		var shapes = str.split("\n");
-		var isCommand = /^[a-z]{1,2}$/;
-		for (var i = 0; i < shapes.length; i++)
-		{
-			var shape = shapes[i].split(" "); // arguments are space separated
-			var name = shape.shift(); // first argument is the ID
-			for (var j = 0; j < shape.length; j++)
-			{
-				// Convert all numbers to floats, ignore colors
-				var arg = shape[j];
-				if (arg[0] != "#" && !isCommand.test(arg))
-				{
-					shape[j] = parseFloat(arg);
-				}
-			}
-			this.add(name, shape);
-		}
-	}
+Object.defineProperty(ShapesCache, 'decode', {
+    enumerable: false,
+    value: function(str) {
+        // each shape is a new line
+        let shapes = str.split("\n");
+        let isCommand = /^[a-z]{1,2}$/;
+        for (let i = 0; i < shapes.length; i++) {
+            let shape = shapes[i].split(' '); // arguments are space separated
+            let name = shape.shift(); // first argument is the ID
+            for (let j = 0; j < shape.length; j++) {
+                // Convert all numbers to floats, ignore colors
+                let arg = shape[j];
+                if (arg[0] !== '#' && !isCommand.test(arg)) {
+                    shape[j] = parseFloat(arg);
+                }
+            }
+            this.add(name, shape);
+        }
+    }
 });
 
 /**
@@ -75,13 +62,11 @@ Object.defineProperty(ShapesCache, "decode",
  * @param  {String} id The cache id
  * @return {Array} Series of graphic draw commands
  */
-Object.defineProperty(ShapesCache, "fromCache",
-{
-	enumerable: false,
-	value: function(id)
-	{
-		return ShapesCache[id] || null;
-	}
+Object.defineProperty(ShapesCache, 'fromCache', {
+    enumerable: false,
+    value: function(id) {
+        return ShapesCache[id] || null;
+    }
 });
 
 /**
@@ -90,17 +75,14 @@ Object.defineProperty(ShapesCache, "fromCache",
  * @static
  * @param  {String} id The cache id
  */
-Object.defineProperty(ShapesCache, "remove",
-{
-	enumerable: false,
-	value: function(id)
-	{
-		if (ShapesCache[id])
-		{
-			ShapesCache[id].length = 0;
-			delete ShapesCache[id];
-		}
-	}
+Object.defineProperty(ShapesCache, 'remove', {
+    enumerable: false,
+    value: function(id) {
+        if (ShapesCache[id]) {
+            ShapesCache[id].length = 0;
+            delete ShapesCache[id];
+        }
+    }
 });
 
 /**
@@ -108,16 +90,13 @@ Object.defineProperty(ShapesCache, "remove",
  * @method  removeAll
  * @static
  */
-Object.defineProperty(ShapesCache, "removeAll",
-{
-	enumerable: false,
-	value: function()
-	{
-		for (var id in ShapesCache)
-		{
-			ShapesCache.remove(id);
-		}
-	}
+Object.defineProperty(ShapesCache, 'removeAll', {
+    enumerable: false,
+    value: function() {
+        for (let id in ShapesCache) {
+            ShapesCache.remove(id);
+        }
+    }
 });
 
 // Assign to namespace

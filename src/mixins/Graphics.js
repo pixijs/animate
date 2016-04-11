@@ -1,8 +1,5 @@
 /**
-* @module PixiAnimate
-* @namespace PIXI
-*/
-/**
+ * @namespace PIXI
  * @class Graphics
  */
 var p = PIXI.Graphics.prototype;
@@ -11,52 +8,46 @@ var p = PIXI.Graphics.prototype;
  * Shortcut for drawCommands.
  * @method d
  * @param  {Array} commands The commands and parameters to draw
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
 /**
  * Execute a series of commands, this is the name of the short function
  * followed by the parameters, e.g., `["f", "#ff0000", "r", 0, 0, 100, 200]`
  * @method drawCommands
  * @param  {Array} commands The commands and parameters to draw
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
-p.drawCommands = p.d = function(commands)
-{
-	var currentCommand, params = [],
-		i = 0;
+p.drawCommands = p.d = function(commands) {
+    var currentCommand, params = [],
+        i = 0;
 
-	while (i <= commands.length)
-	{
-		var item = commands[i++];
-		if (item === undefined || this[item])
-		{
-			if (currentCommand)
-			{
-				this[currentCommand].apply(this, params);
-				params.length = 0;
-			}
-			currentCommand = item;
-		}
-		else
-		{
-			params.push(item);
-		}
-	}
-	return this;
+    while (i <= commands.length) {
+        var item = commands[i++];
+        if (item === undefined || this[item]) {
+            if (currentCommand) {
+                this[currentCommand].apply(this, params);
+                params.length = 0;
+            }
+            currentCommand = item;
+        } else {
+            params.push(item);
+        }
+    }
+    return this;
 };
 
 /**
  * Closes the current path, effectively drawing a line from the current drawing point to the first drawing point specified
  * since the fill or stroke was last set.
  * @method c
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.c = p.closePath;
 
 /**
  * Alias for addHole
  * @method h
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.h = p.addHole;
 
@@ -65,7 +56,7 @@ p.h = p.addHole;
  * @method m
  * @param {Number} x The x coordinate the drawing point should move to.
  * @param {Number} y The y coordinate the drawing point should move to.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls).
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls).
  **/
 p.m = p.moveTo;
 
@@ -74,7 +65,7 @@ p.m = p.moveTo;
  * @method l
  * @param {Number} x The x coordinate the drawing point should draw to.
  * @param {Number} y The y coordinate the drawing point should draw to.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.l = p.lineTo;
 
@@ -87,7 +78,7 @@ p.l = p.lineTo;
  * @param {Number} cpy
  * @param {Number} x
  * @param {Number} y
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.q = p.quadraticCurveTo;
 
@@ -100,7 +91,7 @@ p.q = p.quadraticCurveTo;
  * @param {Number} cp2y
  * @param {Number} x
  * @param {Number} y
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.b = p.bezierCurveTo;
 
@@ -110,7 +101,7 @@ p.b = p.bezierCurveTo;
  * @param {Uint} color The hex color value (e.g. 0xFFFFFF)
  * null will result in no fill.
  * @param {Number} [alpha=1] The alpha value of fill
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.f = p.beginFill;
 
@@ -121,7 +112,7 @@ p.f = p.beginFill;
  * null will result in no stroke.
  * @param {Number} [thickness=1] The thickness of the stroke
  * @param {Number} [alpha=1] The alpha value from 0 (invisibile) to 1 (visible)
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.s = p.lineStyle;
 
@@ -132,7 +123,7 @@ p.s = p.lineStyle;
  * @param {Number} y
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 /**
  * Shortcut to drawRect.
@@ -141,7 +132,7 @@ p.s = p.lineStyle;
  * @param {Number} y
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.dr = p.drawRect;
 
@@ -153,7 +144,7 @@ p.dr = p.drawRect;
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
  * @param {Number} radius The corner radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rr = p.drawRoundedRect;
 
@@ -168,7 +159,7 @@ p.rr = p.drawRoundedRect;
  * @param {Number} radiusTR The top right corner radius
  * @param {Number} radiusBR The bottom right corner radius
  * @param {Number} radiusBL The bottom left corner radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rc = p.drawRoundedRect;
 
@@ -178,7 +169,7 @@ p.rc = p.drawRoundedRect;
  * @param {Number} x x coordinate center point of circle.
  * @param {Number} y y coordinate center point of circle.
  * @param {Number} radius Radius of circle.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.dc = p.drawCircle;
 
@@ -191,7 +182,7 @@ p.dc = p.drawCircle;
  * @param {Number} startAngle Measured in radians.
  * @param {Number} endAngle Measured in radians.
  * @param {Boolean} anticlockwise
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.ar = p.arc;
 
@@ -203,7 +194,7 @@ p.ar = p.arc;
  * @param {Number} x2
  * @param {Number} y2
  * @param {Number} radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.at = p.arcTo;
 
@@ -222,14 +213,13 @@ p.de = p.drawEllipse;
  * so we just pick the first color in colorArray
  * @method lf
  * @param {Array} colorArray An array of CSS compatible color values @see `f`
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.lf = function(colorArray)
-{
-	// @if DEBUG
-	console.warn("Linear gradient fills are not supported");
-	// @endif
-	return this.f(colorArray[0]);
+p.lf = function(colorArray) {
+    // @if DEBUG
+    console.warn("Linear gradient fills are not supported");
+    // @endif
+    return this.f(colorArray[0]);
 };
 
 /**
@@ -237,80 +227,71 @@ p.lf = function(colorArray)
  * so we just pick the first color in colorArray
  * @method rf
  * @param {Array} colorArray An array of CSS compatible color values @see `f`
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.rf = function(colorArray)
-{
-	// @if DEBUG
-	console.warn("Radial gradient fills are not supported");
-	// @endif
-	return this.f(colorArray[0]);
+p.rf = function(colorArray) {
+    // @if DEBUG
+    console.warn("Radial gradient fills are not supported");
+    // @endif
+    return this.f(colorArray[0]);
 };
 
 /**
  * Placeholder method for a beginBitmapFill. Pixi does not support bitmap fills.
  * @method bf
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.bf = function()
-{
-	// @if DEBUG
-	console.warn("Bitmap fills are not supported");
-	// @endif
-	return this.f(0x0);
+p.bf = function() {
+    // @if DEBUG
+    console.warn("Bitmap fills are not supported");
+    // @endif
+    return this.f(0x0);
 };
 
 /**
  * Placeholder method for a setStrokeDash. Pixi does not support dashed strokes.
  * @method sd
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.sd = function()
-{
-	// @if DEBUG
-	console.warn("Dashed strokes are not supported");
-	// @endif
-	return this;
+p.sd = function() {
+    // @if DEBUG
+    console.warn("Dashed strokes are not supported");
+    // @endif
+    return this;
 };
 
 /**
  * Placeholder method for a beginBitmapStroke. Pixi does not support bitmap strokes.
  * @method bs
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.bs = function()
-{
-	// @if DEBUG
-	console.warn("Bitmap strokes are not supported");
-	// @endif
-	return this;
+p.bs = function() {
+    // @if DEBUG
+    console.warn("Bitmap strokes are not supported");
+    // @endif
+    return this;
 };
 
 /**
  * Placeholder method for a beginLinearGradientStroke. Pixi does not support gradient strokes.
  * @method ls
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.ls = function()
-{
-	// @if DEBUG
-	console.warn("Linear gradient strokes are not supported");
-	// @endif
-	return this;
+p.ls = function() {
+    // @if DEBUG
+    console.warn("Linear gradient strokes are not supported");
+    // @endif
+    return this;
 };
 
 /**
  * Placeholder method for a beginRadialGradientStroke. Pixi does not support gradient strokes.
  * @method rs
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
-p.rs = function()
-{
-	// @if DEBUG
-	console.warn("Radial gradient strokes are not supported");
-	// @endif
-	return this;
+p.rs = function() {
+    // @if DEBUG
+    console.warn("Radial gradient strokes are not supported");
+    // @endif
+    return this;
 };
-
-
-export default PIXI.Graphics;

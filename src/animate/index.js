@@ -13,5 +13,5 @@ export default {
     ShapesCache,
     SymbolLoader,
     Timeline,
-    Tween 
+    Tween
 };
