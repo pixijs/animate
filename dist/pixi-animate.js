@@ -8,7 +8,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -16,42 +16,39 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @module PixiAnimate
  * @namespace PIXI.animate
- */
-/**
  * @class ColorUtils
  * @private
  * @description For converting colors
  */
 
 var ColorUtils = function () {
-  function ColorUtils() {
-    _classCallCheck(this, ColorUtils);
-  }
-
-  _createClass(ColorUtils, null, [{
-    key: 'hexToUint',
-
-    /**
-     * Convert the Hexidecimal string (e.g., "#fff") to uint
-     * @static
-     * @private
-     * @method hexToUint
-     */
-    value: function hexToUint(hex) {
-      // Remove the hash
-      hex = hex.substr(1);
-
-      // Convert shortcolors fc9 to ffcc99
-      if (hex.length === 3) {
-        hex = hex.replace(/([a-f0-9])/g, '$1$1');
-      }
-      return parseInt(hex, 16);
+    function ColorUtils() {
+        _classCallCheck(this, ColorUtils);
     }
-  }]);
 
-  return ColorUtils;
+    _createClass(ColorUtils, null, [{
+        key: 'hexToUint',
+
+        /**
+         * Convert the Hexidecimal string (e.g., "#fff") to uint
+         * @static
+         * @private
+         * @method hexToUint
+         */
+        value: function hexToUint(hex) {
+            // Remove the hash
+            hex = hex.substr(1);
+
+            // Convert shortcolors fc9 to ffcc99
+            if (hex.length === 3) {
+                hex = hex.replace(/([a-f0-9])/g, '$1$1');
+            }
+            return parseInt(hex, 16);
+        }
+    }]);
+
+    return ColorUtils;
 }();
 
 exports.default = ColorUtils;
@@ -81,17 +78,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @module PixiAnimate
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @namespace PIXI.animate
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Container = PIXI.Container;
 var SharedTicker = PIXI.ticker.shared;
 
 /**
  * Provide timeline playback of movieclip
+ * @namespace PIXI.animate
  * @class MovieClip
  * @extends PIXI.Container
  * @constructor
@@ -498,7 +492,7 @@ var MovieClip = function (_Container) {
         /**
          * Alias for method `addTween`
          * @method tw
-         * @return {MovieClip}
+         * @return {PIXI.animate.MovieClip}
          */
 
     }, {
@@ -516,7 +510,7 @@ var MovieClip = function (_Container) {
          * @param {int} [duration=0] Number of frames to tween. If 0, then the properties are set
          *                           with no tweening.
          * @param {Function} [ease] An optional easing function that takes the tween time from 0-1.
-         * @return {MovieClip}
+         * @return {PIXI.animate.MovieClip}
          */
 
     }, {
@@ -558,7 +552,7 @@ var MovieClip = function (_Container) {
         /**
          * Alias for method `addTimedChild`
          * @method at
-         * @return {MovieClip}
+         * @return {PIXI.animate.MovieClip}
          */
 
     }, {
@@ -574,7 +568,7 @@ var MovieClip = function (_Container) {
          * @param {int} startFrame The starting frame
          * @param {int} [duration=1] The number of frames to display the child before removing it.
          * @param {String|Array} [keyframes] The collection of static keyframes to add
-         * @return {MovieClip}
+         * @return {PIXI.animate.MovieClip}
          */
 
     }, {
@@ -657,7 +651,7 @@ var MovieClip = function (_Container) {
          * @method addAction
          * @param {Function} callback The clip call on a certain frame
          * @param {int} startFrame The starting frame
-         * @return {MovieClip}
+         * @return {PIXI.animate.MovieClip}
          */
 
     }, {
@@ -1064,8 +1058,15 @@ MovieClip.SYNCHED = 2;
  * Extend a container
  * @method extend
  * @static
- * @param {MovieClip} child The child function
- * @return {MovieClip} THe child
+ * @param {PIXI.animate.MovieClip} child The child function
+ * @return {PIXI.animate.MovieClip} The child
+ */
+/**
+ * Extend a container (alias for extend)
+ * @method e
+ * @static
+ * @param {PIXI.animate.MovieClip} child The child function
+ * @return {PIXI.animate.MovieClip} The child
  */
 MovieClip.extend = MovieClip.e = function (child) {
     child.prototype = Object.create(MovieClip.prototype);
@@ -1092,6 +1093,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Contains the collection of graphics data
+ * @namespace PIXI.animate
  * @class ShapesCache
  */
 var ShapesCache = {};
@@ -1103,11 +1105,6 @@ var ShapesCache = {};
  * @param {String} prop  The id of graphic
  * @param {Array} [value] If adding a single property, the draw commands
  */
-/**
- * @module PixiAnimate
- * @namespace PIXI.animate
- */
-
 Object.defineProperty(ShapesCache, 'add', {
     enumerable: false,
     value: function value(prop, draw) {
@@ -1212,6 +1209,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * The middleware for PIXI's ResourceLoader to be able to 
  * load Flash symbols such as graphics and images.
+ * @namespace PIXI.animate
  * @class SymbolLoader
  */
 var SymbolLoader = function SymbolLoader() {
@@ -1235,10 +1233,6 @@ var SymbolLoader = function SymbolLoader() {
 };
 
 // Assign to the loader
-/**
- * @module PixiAnimate
- * @namespace PIXI.animate
- */
 PIXI.loaders.Loader.addPixiMiddleware(SymbolLoader);
 
 exports.default = SymbolLoader;
@@ -1258,6 +1252,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * The Timeline class represents a
+ * @namespace PIXI.animate
  * @class Timeline
  * @param {DisplayObject} Target The target for this string of tweens.
  * @extends Array
@@ -1279,11 +1274,7 @@ var Timeline = function Timeline(target) {
      * @private
      */
     this._currentProps = {};
-}; /**
-    * @module PixiAnimate
-    * @namespace PIXI.animate
-    */
-
+};
 
 var p = Timeline.prototype = Object.create(Array.prototype);
 
@@ -1372,12 +1363,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * @module PixiAnimate
- * @namespace PIXI.animate
- */
-
-/**
  * Provide timeline playback of movieclip
+ * @namespace PIXI.animate
  * @class Tween
  * @constructor
  * @param {PIXI.animate.MovieClip} target The target to play
@@ -1664,11 +1651,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 /**
- * @module PixiAnimate
  * @namespace PIXI.animate
- */
-
-/**
  * @class load
  * @description Entry point for loading Adobe Animate exports:
  * 
@@ -1699,7 +1682,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 /**
  * Load the stage class and preload any assets
- * @function load
+ * @method load
  * @param {Function} StageRef Reference to the stage class
  * @param {Array} [StageRef.assets] Assets used to preload
  * @param {PIXI.Container} parent The Container to auto-add the stage to.
@@ -1708,7 +1691,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 /**
  * Load the stage class and preload any assets
- * @function load
+ * @method load
  * @param {Function} StageRef Reference to the stage class
  * @param {Array} [StageRef.assets] Assets used to preload
  * @param {PIXI.Container} parent The Container to auto-add the stage to.
@@ -1716,7 +1699,7 @@ Object.defineProperty(exports, "__esModule", {
  */
 /**
  * Load the stage class and preload any assets
- * @function load
+ * @method load
  * @param {Function} StageRef Reference to the stage class
  * @param {Array} [StageRef.assets] Assets used to preload
  * @param {Function} complete The callback function when complete.
@@ -1779,11 +1762,8 @@ exports.default = load;
 "use strict";
 
 /**
- * @module PixiAnimate
- * @namespace PIXI
- */
-/**
  * @class Container
+ * @namespace PIXI
  */
 var p = PIXI.Container.prototype;
 
@@ -1791,7 +1771,7 @@ var p = PIXI.Container.prototype;
  * Shortcut for addChild.
  * @method ac
  * @param {*} [child*] N-number of children
- * @return {Container} Instance of this container
+ * @return {PIXI.DisplayObject} Instance of first child added
  */
 p.ac = p.addChild;
 
@@ -1799,8 +1779,15 @@ p.ac = p.addChild;
  * Extend a container
  * @method extend
  * @static
- * @param {Container} child The child function
- * @return {Container} THe child
+ * @param {PIXI.Container} child The child function
+ * @return {PIXI.Container} THe child
+ */
+/**
+ * Extend a container (shortcut for extend)
+ * @method e
+ * @static
+ * @param {PIXI.Container} child The child function
+ * @return {PIXI.Container} THe child
  */
 PIXI.Container.extend = PIXI.Container.e = function (child) {
   child.prototype = Object.create(p);
@@ -1813,11 +1800,7 @@ PIXI.Container.extend = PIXI.Container.e = function (child) {
 "use strict";
 
 /**
- * @module PixiAnimate
  * @namespace PIXI
- */
-
-/**
  * @class DisplayObject
  */
 var p = PIXI.DisplayObject.prototype;
@@ -1832,13 +1815,13 @@ if (PIXI.filters) {
  * Function to see if this is renderable or not. Useful for setting masks.
  * @method setRenderable
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
 /**
  * Shortcut to setRenderable.
  * @method re
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
 p.setRenderable = p.re = function (renderable) {
   this.renderable = !!renderable;
@@ -1856,7 +1839,7 @@ p.setRenderable = p.re = function (renderable) {
  * @param {Number} skewY The Y skew value
  * @param {Number} pivotX The X pivot value
  * @param {Number} pivotY The Y pivot value
- * @return {DisplayObject} Instance for chaining
+ * @return {PIXI.DisplayObject} Instance for chaining
  */
 p.t = p.setTransform;
 
@@ -1864,13 +1847,13 @@ p.t = p.setTransform;
  * Setter for mask to be able to chain.
  * @method setMask
  * @param {PIXI.Graphics} mask The mask shape to use
- * @return {DisplayObject} Instance for chaining
+ * @return {PIXI.DisplayObject} Instance for chaining
  */
 /**
  * Shortcut for setMask.
  * @method ma
  * @param {PIXI.Graphics} mask The mask shape to use
- * @return {DisplayObject} Instance for chaining
+ * @return {PIXI.DisplayObject} Instance for chaining
  */
 p.setMask = p.ma = function (mask) {
   // According to PIXI, only Graphics and Sprites can
@@ -1892,13 +1875,13 @@ p.setMask = p.ma = function (mask) {
  * Setter for the alpha
  * @method setAlpha
  * @param {Number} alpha The alpha amount to use, from 0 to 1
- * @return {DisplayObject} Instance for chaining
+ * @return {PIXI.DisplayObject} Instance for chaining
  */
 /**
  * Shortcut for setAlpha.
  * @method a
  * @param {Number} alpha The alpha amount to use, from 0 to 1
- * @return {DisplayObject} Instance for chaining
+ * @return {PIXI.DisplayObject} Instance for chaining
  */
 p.setAlpha = p.a = function (alpha) {
   this.alpha = alpha;
@@ -1909,13 +1892,13 @@ p.setAlpha = p.a = function (alpha) {
  * Set the tint values by color.
  * @method setTint
  * @param {int} tint The color value to tint
- * @return {DisplayObject} Object for chaining
+ * @return {PIXI.DisplayObject} Object for chaining
  */
 /**
  * Shortcut to setTint.
  * @method tn
  * @param {Number} tint The red percentage value
- * @return {DisplayObject} Object for chaining
+ * @return {PIXI.DisplayObject} Object for chaining
  */
 p.setTint = p.i = function (tint) {
   // this.tint = tint
@@ -1939,7 +1922,7 @@ p.setTint = p.i = function (tint) {
  * @param {Number} gA The additive green value
  * @param {Number} b The multiply blue value
  * @param {Number} bA The additive blue value
- * @return {DisplayObject} Object for chaining
+ * @return {PIXI.DisplayObject} Object for chaining
  */
 /**
  * Shortcut to setColor.
@@ -1950,7 +1933,7 @@ p.setTint = p.i = function (tint) {
  * @param {Number} gA The additive green value
  * @param {Number} b The multiply blue value
  * @param {Number} bA The additive blue value
- * @return {DisplayObject} Object for chaining
+ * @return {PIXI.DisplayObject} Object for chaining
  */
 p.setColorTransform = p.c = function (r, rA, g, gA, b, bA) {
   var filter = this.colorTransformFilter;
@@ -1983,8 +1966,15 @@ if (!p.hasOwnProperty('colorTransformFilter')) {
  * Extend a container
  * @method extend
  * @static
- * @param {DisplayObject} child The child function
- * @return {DisplayObject} THe child
+ * @param {PIXI.DisplayObject} child The child function
+ * @return {PIXI.DisplayObject} THe child
+ */
+/**
+ * Extend a container (shortcut for extend)
+ * @method e
+ * @static
+ * @param {PIXI.DisplayObject} child The child function
+ * @return {PIXI.DisplayObject} THe child
  */
 PIXI.DisplayObject.extend = PIXI.DisplayObject.e = function (child) {
   child.prototype = Object.create(p);
@@ -1997,10 +1987,7 @@ PIXI.DisplayObject.extend = PIXI.DisplayObject.e = function (child) {
 "use strict";
 
 /**
- * @module PixiAnimate
  * @namespace PIXI
- */
-/**
  * @class Graphics
  */
 var p = PIXI.Graphics.prototype;
@@ -2009,14 +1996,14 @@ var p = PIXI.Graphics.prototype;
  * Shortcut for drawCommands.
  * @method d
  * @param  {Array} commands The commands and parameters to draw
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
 /**
  * Execute a series of commands, this is the name of the short function
  * followed by the parameters, e.g., `["f", "#ff0000", "r", 0, 0, 100, 200]`
  * @method drawCommands
  * @param  {Array} commands The commands and parameters to draw
- * @return {Graphics}
+ * @return {PIXI.Graphics}
  */
 p.drawCommands = p.d = function (commands) {
   var currentCommand,
@@ -2042,14 +2029,14 @@ p.drawCommands = p.d = function (commands) {
  * Closes the current path, effectively drawing a line from the current drawing point to the first drawing point specified
  * since the fill or stroke was last set.
  * @method c
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.c = p.closePath;
 
 /**
  * Alias for addHole
  * @method h
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.h = p.addHole;
 
@@ -2058,7 +2045,7 @@ p.h = p.addHole;
  * @method m
  * @param {Number} x The x coordinate the drawing point should move to.
  * @param {Number} y The y coordinate the drawing point should move to.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls).
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls).
  **/
 p.m = p.moveTo;
 
@@ -2067,7 +2054,7 @@ p.m = p.moveTo;
  * @method l
  * @param {Number} x The x coordinate the drawing point should draw to.
  * @param {Number} y The y coordinate the drawing point should draw to.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.l = p.lineTo;
 
@@ -2080,7 +2067,7 @@ p.l = p.lineTo;
  * @param {Number} cpy
  * @param {Number} x
  * @param {Number} y
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.q = p.quadraticCurveTo;
 
@@ -2093,7 +2080,7 @@ p.q = p.quadraticCurveTo;
  * @param {Number} cp2y
  * @param {Number} x
  * @param {Number} y
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.b = p.bezierCurveTo;
 
@@ -2103,7 +2090,7 @@ p.b = p.bezierCurveTo;
  * @param {Uint} color The hex color value (e.g. 0xFFFFFF)
  * null will result in no fill.
  * @param {Number} [alpha=1] The alpha value of fill
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.f = p.beginFill;
 
@@ -2114,7 +2101,7 @@ p.f = p.beginFill;
  * null will result in no stroke.
  * @param {Number} [thickness=1] The thickness of the stroke
  * @param {Number} [alpha=1] The alpha value from 0 (invisibile) to 1 (visible)
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.s = p.lineStyle;
 
@@ -2125,7 +2112,7 @@ p.s = p.lineStyle;
  * @param {Number} y
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 /**
  * Shortcut to drawRect.
@@ -2134,7 +2121,7 @@ p.s = p.lineStyle;
  * @param {Number} y
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.dr = p.drawRect;
 
@@ -2146,7 +2133,7 @@ p.dr = p.drawRect;
  * @param {Number} w Width of the rectangle
  * @param {Number} h Height of the rectangle
  * @param {Number} radius The corner radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rr = p.drawRoundedRect;
 
@@ -2161,7 +2148,7 @@ p.rr = p.drawRoundedRect;
  * @param {Number} radiusTR The top right corner radius
  * @param {Number} radiusBR The bottom right corner radius
  * @param {Number} radiusBL The bottom left corner radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rc = p.drawRoundedRect;
 
@@ -2171,7 +2158,7 @@ p.rc = p.drawRoundedRect;
  * @param {Number} x x coordinate center point of circle.
  * @param {Number} y y coordinate center point of circle.
  * @param {Number} radius Radius of circle.
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.dc = p.drawCircle;
 
@@ -2184,7 +2171,7 @@ p.dc = p.drawCircle;
  * @param {Number} startAngle Measured in radians.
  * @param {Number} endAngle Measured in radians.
  * @param {Boolean} anticlockwise
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.ar = p.arc;
 
@@ -2196,7 +2183,7 @@ p.ar = p.arc;
  * @param {Number} x2
  * @param {Number} y2
  * @param {Number} radius
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.at = p.arcTo;
 
@@ -2215,7 +2202,7 @@ p.de = p.drawEllipse;
  * so we just pick the first color in colorArray
  * @method lf
  * @param {Array} colorArray An array of CSS compatible color values @see `f`
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.lf = function (colorArray) {
   console.warn("Linear gradient fills are not supported");
@@ -2227,7 +2214,7 @@ p.lf = function (colorArray) {
  * so we just pick the first color in colorArray
  * @method rf
  * @param {Array} colorArray An array of CSS compatible color values @see `f`
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rf = function (colorArray) {
   console.warn("Radial gradient fills are not supported");
@@ -2237,7 +2224,7 @@ p.rf = function (colorArray) {
 /**
  * Placeholder method for a beginBitmapFill. Pixi does not support bitmap fills.
  * @method bf
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.bf = function () {
   console.warn("Bitmap fills are not supported");
@@ -2247,7 +2234,7 @@ p.bf = function () {
 /**
  * Placeholder method for a setStrokeDash. Pixi does not support dashed strokes.
  * @method sd
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.sd = function () {
   console.warn("Dashed strokes are not supported");
@@ -2257,7 +2244,7 @@ p.sd = function () {
 /**
  * Placeholder method for a beginBitmapStroke. Pixi does not support bitmap strokes.
  * @method bs
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.bs = function () {
   console.warn("Bitmap strokes are not supported");
@@ -2267,7 +2254,7 @@ p.bs = function () {
 /**
  * Placeholder method for a beginLinearGradientStroke. Pixi does not support gradient strokes.
  * @method ls
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.ls = function () {
   console.warn("Linear gradient strokes are not supported");
@@ -2277,7 +2264,7 @@ p.ls = function () {
 /**
  * Placeholder method for a beginRadialGradientStroke. Pixi does not support gradient strokes.
  * @method rs
- * @return {Graphics} The Graphics instance the method is called on (useful for chaining calls.)
+ * @return {PIXI.Graphics} The Graphics instance the method is called on (useful for chaining calls.)
  **/
 p.rs = function () {
   console.warn("Radial gradient strokes are not supported");
@@ -2288,11 +2275,7 @@ p.rs = function () {
 "use strict";
 
 /**
- * @module PixiAnimate
  * @namespace PIXI
- */
-
-/**
  * @class Sprite
  */
 var p = PIXI.Sprite.prototype;
@@ -2301,8 +2284,15 @@ var p = PIXI.Sprite.prototype;
  * Extend a container
  * @method extend
  * @static
- * @param {Sprite} child The child function
- * @return {Sprite} THe child
+ * @param {PIXI.Sprite} child The child function
+ * @return {PIXI.Sprite} THe child
+ */
+/**
+ * Extend a container (shortcut for extend)
+ * @method e
+ * @static
+ * @param {PIXI.Sprite} child The child function
+ * @return {PIXI.Sprite} THe child
  */
 PIXI.Sprite.extend = PIXI.Sprite.e = function (child) {
   child.prototype = Object.create(p);
@@ -2315,11 +2305,7 @@ PIXI.Sprite.extend = PIXI.Sprite.e = function (child) {
 "use strict";
 
 /**
- * @module PixiAnimate
  * @namespace PIXI
- */
-
-/**
  * @class Text
  */
 var p = PIXI.Text.prototype;
@@ -2329,13 +2315,13 @@ var p = PIXI.Text.prototype;
  * to make sure the positioning is correct.
  * @method setAlign
  * @param {String} align Either, center, right, left
- * @return {Text} For chaining
+ * @return {PIXI.Text} For chaining
  */
 /**
  * Shortcut for `setAlign`.
  * @method g
  * @param {String|int} align Either, center (0), right (1), left (-1)
- * @return {Text} For chaining
+ * @return {PIXI.Text} For chaining
  */
 p.setAlign = p.g = function (align) {
     this.style.align = align || "left";
@@ -2410,7 +2396,7 @@ p.setStyle = p.ss = function (style) {
  * @param {String} [color="#000000"] The color to set
  * @param {Number} [angle=Math.PI/4] The angle of offset, in radians
  * @param {Number} [distance=5] The offset distance
- * @return {Text} For chaining
+ * @return {PIXI.Text} For chaining
  */
 /**
  * Shortcut for setShadow.
@@ -2418,7 +2404,7 @@ p.setStyle = p.ss = function (style) {
  * @param {String} [color="#000000"] The color to set
  * @param {Number} [angle=Math.PI/4] The angle of offset, in radians
  * @param {Number} [distance=5] The offset distance
- * @return {Text} For chaining
+ * @return {PIXI.Text} For chaining
  */
 p.setShadow = p.sh = function (color, angle, distance) {
     var style = this.style;

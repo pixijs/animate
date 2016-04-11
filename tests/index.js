@@ -3,7 +3,7 @@
 require('./shim');
 
 var assert = require('chai').assert;
-var animate = require('../');
+var animate = require('../dist/pixi-animate');
 
 function extendable(classRef) {
     assert.isOk(classRef.extend);
