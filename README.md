@@ -23,7 +23,7 @@ npm install pixi-animate
 
 ##Documentation
 
-http://jiborobot.github.io/pixi-animate/docs/
+http://jiborobot.github.io/pixi-animate/
 
 ##License
 
