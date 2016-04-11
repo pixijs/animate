@@ -1,4 +1,3 @@
 docs
-components
 node_modules
-.grunt
+dist

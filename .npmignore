@@ -2,15 +2,8 @@
 .gitattributes
 .editorconfig
 .bowerrc
-.jsbeautifyrc
 .travis.yml
-bower.json
-library.json
-tasks
-Gruntfile.js
-examples
+gulpfile.js
 docs
 src
 node_modules
-components
-.grunt
