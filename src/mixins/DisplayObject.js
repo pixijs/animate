@@ -1,11 +1,13 @@
+import ColorUtils from '../animate/ColorUtils';
+
 /**
  * @namespace PIXI
  * @class DisplayObject
  */
-var p = PIXI.DisplayObject.prototype;
+const p = PIXI.DisplayObject.prototype;
 
 // Color Matrix filter
-var ColorMatrixFilter;
+let ColorMatrixFilter;
 if (PIXI.filters) {
     ColorMatrixFilter = PIXI.filters.ColorMatrixFilter;
 }
@@ -96,10 +98,13 @@ p.setAlpha = p.a = function(alpha) {
 /**
  * Shortcut to setTint.
  * @method tn
- * @param {Number} tint The red percentage value
+ * @param {Number|String} tint The red percentage value
  * @return {PIXI.DisplayObject} Object for chaining
  */
 p.setTint = p.i = function(tint) {
+    if (typeof tint === "string") {
+        tint = ColorUtils.hexToUint(tint);
+    }
     // this.tint = tint
     // return this;
     // TODO: Replace with DisplayObject.tint setter

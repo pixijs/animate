@@ -2,7 +2,7 @@
  * @class Container
  * @namespace PIXI
  */
-var p = PIXI.Container.prototype;
+const p = PIXI.Container.prototype;
 
 /**
  * Shortcut for addChild.

@@ -2,7 +2,7 @@
  * @namespace PIXI
  * @class Sprite
  */
-var p = PIXI.Sprite.prototype;
+const p = PIXI.Sprite.prototype;
 
 /**
  * Extend a container

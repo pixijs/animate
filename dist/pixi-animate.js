@@ -1,6 +1,6 @@
 /**
  * pixi-animate - PIXI plugin for the PixiAnimate Extension
- * @version v0.3.4
+ * @version v0.3.5
  * @link https://github.com/jiborobot/pixi-animate
  * @license MIT
  */
@@ -1799,6 +1799,12 @@ PIXI.Container.extend = PIXI.Container.e = function (child) {
 },{}],10:[function(require,module,exports){
 "use strict";
 
+var _ColorUtils = require("../animate/ColorUtils");
+
+var _ColorUtils2 = _interopRequireDefault(_ColorUtils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * @namespace PIXI
  * @class DisplayObject
@@ -1806,7 +1812,7 @@ PIXI.Container.extend = PIXI.Container.e = function (child) {
 var p = PIXI.DisplayObject.prototype;
 
 // Color Matrix filter
-var ColorMatrixFilter;
+var ColorMatrixFilter = void 0;
 if (PIXI.filters) {
   ColorMatrixFilter = PIXI.filters.ColorMatrixFilter;
 }
@@ -1897,10 +1903,13 @@ p.setAlpha = p.a = function (alpha) {
 /**
  * Shortcut to setTint.
  * @method tn
- * @param {Number} tint The red percentage value
+ * @param {Number|String} tint The red percentage value
  * @return {PIXI.DisplayObject} Object for chaining
  */
 p.setTint = p.i = function (tint) {
+  if (typeof tint === "string") {
+    tint = _ColorUtils2.default.hexToUint(tint);
+  }
   // this.tint = tint
   // return this;
   // TODO: Replace with DisplayObject.tint setter
@@ -1983,7 +1992,7 @@ PIXI.DisplayObject.extend = PIXI.DisplayObject.e = function (child) {
   return child;
 };
 
-},{}],11:[function(require,module,exports){
+},{"../animate/ColorUtils":1}],11:[function(require,module,exports){
 "use strict";
 
 /**

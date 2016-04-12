@@ -2,7 +2,7 @@
  * @namespace PIXI
  * @class Text
  */
-var p = PIXI.Text.prototype;
+const p = PIXI.Text.prototype;
 
 /**
  * Setter for the alignment, also sets the anchor point

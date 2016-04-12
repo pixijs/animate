@@ -2,7 +2,7 @@
  * @namespace PIXI
  * @class Graphics
  */
-var p = PIXI.Graphics.prototype;
+const p = PIXI.Graphics.prototype;
 
 /**
  * Shortcut for drawCommands.
