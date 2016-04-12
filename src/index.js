@@ -3,7 +3,12 @@ if (typeof module !== 'undefined' && module.exports) {
     // Attempt to require the pixi module
     if (typeof PIXI === 'undefined') {
         // Include the Pixi.js module
-        require('pixi.js');
+        // @if DEBUG
+        require('pixi.js/bin/pixi.js');
+        // @endif
+        // @if RELEASE
+        require('pixi.js/bin/pixi.min.js');
+        // @endif
     }
 
     // Export the module

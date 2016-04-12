@@ -1,6 +1,6 @@
 /**
  * pixi-animate - PIXI plugin for the PixiAnimate Extension
- * @version v0.3.5
+ * @version v0.3.6
  * @link https://github.com/jiborobot/pixi-animate
  * @license MIT
  */
@@ -1254,7 +1254,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * The Timeline class represents a
  * @namespace PIXI.animate
  * @class Timeline
- * @param {DisplayObject} Target The target for this string of tweens.
+ * @param {PIXI.DisplayObject} Target The target for this string of tweens.
  * @extends Array
  * @constructor
  */
@@ -1821,13 +1821,13 @@ if (PIXI.filters) {
  * Function to see if this is renderable or not. Useful for setting masks.
  * @method setRenderable
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {PIXI.Graphics}
+ * @return {PIXI.DisplayObject}
  */
 /**
  * Shortcut to setRenderable.
  * @method re
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {PIXI.Graphics}
+ * @return {PIXI.DisplayObject}
  */
 p.setRenderable = p.re = function (renderable) {
   this.renderable = !!renderable;
@@ -1858,7 +1858,7 @@ p.t = p.setTransform;
 /**
  * Shortcut for setMask.
  * @method ma
- * @param {PIXI.Graphics} mask The mask shape to use
+ * @param {PIXI.Sprite|PIXI.Graphics} mask The mask shape to use
  * @return {PIXI.DisplayObject} Instance for chaining
  */
 p.setMask = p.ma = function (mask) {
@@ -2486,7 +2486,7 @@ if (typeof module !== 'undefined' && module.exports) {
     // Attempt to require the pixi module
     if (typeof PIXI === 'undefined') {
         // Include the Pixi.js module
-        require('pixi.js');
+        require('pixi.js/bin/pixi.js');
     }
 
     // Export the module
@@ -2503,6 +2503,6 @@ require('./mixins');
 // Assign to global namespace
 PIXI.animate = require('./animate').default;
 
-},{"./animate":7,"./mixins":14,"pixi.js":undefined}]},{},[15])(15)
+},{"./animate":7,"./mixins":14,"pixi.js/bin/pixi.js":undefined,"pixi.js/bin/pixi.min.js":undefined}]},{},[15])(15)
 });
 //# sourceMappingURL=pixi-animate.js.map
