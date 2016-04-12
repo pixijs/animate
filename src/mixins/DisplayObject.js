@@ -16,13 +16,13 @@ if (PIXI.filters) {
  * Function to see if this is renderable or not. Useful for setting masks.
  * @method setRenderable
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {PIXI.Graphics}
+ * @return {PIXI.DisplayObject}
  */
 /**
  * Shortcut to setRenderable.
  * @method re
  * @param  {Boolean} [renderable=false] Make renderable
- * @return {PIXI.Graphics}
+ * @return {PIXI.DisplayObject}
  */
 p.setRenderable = p.re = function(renderable) {
     this.renderable = !!renderable;
@@ -53,7 +53,7 @@ p.t = p.setTransform;
 /**
  * Shortcut for setMask.
  * @method ma
- * @param {PIXI.Graphics} mask The mask shape to use
+ * @param {PIXI.Sprite|PIXI.Graphics} mask The mask shape to use
  * @return {PIXI.DisplayObject} Instance for chaining
  */
 p.setMask = p.ma = function(mask) {

@@ -4,7 +4,7 @@ import Tween from './Tween';
  * The Timeline class represents a
  * @namespace PIXI.animate
  * @class Timeline
- * @param {DisplayObject} Target The target for this string of tweens.
+ * @param {PIXI.DisplayObject} Target The target for this string of tweens.
  * @extends Array
  * @constructor
  */
