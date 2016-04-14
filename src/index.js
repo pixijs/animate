@@ -2,6 +2,13 @@
 if (typeof module !== 'undefined' && module.exports) {
     // Attempt to require the pixi module
     if (typeof PIXI === 'undefined') {
+
+        // Solution for Atom/Electron to work around
+        // the V8 restriction on using unsafe-eval code
+        // this solution is taken from the loophole module.
+        // under the hood this use's node's vm module.
+        global.Function = require('loophole').Function;
+
         // Include the Pixi.js module
         // @if DEBUG
         require('pixi.js/bin/pixi.js');
