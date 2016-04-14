@@ -7,7 +7,9 @@ if (typeof module !== 'undefined' && module.exports) {
         // the V8 restriction on using unsafe-eval code
         // this solution is taken from the loophole module.
         // under the hood this use's node's vm module.
-        global.Function = require('loophole').Function;
+        if (typeof atom !== "undefined") {
+            global.Function = require('loophole').Function;
+        }
 
         // Include the Pixi.js module
         // @if DEBUG
