@@ -11,9 +11,11 @@ let SymbolLoader = function() {
         let url = resource.url;
         let data = resource.data;
 
-        if (/\.shapes\.txt$/i.test(url)) {
-            ShapesCache.decode(data);
-        } else if (/\.shapes.json$/i.test(url)) {
+        if (url.search(/\.shapes\.(json|txt)$/i) > -1) {
+            if (typeof data === "string") {
+                // Decode string to map of files
+                data = ShapesCache.decode(data);
+            }
             for (let name in data) {
                 ShapesCache.add(name, data[name]);
             }

@@ -83,7 +83,10 @@ describe('PIXI.animate.ShapesCache', function() {
         ShapesCache.removeAll();
     });
     it('should decode images', function() {
-        ShapesCache.decode("TestShape f #cc009d 1 m 356 327.95 l 356 183 l 212.05 183 l 212.05 327.95 l 356 327.95 c");
+        var map = ShapesCache.decode("TestShape f #cc009d 1 m 356 327.95 l 356 183 l 212.05 183 l 212.05 327.95 l 356 327.95 c");
+        assert.equal(typeof map, 'object');
+        assert.isOk(map.TestShape);
+        ShapesCache.add(map);
         assert.isOk(ShapesCache.TestShape);
         assert.equal(ShapesCache.TestShape.length, 19);
         assert.equal(ShapesCache.TestShape[1], 0xcc009d);
