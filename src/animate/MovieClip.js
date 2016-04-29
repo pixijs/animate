@@ -397,7 +397,7 @@ class MovieClip extends Container {
                 prop,
                 frame = {};
 
-            while (i < keyframes.length) {
+            while (i <= keyframes.length) {
                 c = keyframes[i];
                 if (keysMap[c]) {
                     if (!isFrameStarted) {
@@ -412,7 +412,7 @@ class MovieClip extends Container {
                     i++;
                 }
                 // Start a new prop
-                else if (c === ' ') {
+                else if (!c || c === ' ') {
                     i++;
                     parseValue(frame, prop, buffer);
                     buffer = '';
