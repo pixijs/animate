@@ -1,4 +1,4 @@
-import ColorUtils from './ColorUtils';
+import utils from './utils';
 
 /**
  * Contains the collection of graphics data
@@ -27,7 +27,7 @@ Object.defineProperty(ShapesCache, 'add', {
         for (let d in draw) {
             let arg = draw[d];
             if (typeof arg === 'string' && arg[0] === '#') {
-                draw[d] = ColorUtils.hexToUint(arg);
+                draw[d] = utils.hexToUint(arg);
             }
         }
         ShapesCache[prop] = draw;
@@ -44,23 +44,7 @@ Object.defineProperty(ShapesCache, 'add', {
 Object.defineProperty(ShapesCache, 'decode', {
     enumerable: false,
     value: function(str) {
-        const result = {};
-        // each shape is a new line
-        let shapes = str.split("\n");
-        let isCommand = /^[a-z]{1,2}$/;
-        for (let i = 0; i < shapes.length; i++) {
-            let shape = shapes[i].split(' '); // arguments are space separated
-            let name = shape.shift(); // first argument is the ID
-            for (let j = 0; j < shape.length; j++) {
-                // Convert all numbers to floats, ignore colors
-                let arg = shape[j];
-                if (arg[0] !== '#' && !isCommand.test(arg)) {
-                    shape[j] = parseFloat(arg);
-                }
-            }
-            result[name] = shape;
-        }
-        return result;
+        return utils.deserializeShapes(str);
     }
 });
 

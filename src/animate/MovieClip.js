@@ -1,5 +1,5 @@
 import Timeline from './Timeline';
-import ColorUtils from './ColorUtils';
+import utils from './utils';
 
 const Container = PIXI.Container;
 const SharedTicker = PIXI.ticker.shared;
@@ -331,110 +331,6 @@ class MovieClip extends Container {
     }
 
     /**
-     * Convenience method for setting multiple frames at once and adding the child
-     * @method addKeyframes
-     * @private
-     * @param {PIXI.DisplayObject} instance The clip to animate
-     * @param {Object} keyframes The collection of keyframe objects or data string, the key is frame number
-     */
-    addKeyframes(instance, keyframes) {
-        if (!keyframes) {
-            return;
-        }
-
-        let i = 0;
-
-        // Parse the value of the compressed keyframe
-        let parseValue = function(frame, prop, buffer) {
-            switch (prop) {
-                case 'c':
-                    {
-                        buffer = buffer.split(',');
-                        buffer.forEach(function(val, i, buffer) {
-                            buffer[i] = parseFloat(val);
-                        });
-                        frame.c = buffer;
-                        break;
-                    }
-                case 't':
-                    {
-                        frame.t = buffer;
-                        break;
-                    }
-                case 'v':
-                    {
-                        frame.v = !!parseInt(buffer);
-                        break;
-                    }
-                default:
-                    {
-                        frame[prop] = parseFloat(buffer);
-                        break;
-                    }
-            }
-        };
-
-        // Convert serialized array into keyframes
-        // "0x100y100,1x150" to: { "0": {"x":100, "y": 100}, "1": {"x": 150} }
-        if (typeof keyframes === 'string') {
-            let result = {};
-            let keysMap = {
-                X: 'x', // x position
-                Y: 'y', // y position
-                A: 'sx', // scale x
-                B: 'sy', // scale y
-                C: 'kx', // skew x
-                D: 'ky', // skew y
-                R: 'r', // rotation
-                L: 'a', // alpha
-                T: 't', // tint
-                F: 'c', // colorTransform
-                V: 'v' // visibility
-            };
-            let c,
-                buffer = '',
-                isFrameStarted = false,
-                prop,
-                frame = {};
-
-            while (i <= keyframes.length) {
-                c = keyframes[i];
-                if (keysMap[c]) {
-                    if (!isFrameStarted) {
-                        isFrameStarted = true;
-                        result[buffer] = frame;
-                    }
-                    if (prop) {
-                        parseValue(frame, prop, buffer);
-                    }
-                    prop = keysMap[c];
-                    buffer = '';
-                    i++;
-                }
-                // Start a new prop
-                else if (!c || c === ' ') {
-                    i++;
-                    parseValue(frame, prop, buffer);
-                    buffer = '';
-                    prop = null;
-                    frame = {};
-                    isFrameStarted = false;
-                } else {
-                    buffer += c;
-                    i++;
-                }
-            }
-            keyframes = result;
-        }
-
-        // Convert the keyframes object into
-        // individual properties
-        for (i in keyframes) {
-            this.addTween(instance, keyframes[i], parseInt(i, 10));
-        }
-    }
-
-    /**
      * Add mask or masks
      * @method addTimedMask
      * @param {PIXI.DisplayObject} instance Instance to mask
@@ -503,7 +399,7 @@ class MovieClip extends Container {
 
         // Convert any string colors to uints
         if (typeof properties.t === 'string') {
-            properties.t = ColorUtils.hexToUint(properties.t);
+            properties.t = utils.hexToUint(properties.t);
         } else if (typeof properties.v === 'number') {
             properties.v = !!properties.v;
         }
@@ -536,6 +432,7 @@ class MovieClip extends Container {
      * @return {PIXI.animate.MovieClip}
      */
     addTimedChild(instance, startFrame, duration, keyframes) {
+
         if (startFrame === undefined) // jshint ignore:line
         {
             startFrame = 0;
@@ -567,39 +464,27 @@ class MovieClip extends Container {
             timeline.target = instance;
             this._timedChildTimelines.push(timeline);
         }
-        //ensure that the timeline is long enough
-        let oldLength = timeline.length;
-        if (oldLength < startFrame + duration) {
-            timeline.length = startFrame + duration;
-            //fill any gaps with false to denote that the child should be removed for a bit
-            if (oldLength < startFrame) {
-                //if the browser has implemented the ES6 fill() function, use that
-                if (timeline.fill) {
-                    timeline.fill(false, oldLength, startFrame);
-                } else {
-                    //if we can't use fill, then do a for loop to fill it
-                    for (i = oldLength; i < startFrame; ++i) {
-                        timeline[i] = false;
-                    }
-                }
-            }
-        }
-        //if the browser has implemented the ES6 fill() function, use that
-        if (timeline.fill) {
-            timeline.fill(true, startFrame, startFrame + duration);
-        } else {
-            let length = timeline.length;
-            //if we can't use fill, then do a for loop to fill it
-            for (i = startFrame; i < length; ++i) {
-                timeline[i] = true;
-            }
-        }
+
+        // Fill the timeline with keyframe booleans
+        utils.fillFrames(timeline, startFrame, duration);
+
+        // Update the total frames if the instance extends our current
+        // total frames for this movieclip
         if (this._totalFrames < startFrame + duration) {
             this._totalFrames = startFrame + duration;
         }
 
         // Add the collection of keyframes
-        this.addKeyframes(instance, keyframes);
+        if (keyframes) {
+            if (typeof keyframes === "string") {
+                keyframes = utils.deserializeKeyframes(keyframes);
+            }
+            // Convert the keyframes object into
+            // individual properties
+            for (let i in keyframes) {
+                this.addTween(instance, keyframes[i], parseInt(i, 10));
+            }
+        }
 
         // Set the initial position/add
         this._setTimelinePosition(startFrame, this.currentFrame, true);

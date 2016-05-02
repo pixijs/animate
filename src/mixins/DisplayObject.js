@@ -1,4 +1,4 @@
-import ColorUtils from '../animate/ColorUtils';
+import utils from '../animate/utils';
 
 /**
  * @namespace PIXI
@@ -103,7 +103,7 @@ p.setAlpha = p.a = function(alpha) {
  */
 p.setTint = p.i = function(tint) {
     if (typeof tint === "string") {
-        tint = ColorUtils.hexToUint(tint);
+        tint = utils.hexToUint(tint);
     }
     // this.tint = tint
     // return this;
