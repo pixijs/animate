@@ -54,8 +54,8 @@ describe('PIXI.animate.utils', function() {
     });
 
     it('should deserialize shapes', function() {
-        var shapes = "alias_1 f #000 1 m 185.5 59.75 l 180.65 74.1 "+
-            "l 192.85 83.15 l 205.2 74.3 l 200.65 59.85 l 185.5 59.75 c\n"+
+        var shapes = "alias_1 f #000 1 m 185.5 59.75 l 180.65 74.1 " +
+            "l 192.85 83.15 l 205.2 74.3 l 200.65 59.85 l 185.5 59.75 c\n" +
             "alias_2 f #000 1 m 184 61 l 184 79.5 l 202.5 79.5 l 202.5 61 l 184 61 c";
         var map = animate.utils.deserializeShapes(shapes);
         assert(map);

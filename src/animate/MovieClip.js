@@ -705,7 +705,7 @@ class MovieClip extends Container {
                 this.removeChild(target);
             }
         }
-        
+
         // Properly depth sort the children
         for (i = 0, length = depthSorted.length; i < length; i++) {
             let target = depthSorted[i];
