@@ -14,7 +14,7 @@ addons:
 
 install:
     - npm install xvfb-maybe
-    - npm install --loglevel=http
+    - npm install
 
 cache:
   directories:

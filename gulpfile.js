@@ -33,8 +33,7 @@ const options = {
         envs: {
             node: true,
             browser: true,
-            es6: true,
-            mocha: true
+            es6: true
         },
         globals: {
             PIXI: true

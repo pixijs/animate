@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/jiborobot/pixi-animate",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp && gulp test"
   },
   "keywords": [
     "webgl",

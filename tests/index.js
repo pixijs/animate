@@ -24,7 +24,7 @@ describe('PIXI', function() {
     require('./mixins/Text');
 
     describe('animate', function() {
-        
+
         require('./animate/load');
         require('./animate/MovieClip');
         require('./animate/ShapesCache');
