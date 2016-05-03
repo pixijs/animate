@@ -208,6 +208,14 @@ class MovieClip extends Container {
         this._timedChildTimelines = [];
 
         /**
+         * Array to depth sort timed children
+         * @property _depthSorted
+         * @type {Array}
+         * @private
+         */
+        this._depthSorted = [];
+
+        /**
          * Array of frame scripts, indexed by frame.
          * @property _actions
          * @type {Array}
@@ -675,22 +683,40 @@ class MovieClip extends Container {
                 }
             }
         }
-        //TODO: handle children removal and adding - try to avoid adding & removing each child
-        //each frame the way CreateJS does
-        let _timedChildTimelines = this._timedChildTimelines;
-        for (i = 0, length = _timedChildTimelines.length; i < length; ++i) {
-            let target = _timedChildTimelines[i].target;
-            let shouldBeChild = _timedChildTimelines[i][currentFrame];
+
+        let timedChildTimelines = this._timedChildTimelines;
+        let depthSorted = this._depthSorted;
+        for (i = 0, length = timedChildTimelines.length; i < length; ++i) {
+            let target = timedChildTimelines[i].target;
+            let shouldBeChild = timedChildTimelines[i][currentFrame];
             //if child should be on stage and is not:
-            if (shouldBeChild && target.parent !== this) {
-                this.addChild(target);
-                if (target.mode === MovieClip.INDEPENDENT && target.autoReset) {
-                    target._reset();
+            if (shouldBeChild) {
+                // Add to the depthSorted object so we can
+                // check that items are property drawn later
+                depthSorted.push(target);
+                if (target.parent !== this) {
+                    // add the target if it's not there already
+                    this.addChild(target);
+                    if (target.mode === MovieClip.INDEPENDENT && target.autoReset) {
+                        target._reset();
+                    }
                 }
             } else if (!shouldBeChild && target.parent === this) {
                 this.removeChild(target);
             }
         }
+        
+        // Properly depth sort the children
+        for (i = 0, length = depthSorted.length; i < length; i++) {
+            let target = depthSorted[i];
+            let currentIndex = this.children.indexOf(target);
+            if (currentIndex !== i) {
+                this.addChildAt(target, i);
+            }
+        }
+
+        // Clear the temporary depth sorting array
+        depthSorted.length = 0;
 
         //go through all children and update synched movieclips that are not single frames
         let children = this.children,
@@ -736,7 +762,10 @@ class MovieClip extends Container {
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
-
+        this._actions = null;
+        this._timelines = null;
+        this._depthSorted = null;
+        this._timedChildTimelines = null;
         super.destroy(destroyChildren);
     }
 }
