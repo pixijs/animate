@@ -52,7 +52,7 @@ const plugins = {
     sequence: require('gulp-sequence').use(gulp),
     exorcist: require('exorcist'),
     preprocess: require('gulp-preprocess'),
-    mocha: require('gulp-mocha'),
+    floss: require('floss'),
     babelify: require('babelify'),
     chalk: require('chalk'),
     del: require('del'),
