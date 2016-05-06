@@ -47,6 +47,7 @@ class Animator {
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      * @param {String} event The frame label event to call
      * @param {Function} [callback] Optional callback when complete
+     * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
      */
     static play(instance, event, callback) {
         var startLabel, endLabel, loop = false;
@@ -77,17 +78,20 @@ class Animator {
         this.stop(instance);
 
         // Add a new timeline
-        this._timelines.push(AnimatorTimeline.create(
+        const timeline = AnimatorTimeline.create(
             instance,
             loop,
             startLabel.position,
             endLabel.position,
             callback
-        ));
+        );
+        this._timelines.push(timeline);
 
         // Set the current frame
         instance.gotoAndPlay(event);
         this._refresh();
+
+        return timeline;
     }
 
     /**
