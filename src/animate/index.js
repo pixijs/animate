@@ -5,8 +5,12 @@ import ShapesCache from './ShapesCache';
 import SymbolLoader from './SymbolLoader';
 import Timeline from './Timeline';
 import Tween from './Tween';
+import Animator from './Animator';
+import AnimatorTimeline from './AnimatorTimeline';
 
 export default {
+    Animator,
+    AnimatorTimeline,
     load,
     utils,
     MovieClip,
