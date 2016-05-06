@@ -32,7 +32,8 @@ class MovieClip extends Container {
                 duration: duration || 0,
                 loop: loop === undefined ? true : loop,
                 labels: labels || {},
-                framerate: framerate || 0
+                framerate: framerate || 0,
+                startPosition: 0
             };
         } else {
             // Apply defaults to options
