@@ -1,6 +1,6 @@
 {
 	"name": "pixi-animate",
-	"version": "0.3.11",
+	"version": "0.3.13",
 	"main": "dist/pixi-animate.min.js",
 	"dependencies":
 	{
