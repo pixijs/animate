@@ -121,6 +121,7 @@ class Animator {
         this._timelines.splice(this._timelines.indexOf(timeline), 1);
         timeline.instance.stop();
         timeline.destroy();
+        this._refresh();
     }
 
     /**
@@ -133,9 +134,7 @@ class Animator {
         if (this._updateBind) {
             SharedTicker.remove(this._updateBind);
         }
-
         this._updateBind = this._update.bind(this);
-
         if (this._timelines.length > 0) {
             SharedTicker.add(this._updateBind);
         }
