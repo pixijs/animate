@@ -137,8 +137,8 @@ p.equals = function(a, b) {
     }
 
     for (var i=0; i<length; i++) {
-        a1 = a[i];
-        a2 = b[i];
+        var a1 = a[i];
+        var a2 = b[i];
         if (!this.equals(a1, a2)) {
             return false;
         }

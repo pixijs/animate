@@ -3,6 +3,8 @@
         "mocha": true
     },
     "globals": {
-        "assert": true
+        "assert": true,
+        "animate": true,
+        "extendable": true
     }
 }
