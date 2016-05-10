@@ -33,3 +33,5 @@ describe('PIXI', function() {
         require('./animate/utils');
     });
 });
+
+require('./renders');

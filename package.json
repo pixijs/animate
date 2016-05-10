@@ -25,6 +25,7 @@
     "gulp-sequence": "^0.4.5",
     "gulp-uglify": "^1.5.3",
     "gulp-yuidoc": "^0.1.2",
+    "js-md5": "^0.4.1",
     "load-gulp-tasks": "^0.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
