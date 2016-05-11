@@ -2,7 +2,13 @@
   "webgl": [
     "ad0fc3e465bbbce2cad2bd5b45d9ecaa"
   ],
+  "webglRenders": [
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATUlEQVRYR+3XsQ0AIAwDQbIQk2TcTMJCpkbQRqb4DGBZJzcJSRrGCwp8J1CrWheRM4/8awMUQAABBBBAAAEEEEAAAbtA61PwCOc3tAts8aLHoSQk+10AAAAASUVORK5CYII="
+  ],
   "canvas": [
     "ad0fc3e465bbbce2cad2bd5b45d9ecaa"
+  ],
+  "canvasRenders": [
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATUlEQVRYR+3XsQ0AIAwDQbIQk2TcTMJCpkbQRqb4DGBZJzcJSRrGCwp8J1CrWheRM4/8awMUQAABBBBAAAEEEEAAAbtA61PwCOc3tAts8aLHoSQk+10AAAAASUVORK5CYII="
   ]
 }
