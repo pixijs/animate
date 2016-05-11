@@ -490,8 +490,10 @@ class MovieClip extends Container {
             }
             // Convert the keyframes object into
             // individual properties
+            let lastFrame = {};
             for (let i in keyframes) {
-                this.addTween(instance, keyframes[i], parseInt(i, 10));
+                lastFrame = Object.assign({}, lastFrame, keyframes[i]);
+                this.addTween(instance, lastFrame, parseInt(i, 10));
             }
         }
 
