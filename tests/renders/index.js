@@ -18,6 +18,14 @@ describe('Renders', function() {
                 done();
             });
         };
+
+        this.getInstance = function(id, done) {
+            var path = require('path');
+            var file = path.join(__dirname, 'assets', id + '.js');
+            delete require.cache[path.resolve(file)];
+            var fla = require(file);
+            PIXI.animate.load(fla.stage, done, path.join(__dirname, 'assets'));
+        };
     });
 
     beforeEach(function(){
@@ -30,6 +38,8 @@ describe('Renders', function() {
         this.webgl = null;
         this.canvas = null;
         this.renderer = null;
+        this.getInstance = null;
+        this.validate = null;
     });
 
     // -------------- Tests begin here --------------
@@ -160,5 +170,22 @@ describe('Renders', function() {
 
     it('should render visibility toggling on/off', function(done){
         this.validate('visible', done);
+    });
+
+    it('should work for actions', function(done) {
+        this.getInstance('actions', (instance) => {
+            instance.once('actionsWork', () => {
+                done();
+            });
+            this.renderer.stage.addChild(instance);
+            instance.play();
+        });
+    });
+
+    it('should work for named instances', function(done) {
+        this.getInstance('named-instance', (instance) => {
+            assert(instance.example, 'Missing named instance');
+            done();
+        });
     });
 });
