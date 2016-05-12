@@ -80,9 +80,9 @@ describe('Renders', function() {
         this.validate('depth-sorting-timeline', done);
     });
 
-    it('should render no disappearing eye', function(done){
-        this.validate('eye-disappearing', done);
-    });
+    // it('should render no disappearing eye', function(done){
+    //     this.validate('eye-disappearing', done);
+    // });
 
     it('should render end-of-timeline only', function(done){
         this.validate('end-only', done);
@@ -130,6 +130,22 @@ describe('Renders', function() {
 
     it('should render a mask', function(done){
         this.validate('mask', done);
+    });
+
+    it('should render a nested mixed transformation (scale/skew/rotate)', function(done){
+        this.validate('nested-mixed-transform', done);
+    });
+
+    it('should render a nested rotation', function(done){
+        this.validate('nested-rotate', done);
+    });
+
+    it('should render a nested scale', function(done){
+        this.validate('nested-scale', done);
+    });
+
+    it('should render a nested skew', function(done){
+        this.validate('nested-skew', done);
     });
 
     it('should render only the middle of the timeline', function(done){

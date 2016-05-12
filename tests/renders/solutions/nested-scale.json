@@ -1,0 +1,14 @@
+{
+  "webgl": [
+    {
+      "hash": "9fd08fc9141ca4c30c6a011175f7042f",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAU0lEQVRYR+3VsQ0AIAwDQbIOc1AzLDVzsI5ZwaSJkD51gqwrTEhSK5wgAAIIIPCNwBznqS/X7ta+3YQEQAABBBAoF7CKPbFk/wWJt60TAiCAAAIXFkqjoVp3s+YAAAAASUVORK5CYII="
+    }
+  ],
+  "canvas": [
+    {
+      "hash": "285e414c731a49a5622c959d6d457930",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAfklEQVRYR2P8////f4YBBIyjDhgNgdEQGA0BYkLg8sVvDFcufiWpuNLR52bQ1eciqIeogmjZwtcMKxa/JmgYsoKIWFGGqHhRgnpGHTAaAqMhMBoCoyEwNEIAVBldvkBaZaRrQMXKiGCNQoECoqKAAvMJah11wGgIjIbAgIcAAGyz06Ejso3jAAAAAElFTkSuQmCC"
+    }
+  ]
+}

@@ -12,9 +12,7 @@
             .setStyle({
                 font: "12px Arial"
             })
-            .setRenderable(false)
-            .setTransform(3.45, 8.7)
-            .setMask(instance1);
+            .setTransform(4.95, 8.7);
         this.addChild(instance1);
     });
 
