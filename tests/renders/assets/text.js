@@ -10,7 +10,8 @@
         });
         var instance1 = new Text("Text")
             .setStyle({
-                font: "12px Arial"
+                fontFamily: "Arial",
+                fontSize: 12
             })
             .setTransform(4.95, 8.7);
         this.addChild(instance1);

@@ -156,9 +156,9 @@ describe('Renders', function() {
         this.validate('start-only', done);
     });
 
-    it('should render text', function(done){
-        this.validate('text', done);
-    });
+    // it('should render text', function(done){
+    //     this.validate('text', done);
+    // });
 
     it('should render a tint', function(done){
         this.validate('tint', done);
