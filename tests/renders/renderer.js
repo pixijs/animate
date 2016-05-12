@@ -2,13 +2,14 @@
 
 const md5 = require('js-md5');
 const path = require('path');
+const ImageDiff = require('./imagediff');
 
 /**
  * Class to create solutions
  * @class Renderer
  * @constructor
  */
-var Renderer = function(viewWebGL, viewContext2d) {
+const Renderer = function(viewWebGL, viewContext2d) {
     this.stage = new PIXI.Container();
     this.hasWebGL = PIXI.utils.isWebGLSupported();
     if (this.hasWebGL) {
@@ -30,11 +31,8 @@ var Renderer = function(viewWebGL, viewContext2d) {
     this.render();
 
     this.instance = null;
+    this.imagediff = new ImageDiff(32, 32, 0.01);
 };
-
-Renderer.WIDTH = 32;
-Renderer.HEIGHT = 32;
-Renderer.TOLERANCE = 0.01;
 
 // Reference to the prototype
 const p = Renderer.prototype;
@@ -118,14 +116,14 @@ p.compare = function(file, solution, callback) {
             return callback(err);
         }
         if (this.hasWebGL) {
-            if (!this.strictEquals(solution.webgl, result.webgl)) {
-                if (!this.softEquals(solution.webglRenders, result.webglRenders)) {
+            if (!this.compareHash(solution.webgl, result.webgl)) {
+                if (!this.compareImages(solution.webglRenders, result.webglRenders)) {
                     return callback(new Error('WebGL results do not match.'));
                 }
             }
         }
-        if (!this.strictEquals(solution.canvas, result.canvas)) {
-            if (!this.softEquals(solution.canvasRenders, result.canvasRenders)) {
+        if (!this.compareHash(solution.canvas, result.canvas)) {
+            if (!this.compareImages(solution.canvasRenders, result.canvasRenders)) {
                 return callback(new Error('Canvas results do not match.'));
             }
         }
@@ -135,26 +133,27 @@ p.compare = function(file, solution, callback) {
 
 /**
  * Compare two arrays of images
- * @method softEquals
+ * @method compareImages
  * @private
  * @param {Array} a
  * @param {Array} b
  * @return {Boolean} If we're equal
  */
-p.softEquals = function(a, b) {
+p.compareImages = function(a, b) {
     if (a === b) {
         return true;
     }
-    if (!a || !b) {
+    if (a === null || b === null) {
         return false;
     }
+
     let length = a.length;
     if (b.length !== length) {
         return false;
     }
     
     for (let i=0; i<length; i++) {
-        if (!this.compareImages(a[i], b[i])) {
+        if (!this.imagediff.compare(a[i], b[i])) {
             return false;
         }
     }
@@ -162,59 +161,18 @@ p.softEquals = function(a, b) {
 };
 
 /**
- * Compare two base64 images
- * @method compareImages
- * @param {string} src1
- * @param {string} src2
- * @return {Boolean}
- */
-p.compareImages = function(src1, src2) {
-    var dataA = this.getImageData(src1);
-    var dataB = this.getImageData(src2);
-    let len = dataA.length;
-    let diff = dataA.filter(function(val, i) {
-        return val !== dataB[i];
-    }); 
-    if (diff.length / len > Renderer.TOLERANCE) {
-        return false;
-    }
-    return true;
-};
-
-/**
- * Get an array of pixels
- * @method getImageData
- * @param {string} src
- * @return {Uint8ClampedArray}
- */
-p.getImageData = function(src) {
-    const image = new Image();
-    image.src = src;
-    const canvas = document.createElement('canvas');
-    canvas.width = Renderer.WIDTH;
-    canvas.height = Renderer.HEIGHT;
-    const ctx = canvas.getContext('2d', {
-        antialias: false,
-        preserveDrawingBuffer: true
-    });
-    ctx.drawImage(image, 0, 0, Renderer.WIDTH, Renderer.HEIGHT);
-    const imageData = ctx.getImageData(0, 0, Renderer.WIDTH, Renderer.HEIGHT);
-    return imageData.data;
-};
-
-/**
  * Compare two arrays
- * @method strictEquals
+ * @method compareHash
  * @private
  * @param {Array} a
  * @param {Array} b
  * @return {Boolean} If we're equal
  */
-p.strictEquals = function(a, b) {
+p.compareHash = function(a, b) {
     if (a === b) {
         return true;
     }
-    if (!a || !b) {
+    if (a === null || b === null) {
         return false;
     }
 
