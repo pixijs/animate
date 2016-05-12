@@ -52,8 +52,36 @@ describe('Renders', function() {
         this.validate('alpha', done);
     });
 
+    it('should render a bitmap', function(done){
+        this.validate('bitmap', done);
+    });
+
+    it('should render a bitmap mask', function(done){
+        this.validate('bitmap-mask', done);
+    });
+
+    it('should render a bitmap mask with transparency', function(done){
+        this.validate('bitmap-mask-transparent', done);
+    });
+
+    it('should render a bitmap inside a symbol', function(done){
+        this.validate('bitmap-symbol', done);
+    });
+
     it('should render brightness', function(done){
         this.validate('brightness', done);
+    });
+
+    it('should render depth sorting (single frame)', function(done){
+        this.validate('depth-sorting', done);
+    });
+
+    it('should render depth sorting over the timeline', function(done){
+        this.validate('depth-sorting-timeline', done);
+    });
+
+    it('should render no disappearing eye', function(done){
+        this.validate('eye-disappearing', done);
     });
 
     it('should render end-of-timeline only', function(done){
@@ -62,6 +90,22 @@ describe('Renders', function() {
 
     it('should render a graphic', function(done){
         this.validate('graphic', done);
+    });
+
+    it('should render a graphic set to "loop"', function(done){
+        this.validate('graphic-loop', done);
+    });
+
+    it('should render a graphic animating on a path', function(done){
+        this.validate('graphic-path', done);
+    });
+
+    it('should render a graphic set to "play once"', function(done){
+        this.validate('graphic-playonce', done);
+    });
+
+    it('should render a graphic set to "single frame"', function(done){
+        this.validate('graphic-singleframe', done);
     });
 
     // it('should render a graphic mask', function(done){
@@ -96,6 +140,10 @@ describe('Renders', function() {
         this.validate('start-only', done);
     });
 
+    it('should render text', function(done){
+        this.validate('text', done);
+    });
+
     it('should render a tint', function(done){
         this.validate('tint', done);
     });
@@ -106,6 +154,14 @@ describe('Renders', function() {
 
     it('should render a nested graphics tween', function(done){
         this.validate('tween-nested-graphics', done);
+    });
+
+    it('should render a nested movieclip tween', function(done){
+        this.validate('tween-nested-movieclip', done);
+    });
+
+    it('should render multiple instances of a nested tween', function(done){
+        this.validate('tween-nested-multiple-instances', done);
     });
 
     it('should render a tween from normal to advanced color', function(done){

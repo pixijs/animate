@@ -1,5 +1,6 @@
 {
   "webgl": [
+<<<<<<< Updated upstream
     {
       "hash": "832bacaa7fee4adcff530f56f19e9545",
       "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATklEQVRYR+3WsQ0AIAwDQTwtMzGt2YBEchGKT02QdYUV2fYaHBEAAQS+F9BW1BI+75ope4AACCCAAAIIIDAuEB0DjeXyHmj8ET0hAAIIXKOur6HKjWzrAAAAAElFTkSuQmCC"
@@ -26,5 +27,15 @@
       "hash": "a0dc37a04bba77f38fb1ac283f2601a8",
       "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATklEQVRYR+3VsQkAMAhE0bhWpnE0p8laJ6RKrYUQvr1w95ozSVqDZwRAAAEEEEAAgY5AnLhD7tvLg96a4/EA5drPY0uAAAgggAACCHwhkJN8haH+J1x1AAAAAElFTkSuQmCC"
     }
+=======
+    "9f6dc968499354e791bc464530ff1638",
+    "ab8fee857a39e3e764633c44e6c5fbb0",
+    "32c6e8556b77e65b45b0390d937cf237"
+  ],
+  "canvas": [
+    "9f6dc968499354e791bc464530ff1638",
+    "1fd4f322e83d65475dde8d64c110b615",
+    "c85b7e04bc502fe43519f9a5acbf54c3"
+>>>>>>> Stashed changes
   ]
 }
