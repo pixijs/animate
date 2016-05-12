@@ -1,8 +1,14 @@
 {
   "webgl": [
-    "4bd0f3bc2f9f088f316e21200ed491b7"
+    {
+      "hash": "4bd0f3bc2f9f088f316e21200ed491b7",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAL0lEQVRYR+3QQREAAAzCsOFfNJPBJ1XQS9r2hsUAAQIECBAgQIAAAQIECBAgsBZ4MUx/ofm2I/kAAAAASUVORK5CYII="
+    }
   ],
   "canvas": [
-    "4bd0f3bc2f9f088f316e21200ed491b7"
+    {
+      "hash": "4bd0f3bc2f9f088f316e21200ed491b7",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAL0lEQVRYR+3QQREAAAzCsOFfNJPBJ1XQS9r2hsUAAQIECBAgQIAAAQIECBAgsBZ4MUx/ofm2I/kAAAAASUVORK5CYII="
+    }
   ]
 }

@@ -6,7 +6,7 @@
 
     lib.mask = MovieClip.extend(function () {
         MovieClip.call(this, {
-            duration: 4,
+            duration: 3,
             framerate: 30
         });
         var instance2 = new Graphics()
@@ -21,8 +21,7 @@
             .addTimedChild(instance3, 2, 1)
             .addTimedMask(instance1, {
                 "1": instance2,
-                "2": instance3,
-                "3": null
+                "2": instance3
             })
             .addTimedChild(instance1);
     });
@@ -39,7 +38,7 @@ if (typeof module !== 'undefined' && module.exports) {
         width: 32,
         height: 32,
         framerate: 30,
-        totalFrames: 4,
+        totalFrames: 3,
         library: lib
     };
 }

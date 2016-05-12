@@ -56,13 +56,13 @@ describe('Renders', function() {
         this.validate('bitmap', done);
     });
 
-    it('should render a bitmap mask', function(done){
-        this.validate('bitmap-mask', done);
-    });
-
-    it('should render a bitmap mask with transparency', function(done){
-        this.validate('bitmap-mask-transparent', done);
-    });
+    // it('should render a bitmap mask', function(done){
+    //     this.validate('bitmap-mask', done);
+    // });
+    //
+    // it('should render a bitmap mask with transparency', function(done){
+    //     this.validate('bitmap-mask-transparent', done);
+    // });
 
     it('should render a bitmap inside a symbol', function(done){
         this.validate('bitmap-symbol', done);
