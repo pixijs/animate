@@ -2,7 +2,7 @@
 
 A plugin for Pixi.js which provides a runtime for content export using PixiAnimate Extension. 
 
-[![Build Status](https://travis-ci.org/jiborobot/pixi-animate.svg?branch=master)](https://travis-ci.org/jiborobot/pixi-animate)
+[![Build Status](https://travis-ci.org/jiborobot/pixi-animate.svg?branch=master)](https://travis-ci.org/jiborobot/pixi-animate) [![Dependency Status](https://david-dm.org/jiborobot/pixi-animate.svg)](https://david-dm.org/jiborobot/pixi-animate)
 
 ## Running Content
 

@@ -14,7 +14,7 @@ const options = {
     docs: 'docs',
     src: src,
     pkg, pkg,
-    lint: [src, 'tests/*.js'],
+    lint: [src, 'tests/**/*.js', '!tests/renders/assets/*.js'],
     format: [src, 'tests/*.js', 'tasks/*.js'],
     tests: 'tests',
     eslint: {
