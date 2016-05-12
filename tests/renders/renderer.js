@@ -13,14 +13,14 @@ const Renderer = function(viewWebGL, viewContext2d) {
     this.stage = new PIXI.Container();
     this.hasWebGL = PIXI.utils.isWebGLSupported();
     if (this.hasWebGL) {
-        this.webgl = new PIXI.WebGLRenderer(32, 32, {
+        this.webgl = new PIXI.WebGLRenderer(Renderer.WIDTH, Renderer.HEIGHT, {
             view: viewWebGL,
             backgroundColor: 0xffffff,
             antialias: false,
             preserveDrawingBuffer: true
         });
     }
-    this.canvas = new PIXI.CanvasRenderer(32, 32, {
+    this.canvas = new PIXI.CanvasRenderer(Renderer.WIDTH, Renderer.HEIGHT, {
         view: viewContext2d,
         backgroundColor: 0xffffff,
         antialias: false,
@@ -31,11 +31,15 @@ const Renderer = function(viewWebGL, viewContext2d) {
     this.render();
 
     this.instance = null;
-    this.imagediff = new ImageDiff(32, 32, 0.01);
+    this.imagediff = new ImageDiff(Renderer.WIDTH, Renderer.HEIGHT, Renderer.TOLERANCE);
 };
 
 // Reference to the prototype
 const p = Renderer.prototype;
+
+Renderer.WIDTH = 32;
+Renderer.HEIGHT = 32;
+Renderer.TOLERANCE = 0.01;
 
 /**
  * Rerender the stage
@@ -79,9 +83,7 @@ p.run = function(file, callback) {
         this.stage.addChild(instance);
         const result = {
             webgl: [],
-            webglRenders: [],
-            canvas: [],
-            canvasRenders: []
+            canvas: []
         };
 
         for(let i = 0; i < fla.totalFrames; i++) {
@@ -90,12 +92,16 @@ p.run = function(file, callback) {
             this.render();
             if (this.hasWebGL) {
                 data = this.webgl.view.toDataURL();
-                result.webgl.push(md5(data));
-                result.webglRenders.push(data);
+                result.webgl.push({
+                    hash: md5(data),
+                    image: data
+                });
             }
             data = this.canvas.view.toDataURL();
-            result.canvas.push(md5(data));
-            result.canvasRenders.push(data);
+            result.canvas.push({
+                hash: md5(data),
+                image: data
+            });
         }
         callback(null, result);
     }, path.dirname(file));
@@ -116,59 +122,26 @@ p.compare = function(file, solution, callback) {
             return callback(err);
         }
         if (this.hasWebGL) {
-            if (!this.compareHash(solution.webgl, result.webgl)) {
-                if (!this.compareImages(solution.webglRenders, result.webglRenders)) {
-                    return callback(new Error('WebGL results do not match.'));
-                }
+            if (!this.compareFrames(solution.webgl, result.webgl)) {
+                return callback(new Error('WebGL results do not match.'));    
             }
         }
-        if (!this.compareHash(solution.canvas, result.canvas)) {
-            if (!this.compareImages(solution.canvasRenders, result.canvasRenders)) {
-                return callback(new Error('Canvas results do not match.'));
-            }
+        if (!this.compareFrames(solution.canvas, result.canvas)) {
+            return callback(new Error('Canvas results do not match.'));
         }
         callback(null, true);
     });
 };
 
 /**
- * Compare two arrays of images
- * @method compareImages
+ * Compare two arrays of frames
+ * @method compareFrames
  * @private
  * @param {Array} a
  * @param {Array} b
  * @return {Boolean} If we're equal
  */
-p.compareImages = function(a, b) {
-    if (a === b) {
-        return true;
-    }
-    if (a === null || b === null) {
-        return false;
-    }
-
-    let length = a.length;
-    if (b.length !== length) {
-        return false;
-    }
-    
-    for (let i=0; i<length; i++) {
-        if (!this.imagediff.compare(a[i], b[i])) {
-            return false;
-        }
-    }
-    return true;
-};
-
-/**
- * Compare two arrays
- * @method compareHash
- * @private
- * @param {Array} a
- * @param {Array} b
- * @return {Boolean} If we're equal
- */
-p.compareHash = function(a, b) {
+p.compareFrames = function(a, b) {
     if (a === b) {
         return true;
     }
@@ -182,8 +155,10 @@ p.compareHash = function(a, b) {
     }
 
     for (let i=0; i<length; i++) {
-        if (a[i] !== b[i]) {
-            return false;
+        if (a[i].hash !== b[i].hash) {
+            if (!this.imagediff.compare(a[i].image, b[i].image)) {
+                return false;
+            }
         }
     }
     return true;
