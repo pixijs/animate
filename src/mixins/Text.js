@@ -41,7 +41,11 @@ p.setAlign = p.g = function(align) {
 
 // Map of short names to long names
 var STYLE_PROPS = {
-    o: 'font',
+    o: 'font', // TODO: deprecate in Pixi v4
+    z: 'fontSize',
+    f: 'fontFamily',
+    y: 'fontStyle',
+    g: 'fontWeight',
     i: 'fill',
     a: 'align',
     s: 'stroke',
