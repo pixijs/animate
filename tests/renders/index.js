@@ -132,6 +132,10 @@ describe('Renders', function() {
         this.validate('mask', done);
     });
 
+    it('should render a shape primitive mask', function(done){
+        this.validate('mask-primitive', done);
+    });
+
     it('should render a nested mixed transformation (scale/skew/rotate)', function(done){
         this.validate('nested-mixed-transform', done);
     });
