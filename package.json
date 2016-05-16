@@ -1,7 +1,7 @@
 {
   "name": "pixi-animate",
   "description": "PIXI plugin for the PixiAnimate Extension",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "main": "dist/pixi-animate.min.js",
   "author": "Matt Karl <matt.karl@jibo.com>",
   "dependencies": {
