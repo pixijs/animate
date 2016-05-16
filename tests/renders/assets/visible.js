@@ -8,7 +8,7 @@
     lib.graphic = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.visible_1);
+            .drawCommands(shapes.visible[0]);
         this.addChild(instance1);
     });
 
@@ -30,9 +30,9 @@
         });
     });
 
-    lib.visible.assets = [
-        "images/visible.shapes.json"
-    ];
+    lib.visible.assets = {
+        "visible": "images/visible.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

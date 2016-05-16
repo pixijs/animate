@@ -10,18 +10,18 @@
             framerate: 30
         });
         var instance1 = new Graphics()
-            .drawCommands(shapes.mask_primitive_1)
+            .drawCommands(shapes.mask_primitive[0])
             .setRenderable(false)
             .setTransform(-13.1, -8);
         var instance2 = new Graphics()
-            .drawCommands(shapes.mask_primitive_2)
+            .drawCommands(shapes.mask_primitive[1])
             .setMask(instance1);
         this.addChild(instance1, instance2);
     });
 
-    lib.mask_primitive.assets = [
-        "images/mask_primitive.shapes.json"
-    ];
+    lib.mask_primitive.assets = {
+        "mask_primitive": "images/mask_primitive.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

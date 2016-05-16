@@ -7,10 +7,10 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 4, loop: false });
         var instance2 = new Graphics()
-            .drawCommands(shapes.mask_nested_1)
+            .drawCommands(shapes.mask_nested[0])
             .setRenderable(false);
         var instance1 = new Graphics()
-            .drawCommands(shapes.mask_nested_3);
+            .drawCommands(shapes.mask_nested[1]);
         this.addTimedChild(instance2, 1, 2, {
                 "1": {
                     x: 0,
@@ -34,13 +34,14 @@
             framerate: 30
         });
         var instance1 = new Graphic1(MovieClip.SYNCHED)
-            .setTransform(16, 16);
+            .setTransform(16, 16)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addTimedChild(instance1);
     });
 
-    lib.mask_nested.assets = [
-        "images/mask_nested.shapes.json"
-    ];
+    lib.mask_nested.assets = {
+        "mask_nested": "images/mask_nested.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

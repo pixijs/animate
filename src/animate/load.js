@@ -83,22 +83,15 @@ const load = function(StageRef, parent, complete, assetBaseDir) {
     }
 
     // Check for assets to preload
-    if (assets && assets.length) {
+    if (assets && Object.keys(assets).length) {
         // assetBaseDir can accept either with trailing slash or not
         if (assetBaseDir) {
             assetBaseDir += "/";
         }
-
-        for (let asset, i = 0; i < assets.length; i++) {
-            asset = assets[i];
-            if (Array.isArray(asset)) {
-                loader.add(asset[0], assetBaseDir + asset[1]);
-            } else {
-                loader.add(assetBaseDir + asset);
-            }
+        for (let id in assets) {
+            loader.add(id, assetBaseDir + assets[id]);
         }
-        loader.once('complete', done)
-            .load();
+        loader.once('complete', done).load();
     } else {
         // tiny case where there's only text and no shapes/animations
         done();

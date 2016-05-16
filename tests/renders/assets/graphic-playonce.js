@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 2, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.graphic_playonce_1);
+            .drawCommands(shapes.graphic_playonce[0]);
         this.addTimedChild(instance1, 0, 2, {
             "0": {
                 x: 0,
@@ -30,9 +30,9 @@
         this.addTimedChild(instance1);
     });
 
-    lib.graphic_playonce.assets = [
-        "images/graphic_playonce.shapes.json"
-    ];
+    lib.graphic_playonce.assets = {
+        "graphic_playonce": "images/graphic_playonce.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

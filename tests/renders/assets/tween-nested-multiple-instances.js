@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -68,7 +68,7 @@
     var Graphic5 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -129,7 +129,7 @@
     var Graphic9 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -190,7 +190,7 @@
     var Graphic13 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -251,7 +251,7 @@
     var Graphic17 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -312,7 +312,7 @@
     var Graphic21 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -373,7 +373,7 @@
     var Graphic25 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -434,7 +434,7 @@
     var Graphic29 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -495,7 +495,7 @@
     var Graphic33 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -556,7 +556,7 @@
     var Graphic37 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -617,7 +617,7 @@
     var Graphic41 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -814,7 +814,7 @@
     var Graphic46 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -875,7 +875,7 @@
     var Graphic50 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -936,7 +936,7 @@
     var Graphic54 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -997,7 +997,7 @@
     var Graphic58 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1058,7 +1058,7 @@
     var Graphic62 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1119,7 +1119,7 @@
     var Graphic66 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1180,7 +1180,7 @@
     var Graphic70 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1241,7 +1241,7 @@
     var Graphic74 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1302,7 +1302,7 @@
     var Graphic78 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1363,7 +1363,7 @@
     var Graphic82 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1424,7 +1424,7 @@
     var Graphic86 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1621,7 +1621,7 @@
     var Graphic91 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1682,7 +1682,7 @@
     var Graphic95 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1743,7 +1743,7 @@
     var Graphic99 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1804,7 +1804,7 @@
     var Graphic103 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1865,7 +1865,7 @@
     var Graphic107 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1926,7 +1926,7 @@
     var Graphic111 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -1987,7 +1987,7 @@
     var Graphic115 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2048,7 +2048,7 @@
     var Graphic119 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2109,7 +2109,7 @@
     var Graphic123 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2170,7 +2170,7 @@
     var Graphic127 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2231,7 +2231,7 @@
     var Graphic131 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2428,7 +2428,7 @@
     var Graphic136 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2489,7 +2489,7 @@
     var Graphic140 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2550,7 +2550,7 @@
     var Graphic144 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2611,7 +2611,7 @@
     var Graphic148 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2672,7 +2672,7 @@
     var Graphic152 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2733,7 +2733,7 @@
     var Graphic156 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2794,7 +2794,7 @@
     var Graphic160 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2855,7 +2855,7 @@
     var Graphic164 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2916,7 +2916,7 @@
     var Graphic168 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -2977,7 +2977,7 @@
     var Graphic172 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3038,7 +3038,7 @@
     var Graphic176 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3235,7 +3235,7 @@
     var Graphic181 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3296,7 +3296,7 @@
     var Graphic185 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3357,7 +3357,7 @@
     var Graphic189 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3418,7 +3418,7 @@
     var Graphic193 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3479,7 +3479,7 @@
     var Graphic197 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3540,7 +3540,7 @@
     var Graphic201 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3601,7 +3601,7 @@
     var Graphic205 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3662,7 +3662,7 @@
     var Graphic209 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3723,7 +3723,7 @@
     var Graphic213 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3784,7 +3784,7 @@
     var Graphic217 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -3845,7 +3845,7 @@
     var Graphic221 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4042,7 +4042,7 @@
     var Graphic226 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4103,7 +4103,7 @@
     var Graphic230 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4164,7 +4164,7 @@
     var Graphic234 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4225,7 +4225,7 @@
     var Graphic238 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4286,7 +4286,7 @@
     var Graphic242 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4347,7 +4347,7 @@
     var Graphic246 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4408,7 +4408,7 @@
     var Graphic250 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4469,7 +4469,7 @@
     var Graphic254 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4530,7 +4530,7 @@
     var Graphic258 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4591,7 +4591,7 @@
     var Graphic262 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4652,7 +4652,7 @@
     var Graphic266 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4849,7 +4849,7 @@
     var Graphic271 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4910,7 +4910,7 @@
     var Graphic275 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -4971,7 +4971,7 @@
     var Graphic279 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5032,7 +5032,7 @@
     var Graphic283 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5093,7 +5093,7 @@
     var Graphic287 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5154,7 +5154,7 @@
     var Graphic291 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5215,7 +5215,7 @@
     var Graphic295 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5276,7 +5276,7 @@
     var Graphic299 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5337,7 +5337,7 @@
     var Graphic303 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5398,7 +5398,7 @@
     var Graphic307 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5459,7 +5459,7 @@
     var Graphic311 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5656,7 +5656,7 @@
     var Graphic316 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5717,7 +5717,7 @@
     var Graphic320 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5778,7 +5778,7 @@
     var Graphic324 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5839,7 +5839,7 @@
     var Graphic328 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5900,7 +5900,7 @@
     var Graphic332 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -5961,7 +5961,7 @@
     var Graphic336 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6022,7 +6022,7 @@
     var Graphic340 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6083,7 +6083,7 @@
     var Graphic344 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6144,7 +6144,7 @@
     var Graphic348 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6205,7 +6205,7 @@
     var Graphic352 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6266,7 +6266,7 @@
     var Graphic356 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6463,7 +6463,7 @@
     var Graphic361 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6524,7 +6524,7 @@
     var Graphic365 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6585,7 +6585,7 @@
     var Graphic369 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6646,7 +6646,7 @@
     var Graphic373 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6707,7 +6707,7 @@
     var Graphic377 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6768,7 +6768,7 @@
     var Graphic381 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6829,7 +6829,7 @@
     var Graphic385 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6890,7 +6890,7 @@
     var Graphic389 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -6951,7 +6951,7 @@
     var Graphic393 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7012,7 +7012,7 @@
     var Graphic397 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7073,7 +7073,7 @@
     var Graphic401 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7270,7 +7270,7 @@
     var Graphic406 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7331,7 +7331,7 @@
     var Graphic410 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7392,7 +7392,7 @@
     var Graphic414 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7453,7 +7453,7 @@
     var Graphic418 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7514,7 +7514,7 @@
     var Graphic422 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7575,7 +7575,7 @@
     var Graphic426 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7636,7 +7636,7 @@
     var Graphic430 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7697,7 +7697,7 @@
     var Graphic434 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7758,7 +7758,7 @@
     var Graphic438 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7819,7 +7819,7 @@
     var Graphic442 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -7880,7 +7880,7 @@
     var Graphic446 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8077,7 +8077,7 @@
     var Graphic451 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8138,7 +8138,7 @@
     var Graphic455 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8199,7 +8199,7 @@
     var Graphic459 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8260,7 +8260,7 @@
     var Graphic463 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8321,7 +8321,7 @@
     var Graphic467 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8382,7 +8382,7 @@
     var Graphic471 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8443,7 +8443,7 @@
     var Graphic475 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8504,7 +8504,7 @@
     var Graphic479 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8565,7 +8565,7 @@
     var Graphic483 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8626,7 +8626,7 @@
     var Graphic487 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8687,7 +8687,7 @@
     var Graphic491 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8884,7 +8884,7 @@
     var Graphic496 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -8945,7 +8945,7 @@
     var Graphic500 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9006,7 +9006,7 @@
     var Graphic504 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9067,7 +9067,7 @@
     var Graphic508 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9128,7 +9128,7 @@
     var Graphic512 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9189,7 +9189,7 @@
     var Graphic516 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9250,7 +9250,7 @@
     var Graphic520 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9311,7 +9311,7 @@
     var Graphic524 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9372,7 +9372,7 @@
     var Graphic528 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9433,7 +9433,7 @@
     var Graphic532 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9494,7 +9494,7 @@
     var Graphic536 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_multiple_instances_1);
+            .drawCommands(shapes.tween_nested_multiple_instances[0]);
         this.addTimedChild(instance1);
     });
 
@@ -9694,29 +9694,41 @@
             framerate: 24
         });
         var instance12 = new Graphic540(MovieClip.SYNCHED)
-            .setTransform(15.95, 15.15);
+            .setTransform(15.95, 15.15)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance11 = new Graphic495(MovieClip.SYNCHED)
-            .setTransform(16.5, 17.85);
+            .setTransform(16.5, 17.85)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance10 = new Graphic450(MovieClip.SYNCHED)
-            .setTransform(15.95, 15.15);
+            .setTransform(15.95, 15.15)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance9 = new Graphic405(MovieClip.SYNCHED)
-            .setTransform(15.1, 14.65);
+            .setTransform(15.1, 14.65)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance8 = new Graphic360(MovieClip.SYNCHED)
-            .setTransform(15.65, 17.35);
+            .setTransform(15.65, 17.35)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance7 = new Graphic315(MovieClip.SYNCHED)
-            .setTransform(11.75, 18.4);
+            .setTransform(11.75, 18.4)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance6 = new Graphic270(MovieClip.SYNCHED)
-            .setTransform(15.1, 14.65);
+            .setTransform(15.1, 14.65)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance5 = new Graphic225(MovieClip.SYNCHED)
-            .setTransform(17.1, 15.15);
+            .setTransform(17.1, 15.15)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance4 = new Graphic180(MovieClip.SYNCHED)
-            .setTransform(17.65, 17.85);
+            .setTransform(17.65, 17.85)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance3 = new Graphic135(MovieClip.SYNCHED)
-            .setTransform(17.1, 15.15);
+            .setTransform(17.1, 15.15)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance2 = new Graphic90(MovieClip.SYNCHED)
-            .setTransform(16.25, 14.65);
+            .setTransform(16.25, 14.65)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         var instance1 = new Graphic45(MovieClip.SYNCHED)
-            .setTransform(16.8, 17.35);
+            .setTransform(16.8, 17.35)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addTimedChild(instance12)
             .addTimedChild(instance11)
             .addTimedChild(instance10)
@@ -9731,9 +9743,9 @@
             .addTimedChild(instance1);
     });
 
-    lib.tween_nested_multiple_instances.assets = [
-        "images/tween_nested_multiple_instances.shapes.json"
-    ];
+    lib.tween_nested_multiple_instances.assets = {
+        "tween_nested_multiple_instances": "images/tween_nested_multiple_instances.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

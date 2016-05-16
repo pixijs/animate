@@ -10,17 +10,17 @@
             framerate: 24
         });
         var instance3 = new Graphics()
-            .drawCommands(shapes.depth_sorting_3);
+            .drawCommands(shapes.depth_sorting[2]);
         var instance2 = new Graphics()
-            .drawCommands(shapes.depth_sorting_2);
+            .drawCommands(shapes.depth_sorting[1]);
         var instance1 = new Graphics()
-            .drawCommands(shapes.depth_sorting_1);
+            .drawCommands(shapes.depth_sorting[0]);
         this.addChild(instance3, instance2, instance1);
     });
 
-    lib.depth_sorting.assets = [
-        "images/depth_sorting.shapes.json"
-    ];
+    lib.depth_sorting.assets = {
+        "depth_sorting": "images/depth_sorting.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

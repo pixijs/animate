@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_movieclip_1);
+            .drawCommands(shapes.tween_nested_movieclip[0]);
         this.addTimedChild(instance1);
     });
 
@@ -93,9 +93,9 @@
         this.addTimedChild(instance1);
     });
 
-    lib.tween_nested_movieclip.assets = [
-        "images/tween_nested_movieclip.shapes.json"
-    ];
+    lib.tween_nested_movieclip.assets = {
+        "tween_nested_movieclip": "images/tween_nested_movieclip.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

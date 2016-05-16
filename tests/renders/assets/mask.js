@@ -10,13 +10,13 @@
             framerate: 30
         });
         var instance2 = new Graphics()
-            .drawCommands(shapes.mask_1)
+            .drawCommands(shapes.mask[1])
             .setRenderable(false);
         var instance3 = new Graphics()
-            .drawCommands(shapes.mask_2)
+            .drawCommands(shapes.mask[2])
             .setRenderable(false);
         var instance1 = new Graphics()
-            .drawCommands(shapes.mask_3);
+            .drawCommands(shapes.mask[0]);
         this.addTimedChild(instance2, 1, 1)
             .addTimedChild(instance3, 2, 1)
             .addTimedMask(instance1, {
@@ -26,9 +26,9 @@
             .addTimedChild(instance1);
     });
 
-    lib.mask.assets = [
-        "images/mask.shapes.json"
-    ];
+    lib.mask.assets = {
+        "mask": "images/mask.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

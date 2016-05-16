@@ -10,16 +10,16 @@
             framerate: 24
         });
         var instance1 = new Graphics()
-            .drawCommands(shapes.actions_1);
+            .drawCommands(shapes.actions[0]);
         this.addChild(instance1);
         this.addAction(function () {
             this.emit('actionsWork');
         }, 0);
     });
 
-    lib.actions.assets = [
-        "images/actions.shapes.json"
-    ];
+    lib.actions.assets = {
+        "actions": "images/actions.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

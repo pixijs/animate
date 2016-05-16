@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_normal_advanced_1);
+            .drawCommands(shapes.tween_normal_advanced[0]);
         this.addTimedChild(instance1);
     });
 
@@ -20,7 +20,15 @@
         this.addTimedChild(instance1, 0, 3, {
             "0": {
                 x: 16,
-                y: 16
+                y: 16,
+                c: [
+                    1,
+                    0,
+                    1,
+                    0,
+                    1,
+                    0
+                ]
             },
             "1": {
                 c: [
@@ -44,9 +52,9 @@
         });
     });
 
-    lib.tween_normal_advanced.assets = [
-        "images/tween_normal_advanced.shapes.json"
-    ];
+    lib.tween_normal_advanced.assets = {
+        "tween_normal_advanced": "images/tween_normal_advanced.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.nested_scale_1);
+            .drawCommands(shapes.nested_scale[0]);
         this.addChild(instance1);
     });
 
@@ -36,9 +36,9 @@
         this.addChild(instance1);
     });
 
-    lib.nested_scale.assets = [
-        "images/nested_scale.shapes.json"
-    ];
+    lib.nested_scale.assets = {
+        "nested_scale": "images/nested_scale.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

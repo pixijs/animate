@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.mask_tween_1);
+            .drawCommands(shapes.mask_tween[0]);
         this.addTimedChild(instance1);
     });
 
@@ -19,7 +19,7 @@
         var instance1 = new Graphic1(MovieClip.SYNCHED)
             .setRenderable(false);
         var instance2 = new Graphics()
-            .drawCommands(shapes.mask_tween_3)
+            .drawCommands(shapes.mask_tween[1])
             .setMask(instance1);
         this.addTimedChild(instance1, 0, 3, {
                 "0": {
@@ -36,9 +36,9 @@
             .addTimedChild(instance2);
     });
 
-    lib.mask_tween.assets = [
-        "images/mask_tween.shapes.json"
-    ];
+    lib.mask_tween.assets = {
+        "mask_tween": "images/mask_tween.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

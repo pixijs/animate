@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.tint_1);
+            .drawCommands(shapes.tint[0]);
         this.addChild(instance1);
     });
 
@@ -23,9 +23,9 @@
         this.addChild(instance1);
     });
 
-    lib.tint.assets = [
-        "images/tint.shapes.json"
-    ];
+    lib.tint.assets = {
+        "tint": "images/tint.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_rotate_1);
+            .drawCommands(shapes.tween_rotate[0]);
         this.addTimedChild(instance1);
     });
 
@@ -38,9 +38,9 @@
         });
     });
 
-    lib.tween_rotate.assets = [
-        "images/tween_rotate.shapes.json"
-    ];
+    lib.tween_rotate.assets = {
+        "tween_rotate": "images/tween_rotate.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

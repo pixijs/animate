@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_skew_x_1);
+            .drawCommands(shapes.tween_skew_x[0]);
         this.addTimedChild(instance1);
     });
 
@@ -42,9 +42,9 @@
         });
     });
 
-    lib.tween_skew_x.assets = [
-        "images/tween_skew_x.shapes.json"
-    ];
+    lib.tween_skew_x.assets = {
+        "tween_skew_x": "images/tween_skew_x.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

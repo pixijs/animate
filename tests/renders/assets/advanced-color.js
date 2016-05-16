@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.advanced_color_1);
+            .drawCommands(shapes.advanced_color[0]);
         this.addChild(instance1);
     });
 
@@ -23,9 +23,9 @@
         this.addChild(instance1);
     });
 
-    lib.advanced_color.assets = [
-        "images/advanced_color.shapes.json"
-    ];
+    lib.advanced_color.assets = {
+        "advanced_color": "images/advanced_color.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

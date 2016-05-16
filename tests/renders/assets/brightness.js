@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.brightness_1);
+            .drawCommands(shapes.brightness[0]);
         this.addChild(instance1);
     });
 
@@ -23,9 +23,9 @@
         this.addChild(instance1);
     });
 
-    lib.brightness.assets = [
-        "images/brightness.shapes.json"
-    ];
+    lib.brightness.assets = {
+        "brightness": "images/brightness.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

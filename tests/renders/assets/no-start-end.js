@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.no_start_end_1);
+            .drawCommands(shapes.no_start_end[0]);
         this.addChild(instance1);
     });
 
@@ -26,9 +26,9 @@
         });
     });
 
-    lib.no_start_end.assets = [
-        "images/no_start_end.shapes.json"
-    ];
+    lib.no_start_end.assets = {
+        "no_start_end": "images/no_start_end.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

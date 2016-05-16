@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.nested_skew_1);
+            .drawCommands(shapes.nested_skew[0]);
         this.addChild(instance1);
     });
 
@@ -36,9 +36,9 @@
         this.addChild(instance1);
     });
 
-    lib.nested_skew.assets = [
-        "images/nested_skew.shapes.json"
-    ];
+    lib.nested_skew.assets = {
+        "nested_skew": "images/nested_skew.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

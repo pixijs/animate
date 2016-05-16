@@ -128,13 +128,12 @@ export default class AnimateUtils {
      * @param {Array} Resulting shapes map
      */
     static deserializeShapes(str) {
-        const result = {};
+        const result = [];
         // each shape is a new line
         let shapes = str.split("\n");
         let isCommand = /^[a-z]{1,2}$/;
         for (let i = 0; i < shapes.length; i++) {
             let shape = shapes[i].split(' '); // arguments are space separated
-            let name = shape.shift(); // first argument is the ID
             for (let j = 0; j < shape.length; j++) {
                 // Convert all numbers to floats, ignore colors
                 let arg = shape[j];
@@ -142,7 +141,7 @@ export default class AnimateUtils {
                     shape[j] = parseFloat(arg);
                 }
             }
-            result[name] = shape;
+            result.push(shape);
         }
         return result;
     }

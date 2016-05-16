@@ -8,7 +8,7 @@
     lib.Graphic1 = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_skew_both_test_1);
+            .drawCommands(shapes.tween_skew_both_test[0]);
         this.addChild(instance1);
     });
 
@@ -22,9 +22,9 @@
         this.addChild(instance1);
     });
 
-    lib.tween_skew_both_test.assets = [
-        "images/tween_skew_both_test.shapes.json"
-    ];
+    lib.tween_skew_both_test.assets = {
+        "tween_skew_both_test": "images/tween_skew_both_test.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

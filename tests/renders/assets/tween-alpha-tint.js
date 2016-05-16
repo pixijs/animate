@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_alpha_tint_1);
+            .drawCommands(shapes.tween_alpha_tint[0]);
         this.addTimedChild(instance1);
     });
 
@@ -21,7 +21,15 @@
             "0": {
                 x: 16,
                 y: 16,
-                a: 0
+                a: 0,
+                c: [
+                    1,
+                    0,
+                    1,
+                    0,
+                    1,
+                    0
+                ]
             },
             "1": {
                 a: 0.5,
@@ -48,9 +56,9 @@
         });
     });
 
-    lib.tween_alpha_tint.assets = [
-        "images/tween_alpha_tint.shapes.json"
-    ];
+    lib.tween_alpha_tint.assets = {
+        "tween_alpha_tint": "images/tween_alpha_tint.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

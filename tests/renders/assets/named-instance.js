@@ -8,7 +8,7 @@
     lib.Example = Container.extend(function () {
         Container.call(this);
         var instance1 = new Graphics()
-            .drawCommands(shapes.NamedInstance_1);
+            .drawCommands(shapes.NamedInstance[0]);
         this.addChild(instance1);
     });
 
@@ -18,13 +18,14 @@
             framerate: 24
         });
         var instance1 = this.example = new lib.Example()
-            .setTransform(4, 4);
+            .setTransform(4, 4)
+            .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addChild(instance1);
     });
 
-    lib.NamedInstance.assets = [
-        "images/NamedInstance.shapes.json"
-    ];
+    lib.NamedInstance.assets = {
+        "NamedInstance": "images/NamedInstance.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

@@ -17,7 +17,7 @@
         this.addChild(instance1);
     });
 
-    lib.text.assets = [];
+    lib.text.assets = {};
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {

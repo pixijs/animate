@@ -11,42 +11,32 @@ const ShapesCache = {};
  * Add an item or itesm to the cache
  * @method add
  * @static
- * @param {String|Object} prop  The id of graphic or the map of graphics to add
- * @param {Array} [value] If adding a single property, the draw commands
+ * @param {String} prop  The id of graphic or the map of graphics to add
+ * @param {String|Array<Array>} items Collection of draw commands
  */
 Object.defineProperty(ShapesCache, 'add', {
     enumerable: false,
-    value: function(prop, draw) {
-        if (typeof prop === "object") {
-            for (let p in prop) {
-                ShapesCache.add(p, prop[p]);
-            }
-            return;
+    value: function(prop, items) {
+
+        // Decode string to map of files
+        if (typeof items === "string") {
+            items = utils.deserializeShapes(items);
         }
+
         // Convert all hex string colors (animate) to int (pixi.js)
-        for (let d in draw) {
-            let arg = draw[d];
-            if (typeof arg === 'string' && arg[0] === '#') {
-                draw[d] = utils.hexToUint(arg);
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            for (let j = 0; j < item.length; j++) {
+                let arg = item[j];
+                if (typeof arg === 'string' && arg[0] === '#') {
+                    item[j] = utils.hexToUint(arg);
+                }
             }
         }
-        ShapesCache[prop] = draw;
+        ShapesCache[prop] = items;
     }
 });
 
-/**
- * Decode a shapes string into draw commands
- * @method decode
- * @static
- * @param  {String} str The string to decode
- * @return {Object} The map of shape drawing commands
- */
-Object.defineProperty(ShapesCache, 'decode', {
-    enumerable: false,
-    value: function(str) {
-        return utils.deserializeShapes(str);
-    }
-});
 
 /**
  * Get the graphic from cache

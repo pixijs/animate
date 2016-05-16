@@ -7,7 +7,7 @@
     var Graphic1 = MovieClip.extend(function (mode) {
         MovieClip.call(this, { mode: mode, duration: 3, loop: false });
         var instance1 = new Graphics()
-            .drawCommands(shapes.tween_scale_y_1);
+            .drawCommands(shapes.tween_scale_y[0]);
         this.addTimedChild(instance1);
     });
 
@@ -34,9 +34,9 @@
         });
     });
 
-    lib.tween_scale_y.assets = [
-        "images/tween_scale_y.shapes.json"
-    ];
+    lib.tween_scale_y.assets = {
+        "tween_scale_y": "images/tween_scale_y.shapes.json"
+    };
 })(PIXI, lib = lib || {});
 var lib;
 if (typeof module !== 'undefined' && module.exports) {
