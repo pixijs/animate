@@ -340,6 +340,51 @@ class MovieClip extends Container {
     }
 
     /**
+     * Extend the timeline to the last frame.
+     * @method _autoExtend
+     * @private
+     * @param {int} endFrame
+     */
+    _autoExtend(endFrame) {
+        if (this._totalFrames < endFrame) {
+            this._totalFrames = endFrame;
+        }
+    }
+
+    /**
+     * Convert values of properties
+     * @method _parseProperties
+     * @private
+     * @param {Object} properties
+     */
+    _parseProperties(properties) {
+        // Convert any string colors to uints
+        if (typeof properties.t === 'string') {
+            properties.t = utils.hexToUint(properties.t);
+        } else if (typeof properties.v === 'number') {
+            properties.v = !!properties.v;
+        }
+    }
+
+    /**
+     * Get a timeline for a child, synced timeline.
+     * @method _getChildTimeline
+     * @private
+     * @param {PIXI.animate.MovieClip} instance
+     * @return {PIXI.animate.Timeline}
+     */
+    _getChildTimeline(instance) {
+        for (let i = this._timelines.length - 1; i >= 0; --i) {
+            if (this._timelines[i].target === instance) {
+                return this._timelines[i];
+            }
+        }
+        let timeline = new Timeline(instance);
+        this._timelines.push(timeline);
+        return timeline;
+    }
+
+    /**
      * Add mask or masks
      * @method addTimedMask
      * @param {PIXI.DisplayObject} instance Instance to mask
@@ -348,7 +393,7 @@ class MovieClip extends Container {
      */
     addTimedMask(instance, keyframes) {
         for (let i in keyframes) {
-            this.addTween(instance, {
+            this.addKeyframe(instance, {
                 m: keyframes[i]
             }, parseInt(i, 10));
         }
@@ -370,15 +415,6 @@ class MovieClip extends Container {
     }
 
     /**
-     * Alias for method `addTween`
-     * @method tw
-     * @return {PIXI.animate.MovieClip}
-     */
-    tw(instance, properties, startFrame, duration, ease) {
-        return this.addTween(instance, properties, startFrame, duration, ease);
-    }
-
-    /**
      * Add a tween to the clip
      * @method addTween
      * @param {PIXI.DisplayObject} instance The clip to tween
@@ -390,35 +426,31 @@ class MovieClip extends Container {
      * @return {PIXI.animate.MovieClip}
      */
     addTween(instance, properties, startFrame, duration, ease) {
-        duration = duration || 0;
 
-        //1. determine if there is already a tween for this instance, and if so prepare to add it
-        //   on/insert it - if there isn't, then make one and set up a wait until startFrame
-        let timeline, i;
-        for (i = this._timelines.length - 1; i >= 0; --i) {
-            if (this._timelines[i].target === instance) {
-                timeline = this._timelines[i];
-                break;
-            }
-        }
-        if (!timeline) {
-            timeline = new Timeline(instance);
-            this._timelines.push(timeline);
-        }
+        let timeline = this._getChildTimeline(instance);
+        this._parseProperties(properties);
+        timeline.addTween(properties, startFrame, duration, ease);
+        this._autoExtend(startFrame + duration);
+        return this;
+    }
 
-        // Convert any string colors to uints
-        if (typeof properties.t === 'string') {
-            properties.t = utils.hexToUint(properties.t);
-        } else if (typeof properties.v === 'number') {
-            properties.v = !!properties.v;
-        }
+    /**
+     * Add a tween to the clip
+     * @method addKeyframe
+     * @param {PIXI.DisplayObject} instance The clip to tween
+     * @param {Object} properties The property or property to tween
+     * @param {int} startFrame The frame to start tweening
+     * @param {int} [duration=0] Number of frames to tween. If 0, then the properties are set
+     *                           with no tweening.
+     * @param {Function} [ease] An optional easing function that takes the tween time from 0-1.
+     * @return {PIXI.animate.MovieClip}
+     */
+    addKeyframe(instance, properties, startFrame) {
 
-        //2. create the tween segment, recording the starting values of properties and using the
-        //   supplied properties as the ending values
-        timeline.addTween(instance, properties, startFrame, duration, ease);
-        if (this._totalFrames < startFrame + duration) {
-            this._totalFrames = startFrame + duration;
-        }
+        let timeline = this._getChildTimeline(instance);
+        this._parseProperties(properties);
+        timeline.addKeyframe(properties, startFrame);
+        this._autoExtend(startFrame);
         return this;
     }
 
@@ -493,8 +525,10 @@ class MovieClip extends Container {
             let lastFrame = {};
             for (let i in keyframes) {
                 lastFrame = Object.assign({}, lastFrame, keyframes[i]);
-                this.addTween(instance, lastFrame, parseInt(i, 10));
+                this.addKeyframe(instance, lastFrame, parseInt(i, 10));
             }
+            this._getChildTimeline(instance)
+                .extendLastFrame(startFrame + duration);
         }
 
         // Set the initial position/add
@@ -504,8 +538,8 @@ class MovieClip extends Container {
     }
 
     /**
-     * Handle frame actions, callback is bound to the instance of the MovieClip
-     * @method addAction
+     * Short cut for `addAction`
+     * @method aa
      * @param {Function} callback The clip call on a certain frame
      * @param {int} startFrame The starting frame
      * @return {PIXI.animate.MovieClip}
@@ -514,6 +548,13 @@ class MovieClip extends Container {
         return this.addAction(callback, startFrame);
     }
 
+    /**
+     * Handle frame actions, callback is bound to the instance of the MovieClip.
+     * @method addAction
+     * @param {Function} callback The clip call on a certain frame
+     * @param {int} startFrame The starting frame
+     * @return {PIXI.animate.MovieClip}
+     */
     addAction(callback, startFrame) {
         let actions = this._actions;
         //ensure that the movieclip timeline is long enough to support the target frame

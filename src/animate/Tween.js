@@ -13,20 +13,63 @@
 class Tween {
 
     constructor(target, startProps, endProps, startFrame, duration, ease) {
-        //target display object
+
+        /**
+         * target display object
+         * @property {Object} target
+         */
         this.target = target;
 
-        //properties at the start of the tween
+        /** 
+         * properties at the start of the tween
+         * @property {Object} startProps
+         */
         this.startProps = startProps;
 
-        //properties at the end of the tween, as well as any properties that are set
-        //instead of tweened
+        /**
+         * properties at the end of the tween, as well as any properties that are set
+         * instead of tweened
+         * @property {Object} endProps
+         */
         this.endProps = {};
-        let prop;
+        
+        /**
+         * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
+         * @property {int} duration
+         */
+        this.duration = duration;
 
-        //make a copy to safely include any unchanged values from the start of the tween
-        for (prop in endProps) {
-            this.endProps[prop] = endProps[prop];
+        /**
+         * The frame that the tween starts on
+         * @property {int} startFrame
+         */
+        this.startFrame = startFrame;
+
+        /**
+         * the frame that the tween ends on
+         * @property {int} endFrame
+         */
+        this.endFrame = startFrame + duration;
+
+        /**
+         * easing function to use, if any
+         * @property {Function} ease
+         */
+        this.ease = ease;
+
+        /**
+         * If we don't tween.
+         * @property {Boolean} isTweenlessFrame
+         */
+        this.isTweenlessFrame = !endProps;
+
+
+        let prop;
+        if (endProps) {
+            //make a copy to safely include any unchanged values from the start of the tween
+            for (prop in endProps) {
+                this.endProps[prop] = endProps[prop];
+            }
         }
 
         //copy in any starting properties don't change
@@ -35,24 +78,22 @@ class Tween {
                 this.endProps[prop] = startProps[prop];
             }
         }
-        //duration of tween in frames. For a keyframe with no tweening, the duration
-        //will be 0.
-        this.duration = duration;
-
-        //the frame that the tween starts on
-        this.startFrame = startFrame;
-
-        //the frame that the tween ends on
-        this.endFrame = startFrame + duration;
-
-        //easing function to use, if any
-        this.ease = ease;
     }
 
+    /**
+     * Set the current frame.
+     * @method setPosition
+     * @param {int} currentFrame
+     */
     setPosition(currentFrame) {
         //if this is a single frame with no tweening, or at the end of the tween, then
         //just speed up the process by setting values
         if (currentFrame >= this.endFrame) {
+            this.setToEnd();
+            return;
+        }
+
+        if (this.isTweenlessFrame) {
             this.setToEnd();
             return;
         }
@@ -74,6 +115,10 @@ class Tween {
         }
     }
 
+    /**
+     * Set to the end position
+     * @method setToEnd
+     */
     setToEnd() {
         let endProps = this.endProps;
         let target = this.target;
