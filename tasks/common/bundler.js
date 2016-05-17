@@ -5,7 +5,7 @@ module.exports = function(gulp, options, plugins, debug) {
     function header() {
         return plugins.header(
             plugins.fs.readFileSync(__dirname + '/header.txt', 'utf8'), {
-                pkg: options.pkg 
+                pkg: options.pkg
             }
         );
     }
@@ -46,7 +46,8 @@ module.exports = function(gulp, options, plugins, debug) {
             .pipe(plugins.preprocess({
                 context: {
                     DEBUG: debug,
-                    RELEASE: !debug
+                    RELEASE: !debug,
+                    VERSION: options.pkg.version
                 }
             }));
 
