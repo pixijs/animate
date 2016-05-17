@@ -35,7 +35,8 @@ const p = Timeline.prototype = Object.create(Array.prototype);
  * @param tween The tween(s) to add. Accepts multiple arguments.
  * @return Tween The first tween that was passed in.
  */
-p.addTween = function(instance, properties, startFrame, duration, ease) {
+p.addTween = function(properties, startFrame, duration, ease) {
+    this.extendLastFrame(startFrame - 1);
     //ownership of startProps is passed to the new Tween - this object should not be reused
     let startProps = {};
     let prop;
@@ -47,7 +48,7 @@ p.addTween = function(instance, properties, startFrame, duration, ease) {
         }
         //otherwise, get the current value
         else {
-            let startValue = startProps[prop] = this.getPropFromShorthand(instance, prop);
+            let startValue = startProps[prop] = this.getPropFromShorthand(prop);
             //go through previous tweens to set the value so that when the timeline loops
             //around, the values are set properly - having each tween know what came before
             //allows us to set to a specific frame without running through the entire timeline
@@ -58,17 +59,57 @@ p.addTween = function(instance, properties, startFrame, duration, ease) {
         }
     }
     //create the new Tween and add it to the list
-    let tween = new Tween(instance, startProps, properties, startFrame, duration, ease);
+    let tween = new Tween(this.target, startProps, properties, startFrame, duration, ease);
     this.push(tween);
     //update starting values for the next tween - if tweened values included 'p', then Tween
     //parsed that to add additional data that is required
-    properties = tween.endProps;
-    for (prop in properties) {
-        this._currentProps[prop] = properties[prop];
+    Object.assign(this._currentProps, tween.endProps);
+};
+
+/**
+ * Add a single keyframe that doesn't tween.
+ * @method addKeyframe
+ * @param {Object} properties The properties to set.
+ * @param {int} startFrame The starting frame index.
+ */
+p.addKeyframe = function(properties, startFrame) {
+    this.extendLastFrame(startFrame - 1);
+    let startProps = Object.assign({}, this._currentProps, properties);
+    //create the new Tween and add it to the list
+    let tween = new Tween(this.target, startProps, null, startFrame, 0);
+    this.push(tween);
+    Object.assign(this._currentProps, tween.endProps);
+};
+
+/**
+ * Extend the last frame of the tween.
+ * @method extendLastFrame
+ * @param {int} endFrame The ending frame index.
+ */
+p.extendLastFrame = function(endFrame) {
+    if (this.length) {
+        let prevTween = this[this.length - 1];
+        if (prevTween.endFrame < endFrame) {
+            if (prevTween.isTweenlessFrame) {
+                prevTween.endFrame = endFrame;
+            } else {
+                this.addKeyframe(
+                    this._currentProps,
+                    prevTween.endFrame + 1,
+                    endFrame - prevTween.endFrame + 1
+                );
+            }
+        }
     }
 };
 
-p.getPropFromShorthand = function(target, prop) {
+/**
+ * Get the value for a property
+ * @method getPropFromShorthand
+ * @param {string} prop
+ */
+p.getPropFromShorthand = function(prop) {
+    const target = this.target;
     switch (prop) {
         case 'x':
             return target.position.x;
