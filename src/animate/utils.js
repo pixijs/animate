@@ -1,3 +1,12 @@
+const SharedTicker = PIXI.ticker.shared;
+
+// Number of assets to upload per frame
+let _uploadsPerFrame = 4;
+
+// Collectsion of graphics and textures
+const _graphics = [];
+const _textures = [];
+
 /**
  * @namespace PIXI.animate
  * @class utils
@@ -182,6 +191,114 @@ export default class AnimateUtils {
                 {
                     return parseFloat(buffer);
                 }
+        }
+    }
+
+    /**
+     * The number of graphics or textures to upload to the GPU, if using
+     * utils.upload and WebGLRenderer
+     * @property {int} UPLOADS_PER_FRAME
+     * @static
+     * @default 4
+     */
+    static set UPLOADS_PER_FRAME(value) {
+        _uploadsPerFrame = value;
+    }
+    static get UPLOADS_PER_FRAME() {
+        return _uploadsPerFrame;
+    }
+
+    /** 
+     * Upload all the textures and graphics to the GPU. 
+     * @method upload
+     * @static
+     * @param {PIXI.WebGLRenderer} renderer Render to upload to
+     * @param {PIXI.DisplayObject} clip MovieClip to upload
+     * @param {function} done When complete
+     */
+    static upload(renderer, displayObject, done) {
+
+        // No need to upload if CanvasRenderer
+        if (!(renderer instanceof PIXI.WebGLRenderer)) {
+            return done();
+        }
+
+        // Get global properties
+        const textures = _textures;
+        const graphics = _graphics;
+
+        // Get the items for upload from the display
+        this.getUploadable(displayObject, textures, graphics);
+
+        let numLeft = this.UPLOADS_PER_FRAME;
+
+        const update = () => {
+
+            // Upload the graphics
+            while (graphics.length && numLeft) {
+                renderer.plugins.graphics.updateGraphics(graphics.pop());
+                numLeft--;
+            }
+
+            // Upload the textures
+            while (textures.length && numLeft) {
+                renderer.textureManager.updateTexture(textures.pop());
+                numLeft--;
+            }
+
+            // We're finished
+            if (textures.length || graphics.length) {
+                numLeft = this.UPLOADS_PER_FRAME;
+            } else {
+                SharedTicker.remove(update);
+                done();
+            }
+        };
+
+        // Listen to frame updates
+        SharedTicker.add(update);
+    }
+
+    /**
+     * Get the list of renderable items.
+     * @method getUploadable
+     * @static
+     * @private
+     * @param {PIXI.DisplayObject} displayObject 
+     * @param {Array<PIXI.Texture>} textures Collection of textures
+     * @param {Array<PIXI.Graphics>} graphics Collection of graphics
+     */
+    static getUploadable(displayObject, textures, graphics) {
+
+        // Objects with textures, like Sprites
+        if (displayObject._texture) {
+            let texture = displayObject._texture.baseTexture;
+            if (textures.indexOf(texture) == -1) {
+                textures.push(texture);
+            }
+        } else if (displayObject instanceof PIXI.Graphics) {
+            graphics.push(displayObject);
+        }
+
+        // Get timed childen
+        if (displayObject instanceof PIXI.animate.MovieClip) {
+            let children = displayObject.children.slice();
+            displayObject._timedChildTimelines.forEach((timeline) => {
+                this.getUploadable(timeline.target, textures, graphics);
+                const index = children.indexOf(timeline.target);
+                if (index > -1) {
+                    children.splice(index, 1);
+                }
+            });
+            children.forEach((child) => {
+                this.getUploadable(child, textures, graphics);
+            });
+        }
+        // Recursively get textures
+        else if (displayObject instanceof PIXI.Container) {
+            displayObject.children.forEach((child) => {
+                this.getUploadable(child, textures, graphics);
+            });
         }
     }
 }
