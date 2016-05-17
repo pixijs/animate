@@ -32,7 +32,7 @@ class Tween {
          * @property {Object} endProps
          */
         this.endProps = {};
-        
+
         /**
          * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
          * @property {int} duration

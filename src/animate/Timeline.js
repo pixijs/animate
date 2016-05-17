@@ -94,8 +94,8 @@ p.extendLastFrame = function(endFrame) {
                 prevTween.endFrame = endFrame;
             } else {
                 this.addKeyframe(
-                    this._currentProps, 
-                    prevTween.endFrame + 1, 
+                    this._currentProps,
+                    prevTween.endFrame + 1,
                     endFrame - prevTween.endFrame + 1
                 );
             }
