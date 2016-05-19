@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jibo.com/sdk/pixi-animate"
+    "url": "https://github.com/jiborobot/pixi-animate"
   },
   "bugs": {
     "url": "https://github.com/jiborobot/pixi-animate/issues"
