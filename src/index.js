@@ -13,10 +13,10 @@ if (typeof module !== 'undefined' && module.exports) {
 
         // Include the Pixi.js module
         // @if DEBUG
-        require('pixi.js/bin/pixi.js');
+        require('./pixi.js');
         // @endif
         // @if RELEASE
-        require('pixi.js/bin/pixi.min.js');
+        require('./pixi.min.js');
         // @endif
     }
 

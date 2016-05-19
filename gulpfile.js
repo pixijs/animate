@@ -16,6 +16,7 @@ const options = {
     pkg, pkg,
     lint: [src, 'tests/**/*.js', '!tests/renders/assets/*.js'],
     format: [src, 'tests/*.js', 'tasks/*.js'],
+    copy: ['node_modules/pixi.js/bin/*'],
     tests: 'tests',
     eslint: {
         extends: ['eslint:recommended'],
