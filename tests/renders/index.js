@@ -1,5 +1,6 @@
 describe('Renders', function() {
     before(function(){
+        PIXI.utils._saidHello = true; // hide banner
         var Renderer = require('./renderer');
         var webgl = this.webgl = document.createElement('canvas');
         var canvas = this.canvas = document.createElement('canvas');
