@@ -4,7 +4,7 @@ describe('ShapesCache', function() {
         assert.isOk(ShapesCache);
     });
     it('should add shapes to cache', function() {
-        var commands = [
+        var commands = [[
             "f", "#003fcc", 1,
             "m", 363.05, 287.3,
             "l", 431.2, 208.5,
@@ -13,7 +13,7 @@ describe('ShapesCache', function() {
             "l", 267.05, 246.75,
             "l", 363.05, 287.3,
             "c"
-        ];
+        ]];
         ShapesCache.add('TestShape2', commands);
         assert.isOk(ShapesCache.TestShape2);
         assert.equal(ShapesCache.TestShape2, commands);
