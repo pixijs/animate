@@ -541,7 +541,7 @@ class MovieClip extends Container {
      * Short cut for `addAction`
      * @method aa
      * @param {Function} callback The clip call on a certain frame
-     * @param {int} startFrame The starting frame
+     * @param {int|String} startFrame The starting frame index or label
      * @return {PIXI.animate.MovieClip}
      */
     aa(callback, startFrame) {
@@ -552,10 +552,19 @@ class MovieClip extends Container {
      * Handle frame actions, callback is bound to the instance of the MovieClip.
      * @method addAction
      * @param {Function} callback The clip call on a certain frame
-     * @param {int} startFrame The starting frame
+     * @param {int|String} startFrame The starting frame index or label
      * @return {PIXI.animate.MovieClip}
      */
     addAction(callback, startFrame) {
+
+        if (typeof startFrame === 'string') {
+            const index = this._labelDict[startFrame];
+            if (index === undefined) {
+                throw `The label '${startFrame}' does not exist on this timeline`;
+            }
+            startFrame = index;
+        }
+
         let actions = this._actions;
         //ensure that the movieclip timeline is long enough to support the target frame
         if (actions.length <= startFrame) {
