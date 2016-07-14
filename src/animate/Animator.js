@@ -41,7 +41,7 @@ class Animator {
     }
 
     /**
-     * Play an animation by 
+     * Play an animation by
      * @method play
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
@@ -88,14 +88,18 @@ class Animator {
         this._timelines.push(timeline);
 
         // Set the current frame
-        instance.gotoAndPlay(event);
+        if (instance.currentFrame !== startLabel.position) {
+            instance.gotoAndPlay(event);
+        } else {
+            instance.play();
+        }
         this._refresh();
 
         return timeline;
     }
 
     /**
-     * Stop the animation 
+     * Stop the animation
      * @method stop
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
@@ -111,7 +115,7 @@ class Animator {
     }
 
     /**
-     * Stop the animation 
+     * Stop the animation
      * @method _internalStop
      * @private
      * @static

@@ -663,9 +663,7 @@ class MovieClip extends Container {
             return;
         }
         // prevent _updateTimeline from overwriting the new position because of a reset:
-        if (this._prevPos === -1) {
-            this._prevPos = NaN;
-        }
+        this._prevPos = NaN;
         this.currentFrame = pos;
         //update the elapsed time if a time based movieclip
         if (this._framerate > 0) {
@@ -705,8 +703,7 @@ class MovieClip extends Container {
         }
 
         // update timeline position, ignoring actions if this is a graphic.
-        let startFrame = this._prevPos < 0 ? 0 : this._prevPos;
-        this._setTimelinePosition(startFrame, this.currentFrame, synched ? false : this.actionsEnabled);
+        this._setTimelinePosition(this._prevPos, this.currentFrame, synched ? false : this.actionsEnabled);
 
         this._prevPos = this.currentFrame;
     }
@@ -793,7 +790,7 @@ class MovieClip extends Container {
             } else {
                 length = Math.min(currentFrame + 1, actions.length);
             }
-            for (i = startFrame, length = Math.min(currentFrame + 1, actions.length); i < length; ++i) {
+            for (i = startFrame >= 0 ? startFrame + 1 : currentFrame; i < length; ++i) {
                 if (actions[i]) {
                     let frameActions = actions[i];
                     for (j = 0; j < frameActions.length; ++j) {
