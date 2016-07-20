@@ -1,6 +1,6 @@
 import AnimatorTimeline from './AnimatorTimeline';
-const SharedTicker = PIXI.ticker.shared;
 
+// Static collection of timelines
 const timelines = [];
 
 /**
@@ -41,37 +41,103 @@ class Animator {
     }
 
     /**
-     * Play an animation by
+     * Play an animation by frame labels. For instance, play animation sequence from
+     * "idle" to "idle_stop" or "idle_loop". If no event label is provided, will
+     * play the entire duration of the MovieClip.
      * @method play
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
-     * @param {String} event The frame label event to call
+     * @param {String|Function} [label] The frame label event to call, if no event is provided
+     *        will use the entire length of the MovieClip. Can also be the callback.
      * @param {Function} [callback] Optional callback when complete
      * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
      */
-    static play(instance, event, callback) {
-        var startLabel, endLabel, loop = false;
-
-        for (var i = 0, len = instance.labels.length; i < len; i++) {
-            var label = instance.labels[i];
-            if (label.label === event) {
-                startLabel = label;
-            } else if (label.label === event + this.STOP_LABEL) {
-                endLabel = label;
-            } else if (label.label === event + this.LOOP_LABEL) {
-                loop = true;
-                endLabel = label;
+    static play(instance, label, callback) {
+        var loop = false;
+        var start, end;
+        var labelIsFunction = typeof label === "function";
+        if (label === undefined || labelIsFunction) {
+            start = 0;
+            end = instance.totalFrames - 1;
+            if (labelIsFunction) {
+                callback = label;
             }
-
-            if (startLabel && endLabel) {
-                break;
+        } else {
+            start = instance._labelDict[label];
+            end = instance._labelDict[label + this.STOP_LABEL];
+            if (end === undefined) {
+                end = instance._labelDict[label + this.LOOP_LABEL];
+                loop = true;
+            }
+            if (start === undefined) {
+                throw new Error("No start label matching '" + label + "'");
+            } else if (end === undefined) {
+                throw new Error("No end label matching '" + label + "'");
             }
         }
+        return this.playFromTo(
+            instance,
+            start,
+            end,
+            loop,
+            callback
+        );
+    }
 
-        if (!startLabel) {
-            throw new Error("No start label matching '" + event + "'");
-        } else if (!endLabel) {
-            throw new Error("No end label matching '" + event + "'");
+    /**
+     * Play an animation from the current frame to an end frame or label.
+     * @method to
+     * @static
+     * @param {PIXI.animate.MovieClip} instance Movie clip to play.
+     * @param {String|Number} end The end frame or label.
+     * @param {Function} [callback] Optional callback when complete
+     * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
+     */
+    static to(instance, end, callback) {
+        return this.playFromTo(
+            instance,
+            instance.currentFrame,
+            end,
+            false,
+            callback
+        );
+    }
+
+    /**
+     * Play a MovieClip from a start to end frame.
+     * @method fromTo
+     * @static
+     * @param {PIXI.animate.MovieClip} instance Movie clip to play.
+     * @param {Number|String} start The starting frame index or label.
+     * @param {Number|String} end The ending frame index or label.
+     * @param {Boolean} [loop=false] If the animation should loop.
+     * @param {Function} [callback] Optional callback when complete
+     * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
+     */
+    static fromTo(instance, start, end, loop, callback) {
+
+        if (typeof start === "string") {
+            var startLabel = start;
+            start = instance._labelDict[startLabel];
+            if (start === undefined) {
+                throw new Error("No start label matching '" + startLabel + "'");
+            }
+        }
+        if (typeof end === "string") {
+            var endLabel = end;
+            end = instance._labelDict[endLabel];
+            if (end === undefined) {
+                throw new Error("No end label matching '" + endLabel + "'");
+            }
+        }
+        if (start < 0) {
+            throw new Error('Start frame is out of bounds');
+        }
+        if (end >= instance.totalFrames) {
+            throw new Error('End frame is out of bounds');
+        }
+        if (start >= end) {
+            throw new Error('End frame is before start frame');
         }
 
         // Stop any animation that's playing
@@ -80,26 +146,23 @@ class Animator {
         // Add a new timeline
         const timeline = AnimatorTimeline.create(
             instance,
-            loop,
-            startLabel.position,
-            endLabel.position,
+            start,
+            end, !!loop,
             callback
         );
         this._timelines.push(timeline);
 
         // Set the current frame
-        if (instance.currentFrame !== startLabel.position) {
-            instance.gotoAndPlay(event);
+        if (instance.currentFrame !== start) {
+            instance.gotoAndPlay(start);
         } else {
             instance.play();
         }
-        this._refresh();
-
         return timeline;
     }
 
     /**
-     * Stop the animation
+     * Stop the animation by instance.
      * @method stop
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
@@ -115,6 +178,18 @@ class Animator {
     }
 
     /**
+     * Stop all the currently playing animations.
+     * @method stopAll
+     * @static
+     * @param {PIXI.animate.MovieClip} instance Movie clip to play.
+     */
+    static stopAll() {
+        for (var i = this._timelines.length - 1; i >= 0; i--) {
+            this._internalStop(this._timelines[i]);
+        }
+    }
+
+    /**
      * Stop the animation
      * @method _internalStop
      * @private
@@ -125,35 +200,6 @@ class Animator {
         this._timelines.splice(this._timelines.indexOf(timeline), 1);
         timeline.instance.stop();
         timeline.destroy();
-        this._refresh();
-    }
-
-    /**
-     * Refresh if we should be updating
-     * @method _refresh
-     * @private
-     * @static
-     */
-    static _refresh() {
-        if (this._updateBind) {
-            SharedTicker.remove(this._updateBind);
-        }
-        this._updateBind = this._update.bind(this);
-        if (this._timelines.length > 0) {
-            SharedTicker.add(this._updateBind);
-        }
-    }
-
-    /**
-     * Update the animation
-     * @method _update
-     * @static
-     * @private
-     */
-    static _update() {
-        for (var i = this._timelines.length - 1; i >= 0; i--) {
-            this._timelines[i].update();
-        }
     }
 }
 

@@ -7,19 +7,21 @@ const pool = [];
  */
 class AnimatorTimeline {
     constructor() {
-        this.init(null, null, false, 0, 0);
+        this._update = this.update.bind(this);
+        this.init(null, 0, 0, false, null);
     }
 
     /**
      * The pool of timelines to use
      * @method init
      * @param {PIXI.animate.MovieClip} instance
-     * @param {Boolean} loop
      * @param {Number} start
-     * @param {Number} init
+     * @param {Number} end
+     * @param {Boolean} loop
+     * @param {Function} callback
      * @private
      */
-    init(instance, loop, start, end, callback) {
+    init(instance, start, end, loop, callback) {
         this.instance = instance;
         this.loop = loop;
         this.start = start;
@@ -28,6 +30,7 @@ class AnimatorTimeline {
 
         if (instance) {
             instance.gotoAndStop(start);
+            instance.beforeUpdateTimeline = this._update;
         }
     }
 
@@ -37,21 +40,29 @@ class AnimatorTimeline {
      * @private
      */
     destroy() {
-        this.init(null, null, false, 0, 0, null);
+        this.instance.beforeUpdateTimeline = null;
+        this.init(null, 0, 0, false, null);
         AnimatorTimeline._pool.push(this);
     }
 
     /**
      * Is the animation complete
-     * @method update
+     * @method before
      * @return {Boolean} 
      * @private
      */
-    update() {
-        if (this.instance.currentFrame >= this.end) {
+    update(instance) {
+        if (instance.currentFrame >= this.end) {
+
+            // In case we over-shoot the current frame becuase of low FPS
+            instance.currentFrame = this.end;
+
             if (this.loop) {
-                this.instance.gotoAndPlay(this.start);
+                instance.gotoAndPlay(this.start);
             } else {
+                // stop on the last frame, in low-framerate
+                // environment, this could settle on the last frame
+                instance.gotoAndStop(this.end);
                 var callback = this.callback;
                 this.stop();
                 if (callback) {
@@ -94,20 +105,20 @@ class AnimatorTimeline {
      * @method create
      * @static
      * @param {PIXI.animate.MovieClip} instance
-     * @param {Boolean} loop
      * @param {Number} start
-     * @param {Number} init
+     * @param {Number} end
+     * @param {Boolean} loop
      * @param {Function} callback
      * @return {PIXI.animate.AnimatorTimeline}
      */
-    static create(instance, loop, start, end, callback) {
+    static create(instance, start, end, loop, callback) {
         var timeline;
         if (this._pool.length) {
             timeline = this._pool.pop();
         } else {
             timeline = new AnimatorTimeline();
         }
-        timeline.init(instance, loop, start, end, callback);
+        timeline.init(instance, start, end, loop, callback);
         return timeline;
     }
 }
