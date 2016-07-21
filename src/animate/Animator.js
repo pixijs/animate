@@ -184,7 +184,6 @@ class Animator {
      * Stop all the currently playing animations.
      * @method stopAll
      * @static
-     * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      */
     static stopAll() {
         for (var i = this._timelines.length - 1; i >= 0; i--) {
