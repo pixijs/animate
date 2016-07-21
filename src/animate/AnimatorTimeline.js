@@ -60,9 +60,7 @@ class AnimatorTimeline {
             if (this.loop) {
                 instance.gotoAndPlay(this.start);
             } else {
-                // stop on the last frame, in low-framerate
-                // environment, this could settle on the last frame
-                instance.gotoAndStop(this.end);
+                instance.stop();
                 var callback = this.callback;
                 this.stop();
                 if (callback) {
