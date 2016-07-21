@@ -224,6 +224,14 @@ class MovieClip extends Container {
          */
         this._actions = [];
 
+        /**
+         * Optional callback fired before timeline is updated.
+         * Can be used to clamp or update the currentFrame. 
+         * @property beforeUpdateTimeline
+         * @type {Function}
+         */
+        this.beforeUpdateTimeline = null;
+
         if (this.mode === MovieClip.INDEPENDENT) {
             this._tickListener = this._tickListener.bind(this);
             this._onAdded = this._onAdded.bind(this);
@@ -646,6 +654,9 @@ class MovieClip extends Container {
         //final error checking
         if (this.currentFrame >= this._totalFrames) {
             this.currentFrame = this._totalFrames - 1;
+        }
+        if (this.beforeUpdateTimeline) {
+            this.beforeUpdateTimeline(this);
         }
         //update all tweens & actions in the timeline
         this._updateTimeline();
