@@ -143,11 +143,14 @@ class Animator {
         // Stop any animation that's playing
         this.stop(instance);
 
+        loop = !!loop;
+
         // Add a new timeline
         const timeline = AnimatorTimeline.create(
             instance,
             start,
-            end, !!loop,
+            end,
+            loop,
             callback
         );
         this._timelines.push(timeline);
