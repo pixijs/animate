@@ -75,7 +75,7 @@ class Animator {
                 throw new Error("No end label matching '" + label + "'");
             }
         }
-        return this.playFromTo(
+        return this.fromTo(
             instance,
             start,
             end,
@@ -94,7 +94,7 @@ class Animator {
      * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
      */
     static to(instance, end, callback) {
-        return this.playFromTo(
+        return this.fromTo(
             instance,
             instance.currentFrame,
             end,

@@ -58,6 +58,8 @@ class AnimatorTimeline {
             instance.currentFrame = this.end;
 
             if (this.loop) {
+                // Update timeline so we get actions at the end frame
+                instance._updateTimeline();
                 instance.gotoAndPlay(this.start);
             } else {
                 instance.stop();
