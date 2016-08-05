@@ -53,9 +53,9 @@ class Animator {
      * @return {PIXI.animate.AnimatorTimeline} Timeline object for stopping or getting progress.
      */
     static play(instance, label, callback) {
-        var loop = false;
-        var start, end;
-        var labelIsFunction = typeof label === "function";
+        let loop = false;
+        let start, end;
+        const labelIsFunction = typeof label === "function";
         if (label === undefined || labelIsFunction) {
             start = 0;
             end = instance.totalFrames - 1;
@@ -117,14 +117,14 @@ class Animator {
     static fromTo(instance, start, end, loop, callback) {
 
         if (typeof start === "string") {
-            var startLabel = start;
+            const startLabel = start;
             start = instance._labelDict[startLabel];
             if (start === undefined) {
                 throw new Error("No start label matching '" + startLabel + "'");
             }
         }
         if (typeof end === "string") {
-            var endLabel = end;
+            const endLabel = end;
             end = instance._labelDict[endLabel];
             if (end === undefined) {
                 throw new Error("No end label matching '" + endLabel + "'");
@@ -171,8 +171,8 @@ class Animator {
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      */
     static stop(instance) {
-        for (var i = 0, len = this._timelines.length; i < len; i++) {
-            var timeline = this._timelines[i];
+        for (let i = 0, len = this._timelines.length; i < len; i++) {
+            const timeline = this._timelines[i];
             if (timeline.instance === instance) {
                 this._internalStop(timeline);
                 break;
@@ -186,7 +186,7 @@ class Animator {
      * @static
      */
     static stopAll() {
-        for (var i = this._timelines.length - 1; i >= 0; i--) {
+        for (let i = this._timelines.length - 1; i >= 0; i--) {
             this._internalStop(this._timelines[i]);
         }
     }

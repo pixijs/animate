@@ -30,7 +30,7 @@ class AnimatorTimeline {
 
         if (instance) {
             instance.gotoAndStop(start);
-            instance.beforeUpdateTimeline = this._update;
+            instance._beforeUpdate = this._update;
         }
     }
 
@@ -40,18 +40,20 @@ class AnimatorTimeline {
      * @private
      */
     destroy() {
-        this.instance.beforeUpdateTimeline = null;
+        this.instance._beforeUpdate = null;
         this.init(null, 0, 0, false, null);
         AnimatorTimeline._pool.push(this);
     }
 
     /**
      * Is the animation complete
-     * @method before
-     * @return {Boolean} 
+     * @method update
+     * @param {PIXI.animate.MovieClip} instance
+     * @return {Function} Callback to do after updateTimeline
      * @private
      */
     update(instance) {
+        let completed;
         if (instance.currentFrame >= this.end) {
 
             // In case we over-shoot the current frame becuase of low FPS
@@ -63,13 +65,13 @@ class AnimatorTimeline {
                 instance.gotoAndPlay(this.start);
             } else {
                 instance.stop();
-                var callback = this.callback;
-                this.stop();
-                if (callback) {
-                    callback();
+                if (this.callback) {
+                    completed = this.callback;
                 }
+                this.stop(); // cleanup timeline
             }
         }
+        return completed;
     }
 
     /**

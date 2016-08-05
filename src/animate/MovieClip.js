@@ -81,7 +81,20 @@ class MovieClip extends Container {
          */
         this.currentFrame = 0;
 
+        /**
+         * The collection of private labels
+         * @property _labels
+         * @type Array
+         * @private
+         */
         this._labels = [];
+
+        /**
+         * The collection of private labels
+         * @property _labelDict
+         * @type Object
+         * @private
+         */
         this._labelDict = options.labels;
         if (options.labels) {
             for (let name in options.labels) {
@@ -227,10 +240,11 @@ class MovieClip extends Container {
         /**
          * Optional callback fired before timeline is updated.
          * Can be used to clamp or update the currentFrame. 
-         * @property beforeUpdateTimeline
+         * @property _beforeUpdate
          * @type {Function}
+         * @private
          */
-        this.beforeUpdateTimeline = null;
+        this._beforeUpdate = null;
 
         if (this.mode === MovieClip.INDEPENDENT) {
             this._tickListener = this._tickListener.bind(this);
@@ -655,11 +669,17 @@ class MovieClip extends Container {
         if (this.currentFrame >= this._totalFrames) {
             this.currentFrame = this._totalFrames - 1;
         }
-        if (this.beforeUpdateTimeline) {
-            this.beforeUpdateTimeline(this);
+        let afterUpdateOnce;
+        if (this._beforeUpdate) {
+            afterUpdateOnce = this._beforeUpdate(this);
         }
         //update all tweens & actions in the timeline
         this._updateTimeline();
+
+        // Do the animator callback here
+        if (afterUpdateOnce) {
+            afterUpdateOnce();
+        }
     }
 
     /**
@@ -823,10 +843,38 @@ class MovieClip extends Container {
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
+        const hiddenChildren = [];
+        let timelines = this._timelines;
+        for (let i = 0; i < timelines.length; i++) {
+            const timeline = timelines[i];
+            hiddenChildren.push(timeline.target);
+            timeline._currentProps = null;
+            timeline.length = 0;
+        }
+        timelines = this._timedChildTimelines;
+        for (let i = 0; i < timelines.length; i++) {
+            const timeline = timelines[i];
+            if (hiddenChildren.indexOf(timeline.target) < 0) {
+                hiddenChildren.push(timeline.target);
+            }
+            timeline._currentProps = null;
+            timeline.length = 0;
+        }
+        // Destroy all the children
+        for (let i = 0; i < hiddenChildren.length; i++) {
+            // Don't destroy children in the display list
+            if (this.children.indexOf(hiddenChildren[i]) < 0) {
+                hiddenChildren[i].destroy(destroyChildren);
+            }
+        }
+        hiddenChildren.length = 0;
         this._actions = null;
         this._timelines = null;
         this._depthSorted = null;
         this._timedChildTimelines = null;
+        this._beforeUpdate = null;
+        this._labels = null;
+        this._labelDict = null;
         super.destroy(destroyChildren);
     }
 }
