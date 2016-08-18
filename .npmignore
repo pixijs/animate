@@ -1,12 +1,8 @@
 .gitignore
 .gitattributes
-.editorconfig
-.bowerrc
 .travis.yml
 scripts
 docs
 src
 node_modules
 tests
-docs
-.publish

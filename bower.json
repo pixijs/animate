@@ -1,20 +1,19 @@
 {
-	"name": "pixi-animate",
-	"version": "0.6.2",
-	"main": "dist/pixi-animate.min.js",
-	"dependencies": {
-		"pixi.js": "^4.0.0"
-	},
-	"ignore": [
-		"docs",
-		"src",
-		"test",
-		".editorconfig",
-		".npmignore",
-		".travis.yml",
-		".gitattributes",
-		"package.json",
-		".gitignore",
+    "name": "pixi-animate",
+    "version": "0.6.2",
+    "main": "dist/pixi-animate.min.js",
+    "dependencies": {
+        "pixi.js": "^4.0.0"
+    },
+    "ignore": [
+        "docs",
+        "src",
+        "tests",
+        ".npmignore",
+        ".travis.yml",
+        ".gitattributes",
+        ".gitignore",
+        "package.json",
         "scripts"
-	]
+    ]
 }
