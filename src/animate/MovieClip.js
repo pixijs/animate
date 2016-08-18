@@ -260,6 +260,9 @@ class MovieClip extends Container {
     }
 
     _onAdded() {
+        if (!this._framerate) {
+            this.framerate = this.parentFramerate;
+        }
         SharedTicker.add(this._tickListener);
     }
 
@@ -287,6 +290,16 @@ class MovieClip extends Container {
      */
     get labels() {
         return this._labels;
+    }
+
+    /**
+     * Returns a dictionary of labels where key is the label and value is the frame.
+     * @property labelsMap
+     * @type {Object}
+     * @readonly
+     */
+    get labelsMap() {
+        return this._labelDict;
     }
 
     /**
@@ -345,8 +358,9 @@ class MovieClip extends Container {
         if (value > 0) {
             this._framerate = value;
             this._duration = value ? this._totalFrames / value : 0;
+            this._t = this.currentFrame / value;
         } else {
-            this._framerate = this._duration = 0;
+            this._t = this._framerate = this._duration = 0;
         }
     }
 
@@ -641,20 +655,33 @@ class MovieClip extends Container {
     }
 
     /**
+     * Get the close parent with a valid framerate. If no parent, returns the default framerate.
+     * @property parentFramerate
+     * @type {Number}
+     * @readOnly
+     */
+    get parentFramerate() {
+        let o = this,
+            fps = o._framerate;
+        while ((o = o.parent) && !fps) {
+            if (o.mode === MovieClip.INDEPENDENT) {
+                fps = o._framerate;
+            }
+        }
+        return fps || MovieClip.DEFAULT_FRAMERATE;
+    }
+
+    /**
      * Advances the playhead. This occurs automatically each tick by default.
      * @param [time] {Number} The amount of time in seconds to advance by. Only applicable if framerate is set.
      * @method advance
      */
     advance(time) {
+
+        // Handle any other cases where starting to play
+        // and no framerate has been set yet
         if (!this._framerate) {
-            let o = this,
-                fps = o._framerate;
-            while ((o = o.parent) && !fps) {
-                if (o.mode === MovieClip.INDEPENDENT) {
-                    fps = o._framerate;
-                }
-            }
-            this.framerate = fps;
+            this.framerate = this.parentFramerate;
         }
 
         if (time) {
@@ -696,6 +723,13 @@ class MovieClip extends Container {
         // prevent _updateTimeline from overwriting the new position because of a reset:
         this._prevPos = NaN;
         this.currentFrame = pos;
+
+        // Handle the case where trying to play but haven't
+        // added to the stage yet
+        if (!this._framerate) {
+            this.framerate = this.parentFramerate;
+        }
+
         //update the elapsed time if a time based movieclip
         if (this._framerate > 0) {
             this._t = pos / this._framerate;
@@ -910,6 +944,17 @@ MovieClip.SINGLE_FRAME = 1;
  * @readonly
  */
 MovieClip.SYNCHED = 2;
+
+
+/**
+ * The default framerate if none is specified or there's not parent clip with a framerate.
+ * @property DEFAULT_FRAMERATE
+ * @static
+ * @type Number
+ * @default 24
+ * @readonly
+ */
+MovieClip.DEFAULT_FRAMERATE = 24;
 
 /**
  * Extend a container
