@@ -678,6 +678,12 @@ class MovieClip extends Container {
      */
     advance(time) {
 
+        // Handle any other cases where starting to play
+        // and no framerate has been set yet
+        if (!this._framerate) {
+            this.framerate = this.parentFramerate;
+        }
+
         if (time) {
             this._t += time;
         }
