@@ -3,11 +3,10 @@
 .editorconfig
 .bowerrc
 .travis.yml
-gulpfile.js
+scripts
 docs
 src
 node_modules
-tasks
 tests
 docs
 .publish

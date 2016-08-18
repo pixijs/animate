@@ -2,12 +2,10 @@
 	"name": "pixi-animate",
 	"version": "0.6.2",
 	"main": "dist/pixi-animate.min.js",
-	"dependencies":
-	{
+	"dependencies": {
 		"pixi.js": "^4.0.0"
 	},
 	"ignore": [
-		"gulpfile.js",
 		"docs",
 		"src",
 		"test",
@@ -16,6 +14,7 @@
 		".travis.yml",
 		".gitattributes",
 		"package.json",
-		".gitignore"
+		".gitignore",
+        "scripts"
 	]
 }

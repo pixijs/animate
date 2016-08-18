@@ -1,7 +1,8 @@
 import utils from '../animate/utils';
 
 /**
- * @namespace PIXI
+ * Mixins for the PIXI.DisplayObject class.
+ * @memberof PIXI
  * @class DisplayObject
  */
 const p = PIXI.DisplayObject.prototype;
@@ -14,13 +15,13 @@ if (PIXI.filters) {
 
 /**
  * Function to see if this is renderable or not. Useful for setting masks.
- * @method setRenderable
+ * @method PIXI.DisplayObject#setRenderable
  * @param  {Boolean} [renderable=false] Make renderable
  * @return {PIXI.DisplayObject}
  */
 /**
- * Shortcut to setRenderable.
- * @method re
+ * Shortcut to `setRenderable`.
+ * @method PIXI.DisplayObject#re
  * @param  {Boolean} [renderable=false] Make renderable
  * @return {PIXI.DisplayObject}
  */
@@ -30,8 +31,8 @@ p.setRenderable = p.re = function(renderable) {
 };
 
 /**
- * Shortcut for setTransform.
- * @method tr
+ * Shortcut for `setTransform`.
+ * @method PIXI.DisplayObject#tr
  * @param {Number} x The X position
  * @param {Number} y The Y position
  * @param {Number} scaleX The X Scale value
@@ -46,13 +47,13 @@ p.t = p.setTransform;
 
 /**
  * Setter for mask to be able to chain.
- * @method setMask
+ * @method PIXI.DisplayObject#setMask
  * @param {PIXI.Graphics} mask The mask shape to use
  * @return {PIXI.DisplayObject} Instance for chaining
  */
 /**
- * Shortcut for setMask.
- * @method ma
+ * Shortcut for `setMask`.
+ * @method PIXI.DisplayObject#ma
  * @param {PIXI.Sprite|PIXI.Graphics} mask The mask shape to use
  * @return {PIXI.DisplayObject} Instance for chaining
  */
@@ -74,13 +75,13 @@ p.setMask = p.ma = function(mask) {
 
 /**
  * Setter for the alpha
- * @method setAlpha
+ * @method PIXI.DisplayObject#setAlpha
  * @param {Number} alpha The alpha amount to use, from 0 to 1
  * @return {PIXI.DisplayObject} Instance for chaining
  */
 /**
- * Shortcut for setAlpha.
- * @method a
+ * Shortcut for `setAlpha`.
+ * @method PIXI.DisplayObject#a
  * @param {Number} alpha The alpha amount to use, from 0 to 1
  * @return {PIXI.DisplayObject} Instance for chaining
  */
@@ -91,13 +92,13 @@ p.setAlpha = p.a = function(alpha) {
 
 /**
  * Set the tint values by color.
- * @method setTint
+ * @method PIXI.DisplayObject#setTint
  * @param {int} tint The color value to tint
  * @return {PIXI.DisplayObject} Object for chaining
  */
 /**
- * Shortcut to setTint.
- * @method tn
+ * Shortcut to `setTint`.
+ * @method PIXI.DisplayObject#tn
  * @param {Number|String} tint The red percentage value
  * @return {PIXI.DisplayObject} Object for chaining
  */
@@ -119,7 +120,7 @@ p.setTint = p.i = function(tint) {
 
 /**
  * Set additive and multiply color, tinting
- * @method setColorTransform
+ * @method PIXI.DisplayObject#setColorTransform
  * @param {Number} r The multiply red value
  * @param {Number} rA The additive red value
  * @param {Number} g The multiply green value
@@ -129,8 +130,8 @@ p.setTint = p.i = function(tint) {
  * @return {PIXI.DisplayObject} Object for chaining
  */
 /**
- * Shortcut to setColor.
- * @method c
+ * Shortcut to `setColor`.
+ * @method PIXI.DisplayObject#c
  * @param {Number} r The multiply red value
  * @param {Number} rA The additive red value
  * @param {Number} g The multiply green value
@@ -153,7 +154,7 @@ p.setColorTransform = p.c = function(r, rA, g, gA, b, bA) {
 
 /**
  * The current default color transforming filters
- * @property {PIXI.filters.ColorMatrixFilter} colorTransformFilter
+ * @name {PIXI.filters.ColorMatrixFilter} PIXI.DisplayObject#colorTransformFilter
  */
 if (!p.hasOwnProperty('colorTransformFilter')) {
     Object.defineProperty(p, 'colorTransformFilter', {
@@ -168,14 +169,14 @@ if (!p.hasOwnProperty('colorTransformFilter')) {
 
 /**
  * Extend a container
- * @method extend
+ * @method PIXI.DisplayObject.extend
  * @static
  * @param {PIXI.DisplayObject} child The child function
  * @return {PIXI.DisplayObject} THe child
  */
 /**
- * Extend a container (shortcut for extend)
- * @method e
+ * Extend a container (shortcut for `extend`)
+ * @method PIXI.DisplayObject.e
  * @static
  * @param {PIXI.DisplayObject} child The child function
  * @return {PIXI.DisplayObject} THe child

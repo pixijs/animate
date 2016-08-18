@@ -3,7 +3,7 @@ const pool = [];
 /**
  * Represents a single animation play.
  * @class AnimatorTimeline
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  */
 class AnimatorTimeline {
     constructor() {
@@ -13,7 +13,7 @@ class AnimatorTimeline {
 
     /**
      * The pool of timelines to use
-     * @method init
+     * @method PIXI.animate.AnimatorTimeline#init
      * @param {PIXI.animate.MovieClip} instance
      * @param {Number} start
      * @param {Number} end
@@ -36,7 +36,7 @@ class AnimatorTimeline {
 
     /**
      * Don't use after this
-     * @method destroy
+     * @method PIXI.animate.AnimatorTimeline#destroy
      * @private
      */
     destroy() {
@@ -47,7 +47,7 @@ class AnimatorTimeline {
 
     /**
      * Is the animation complete
-     * @method update
+     * @method PIXI.animate.AnimatorTimeline#update
      * @param {PIXI.animate.MovieClip} instance
      * @return {Function} Callback to do after updateTimeline
      * @private
@@ -76,7 +76,7 @@ class AnimatorTimeline {
 
     /**
      * Stop the animation, cannot be reused.
-     * @method stop
+     * @method PIXI.animate.AnimatorTimeline#stop
      */
     stop() {
         PIXI.animate.Animator._internalStop(this);
@@ -84,7 +84,7 @@ class AnimatorTimeline {
 
     /**
      * The progress from 0 to 1 of the playback.
-     * @property {Number} progress
+     * @name {Number} PIXI.animate.AnimatorTimeline#progress
      * @readOnly
      */
     get progress() {
@@ -94,7 +94,7 @@ class AnimatorTimeline {
 
     /**
      * The pool of timelines to use
-     * @property {Array<AnimatorTimeline>} _pool
+     * @name {Array<AnimatorTimeline>} PIXI.animate.AnimatorTimeline._pool
      * @static
      * @private
      */
@@ -104,7 +104,7 @@ class AnimatorTimeline {
 
     /**
      * Create a new timeline
-     * @method create
+     * @method PIXI.animate.AnimatorTimeline.create
      * @static
      * @param {PIXI.animate.MovieClip} instance
      * @param {Number} start

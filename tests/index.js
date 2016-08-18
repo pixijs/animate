@@ -13,7 +13,8 @@ function extendable(classRef) {
 
 global.extendable = extendable;
 global.assert = global.chai.assert;
-global.animate = require('../dist/pixi-animate');
+global.PIXI = require('pixi.js/bin/pixi.js');
+global.animate = require('../bin/pixi-animate');
 
 describe('PIXI', function() {
 

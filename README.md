@@ -23,11 +23,11 @@ npm install pixi-animate
 
 * [Pixi.js v4](http://pixijs.com) is required
 
-##Documentation
+## Documentation
 
-http://jiborobot.github.io/pixi-animate/
+API Documentation can be found [here](http://jiborobot.github.io/pixi-animate/).
 
-##License
+## License
 
 Copyright (c) 2016 [Jibo, Inc.](http://github.com/jiborobot)
 

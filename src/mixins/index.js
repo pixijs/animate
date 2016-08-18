@@ -4,6 +4,9 @@ import Sprite from './Sprite';
 import Graphics from './Graphics';
 import Text from './Text';
 
+/**
+ * @namespace PIXI
+ */
 export default {
     Container,
     DisplayObject,
