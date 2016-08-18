@@ -63,10 +63,10 @@ class Animator {
                 callback = label;
             }
         } else {
-            start = instance._labelDict[label];
-            end = instance._labelDict[label + this.STOP_LABEL];
+            start = instance.labelsMap[label];
+            end = instance.labelsMap[label + this.STOP_LABEL];
             if (end === undefined) {
-                end = instance._labelDict[label + this.LOOP_LABEL];
+                end = instance.labelsMap[label + this.LOOP_LABEL];
                 loop = true;
             }
             if (start === undefined) {
@@ -118,14 +118,14 @@ class Animator {
 
         if (typeof start === "string") {
             const startLabel = start;
-            start = instance._labelDict[startLabel];
+            start = instance.labelsMap[startLabel];
             if (start === undefined) {
                 throw new Error("No start label matching '" + startLabel + "'");
             }
         }
         if (typeof end === "string") {
             const endLabel = end;
-            end = instance._labelDict[endLabel];
+            end = instance.labelsMap[endLabel];
             if (end === undefined) {
                 throw new Error("No end label matching '" + endLabel + "'");
             }
