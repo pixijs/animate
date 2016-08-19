@@ -27,7 +27,7 @@
     "gulp-yuidoc": "^0.1.2",
     "js-md5": "^0.4.1",
     "load-gulp-tasks": "^0.1.0",
-    "pixi.js": "https://github.com/jiborobot/pixi.js.git#dev",
+    "pixi.js": "https://github.com/pixijs/pixi.js.git#dev",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yuidoc-lucid-theme": "^0.1.2"
