@@ -43,6 +43,7 @@
   "scripts": {
     "test": "gulp",
     "docs": "jsdoc -c jsdoc.conf.json -R README.md",
+    "start": "gulp watch",
     "predocs-live": "npm run docs",
     "docs-live": "gh-pages -d docs"
   },
