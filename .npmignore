@@ -11,3 +11,4 @@ tasks
 tests
 docs
 .publish
+jsdoc.conf.json

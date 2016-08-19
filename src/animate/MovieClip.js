@@ -6,7 +6,7 @@ const SharedTicker = PIXI.ticker.shared;
 
 /**
  * Provide timeline playback of movieclip
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class MovieClip
  * @extends PIXI.Container
  * @constructor
@@ -50,7 +50,7 @@ class MovieClip extends Container {
         /**
          * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
          * See each constant for a description of the behaviour.
-         * @property mode
+         * @name PIXI.animate.MovieClip#mode
          * @type int
          * @default null
          */
@@ -58,7 +58,7 @@ class MovieClip extends Container {
 
         /**
          * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
-         * @property startPosition
+         * @name PIXI.animate.MovieClip#startPosition
          * @type Number
          * @default 0
          */
@@ -66,7 +66,7 @@ class MovieClip extends Container {
 
         /**
          * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
-         * @property loop
+         * @name PIXI.animate.MovieClip#loop
          * @type Boolean
          * @default true
          */
@@ -74,7 +74,7 @@ class MovieClip extends Container {
 
         /**
          * The current frame of the movieclip.
-         * @property currentFrame
+         * @name PIXI.animate.MovieClip#currentFrame
          * @type Number
          * @default 0
          * @readOnly
@@ -83,7 +83,7 @@ class MovieClip extends Container {
 
         /**
          * The collection of private labels
-         * @property _labels
+         * @name PIXI.animate.MovieClip#_labels
          * @type Array
          * @private
          */
@@ -91,7 +91,7 @@ class MovieClip extends Container {
 
         /**
          * The collection of private labels
-         * @property _labelDict
+         * @name PIXI.animate.MovieClip#_labelDict
          * @type Object
          * @private
          */
@@ -111,7 +111,7 @@ class MovieClip extends Container {
 
         /**
          * If true, this movieclip will animate automatically whenever it is on the stage.
-         * @property selfAdvance
+         * @name PIXI.animate.MovieClip#selfAdvance
          * @type Boolean
          * @default true
          */
@@ -119,7 +119,7 @@ class MovieClip extends Container {
 
         /**
          * If true, the MovieClip's position will not advance when ticked.
-         * @property paused
+         * @name PIXI.animate.MovieClip#paused
          * @type Boolean
          * @default false
          */
@@ -127,7 +127,7 @@ class MovieClip extends Container {
 
         /**
          * If true, actions in this MovieClip's tweens will be run when the playhead advances.
-         * @property actionsEnabled
+         * @name PIXI.animate.MovieClip#actionsEnabled
          * @type Boolean
          * @default true
          */
@@ -141,14 +141,14 @@ class MovieClip extends Container {
          * with different costumes on each frame, you could set body.autoReset = false, so that
          * you can manually change the frame it is on, without worrying that it will be reset
          * automatically.
-         * @property autoReset
+         * @name PIXI.animate.MovieClip#autoReset
          * @type Boolean
          * @default true
          */
         this.autoReset = true;
 
         /**
-         * @property _synchOffset
+         * @name PIXI.animate.MovieClip#_synchOffset
          * @type Number
          * @default 0
          * @private
@@ -156,7 +156,7 @@ class MovieClip extends Container {
         this._synchOffset = 0;
 
         /**
-         * @property _prevPos
+         * @name PIXI.animate.MovieClip#_prevPos
          * @type Number
          * @default -1
          * @private
@@ -166,7 +166,7 @@ class MovieClip extends Container {
         /**
          * Note - changed from default: When the MovieClip is framerate independent, this is the time
          * elapsed from frame 0 in seconds.
-         * @property _t
+         * @name PIXI.animate.MovieClip#_t
          * @type Number
          * @default 0
          * @private
@@ -178,15 +178,16 @@ class MovieClip extends Container {
          * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
          * framerate.
          *
-         * @property _framerate
+         * @name PIXI.animate.MovieClip#_framerate
          * @type {Number}
          * @default 0
+         * @protected
          */
         this._framerate = options.framerate;
 
         /**
          * The total time in seconds for the animation. This is changed when setting the framerate.
-         * @property _duration
+         * @name PIXI.animate.MovieClip#_duration
          * @type Number
          * @default 0
          * @private
@@ -195,7 +196,7 @@ class MovieClip extends Container {
 
         /**
          * The total duration in frames for the animation.
-         * @property _totalFrames
+         * @name PIXI.animate.MovieClip#_totalFrames
          * @type Number
          * @default 0
          * @private
@@ -205,7 +206,7 @@ class MovieClip extends Container {
         /**
          * Standard tween timelines for all objects. Each element in the _timelines array
          * is a Timeline object - an array of tweens for one target, in order of occurrence.
-         * @property _timelines
+         * @name PIXI.animate.MovieClip#_timelines
          * @type Array
          * @protected
          */
@@ -215,7 +216,7 @@ class MovieClip extends Container {
          * Array of child timelines denoting if a child is actively a child of this movieclip
          * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
          * property, and is an array of boolean values indexed by frame.
-         * @property _timedChildTimelines
+         * @name PIXI.animate.MovieClip#_timedChildTimelines
          * @type {Array}
          * @protected
          */
@@ -223,7 +224,7 @@ class MovieClip extends Container {
 
         /**
          * Array to depth sort timed children
-         * @property _depthSorted
+         * @name PIXI.animate.MovieClip#_depthSorted
          * @type {Array}
          * @private
          */
@@ -231,7 +232,7 @@ class MovieClip extends Container {
 
         /**
          * Array of frame scripts, indexed by frame.
-         * @property _actions
+         * @name PIXI.animate.MovieClip#_actions
          * @type {Array}
          * @protected
          */
@@ -240,7 +241,7 @@ class MovieClip extends Container {
         /**
          * Optional callback fired before timeline is updated.
          * Can be used to clamp or update the currentFrame. 
-         * @property _beforeUpdate
+         * @name PIXI.animate.MovieClip#_beforeUpdate
          * @type {Function}
          * @private
          */
@@ -284,7 +285,7 @@ class MovieClip extends Container {
 
     /**
      * Returns an array of objects with label and position (aka frame) properties, sorted by position.
-     * @property labels
+     * @name PIXI.animate.MovieClip#labels
      * @type {Array}
      * @readonly
      */
@@ -294,7 +295,7 @@ class MovieClip extends Container {
 
     /**
      * Returns a dictionary of labels where key is the label and value is the frame.
-     * @property labelsMap
+     * @name PIXI.animate.MovieClip#labelsMap
      * @type {Object}
      * @readonly
      */
@@ -304,7 +305,7 @@ class MovieClip extends Container {
 
     /**
      * Returns the name of the label on or immediately before the current frame.
-     * @property currentLabel
+     * @name PIXI.animate.MovieClip#currentLabel
      * @type {String}
      * @readonly
      */
@@ -323,7 +324,7 @@ class MovieClip extends Container {
 
     /**
      * When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
-     * @property elapsedTime
+     * @name PIXI.animate.MovieClip#elapsedTime
      * @type Number
      * @default 0
      * @public
@@ -347,7 +348,7 @@ class MovieClip extends Container {
      *
      * This feature is dependent on the tick event object (or an object with an appropriate 'delta' property) being
      * passed into {{#crossLink 'Stage/update'}}{{/crossLink}}.
-     * @property framerate
+     * @name PIXI.animate.MovieClip#framerate
      * @type {Number}
      * @default 0
      */
@@ -366,7 +367,7 @@ class MovieClip extends Container {
 
     /**
      * Get the total number of frames (duration) of this MovieClip
-     * @property totalFrames
+     * @name PIXI.animate.MovieClip#totalFrames
      * @type {Number}
      * @default 0
      * @readOnly
@@ -377,7 +378,7 @@ class MovieClip extends Container {
 
     /**
      * Extend the timeline to the last frame.
-     * @method _autoExtend
+     * @method PIXI.animate.MovieClip#_autoExtend
      * @private
      * @param {int} endFrame
      */
@@ -389,7 +390,7 @@ class MovieClip extends Container {
 
     /**
      * Convert values of properties
-     * @method _parseProperties
+     * @method PIXI.animate.MovieClip#_parseProperties
      * @private
      * @param {Object} properties
      */
@@ -404,7 +405,7 @@ class MovieClip extends Container {
 
     /**
      * Get a timeline for a child, synced timeline.
-     * @method _getChildTimeline
+     * @method PIXI.animate.MovieClip#_getChildTimeline
      * @private
      * @param {PIXI.animate.MovieClip} instance
      * @return {PIXI.animate.Timeline}
@@ -422,7 +423,7 @@ class MovieClip extends Container {
 
     /**
      * Add mask or masks
-     * @method addTimedMask
+     * @method PIXI.animate.MovieClip#addTimedMask
      * @param {PIXI.DisplayObject} instance Instance to mask
      * @param {Object} keyframes The map of frames to mask objects
      * @return {PIXI.animate.MovieClip} instance of clip for chaining
@@ -441,7 +442,7 @@ class MovieClip extends Container {
 
     /**
      * Shortcut alias for `addTimedMask`
-     * @method am
+     * @method PIXI.animate.MovieClip#am
      * @param {PIXI.DisplayObject} instance Instance to mask
      * @param {Object} keyframes The map of frames to mask objects
      * @return {PIXI.animate.MovieClip} instance of clip for chaining
@@ -452,7 +453,7 @@ class MovieClip extends Container {
 
     /**
      * Add a tween to the clip
-     * @method addTween
+     * @method PIXI.animate.MovieClip#addTween
      * @param {PIXI.DisplayObject} instance The clip to tween
      * @param {Object} properties The property or property to tween
      * @param {int} startFrame The frame to start tweening
@@ -472,7 +473,7 @@ class MovieClip extends Container {
 
     /**
      * Add a tween to the clip
-     * @method addKeyframe
+     * @method PIXI.animate.MovieClip#addKeyframe
      * @param {PIXI.DisplayObject} instance The clip to tween
      * @param {Object} properties The property or property to tween
      * @param {int} startFrame The frame to start tweening
@@ -492,7 +493,7 @@ class MovieClip extends Container {
 
     /**
      * Alias for method `addTimedChild`
-     * @method at
+     * @method PIXI.animate.MovieClip#at
      * @return {PIXI.animate.MovieClip}
      */
     at(instance, startFrame, duration, keyframes) {
@@ -501,7 +502,7 @@ class MovieClip extends Container {
 
     /**
      * Add a child to show for a certain number of frames before automatic removal.
-     * @method addTimedChild
+     * @method PIXI.animate.MovieClip#addTimedChild
      * @param {PIXI.DisplayObject} instance The clip to show
      * @param {int} startFrame The starting frame
      * @param {int} [duration=1] The number of frames to display the child before removing it.
@@ -575,7 +576,7 @@ class MovieClip extends Container {
 
     /**
      * Short cut for `addAction`
-     * @method aa
+     * @method PIXI.animate.MovieClip#aa
      * @param {Function} callback The clip call on a certain frame
      * @param {int|String} startFrame The starting frame index or label
      * @return {PIXI.animate.MovieClip}
@@ -586,7 +587,7 @@ class MovieClip extends Container {
 
     /**
      * Handle frame actions, callback is bound to the instance of the MovieClip.
-     * @method addAction
+     * @method PIXI.animate.MovieClip#addAction
      * @param {Function} callback The clip call on a certain frame
      * @param {int|String} startFrame The starting frame index or label
      * @return {PIXI.animate.MovieClip}
@@ -620,7 +621,7 @@ class MovieClip extends Container {
 
     /**
      * Sets paused to false.
-     * @method play
+     * @method PIXI.animate.MovieClip#play
      */
     play() {
         this.paused = false;
@@ -628,7 +629,7 @@ class MovieClip extends Container {
 
     /**
      * Sets paused to true.
-     * @method stop
+     * @method PIXI.animate.MovieClip#stop
      */
     stop() {
         this.paused = true;
@@ -636,7 +637,7 @@ class MovieClip extends Container {
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to false.
-     * @method gotoAndPlay
+     * @method PIXI.animate.MovieClip#gotoAndPlay
      * @param {String|Number} positionOrLabel The animation name or frame number to go to.
      */
     gotoAndPlay(positionOrLabel) {
@@ -646,7 +647,7 @@ class MovieClip extends Container {
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to true.
-     * @method gotoAndStop
+     * @method PIXI.animate.MovieClip#gotoAndStop
      * @param {String|Number} positionOrLabel The animation or frame name to go to.
      */
     gotoAndStop(positionOrLabel) {
@@ -656,7 +657,7 @@ class MovieClip extends Container {
 
     /**
      * Get the close parent with a valid framerate. If no parent, returns the default framerate.
-     * @property parentFramerate
+     * @name PIXI.animate.MovieClip#parentFramerate
      * @type {Number}
      * @readOnly
      */
@@ -673,8 +674,8 @@ class MovieClip extends Container {
 
     /**
      * Advances the playhead. This occurs automatically each tick by default.
+     * @method PIXI.animate.MovieClip#advance
      * @param [time] {Number} The amount of time in seconds to advance by. Only applicable if framerate is set.
-     * @method advance
      */
     advance(time) {
 
@@ -710,7 +711,7 @@ class MovieClip extends Container {
     }
 
     /**
-     * @method _goto
+     * @method PIXI.animate.MovieClip#_goto
      * @param {String|Number} positionOrLabel The animation name or frame number to go to.
      * @protected
      */
@@ -740,7 +741,7 @@ class MovieClip extends Container {
     }
 
     /**
-     * @method _reset
+     * @method PIXI.animate.MovieClip#_reset
      * @private
      */
     _reset() {
@@ -750,7 +751,7 @@ class MovieClip extends Container {
     }
 
     /**
-     * @method _updateTimeline
+     * @method PIXI.animate.MovieClip#_updateTimeline
      * @protected
      */
     _updateTimeline() {
@@ -775,7 +776,7 @@ class MovieClip extends Container {
 
     /**
      * Set the timeline position
-     * @method _setTimelinePostion
+     * @method PIXI.animate.MovieClip#_setTimelinePostion
      * @protected
      * @param {int} startFrame
      * @param {int} currentFrame
@@ -916,7 +917,7 @@ class MovieClip extends Container {
 /**
  * The MovieClip will advance independently of its parent, even if its parent is paused.
  * This is the default mode.
- * @property INDEPENDENT
+ * @name PIXI.animate.MovieClip.INDEPENDENT
  * @static
  * @type String
  * @default 0
@@ -926,7 +927,7 @@ MovieClip.INDEPENDENT = 0;
 
 /**
  * The MovieClip will only display a single frame (as determined by the startPosition property).
- * @property SINGLE_FRAME
+ * @name PIXI.animate.MovieClip.SINGLE_FRAME
  * @static
  * @type String
  * @default 1
@@ -937,7 +938,7 @@ MovieClip.SINGLE_FRAME = 1;
 /**
  * The MovieClip will be advanced only when its parent advances and will be synched to the position of
  * the parent MovieClip.
- * @property SYNCHED
+ * @name PIXI.animate.MovieClip.SYNCHED
  * @static
  * @type String
  * @default 2
@@ -948,7 +949,7 @@ MovieClip.SYNCHED = 2;
 
 /**
  * The default framerate if none is specified or there's not parent clip with a framerate.
- * @property DEFAULT_FRAMERATE
+ * @name PIXI.animate.MovieClip.DEFAULT_FRAMERATE
  * @static
  * @type Number
  * @default 24
@@ -958,14 +959,14 @@ MovieClip.DEFAULT_FRAMERATE = 24;
 
 /**
  * Extend a container
- * @method extend
+ * @method PIXI.animate.MovieClip.extend
  * @static
  * @param {PIXI.animate.MovieClip} child The child function
  * @return {PIXI.animate.MovieClip} The child
  */
 /**
- * Extend a container (alias for extend)
- * @method e
+ * Extend a container (alias for `extend`)
+ * @method PIXI.animate.MovieClip.e
  * @static
  * @param {PIXI.animate.MovieClip} child The child function
  * @return {PIXI.animate.MovieClip} The child

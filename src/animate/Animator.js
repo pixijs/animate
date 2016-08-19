@@ -6,13 +6,13 @@ const timelines = [];
 /**
  * Play animation via start/stop frame labels
  * @class Animator
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  */
 class Animator {
 
     /**
      * The collection of timelines
-     * @property {Array<PIXI.animate.AnimatorTimeline>} _timelines
+     * @name {Array<PIXI.animate.AnimatorTimeline>} PIXI.animate.Animator#_timelines
      * @private
      * @static
      */
@@ -22,7 +22,7 @@ class Animator {
 
     /**
      * Suffix added to label for a stop.
-     * @property {String} STOP_LABEL
+     * @name {String} PIXI.animate.Animator.STOP_LABEL
      * @static
      * @default "_stop"
      */
@@ -32,7 +32,7 @@ class Animator {
 
     /**
      * Suffix added to label for a loop.
-     * @property {String} LOOP_LABEL
+     * @name {String} PIXI.animate.Animator.LOOP_LABEL
      * @static
      * @default "_loop"
      */
@@ -44,7 +44,7 @@ class Animator {
      * Play an animation by frame labels. For instance, play animation sequence from
      * "idle" to "idle_stop" or "idle_loop". If no event label is provided, will
      * play the entire duration of the MovieClip.
-     * @method play
+     * @method PIXI.animate.Animator#play
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      * @param {String|Function} [label] The frame label event to call, if no event is provided
@@ -86,7 +86,7 @@ class Animator {
 
     /**
      * Play an animation from the current frame to an end frame or label.
-     * @method to
+     * @method PIXI.animate.Animator#to
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      * @param {String|Number} end The end frame or label.
@@ -105,7 +105,7 @@ class Animator {
 
     /**
      * Play a MovieClip from a start to end frame.
-     * @method fromTo
+     * @method PIXI.animate.Animator#fromTo
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      * @param {Number|String} start The starting frame index or label.
@@ -166,7 +166,7 @@ class Animator {
 
     /**
      * Stop the animation by instance.
-     * @method stop
+     * @method PIXI.animate.Animator#stop
      * @static
      * @param {PIXI.animate.MovieClip} instance Movie clip to play.
      */
@@ -182,7 +182,7 @@ class Animator {
 
     /**
      * Stop all the currently playing animations.
-     * @method stopAll
+     * @method PIXI.animate.Animator#stopAll
      * @static
      */
     static stopAll() {
@@ -193,7 +193,7 @@ class Animator {
 
     /**
      * Stop the animation
-     * @method _internalStop
+     * @method PIXI.animate.Animator#_internalStop
      * @private
      * @static
      * @param {PIXI.animate.AnimatorTimeline} timeline Timeline to stop.

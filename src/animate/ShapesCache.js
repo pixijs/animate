@@ -2,14 +2,14 @@ import utils from './utils';
 
 /**
  * Contains the collection of graphics data
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class ShapesCache
  */
 const ShapesCache = {};
 
 /**
  * Add an item or itesm to the cache
- * @method add
+ * @method PIXI.animate.ShapesCache.add
  * @static
  * @param {String} prop  The id of graphic or the map of graphics to add
  * @param {String|Array<Array>} items Collection of draw commands
@@ -40,7 +40,7 @@ Object.defineProperty(ShapesCache, 'add', {
 
 /**
  * Get the graphic from cache
- * @method  fromCache
+ * @method  PIXI.animate.ShapesCache.fromCache
  * @static
  * @param  {String} id The cache id
  * @return {Array} Series of graphic draw commands
@@ -54,7 +54,7 @@ Object.defineProperty(ShapesCache, 'fromCache', {
 
 /**
  * Remove the graphic from cache
- * @method  remove
+ * @method  PIXI.animate.ShapesCache.remove
  * @static
  * @param  {String|Object} id The cache id or map
  */
@@ -76,7 +76,7 @@ Object.defineProperty(ShapesCache, 'remove', {
 
 /**
  * Remove all graphics from cache
- * @method  removeAll
+ * @method  PIXI.animate.ShapesCache.removeAll
  * @static
  */
 Object.defineProperty(ShapesCache, 'removeAll', {
