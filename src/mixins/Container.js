@@ -1,12 +1,13 @@
 /**
+ * Mixins for the PIXI.Container class.
  * @class Container
- * @namespace PIXI
+ * @memberof PIXI
  */
 const p = PIXI.Container.prototype;
 
 /**
- * Shortcut for addChild.
- * @method ac
+ * Shortcut for `addChild`.
+ * @method PIXI.Container#ac
  * @param {*} [child*] N-number of children
  * @return {PIXI.DisplayObject} Instance of first child added
  */
@@ -14,14 +15,14 @@ p.ac = p.addChild;
 
 /**
  * Extend a container
- * @method extend
+ * @method PIXI.Container.extend
  * @static
  * @param {PIXI.Container} child The child function
  * @return {PIXI.Container} THe child
  */
 /**
- * Extend a container (shortcut for extend)
- * @method e
+ * Extend a container (shortcut for `extend`)
+ * @method PIXI.Container.e
  * @static
  * @param {PIXI.Container} child The child function
  * @return {PIXI.Container} THe child

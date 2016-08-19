@@ -3,8 +3,9 @@ import ShapesCache from './ShapesCache';
 /**
  * The middleware for PIXI's ResourceLoader to be able to 
  * load Flash symbols such as graphics and images.
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class SymbolLoader
+ * @private
  */
 let SymbolLoader = function() {
     return function(resource, next) {

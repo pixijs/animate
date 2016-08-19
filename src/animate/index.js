@@ -8,6 +8,9 @@ import Tween from './Tween';
 import Animator from './Animator';
 import AnimatorTimeline from './AnimatorTimeline';
 
+/**
+ * @namespace PIXI.animate
+ */
 export default {
     Animator,
     AnimatorTimeline,

@@ -56,8 +56,6 @@ const plugins = {
     babelify: require('babelify'),
     chalk: require('chalk'),
     del: require('del'),
-    ghPages: require('gulp-gh-pages'),
-    yuidoc: require('gulp-yuidoc'),
     bundler: require('./tasks/common/bundler'),
     header: require('gulp-header'),
     fs: require('fs')

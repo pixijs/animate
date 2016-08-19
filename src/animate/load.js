@@ -1,20 +1,14 @@
 /**
- * @namespace PIXI.animate
- * @class load
- * @description Entry point for loading Adobe Animate exports:
- * 
- * **Load and auto-add to parent**
- * ```
- * let renderer = new PIXI.autoDetectRenderer(1280, 720);
- * let stage = new PIXI.Container();
- * PIXI.animate.load(lib.MyStage, stage);
- * function update() {
- *      renderer.render(stage);
- *      update();
- * }
- * update();
- * ```
- * **Load and handle with callback**
+ * Load the stage class and preload any assets
+ * @method PIXI.animate.load
+ * @param {Object} options Options for loading.
+ * @param {Function} options.stage Reference to the stage class
+ * @param {Object} [options.stage.assets] Assets used to preload
+ * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
+ * @param {String} [options.basePath] Base root directory
+ */
+/**
+ * Load the stage class and preload any assets
  * ```
  * let renderer = new PIXI.autoDetectRenderer(1280, 720);
  * let stage = new PIXI.Container();
@@ -27,26 +21,24 @@
  * }
  * update();
  * ```
- */
-/**
- * Load the stage class and preload any assets
- * @method load
- * @param {Object} options Options for loading.
- * @param {Function} options.stage Reference to the stage class
- * @param {Object} [options.stage.assets] Assets used to preload
- * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
- * @param {String} [options.basePath] Base root directory
- */
-/**
- * Load the stage class and preload any assets
- * @method load
+ * @method PIXI.animate.load
  * @param {Function} StageRef Reference to the stage class.
  * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {Function} complete The callback function when complete.
  */
 /**
  * Load the stage class and preload any assets
- * @method load
+ * ```
+ * let renderer = new PIXI.autoDetectRenderer(1280, 720);
+ * let stage = new PIXI.Container();
+ * PIXI.animate.load(lib.MyStage, stage);
+ * function update() {
+ *      renderer.render(stage);
+ *      update();
+ * }
+ * update();
+ * ```
+ * @method PIXI.animate.load
  * @param {Function} StageRef Reference to the stage class.
  * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {PIXI.Container} parent The Container to auto-add the stage to.

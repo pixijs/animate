@@ -2,9 +2,7 @@
 let _prepare = null;
 
 /**
- * @namespace PIXI.animate
- * @class utils
- * @private
+ * @namespace PIXI.animate.utils
  * @description For keyframe conversions
  */
 export default class AnimateUtils {
@@ -12,7 +10,7 @@ export default class AnimateUtils {
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
      * @static
-     * @method hexToUint
+     * @method PIXI.animate.utils.hexToUint
      */
     static hexToUint(hex) {
         // Remove the hash
@@ -28,7 +26,7 @@ export default class AnimateUtils {
     /** 
      * Fill frames with booleans of true (showing) and false (hidden).
      * @static
-     * @method fillFrames
+     * @method PIXI.animate.utils.fillFrames
      * @param {Array<Boolean>} timeline
      * @param {int} startFrame The start frame when the timeline shows up
      * @param {int} duration The length of showing
@@ -67,7 +65,7 @@ export default class AnimateUtils {
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
      * @static
-     * @method deserializeKeyframes
+     * @method PIXI.animate.utils.deserializeKeyframes
      * @param {String} keyframes
      * @param {Object} Resulting keyframes
      */
@@ -126,7 +124,7 @@ export default class AnimateUtils {
     /**
      * Convert serialized shapes into draw commands for PIXI.Graphics.
      * @static
-     * @method deserializeShapes
+     * @method PIXI.animate.utils.deserializeShapes
      * @param {String} str
      * @param {Array} Resulting shapes map
      */
@@ -151,7 +149,7 @@ export default class AnimateUtils {
 
     /** 
      * Parse the value of the compressed keyframe.
-     * @method parseValue
+     * @method PIXI.animate.utils.parseValue
      * @static
      * @private
      * @param {String} prop The property key
@@ -190,7 +188,7 @@ export default class AnimateUtils {
 
     /** 
      * Upload all the textures and graphics to the GPU. 
-     * @method upload
+     * @method PIXI.animate.utils.upload
      * @static
      * @param {PIXI.WebGLRenderer} renderer Render to upload to
      * @param {PIXI.DisplayObject} clip MovieClip to upload
@@ -206,7 +204,7 @@ export default class AnimateUtils {
 
     /**
      * Add movie clips to the upload prepare.
-     * @method addMovieClips
+     * @method PIXI.animate.utils.addMovieClips
      * @static
      * @private
      * @param {*} item To add to the queue 

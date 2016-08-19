@@ -1,5 +1,6 @@
 /**
- * @namespace PIXI
+ * Mixins for the PIXI.Text class.
+ * @memberof PIXI
  * @class Text
  */
 const p = PIXI.Text.prototype;
@@ -7,13 +8,13 @@ const p = PIXI.Text.prototype;
 /**
  * Setter for the alignment, also sets the anchor point
  * to make sure the positioning is correct.
- * @method setAlign
+ * @method PIXI.Text#setAlign
  * @param {String} align Either, center, right, left
  * @return {PIXI.Text} For chaining
  */
 /**
  * Shortcut for `setAlign`.
- * @method g
+ * @method PIXI.Text#g
  * @param {String|int} align Either, center (0), right (1), left (-1)
  * @return {PIXI.Text} For chaining
  */
@@ -66,13 +67,13 @@ var STYLE_PROPS = {
 
 /**
  * Set the style, a chainable version of style setter
- * @method setStyle
+ * @method PIXI.Text#setStyle
  * @param {Object} style
  * @return {PIXI.Text} instance of text field
  */
 /**
  * Shortcut for `setStyle`.
- * @method ss
+ * @method PIXI.Text#ss
  * @param {Object} style
  * @return {PIXI.Text} instance of text field
  */
@@ -90,15 +91,15 @@ p.setStyle = p.ss = function(style) {
 
 /**
  * Initial setting of the drop shadow.
- * @method setShadow
+ * @method PIXI.Text#setShadow
  * @param {String} [color="#000000"] The color to set
  * @param {Number} [angle=Math.PI/4] The angle of offset, in radians
  * @param {Number} [distance=5] The offset distance
  * @return {PIXI.Text} For chaining
  */
 /**
- * Shortcut for setShadow.
- * @method sh
+ * Shortcut for `setShadow`.
+ * @method PIXI.Text#sh
  * @param {String} [color="#000000"] The color to set
  * @param {Number} [angle=Math.PI/4] The angle of offset, in radians
  * @param {Number} [distance=5] The offset distance

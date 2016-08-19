@@ -2,7 +2,7 @@ import Tween from './Tween';
 
 /**
  * The Timeline class represents a
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class Timeline
  * @param {PIXI.DisplayObject} Target The target for this string of tweens.
  * @extends Array
@@ -13,14 +13,16 @@ const Timeline = function(target) {
 
     /**
      * The target DisplayObject.
-     * @property {PIXI.DisplayObject} target
+     * @name PIXI.animate.Timeline#target
+     * @type {PIXI.DisplayObject}
      */
     this.target = target;
 
     /**
      * Current properties in the tween, to make building the timeline more
      * efficient.
-     * @property {Object} _currentProps
+     * @name PIXI.animate.Timeline#_currentProps
+     * @type {Object}
      * @private
      */
     this._currentProps = {};
@@ -31,7 +33,7 @@ const p = Timeline.prototype = Object.create(Array.prototype);
 /**
  * Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to remove them from the normal ticking system)
  * and managed by this timeline. Adding a tween to multiple timelines will result in unexpected behaviour.
- * @method addTween
+ * @method PIXI.animate.Timeline#addTween
  * @param tween The tween(s) to add. Accepts multiple arguments.
  * @return Tween The first tween that was passed in.
  */
@@ -68,7 +70,7 @@ p.addTween = function(properties, startFrame, duration, ease) {
 
 /**
  * Add a single keyframe that doesn't tween.
- * @method addKeyframe
+ * @method PIXI.animate.Timeline#addKeyframe
  * @param {Object} properties The properties to set.
  * @param {int} startFrame The starting frame index.
  */
@@ -83,7 +85,7 @@ p.addKeyframe = function(properties, startFrame) {
 
 /**
  * Extend the last frame of the tween.
- * @method extendLastFrame
+ * @method PIXI.animate.Timeline#extendLastFrame
  * @param {int} endFrame The ending frame index.
  */
 p.extendLastFrame = function(endFrame) {
@@ -105,7 +107,7 @@ p.extendLastFrame = function(endFrame) {
 
 /**
  * Get the value for a property
- * @method getPropFromShorthand
+ * @method PIXI.animate.Timeline#getPropFromShorthand
  * @param {string} prop
  */
 p.getPropFromShorthand = function(prop) {
