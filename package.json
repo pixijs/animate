@@ -4,6 +4,7 @@
   "version": "0.7.1",
   "main": "dist/pixi-animate.min.js",
   "author": "Matt Karl <matt.karl@jibo.com>",
+  "typings": "index.d.ts",
   "dependencies": {
     "loophole": "^1.1.0"
   },

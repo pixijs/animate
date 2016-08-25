@@ -1,12 +1,7 @@
-// Type definitions for PixiAnimate v0.3.5
+// Type definitions for PixiAnimate v0.8.0
 declare module PIXI {
 
-    declare module filters {
-        export class ColorMatrixFilter {
-        }
-    }
     export class DisplayObject {
-        public colorTransformFilter:PIXI.filters.ColorMatrixFilter;
         setRenderable(renderable:boolean):PIXI.DisplayObject;
         re(renderable:boolean):PIXI.DisplayObject;
         t(
@@ -117,15 +112,28 @@ declare module PIXI {
     }
 
     export module animate {
-        export class ColorUtils {
-            public static hexToUint(hex:string|number):number;
+
+        export module utils {
+            export function hexToUint(hex:string|number):number;
+            export function fillFrames(timeline:boolean[], startFrame:number, duration:number);
+            export function deserializeKeyframes(keyframes:string):{[frame:string]:any};
+            export function deserializeShapes(str:string):Array<string|number>;
+            export function parseValue(prop:string, buffer:string): any;
+            export function upload(renderer:PIXI.WebGLRenderer, displayObject:PIXI.DisplayObject, done:Function): void;
+            export function addMovieClips(item:PIXI.DisplayObject): boolean;
         }
+        
         export function load(
             StageRef:any,
             parent:PIXI.Container|Function, 
             complete?:Function|string, 
             assetBaseDir?:string
         );
+
+        export interface FrameLabel {
+            label:string;
+            position:number;
+        }
 
         export class MovieClip extends PIXI.DisplayObject {
             public mode:number;
@@ -136,7 +144,8 @@ declare module PIXI {
             public paused:boolean;
             public actionsEnabled:boolean;
             public autoReset:boolean;
-            public labels:Array<Object>;
+            public labels:FrameLabel[];
+            public labelsMap:{[id:string]:number};
             public elapsedTime:number;
             public framerate:number;
             public totalFrames:number;
@@ -146,7 +155,7 @@ declare module PIXI {
                 duration?:number,
                 loop?:boolean,
                 framerate?:number,
-                labels?:Object
+                labels?:{[id:string]:number}
             );
             addKeyframes(
                 instance:PIXI.DisplayObject,
@@ -229,8 +238,6 @@ declare module PIXI {
             fromCache(id:string):void;
             removeAll():void;
             remove(id:string):void;
-        }
-        export class SymbolLoader {
         }
     }
 }
