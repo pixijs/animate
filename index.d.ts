@@ -130,6 +130,7 @@ declare module PIXI {
             assetBaseDir?:string
         );
 
+        export type LabelMap = {[id:string]:number};
         export interface FrameLabel {
             label:string;
             position:number;
@@ -139,23 +140,23 @@ declare module PIXI {
             public mode:number;
             public startPosition:number;
             public loop:boolean;
-            public currentFrame:number;
             public selfAdvance:boolean;
             public paused:boolean;
             public actionsEnabled:boolean;
             public autoReset:boolean;
             public labels:FrameLabel[];
-            public labelsMap:{[id:string]:number};
+            public labelsMap:LabelMap;
             public elapsedTime:number;
             public framerate:number;
             public totalFrames:number;
+            public currentFrame:number;
 
             constructor(
                 options:number|Object,
                 duration?:number,
                 loop?:boolean,
                 framerate?:number,
-                labels?:{[id:string]:number}
+                labels?:LabelMap
             );
             addKeyframes(
                 instance:PIXI.DisplayObject,
@@ -234,10 +235,30 @@ declare module PIXI {
         }
         export class ShapesCache {
             add(id:string, draw:Array<string|number>):void;
-            decode(str:string):void;
             fromCache(id:string):void;
             removeAll():void;
             remove(id:string):void;
+        }
+
+        export class Animator {
+            static STOP_LABEL:string;
+            static LOOP_LABEL:string;
+            static play(instance:MovieClip, label:string, callback?:Function):AnimatorTimeline;
+            static to(instance:MovieClip, end:string|number, callback?:Function):AnimatorTimeline;
+            static fromTo(instance:MovieClip, start:string|number, end:string|number, loop?:boolean, callback?:Function):AnimatorTimeline;
+            static stop(instance:MovieClip): void;
+            static stopAll(): void;
+        }
+
+        export class AnimatorTimeline {
+            progress:number;
+            instance:MovieClip;
+            start:number;
+            end:number;
+            loop:boolean;
+            callback:Function;
+            stop(): void;
+            static create(instance:MovieClip, start:number, end:number, loop:boolean, callback?:Function): AnimatorTimeline;
         }
     }
 }
