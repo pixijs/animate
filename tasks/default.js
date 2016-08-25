@@ -8,6 +8,7 @@ module.exports = function(gulp, options, plugins) {
             'format',
             'build',
             'build-debug',
+            'copy',
             'test',
             done
         );

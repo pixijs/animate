@@ -1,16 +1,10 @@
 {
 	"name": "pixi-animate",
-	"version": "0.3.5",
+	"version": "0.7.1",
 	"main": "dist/pixi-animate.min.js",
 	"dependencies":
 	{
 		"pixi.js": "^4.0.0"
-	},
-	"devDependencies":
-	{
-		"qunit": "*",
-		"google-code-prettify": "*",
-		"bind-polyfill": "*"
 	},
 	"ignore": [
 		"gulpfile.js",

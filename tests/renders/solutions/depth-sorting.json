@@ -1,0 +1,14 @@
+{
+  "webgl": [
+    {
+      "hash": "1e61244d44dd82db69c62f3e8302cd54",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhElEQVRYR2P8////f4YBBIxD0gGM6YwUhdn/mYhAJysERh1AsxAwTfhNUdyeYWcjSj/ONDDqgNEQGPIhsP0q/kwgagTJJTTLBaMOGA2BQR8CIqdZMbIJSnuA0nKAUAiMOoBgCBCqzN+YUtZeGHXAaAgM/RAglEvIkSerZ0SORbj0jDoAAFLY76GGoiALAAAAAElFTkSuQmCC"
+    }
+  ],
+  "canvas": [
+    {
+      "hash": "1e61244d44dd82db69c62f3e8302cd54",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAhElEQVRYR2P8////f4YBBIxD0gGM6YwUhdn/mYhAJysERh1AsxAwTfhNUdyeYWcjSj/ONDDqgNEQGPIhsP0q/kwgagTJJTTLBaMOGA2BQR8CIqdZMbIJSnuA0nKAUAiMOoBgCBCqzN+YUtZeGHXAaAgM/RAglEvIkSerZ0SORbj0jDoAAFLY76GGoiALAAAAAElFTkSuQmCC"
+    }
+  ]
+}

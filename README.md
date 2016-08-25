@@ -2,6 +2,8 @@
 
 A plugin for Pixi.js which provides a runtime for content export using PixiAnimate Extension. 
 
+[![Build Status](https://travis-ci.org/jiborobot/pixi-animate.svg?branch=master)](https://travis-ci.org/jiborobot/pixi-animate) [![Dependency Status](https://david-dm.org/jiborobot/pixi-animate.svg)](https://david-dm.org/jiborobot/pixi-animate) [![npm version](https://badge.fury.io/js/pixi-animate.svg)](https://badge.fury.io/js/pixi-animate)
+
 ## Running Content
 
 ### Installing Library
@@ -21,11 +23,11 @@ npm install pixi-animate
 
 * [Pixi.js v4](http://pixijs.com) is required
 
-##Documentation
+## Documentation
 
 http://jiborobot.github.io/pixi-animate/
 
-##License
+## License
 
 Copyright (c) 2016 [Jibo, Inc.](http://github.com/jiborobot)
 

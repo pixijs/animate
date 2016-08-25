@@ -14,8 +14,9 @@ const options = {
     docs: 'docs',
     src: src,
     pkg, pkg,
-    lint: [src, 'tests/*.js'],
+    lint: [src, 'tests/**/*.js', '!tests/renders/assets/*.js'],
     format: [src, 'tests/*.js', 'tasks/*.js'],
+    copy: ['node_modules/pixi.js/bin/*'],
     tests: 'tests',
     eslint: {
         extends: ['eslint:recommended'],
@@ -33,8 +34,7 @@ const options = {
         envs: {
             node: true,
             browser: true,
-            es6: true,
-            mocha: true
+            es6: true
         },
         globals: {
             PIXI: true
@@ -52,12 +52,10 @@ const plugins = {
     sequence: require('gulp-sequence').use(gulp),
     exorcist: require('exorcist'),
     preprocess: require('gulp-preprocess'),
-    mocha: require('gulp-mocha'),
+    floss: require('floss'),
     babelify: require('babelify'),
     chalk: require('chalk'),
     del: require('del'),
-    ghPages: require('gulp-gh-pages'),
-    yuidoc: require('gulp-yuidoc'),
     bundler: require('./tasks/common/bundler'),
     header: require('gulp-header'),
     fs: require('fs')

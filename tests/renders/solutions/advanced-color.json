@@ -1,0 +1,14 @@
+{
+  "webgl": [
+    {
+      "hash": "3caa4018453e188014f82c3cc3850f57",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAATUlEQVRYR+3XsQ0AIBBCUdnDER3HEd0Da6PtBYt/AxDyQnOy7RY8UeA7gaFVuojpfuRfG6AAAggggAACCCCAAAIIxAVKn4JHOL9hXGADwCrHoSDrNSYAAAAASUVORK5CYII="
+    }
+  ],
+  "canvas": [
+    {
+      "hash": "bd5ca4fe3ec53c421044c78d86592b86",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAASUlEQVRYR+3XsQ0AMAwCwTBtZvK0pI6S1sLFewALnWiQba/giQDjBLTV2gjXXbmnAwRAAAEEEEAAAQQQQACBuEDrKPg8ZxvGBQ6XssehFyMftwAAAABJRU5ErkJggg=="
+    }
+  ]
+}

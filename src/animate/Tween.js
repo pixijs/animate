@@ -1,6 +1,6 @@
 /**
  * Provide timeline playback of movieclip
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class Tween
  * @constructor
  * @param {PIXI.animate.MovieClip} target The target to play
@@ -13,20 +13,71 @@
 class Tween {
 
     constructor(target, startProps, endProps, startFrame, duration, ease) {
-        //target display object
+
+        /**
+         * target display object
+         * @name PIXI.animate.Tween#target
+         * @type {Object}
+         */
         this.target = target;
 
-        //properties at the start of the tween
+        /** 
+         * properties at the start of the tween
+         * @type {Object} 
+         * @name PIXI.animate.Tween#startProps
+         */
         this.startProps = startProps;
 
-        //properties at the end of the tween, as well as any properties that are set
-        //instead of tweened
+        /**
+         * properties at the end of the tween, as well as any properties that are set
+         * instead of tweened
+         * @type {Object} 
+         * @name PIXI.animate.Tween#endProps
+         */
         this.endProps = {};
-        let prop;
 
-        //make a copy to safely include any unchanged values from the start of the tween
-        for (prop in endProps) {
-            this.endProps[prop] = endProps[prop];
+        /**
+         * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
+         * @type {int} 
+         * @name PIXI.animate.Tween#duration
+         */
+        this.duration = duration;
+
+        /**
+         * The frame that the tween starts on
+         * @type {int}
+         * @name PIXI.animate.Tween#startFrame
+         */
+        this.startFrame = startFrame;
+
+        /**
+         * the frame that the tween ends on
+         * @type {int} 
+         * @name PIXI.animate.Tween#endFrame
+         */
+        this.endFrame = startFrame + duration;
+
+        /**
+         * easing function to use, if any
+         * @type {Function} 
+         * @name PIXI.animate.Tween#ease
+         */
+        this.ease = ease;
+
+        /**
+         * If we don't tween.
+         * @type {Boolean} 
+         * @name PIXI.animate.Tween#isTweenlessFrame
+         */
+        this.isTweenlessFrame = !endProps;
+
+
+        let prop;
+        if (endProps) {
+            //make a copy to safely include any unchanged values from the start of the tween
+            for (prop in endProps) {
+                this.endProps[prop] = endProps[prop];
+            }
         }
 
         //copy in any starting properties don't change
@@ -35,24 +86,22 @@ class Tween {
                 this.endProps[prop] = startProps[prop];
             }
         }
-        //duration of tween in frames. For a keyframe with no tweening, the duration
-        //will be 0.
-        this.duration = duration;
-
-        //the frame that the tween starts on
-        this.startFrame = startFrame;
-
-        //the frame that the tween ends on
-        this.endFrame = startFrame + duration;
-
-        //easing function to use, if any
-        this.ease = ease;
     }
 
+    /**
+     * Set the current frame.
+     * @method PIXI.animate.Tween#setPosition
+     * @param {int} currentFrame
+     */
     setPosition(currentFrame) {
         //if this is a single frame with no tweening, or at the end of the tween, then
         //just speed up the process by setting values
         if (currentFrame >= this.endFrame) {
+            this.setToEnd();
+            return;
+        }
+
+        if (this.isTweenlessFrame) {
             this.setToEnd();
             return;
         }
@@ -74,6 +123,10 @@ class Tween {
         }
     }
 
+    /**
+     * Set to the end position
+     * @method PIXI.animate.Tween#setToEnd
+     */
     setToEnd() {
         let endProps = this.endProps;
         let target = this.target;

@@ -1,20 +1,14 @@
 /**
- * @namespace PIXI.animate
- * @class load
- * @description Entry point for loading Adobe Animate exports:
- * 
- * **Load and auto-add to parent**
- * ```
- * let renderer = new PIXI.autoDetectRenderer(1280, 720);
- * let stage = new PIXI.Container();
- * PIXI.animate.load(lib.MyStage, stage);
- * function update() {
- *      renderer.render(stage);
- *      update();
- * }
- * update();
- * ```
- * **Load and handle with callback**
+ * Load the stage class and preload any assets
+ * @method PIXI.animate.load
+ * @param {Object} options Options for loading.
+ * @param {Function} options.stage Reference to the stage class
+ * @param {Object} [options.stage.assets] Assets used to preload
+ * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
+ * @param {String} [options.basePath] Base root directory
+ */
+/**
+ * Load the stage class and preload any assets
  * ```
  * let renderer = new PIXI.autoDetectRenderer(1280, 720);
  * let stage = new PIXI.Container();
@@ -27,78 +21,82 @@
  * }
  * update();
  * ```
- */
-/**
- * Load the stage class and preload any assets
- * @method load
- * @param {Function} StageRef Reference to the stage class
- * @param {Array} [StageRef.assets] Assets used to preload
- * @param {PIXI.Container} parent The Container to auto-add the stage to.
- * @param {Function} [complete] Function to call when complete
- * @param {String} [assetBaseDir] Base root directory
- */
-/**
- * Load the stage class and preload any assets
- * @method load
- * @param {Function} StageRef Reference to the stage class
- * @param {Array} [StageRef.assets] Assets used to preload
- * @param {PIXI.Container} parent The Container to auto-add the stage to.
- * @param {String} [assetBaseDir] Base root directory
- */
-/**
- * Load the stage class and preload any assets
- * @method load
- * @param {Function} StageRef Reference to the stage class
- * @param {Array} [StageRef.assets] Assets used to preload
+ * @method PIXI.animate.load
+ * @param {Function} StageRef Reference to the stage class.
+ * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {Function} complete The callback function when complete.
- * @param {String} [assetBaseDir] Base root directory
  */
-const load = function(StageRef, parent, complete, assetBaseDir) {
-    // Support arguments (ref, complete, assetBaseDir)
+/**
+ * Load the stage class and preload any assets
+ * ```
+ * let renderer = new PIXI.autoDetectRenderer(1280, 720);
+ * let stage = new PIXI.Container();
+ * PIXI.animate.load(lib.MyStage, stage);
+ * function update() {
+ *      renderer.render(stage);
+ *      update();
+ * }
+ * update();
+ * ```
+ * @method PIXI.animate.load
+ * @param {Function} StageRef Reference to the stage class.
+ * @param {Object} [StageRef.assets] Assets used to preload.
+ * @param {PIXI.Container} parent The Container to auto-add the stage to.
+ */
+const load = function(options, parent, complete, basePath) {
+
+    // Support arguments (ref, complete, basePath)
     if (typeof parent === "function") {
-        assetBaseDir = complete;
+        basePath = complete;
         complete = parent;
         parent = null;
     } else {
         if (typeof complete === "string") {
-            assetBaseDir = complete;
+            basePath = complete;
             complete = null;
         }
     }
 
-    // Root load directory
-    assetBaseDir = assetBaseDir || "";
+    if (typeof options === "function") {
+        options = {
+            stage: options,
+            parent: parent,
+            basePath: basePath || "",
+            complete: complete
+        };
+    }
 
-    let assets = StageRef.assets || [];
+    options = Object.assign({
+        stage: null,
+        parent: null,
+        basePath: '',
+        complete: null
+    }, options || {});
+
     const loader = new PIXI.loaders.Loader();
 
     function done() {
-        let stage = new StageRef();
-        if (parent) {
-            parent.addChild(stage);
+        let instance = new options.stage();
+        if (options.parent) {
+            options.parent.addChild(instance);
         }
-        if (complete) {
-            complete(stage);
+        if (options.complete) {
+            options.complete(instance);
         }
     }
 
     // Check for assets to preload
-    if (assets && assets.length) {
+    let assets = options.stage.assets || {};
+    if (assets && Object.keys(assets).length) {
         // assetBaseDir can accept either with trailing slash or not
-        if (assetBaseDir) {
-            assetBaseDir += "/";
+        let basePath = options.basePath;
+        if (basePath) {
+            basePath += "/";
         }
-
-        for (let asset, i = 0; i < assets.length; i++) {
-            asset = assets[i];
-            if (Array.isArray(asset)) {
-                loader.add(asset[0], assetBaseDir + asset[1]);
-            } else {
-                loader.add(assetBaseDir + asset);
-            }
+        for (let id in assets) {
+            loader.add(id, basePath + assets[id]);
         }
-        loader.once('complete', done)
-            .load();
+        loader.once('complete', done).load();
     } else {
         // tiny case where there's only text and no shapes/animations
         done();

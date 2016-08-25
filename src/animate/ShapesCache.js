@@ -1,63 +1,46 @@
-import ColorUtils from './ColorUtils';
+import utils from './utils';
 
 /**
  * Contains the collection of graphics data
- * @namespace PIXI.animate
+ * @memberof PIXI.animate
  * @class ShapesCache
  */
 const ShapesCache = {};
 
 /**
  * Add an item or itesm to the cache
- * @method add
+ * @method PIXI.animate.ShapesCache.add
  * @static
- * @param {String} prop  The id of graphic
- * @param {Array} [value] If adding a single property, the draw commands
+ * @param {String} prop  The id of graphic or the map of graphics to add
+ * @param {String|Array<Array>} items Collection of draw commands
  */
 Object.defineProperty(ShapesCache, 'add', {
     enumerable: false,
-    value: function(prop, draw) {
+    value: function(prop, items) {
+
+        // Decode string to map of files
+        if (typeof items === "string") {
+            items = utils.deserializeShapes(items);
+        }
+
         // Convert all hex string colors (animate) to int (pixi.js)
-        for (let d in draw) {
-            let arg = draw[d];
-            if (typeof arg === 'string' && arg[0] === '#') {
-                draw[d] = ColorUtils.hexToUint(arg);
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            for (let j = 0; j < item.length; j++) {
+                let arg = item[j];
+                if (typeof arg === 'string' && arg[0] === '#') {
+                    item[j] = utils.hexToUint(arg);
+                }
             }
         }
-        ShapesCache[prop] = draw;
+        ShapesCache[prop] = items;
     }
 });
 
-/**
- * Decode a shapes string into draw commands
- * @method decode
- * @static
- * @param  {String} str The string to decode
- */
-Object.defineProperty(ShapesCache, 'decode', {
-    enumerable: false,
-    value: function(str) {
-        // each shape is a new line
-        let shapes = str.split("\n");
-        let isCommand = /^[a-z]{1,2}$/;
-        for (let i = 0; i < shapes.length; i++) {
-            let shape = shapes[i].split(' '); // arguments are space separated
-            let name = shape.shift(); // first argument is the ID
-            for (let j = 0; j < shape.length; j++) {
-                // Convert all numbers to floats, ignore colors
-                let arg = shape[j];
-                if (arg[0] !== '#' && !isCommand.test(arg)) {
-                    shape[j] = parseFloat(arg);
-                }
-            }
-            this.add(name, shape);
-        }
-    }
-});
 
 /**
  * Get the graphic from cache
- * @method  fromCache
+ * @method  PIXI.animate.ShapesCache.fromCache
  * @static
  * @param  {String} id The cache id
  * @return {Array} Series of graphic draw commands
@@ -71,13 +54,19 @@ Object.defineProperty(ShapesCache, 'fromCache', {
 
 /**
  * Remove the graphic from cache
- * @method  remove
+ * @method  PIXI.animate.ShapesCache.remove
  * @static
- * @param  {String} id The cache id
+ * @param  {String|Object} id The cache id or map
  */
 Object.defineProperty(ShapesCache, 'remove', {
     enumerable: false,
     value: function(id) {
+        if (typeof id === "object") {
+            for (let name in id) {
+                ShapesCache.remove(name);
+            }
+            return;
+        }
         if (ShapesCache[id]) {
             ShapesCache[id].length = 0;
             delete ShapesCache[id];
@@ -87,7 +76,7 @@ Object.defineProperty(ShapesCache, 'remove', {
 
 /**
  * Remove all graphics from cache
- * @method  removeAll
+ * @method  PIXI.animate.ShapesCache.removeAll
  * @static
  */
 Object.defineProperty(ShapesCache, 'removeAll', {
