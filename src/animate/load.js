@@ -6,6 +6,7 @@
  * @param {Object} [options.stage.assets] Assets used to preload
  * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
  * @param {String} [options.basePath] Base root directory
+ * @return {PIXI.loaders.Loader} instance of PIXI resource loader
  */
 /**
  * Load the stage class and preload any assets
@@ -25,6 +26,7 @@
  * @param {Function} StageRef Reference to the stage class.
  * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {Function} complete The callback function when complete.
+ * @return {PIXI.loaders.Loader} instance of PIXI resource loader
  */
 /**
  * Load the stage class and preload any assets
@@ -42,6 +44,7 @@
  * @param {Function} StageRef Reference to the stage class.
  * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {PIXI.Container} parent The Container to auto-add the stage to.
+ * @return {PIXI.loaders.Loader} instance of PIXI resource loader
  */
 const load = function(options, parent, complete, basePath) {
 
@@ -81,7 +84,7 @@ const load = function(options, parent, complete, basePath) {
             options.parent.addChild(instance);
         }
         if (options.complete) {
-            options.complete(instance);
+            options.complete(instance, loader);
         }
     }
 
@@ -101,6 +104,8 @@ const load = function(options, parent, complete, basePath) {
         // tiny case where there's only text and no shapes/animations
         done();
     }
+
+    return loader;
 };
 
 export default load;
