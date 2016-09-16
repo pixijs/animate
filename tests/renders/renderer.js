@@ -157,6 +157,8 @@ p.compareFrames = function(a, b) {
     for (let i=0; i<length; i++) {
         if (a[i].hash !== b[i].hash) {
             if (!this.imagediff.compare(a[i].image, b[i].image)) {
+                document.body.innerHTML += '<img width="32" height"32" style="border:1px solid #999" src="'+a[i].image+'">';
+                document.body.innerHTML += '<img width="32" height"32" style="border:1px solid #999" src="'+b[i].image+'"> ';
                 return false;
             }
         }
