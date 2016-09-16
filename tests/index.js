@@ -34,4 +34,8 @@ describe('PIXI', function() {
     });
 });
 
+const renders = document.createElement('div');
+renders.id = "renders-failed";
+document.body.appendChild(renders);
+
 require('./renders');
