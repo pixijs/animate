@@ -82,6 +82,11 @@ const load = function(options, parent, complete, basePath) {
         complete: null
     }, options || {});
 
+    const Resource = PIXI.loaders.Resource;
+    Resource.setExtensionLoadType('wav', Resource.LOAD_TYPE.AUDIO);
+    Resource.setExtensionLoadType('mp3', Resource.LOAD_TYPE.AUDIO);
+    Resource.setExtensionLoadType('ogg', Resource.LOAD_TYPE.AUDIO);
+
     const loader = new PIXI.loaders.Loader();
 
     function done() {
