@@ -211,13 +211,33 @@ export default class AnimateUtils {
      */
     static addMovieClips(item) {
         if (item instanceof PIXI.animate.MovieClip) {
+            let added = false;
             item._timedChildTimelines.forEach((timeline) => {
-                const index = item.children.indexOf(timeline.target);
-                if (index === -1) {
-                    _prepare.add(timeline.target);
+                const target = timeline.target;
+                const index = item.children.indexOf(target);
+                // Skip things already in the display list
+                if (index >= 0) {
+                    return;
                 }
+                // Check for textures
+                const texture = target.texture;
+                if (texture && texture.baseTexture) {
+                    _prepare.add(texture.baseTexture);
+                    added = true;
+                }
+                // Recursively add children movieclips
+                else if (target instanceof PIXI.animate.MovieClip) {
+                    if (AnimateUtils.addMovieClips(target)) {
+                        added = true;
+                    }
+                }
+                // TODO: currently Graphics preparing is unstable
+                // else if (target instanceof PIXI.Graphics) {
+                    // _prepare.add(target);
+                    // added = true;
+                // }
             });
-            return true;
+            return added;
         }
         return false;
     }
