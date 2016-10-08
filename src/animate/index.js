@@ -1,4 +1,5 @@
 import load from './load';
+import sound from './sound';
 import utils from './utils';
 import MovieClip from './MovieClip';
 import ShapesCache from './ShapesCache';
@@ -15,6 +16,7 @@ export default {
     Animator,
     AnimatorTimeline,
     load,
+    sound,
     utils,
     MovieClip,
     ShapesCache,
