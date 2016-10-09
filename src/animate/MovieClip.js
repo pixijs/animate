@@ -627,8 +627,8 @@ class MovieClip extends Container {
      * @param {MovieClip} context The MovieClip the sound originates from
      * @return {PIXI.animate.MovieClip}
      */
-    ps(alias, loop, context) {
-        return this.playSound(alias, loop, context);
+    ps(alias, loop) {
+        return this.playSound(alias, loop);
     }
 
     /**
@@ -639,9 +639,8 @@ class MovieClip extends Container {
      * @param {MovieClip} context The MovieClip the sound originates from
      * @return {PIXI.animate.MovieClip}
      */
-    playSound(alias, loop, context) {
-        console.log('playSound', alias, loop, context);
-        PIXI.animate.sound.emit('play', alias, loop, context);
+    playSound(alias, loop) {
+        PIXI.animate.sound.emit('play', alias, loop, this);
         return this;
     }
 
