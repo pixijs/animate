@@ -47,7 +47,12 @@
     "docs": "jsdoc -c jsdoc.conf.json -R README.md",
     "start": "gulp watch",
     "predocs-live": "npm run docs",
-    "docs-live": "gh-pages -d docs"
+    "docs-live": "gh-pages -d docs",
+    "postversion": "gulp && npm tests",
+    "publish:patch": "npm version patch && npm publish",
+    "publish:minor": "npm version minor && npm publish",
+    "publish:major": "npm version major && npm publish",
+    "postpublish": "git push && git push --tags && npm run docs-live"
   },
   "keywords": [
     "webgl",
