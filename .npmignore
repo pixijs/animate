@@ -9,6 +9,7 @@ src
 node_modules
 tasks
 tests
+coverage
 docs
 .publish
 jsdoc.conf.json

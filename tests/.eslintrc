@@ -5,6 +5,7 @@
     "globals": {
         "assert": true,
         "animate": true,
+        "sinon": true,
         "extendable": true
     }
 }
