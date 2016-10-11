@@ -240,7 +240,7 @@ class MovieClip extends Container {
 
         /**
          * Optional callback fired before timeline is updated.
-         * Can be used to clamp or update the currentFrame. 
+         * Can be used to clamp or update the currentFrame.
          * @name PIXI.animate.MovieClip#_beforeUpdate
          * @type {Function}
          * @private
@@ -616,6 +616,31 @@ class MovieClip extends Container {
         } else {
             actions[startFrame] = [callback];
         }
+        return this;
+    }
+
+    /**
+     * Short cut for `playSound`
+     * @method PIXI.animate.MovieClip#ps
+     * @param {String} alias The name of the Sound
+     * @param {Boolean} loop The loop property of the sound
+     * @param {MovieClip} context The MovieClip the sound originates from
+     * @return {PIXI.animate.MovieClip}
+     */
+    ps(alias, loop) {
+        return this.playSound(alias, loop);
+    }
+
+    /**
+     * Handle sounds.
+     * @method PIXI.animate.MovieClip#playSound
+     * @param {String} alias The name of the Sound
+     * @param {Boolean} loop The loop property of the sound
+     * @param {MovieClip} context The MovieClip the sound originates from
+     * @return {PIXI.animate.MovieClip}
+     */
+    playSound(alias, loop) {
+        PIXI.animate.sound.emit('play', alias, loop, this);
         return this;
     }
 
