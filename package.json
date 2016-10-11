@@ -49,7 +49,7 @@
     "start": "gulp watch",
     "predocs-live": "npm run docs",
     "docs-live": "gh-pages -d docs",
-    "postversion": "gulp && npm tests",
+    "postversion": "gulp && npm test",
     "publish:patch": "npm version patch && npm publish",
     "publish:minor": "npm version minor && npm publish",
     "publish:major": "npm version major && npm publish",
