@@ -623,7 +623,7 @@ class MovieClip extends Container {
      * Short cut for `playSound`
      * @method PIXI.animate.MovieClip#ps
      * @param {String} alias The name of the Sound
-     * @param {Boolean} loop The loop property of the sound
+     * @param {Boolean} [loop=false] The loop property of the sound
      * @param {MovieClip} context The MovieClip the sound originates from
      * @return {PIXI.animate.MovieClip}
      */
@@ -635,12 +635,12 @@ class MovieClip extends Container {
      * Handle sounds.
      * @method PIXI.animate.MovieClip#playSound
      * @param {String} alias The name of the Sound
-     * @param {Boolean} loop The loop property of the sound
+     * @param {Boolean} [loop=false] The loop property of the sound
      * @param {MovieClip} context The MovieClip the sound originates from
      * @return {PIXI.animate.MovieClip}
      */
     playSound(alias, loop) {
-        PIXI.animate.sound.emit('play', alias, loop, this);
+        PIXI.animate.sound.emit('play', alias, !!loop, this);
         return this;
     }
 

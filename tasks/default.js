@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = function(gulp, options, plugins) {
     gulp.task('default', function(done) {
         return plugins.sequence(
@@ -9,7 +7,6 @@ module.exports = function(gulp, options, plugins) {
             'build',
             'build-debug',
             'copy',
-            'test',
             done
         );
     });
