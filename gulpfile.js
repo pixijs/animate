@@ -9,7 +9,7 @@ const options = {
     app: 'src',
     name: 'pixi-animate',
     map: 'dist/pixi-animate.js.map',
-    clean: ['dist', 'docs'],
+    clean: ['dist', 'docs', 'coverage'],
     deploy: './docs/**/*',
     docs: 'docs',
     src: src,

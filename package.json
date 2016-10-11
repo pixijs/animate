@@ -42,8 +42,9 @@
   "homepage": "https://github.com/jiborobot/pixi-animate",
   "scripts": {
     "build": "gulp",
-    "test": "gulp test --coverage",
-    "test:debug": "gulp test --coverage --debug",
+    "test": "gulp test",
+    "coverage": "npm test -- --coverage",
+    "test:debug": "npm test -- --debug",
     "docs": "jsdoc -c jsdoc.conf.json -R README.md",
     "start": "gulp watch",
     "predocs-live": "npm run docs",
