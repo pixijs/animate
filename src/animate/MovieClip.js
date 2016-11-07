@@ -905,20 +905,24 @@ class MovieClip extends Container {
         }
         const hiddenChildren = [];
         let timelines = this._timelines;
-        for (let i = 0; i < timelines.length; i++) {
-            const timeline = timelines[i];
-            hiddenChildren.push(timeline.target);
-            timeline._currentProps = null;
-            timeline.length = 0;
+        if (timelines) {
+            for (let i = 0; i < timelines.length; i++) {
+                const timeline = timelines[i];
+                hiddenChildren.push(timeline.target);
+                timeline._currentProps = null;
+                timeline.length = 0;
+            }
         }
         timelines = this._timedChildTimelines;
-        for (let i = 0; i < timelines.length; i++) {
-            const timeline = timelines[i];
-            if (hiddenChildren.indexOf(timeline.target) < 0) {
-                hiddenChildren.push(timeline.target);
+        if (timelines) {
+            for (let i = 0; i < timelines.length; i++) {
+                const timeline = timelines[i];
+                if (hiddenChildren.indexOf(timeline.target) < 0) {
+                    hiddenChildren.push(timeline.target);
+                }
+                timeline._currentProps = null;
+                timeline.length = 0;
             }
-            timeline._currentProps = null;
-            timeline.length = 0;
         }
         // Destroy all the children
         for (let i = 0; i < hiddenChildren.length; i++) {
