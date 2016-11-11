@@ -19,7 +19,7 @@ const SpritesheetLoader = function() {
         this.add(resourcePath, function(res) {
             const baseTexture = res.texture.baseTexture;
             const resolution = resource.data.meta.scale;
-            
+
             // Set the resolution based on the spritesheet data
             baseTexture.resolution = resolution;
 
@@ -40,25 +40,24 @@ const SpritesheetLoader = function() {
                     id: id,
                     size: size
                 });
-            }           
+            }
 
             // Throttle the texture creation across frames
             // so that it performs a littler nicer
             function processQueue() {
                 if (queue.length) {
-                    const items = queue.splice(0, 
+                    const items = queue.splice(0,
                         SpritesheetLoader.BATCH_SIZE
                     );
                     setTimeout(processItems(items), 0);
-                }
-                else {
+                } else {
                     next();
                 }
             }
 
             // Process a sub selection of items from the queue
             function processItems(items) {
-                for(let i = 0; i < items.length; i++) {
+                for (let i = 0; i < items.length; i++) {
                     const item = items[i];
                     PIXI.utils.TextureCache[item.id] = new PIXI.Texture(
                         baseTexture,
