@@ -18,7 +18,7 @@ const SpritesheetLoader = function() {
 
         this.add(resourcePath, function(res) {
             const baseTexture = res.texture.baseTexture;
-            const resolution = resource.data.meta.scale;
+            const resolution = resource.data.meta.scale || 1;
 
             // Set the resolution based on the spritesheet data
             baseTexture.resolution = resolution;
