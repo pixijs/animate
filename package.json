@@ -28,7 +28,7 @@
     "js-md5": "^0.4.1",
     "jsdoc": "^3.4.0",
     "load-gulp-tasks": "^0.1.0",
-    "pixi.js": "^4.0.0",
+    "pixi.js": "4.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
