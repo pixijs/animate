@@ -3,7 +3,6 @@ import sound from './sound';
 import utils from './utils';
 import MovieClip from './MovieClip';
 import ShapesCache from './ShapesCache';
-import SpritesheetLoader from './SpritesheetLoader';
 import SymbolLoader from './SymbolLoader';
 import Timeline from './Timeline';
 import Tween from './Tween';
@@ -21,7 +20,6 @@ export default {
     utils,
     MovieClip,
     ShapesCache,
-    SpritesheetLoader,
     SymbolLoader,
     Timeline,
     Tween
