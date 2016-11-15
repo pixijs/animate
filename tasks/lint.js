@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = function(gulp, options, plugins) {
     gulp.task('lint', function() {
         return gulp

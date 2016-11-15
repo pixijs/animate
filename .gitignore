@@ -1,6 +1,6 @@
-docs
-node_modules
-dist
+/docs
+/node_modules
+/dist
 .publish/
-
+/coverage
 .DS_Store

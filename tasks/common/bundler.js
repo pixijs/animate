@@ -23,7 +23,7 @@ module.exports = function(gulp, options, plugins, debug) {
 
         let stream = bundler
             .transform(plugins.babelify.configure({
-                presets: ['es2015'],
+                presets: [ ['es2015', {loose: true}] ],
                 sourceMaps: true
             }))
             .bundle()

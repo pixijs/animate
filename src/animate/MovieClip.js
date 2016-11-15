@@ -240,7 +240,7 @@ class MovieClip extends Container {
 
         /**
          * Optional callback fired before timeline is updated.
-         * Can be used to clamp or update the currentFrame. 
+         * Can be used to clamp or update the currentFrame.
          * @name PIXI.animate.MovieClip#_beforeUpdate
          * @type {Function}
          * @private
@@ -258,6 +258,13 @@ class MovieClip extends Container {
         if (options.framerate) {
             this.framerate = options.framerate;
         }
+
+        //save often used methods on the instance so that they can be fetched slightly faster
+        //than if they had to be fetched from the prototype
+        this.advance = this.advance;
+        this._updateTimeline = this._updateTimeline;
+        this._setTimelinePosition = this._setTimelinePosition;
+        this._goto = this._goto;
     }
 
     _onAdded() {
@@ -620,6 +627,31 @@ class MovieClip extends Container {
     }
 
     /**
+     * Short cut for `playSound`
+     * @method PIXI.animate.MovieClip#ps
+     * @param {String} alias The name of the Sound
+     * @param {Boolean} [loop=false] The loop property of the sound
+     * @param {MovieClip} context The MovieClip the sound originates from
+     * @return {PIXI.animate.MovieClip}
+     */
+    ps(alias, loop) {
+        return this.playSound(alias, loop);
+    }
+
+    /**
+     * Handle sounds.
+     * @method PIXI.animate.MovieClip#playSound
+     * @param {String} alias The name of the Sound
+     * @param {Boolean} [loop=false] The loop property of the sound
+     * @param {MovieClip} context The MovieClip the sound originates from
+     * @return {PIXI.animate.MovieClip}
+     */
+    playSound(alias, loop) {
+        PIXI.animate.sound.emit('play', alias, !!loop, this);
+        return this;
+    }
+
+    /**
      * Sets paused to false.
      * @method PIXI.animate.MovieClip#play
      */
@@ -776,7 +808,7 @@ class MovieClip extends Container {
 
     /**
      * Set the timeline position
-     * @method PIXI.animate.MovieClip#_setTimelinePostion
+     * @method PIXI.animate.MovieClip#_setTimelinePosition
      * @protected
      * @param {int} startFrame
      * @param {int} currentFrame
@@ -880,20 +912,24 @@ class MovieClip extends Container {
         }
         const hiddenChildren = [];
         let timelines = this._timelines;
-        for (let i = 0; i < timelines.length; i++) {
-            const timeline = timelines[i];
-            hiddenChildren.push(timeline.target);
-            timeline._currentProps = null;
-            timeline.length = 0;
+        if (timelines) {
+            for (let i = 0; i < timelines.length; i++) {
+                const timeline = timelines[i];
+                hiddenChildren.push(timeline.target);
+                timeline._currentProps = null;
+                timeline.length = 0;
+            }
         }
         timelines = this._timedChildTimelines;
-        for (let i = 0; i < timelines.length; i++) {
-            const timeline = timelines[i];
-            if (hiddenChildren.indexOf(timeline.target) < 0) {
-                hiddenChildren.push(timeline.target);
+        if (timelines) {
+            for (let i = 0; i < timelines.length; i++) {
+                const timeline = timelines[i];
+                if (hiddenChildren.indexOf(timeline.target) < 0) {
+                    hiddenChildren.push(timeline.target);
+                }
+                timeline._currentProps = null;
+                timeline.length = 0;
             }
-            timeline._currentProps = null;
-            timeline.length = 0;
         }
         // Destroy all the children
         for (let i = 0; i < hiddenChildren.length; i++) {

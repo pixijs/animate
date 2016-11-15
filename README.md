@@ -10,10 +10,6 @@ A plugin for Pixi.js which provides a runtime for content export using PixiAnima
 
 To run content exported with PixiAnimate, you must load the JavaScript library within your project. You can install using [Bower](http://bower.io) or [NPM](http://www.npmjs.org):
 
-#### Bower
-```
-bower install pixi-animate
-```
 #### NPM
 ```
 npm install pixi-animate
