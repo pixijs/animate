@@ -21,9 +21,9 @@ class Tween {
          */
         this.target = target;
 
-        /** 
+        /**
          * properties at the start of the tween
-         * @type {Object} 
+         * @type {Object}
          * @name PIXI.animate.Tween#startProps
          */
         this.startProps = startProps;
@@ -31,14 +31,14 @@ class Tween {
         /**
          * properties at the end of the tween, as well as any properties that are set
          * instead of tweened
-         * @type {Object} 
+         * @type {Object}
          * @name PIXI.animate.Tween#endProps
          */
         this.endProps = {};
 
         /**
          * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
-         * @type {int} 
+         * @type {int}
          * @name PIXI.animate.Tween#duration
          */
         this.duration = duration;
@@ -52,21 +52,21 @@ class Tween {
 
         /**
          * the frame that the tween ends on
-         * @type {int} 
+         * @type {int}
          * @name PIXI.animate.Tween#endFrame
          */
         this.endFrame = startFrame + duration;
 
         /**
          * easing function to use, if any
-         * @type {Function} 
+         * @type {Function}
          * @name PIXI.animate.Tween#ease
          */
         this.ease = ease;
 
         /**
          * If we don't tween.
-         * @type {Boolean} 
+         * @type {Boolean}
          * @name PIXI.animate.Tween#isTweenlessFrame
          */
         this.isTweenlessFrame = !endProps;
@@ -236,25 +236,25 @@ function lerpRotation(start, end, t) {
 function setPropFromShorthand(target, prop, value) {
     switch (prop) {
         case "x":
-            target.position.x = value;
+            target.transform.position.x = value;
             break;
         case "y":
-            target.position.y = value;
+            target.transform.position.y = value;
             break;
         case "sx":
-            target.scale.x = value;
+            target.transform.scale.x = value;
             break;
         case "sy":
-            target.scale.y = value;
+            target.transform.scale.y = value;
             break;
         case "kx":
-            target.skew.x = value;
+            target.transform.skew.x = value;
             break;
         case "ky":
-            target.skew.y = value;
+            target.transform.skew.y = value;
             break;
         case "r":
-            target.rotation = value;
+            target.transform.rotation = value;
             break;
         case "a":
             target.alpha = value;
@@ -269,7 +269,7 @@ function setPropFromShorthand(target, prop, value) {
             target.visible = value;
             break;
         case "m":
-            target.ma(value);
+            target.ma(value); // ma = setMask
             break;
     }
 }

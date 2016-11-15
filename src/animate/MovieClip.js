@@ -258,6 +258,13 @@ class MovieClip extends Container {
         if (options.framerate) {
             this.framerate = options.framerate;
         }
+
+        //save often used methods on the instance so that they can be fetched slightly faster
+        //than if they had to be fetched from the prototype
+        this.advance = this.advance;
+        this._updateTimeline = this._updateTimeline;
+        this._setTimelinePosition = this._setTimelinePosition;
+        this._goto = this._goto;
     }
 
     _onAdded() {
@@ -801,7 +808,7 @@ class MovieClip extends Container {
 
     /**
      * Set the timeline position
-     * @method PIXI.animate.MovieClip#_setTimelinePostion
+     * @method PIXI.animate.MovieClip#_setTimelinePosition
      * @protected
      * @param {int} startFrame
      * @param {int} currentFrame
