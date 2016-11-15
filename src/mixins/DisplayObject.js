@@ -66,7 +66,7 @@ p.setMask = p.ma = function(mask) {
             if (typeof console !== "undefined" && console.warn) {
                 console.warn("Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.");
             }
-            return;
+            return this;
         }
     }
     this.mask = mask;
