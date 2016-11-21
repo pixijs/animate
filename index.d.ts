@@ -77,6 +77,8 @@ declare namespace PIXI.animate {
         stop(): void;
         gotoAndPlay(positionOrLabel:string|number):void;
         gotoAndStop(positionOrLabel:string|number):void;
+        playSound(alias:string, loop?:boolean):MovieClip;
+        ps(alias:string, loop?:boolean):MovieClip;
         advance(time:number):void;
         destroy():void;
         static extend(child:Function):typeof MovieClip;
