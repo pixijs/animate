@@ -20,6 +20,7 @@
   "peerDependencies": {
     "pixi.js": "^4.2.2"
   },
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/jiborobot/pixi-animate"
