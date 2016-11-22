@@ -6,7 +6,7 @@
 const p = PIXI.Text.prototype;
 
 // Possible align values
-const ALIGN_VALUES = ["center", "right", "left"];
+const ALIGN_VALUES = ["center", "right"];
 
 /**
  * Setter for the alignment, also sets the anchor point
