@@ -5,6 +5,9 @@
  */
 const p = PIXI.Text.prototype;
 
+// Possible align values
+const ALIGN_VALUES = ["center", "right", "left"];
+
 /**
  * Setter for the alignment, also sets the anchor point
  * to make sure the positioning is correct.
@@ -19,24 +22,11 @@ const p = PIXI.Text.prototype;
  * @return {PIXI.Text} For chaining
  */
 p.setAlign = p.g = function(align) {
-    this.style.align = align || "left";
-    var x;
     if (typeof align == "string") {
-        switch (align) {
-            case "center":
-                x = 0.5;
-                break;
-            case "right":
-                x = 1;
-                break;
-            case "left":
-                x = 0;
-                break;
-        }
-    } else {
-        x = (align + 1) / 2;
+        align = ALIGN_VALUES.indexOf(align);
     }
-    this.anchor.x = x;
+    this.style.align = ALIGN_VALUES[align] || "left";
+    this.anchor.x = (align + 1) / 2;
     return this;
 };
 
@@ -121,7 +111,7 @@ p.setShadow = p.sh = function(color, angle, distance) {
 
 /**
  * Check if a value is undefined, fallback to default value
- * @method isUndefinedOr 
+ * @method isUndefinedOr
  * @private
  * @param {*} value The value to check
  * @param {*} defaultValue The default value if value is undefined
