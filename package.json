@@ -4,34 +4,23 @@
   "version": "0.7.4",
   "main": "dist/pixi-animate.min.js",
   "author": "Matt Karl <matt.karl@jibo.com>",
-  "dependencies": {
-    "loophole": "^1.1.0"
-  },
   "devDependencies": {
     "babel-preset-es2015": "^6.6.0",
     "babelify": "^7.2.0",
-    "browserify": "^13.0.0",
-    "chalk": "^1.1.3",
-    "del": "^2.2.0",
     "electron-prebuilt": "^1.2.7",
-    "exorcist": "^0.4.0",
+    "eslint": "^3.10.2",
     "floss": "^1.2.0",
     "gh-pages": "^0.11.0",
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^2.0.0",
-    "gulp-header": "^1.7.1",
-    "gulp-jsbeautifier": "^2.0.3",
-    "gulp-preprocess": "^2.0.0",
-    "gulp-sequence": "^0.4.5",
-    "gulp-uglify": "^1.5.3",
     "jaguarjs-jsdoc": "^1.0.0",
     "js-md5": "^0.4.1",
     "jsdoc": "^3.4.0",
-    "load-gulp-tasks": "^0.1.0",
-    "pixi.js": "^4.2.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "pixify": "^1.7.0",
+    "rimraf": "^2.5.4"
   },
+  "peerDependencies": {
+    "pixi.js": "^4.2.2"
+  },
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/jiborobot/pixi-animate"
@@ -41,20 +30,29 @@
   },
   "homepage": "https://github.com/jiborobot/pixi-animate",
   "scripts": {
-    "build": "gulp",
-    "test": "gulp test",
-    "coverage": "npm test -- --coverage",
+    "clean": "rimraf docs coverage dist .publish",
+    "lint": "eslint src tests",
+    "prebuild": "npm run lint",
+    "build": "pixify --name pixi-animate -d dist -t babelify",
+    "test": "floss --path tests/index.js",
+    "coverage": "npm test -- -c dist/pixi-animate.js -s -h",
     "test:debug": "npm test -- --debug",
     "docs": "jsdoc -c jsdoc.conf.json -R README.md",
-    "start": "gulp watch",
+    "start": "npm run build -- --watch",
     "predocs-live": "npm run docs",
     "docs-live": "gh-pages -d docs",
-    "postversion": "gulp && npm test",
+    "postversion": "npm run build && npm test",
     "publish:patch": "npm version patch && npm publish",
     "publish:minor": "npm version minor && npm publish",
     "publish:major": "npm version major && npm publish",
     "postpublish": "git push && git push --tags && npm run docs-live"
   },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "keywords": [
     "webgl",
     "pixi",

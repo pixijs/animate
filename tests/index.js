@@ -1,5 +1,7 @@
 "use strict";
 
+require('pixi.js');
+
 function extendable(classRef) {
     assert.isOk(classRef.extend);
     assert.isOk(classRef.e);

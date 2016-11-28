@@ -9,10 +9,12 @@ import Tween from './Tween';
 import Animator from './Animator';
 import AnimatorTimeline from './AnimatorTimeline';
 
+const VERSION = '/* @echo VERSION */';
+
 /**
  * @namespace PIXI.animate
  */
-export default {
+export {
     Animator,
     AnimatorTimeline,
     load,
@@ -22,5 +24,6 @@ export default {
     ShapesCache,
     SymbolLoader,
     Timeline,
-    Tween
+    Tween,
+    VERSION
 };
