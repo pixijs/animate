@@ -51,7 +51,8 @@
     "dist/",
     "LICENSE",
     "package.json",
-    "README.md"
+    "README.md",
+    "index.d.ts"
   ],
   "keywords": [
     "webgl",
