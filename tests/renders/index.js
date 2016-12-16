@@ -7,10 +7,16 @@ describe('Renders', function() {
         document.body.appendChild(webgl);
         document.body.appendChild(canvas);
         this.renderer = new Renderer(webgl, canvas);
-        this.validate = function(id, done) {
+        this.validate = function(id, tolerance, done) {
+            if (typeof tolerance === "function") {
+                done = tolerance;
+                tolerance = Renderer.TOLERANCE;
+            }
+            // Override the tolerance
             var path = require('path');
             var solution = path.join(__dirname, 'solutions', id + '.json');
             var fla = path.join(__dirname, 'assets', id + '.js');
+            this.renderer.imagediff.tolerance = tolerance;
             this.renderer.compare(fla, require(solution), function(err, success) {
                 if (err) {
                     assert(false, err.message);
@@ -150,7 +156,7 @@ describe('Renders', function() {
     });
 
     it('should render a nested skew', function(done){
-        this.validate('nested-skew', done);
+        this.validate('nested-skew', 0.05, done);
     });
 
     it('should render only the middle of the timeline', function(done){
@@ -218,7 +224,7 @@ describe('Renders', function() {
     });
 
     it('should render a tween skewing x and y', function(done){
-        this.validate('tween-skew-both', done);
+        this.validate('tween-skew-both', 0.06, done);
     });
 
     it('should render a tween skewing horizontally', function(done){
@@ -226,7 +232,7 @@ describe('Renders', function() {
     });
 
     it('should render a tween skewing vertically', function(done){
-        this.validate('tween-skew-y', done);
+        this.validate('tween-skew-y', 0.05, done);
     });
 
     it('should render a tween from one tint to another', function(done){
