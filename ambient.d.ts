@@ -1,5 +1,5 @@
 // Typings for PixiAnimate 1.0.0, requires Pixi.js typings
-declare namespace animate {
+declare namespace PIXI.animate {
 
     export namespace utils {
         export function hexToUint(hex:string|number):number;
@@ -144,4 +144,6 @@ declare namespace animate {
     }
 }
 
-export = animate;
+declare module 'pixi-animate' {
+    export = PIXI.animate;
+}
