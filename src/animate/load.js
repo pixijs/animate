@@ -50,6 +50,27 @@ Resource.setExtensionLoadType('ogg', Resource.LOAD_TYPE.AUDIO);
  * @param {Function} StageRef Reference to the stage class.
  * @param {Object} [StageRef.assets] Assets used to preload.
  * @param {PIXI.Container} parent The Container to auto-add the stage to.
+ * @param {String} [basePath] Base root directory
+ * @return {PIXI.loaders.Loader} instance of PIXI resource loader
+ */
+/**
+ * Load the stage class and preload any assets
+ * ```
+ * let renderer = new PIXI.autoDetectRenderer(1280, 720);
+ * let stage = new PIXI.Container();
+ * PIXI.animate.load(lib.MyStage, stage);
+ * function update() {
+ *      renderer.render(stage);
+ *      update();
+ * }
+ * update();
+ * ```
+ * @method PIXI.animate.load
+ * @param {Function} StageRef Reference to the stage class.
+ * @param {Object} [StageRef.assets] Assets used to preload.
+ * @param {PIXI.Container} parent The Container to auto-add the stage to.
+ * @param {Function} [complete] The callback function when complete.
+ * @param {String} [basePath] Base root directory
  * @return {PIXI.loaders.Loader} instance of PIXI resource loader
  */
 const load = function(options, parent, complete, basePath) {

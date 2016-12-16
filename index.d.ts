@@ -21,7 +21,8 @@ declare namespace animate {
 
     type LoadCallback = (instance:MovieClip) => void;
 
-    export function load(StageRef:any, parent:PIXI.Container):PIXI.loaders.Loader;
+    export function load(StageRef:any, parent:PIXI.Container, callback?:LoadCallback, basePath?:string):PIXI.loaders.Loader;
+    export function load(StageRef:any, parent:PIXI.Container, basePath?:string):PIXI.loaders.Loader;
     export function load(StageRef:any, callback:LoadCallback):PIXI.loaders.Loader;
     export function load(options:LoadOptions):PIXI.loaders.Loader;
 
