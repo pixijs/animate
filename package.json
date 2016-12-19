@@ -52,7 +52,8 @@
     "LICENSE",
     "package.json",
     "README.md",
-    "index.d.ts"
+    "index.d.ts",
+    "ambient.d.ts"
   ],
   "keywords": [
     "webgl",
