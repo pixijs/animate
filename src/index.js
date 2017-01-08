@@ -3,14 +3,16 @@ if (typeof PIXI === 'undefined') {
     throw "Requires PIXI";
 }
 
-// Include the PIXI mixins
-require('./mixins');
+if (!PIXI.animate) {
+    // Include the PIXI mixins
+    require('./mixins');
 
-// Add to the PIXI global object
-Object.defineProperty(PIXI, 'animate', {
-    enumerable: true,
-    get() { return require('./animate'); }
-});
+    // Add to the PIXI global object
+    Object.defineProperty(PIXI, 'animate', {
+        enumerable: true,
+        get() { return require('./animate'); }
+    });
+}
 
 // Export for Node-compatible environments like Electron
 if (typeof module !== 'undefined' && module.exports) {
