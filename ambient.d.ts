@@ -125,6 +125,7 @@ declare namespace PIXI.animate {
     export class Animator {
         static STOP_LABEL:string;
         static LOOP_LABEL:string;
+        static play(instance:MovieClip, callback?:Function):AnimatorTimeline;
         static play(instance:MovieClip, label:string, callback?:Function):AnimatorTimeline;
         static to(instance:MovieClip, end:string|number, callback?:Function):AnimatorTimeline;
         static fromTo(instance:MovieClip, start:string|number, end:string|number, loop?:boolean, callback?:Function):AnimatorTimeline;
