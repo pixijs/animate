@@ -2,6 +2,7 @@ import load from './load';
 import sound from './sound';
 import utils from './utils';
 import MovieClip from './MovieClip';
+import Scene from './Scene';
 import ShapesCache from './ShapesCache';
 import SymbolLoader from './SymbolLoader';
 import Timeline from './Timeline';
@@ -21,6 +22,7 @@ export {
     sound,
     utils,
     MovieClip,
+    Scene,
     ShapesCache,
     SymbolLoader,
     Timeline,
