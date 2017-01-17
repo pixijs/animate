@@ -26,6 +26,14 @@ class Scene extends PIXI.Application {
 		 * @readOnly
 		 */
 		this.sound = sound;
+
+		/**
+		 * The stage object created.
+		 * @name PIXI.animate.Scene#instance
+		 * @type {PIXI.animate.MovieClip}
+		 * @readOnly
+		 */
+		this.instance = null;
 	}
 
 	/**
@@ -37,7 +45,24 @@ class Scene extends PIXI.Application {
 	 * @return {PIXI.loaders.Loader} instance of PIXI resource loader
 	 */
 	load(StageRef, complete, basePath) {
-		return load(StageRef, this.stage, complete, basePath);
+		return load(StageRef, this.stage, (instance) => {
+			this.instance = instance;
+			if (complete) {
+				complete(instance);
+			}
+		}, basePath);
+	}
+
+	/**
+	 * Destroy and don't use after calling.
+	 * @method PIXI.animate.Scene#destroy
+	 */
+	destroy() {
+		if (this.instance) {
+			this.instance.destroy(true);
+			this.instance = null;
+		}
+		super.destroy();
 	}
 }
 
