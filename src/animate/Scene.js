@@ -56,13 +56,14 @@ class Scene extends PIXI.Application {
 	/**
 	 * Destroy and don't use after calling.
 	 * @method PIXI.animate.Scene#destroy
+	 * @param {Boolean} [removeView=false] `true` to remove canvas element.
 	 */
-	destroy() {
+	destroy(removeView) {
 		if (this.instance) {
 			this.instance.destroy(true);
 			this.instance = null;
 		}
-		super.destroy();
+		super.destroy(removeView);
 	}
 }
 
