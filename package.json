@@ -16,10 +16,10 @@
     "jsdoc": "^3.4.0",
     "pixify": "^1.7.0",
     "rimraf": "^2.5.4",
-    "pixi.js": "^4.2.2"
+    "pixi.js": "^4.3.3"
   },
   "peerDependencies": {
-    "pixi.js": "^4.2.2"
+    "pixi.js": "^4.3.3"
   },
   "typings": "index.d.ts",
   "repository": {
