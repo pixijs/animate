@@ -2,7 +2,7 @@ import load from './load';
 import sound from './sound';
 
 /**
- * Extends the PIXI.Application to provide easy loading.
+ * Extends the PIXI.Application class to provide easy loading.
  * ```
  * const scene = new PIXI.animate.Scene();
  * scene.load(lib.StageName);
@@ -40,8 +40,8 @@ class Scene extends PIXI.Application {
 	 * Load a stage scene and add it to the stage.
 	 * @method PIXI.animate.Scene#load
 	 * @param {Function} StageRef Reference to the stage class.
-	 * @param {Function} [complete]
-	 * @param {String} [basePath] Base root directory
+	 * @param {Function} [complete] Callback when finished loading.
+	 * @param {String} [basePath] Optional base directory to prepend to assets.
 	 * @return {PIXI.loaders.Loader} instance of PIXI resource loader
 	 */
 	load(StageRef, complete, basePath) {
