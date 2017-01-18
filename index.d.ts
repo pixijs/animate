@@ -42,6 +42,12 @@ declare namespace animate {
         framerate?:number;
     }
 
+    export class Scene extends PIXI.Application {
+        constructor(width?:number, height?:number, renderOptions?:any, noWebGL?:boolean);
+        public sound:PIXI.utils.EventEmitter;
+        public load(StageRef:any, callback?:LoadCallback, basePath?:string):PIXI.loaders.Loader;
+    }
+
     export class MovieClip extends PIXI.DisplayObject {
         public mode:number;
         public startPosition:number;
