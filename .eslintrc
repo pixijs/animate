@@ -16,6 +16,7 @@
         "es6": true
     },
     "globals": {
-        "PIXI": true
+        "PIXI": true,
+        "__VERSION__": false
     }
 }

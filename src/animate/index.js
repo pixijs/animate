@@ -10,7 +10,7 @@ import Tween from './Tween';
 import Animator from './Animator';
 import AnimatorTimeline from './AnimatorTimeline';
 
-const VERSION = '/* @echo VERSION */';
+const VERSION = __VERSION__;
 
 /**
  * @namespace PIXI.animate
