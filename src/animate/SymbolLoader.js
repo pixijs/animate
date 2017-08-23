@@ -12,7 +12,9 @@ let SymbolLoader = function() {
         let url = resource.url;
         let data = resource.data;
 
-        if (url.search(/\.shapes\.(json|txt)$/i) > -1) {
+        if (!data) {
+            next();
+        } else if (url.search(/\.shapes\.(json|txt)$/i) > -1) {
             ShapesCache.add(resource.name, data);
         } else if (data.nodeName && data.nodeName === 'IMG') {
             // Add individual images to the texture cache by their
