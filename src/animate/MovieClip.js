@@ -807,25 +807,6 @@ class MovieClip extends Container {
     }
 
     /**
-     * Execute actions from `startFrame` to `endFrame`
-     * @method PIXI.animate.MovieClip#_doActions
-     * @protected
-     * @param {int} startFrame 
-     * @param {int} endFrame 
-     */
-    _doActions(startFrame, endFrame) {
-        const actions = this._actions;
-        for (let i = startFrame; i <= endFrame; ++i) {
-            if (actions[i]) {
-                let frameActions = actions[i];
-                for (let j = 0; j < frameActions.length; ++j) {
-                    frameActions[j].call(this);
-                }
-            }
-        }
-    }
-
-    /**
      * Set the timeline position
      * @method PIXI.animate.MovieClip#_setTimelinePosition
      * @protected
@@ -834,6 +815,44 @@ class MovieClip extends Container {
      * @param {Boolean} doActions
      */
     _setTimelinePosition(startFrame, currentFrame, doActions) {
+        if (startFrame !== currentFrame && doActions) {
+            let startPos = isNaN(startFrame) ? currentFrame : (startFrame >= this._totalFrames - 1 ? 0 : startFrame + 1);
+            // generate actionFrames on the way
+            let actionFrames = [];   // number[]
+            // loop
+            if (currentFrame < startPos) {
+                for (let i = startPos; i < this._actions.length; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+                for (let i = 0; i <= currentFrame; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+            }
+            // no loop
+            else {
+                for (let i = startPos; i <= currentFrame; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+            }
+
+            if (actionFrames.length) {
+                let oldCurrentFrame = this.currentFrame;
+                for (let i = 0; i < actionFrames.length; ++i) {
+                    let frame = actionFrames[i];
+                    this._setTimelinePosition(frame, frame, true);
+                    // _goto is called OR last frame reached
+                    if (this.currentFrame !== oldCurrentFrame || frame === currentFrame) {
+                        return;
+                    }
+                    // stop is called
+                    else if (this.paused) {
+                        this.currentFrame = frame;
+                        return;
+                    }
+                }
+            }
+        }
+
         //handle all tweens
         let i, j, length, _timelines = this._timelines;
         for (i = _timelines.length - 1; i >= 0; --i) {
@@ -897,17 +916,10 @@ class MovieClip extends Container {
         }
 
         //handle actions
-        if (doActions) {
-            //if start frame == -1, it infers that this haven't been played, jump to currentFrame directly
-            let startPos = startFrame > -1 ? startFrame + 1 : currentFrame;
-            //Need loop
-            if (currentFrame < startPos) {
-                this._doActions(startPos, this._actions.length - 1);
-                this._doActions(0, currentFrame);
-            }
-            //No need loop
-            else {
-                this._doActions(startPos, currentFrame)
+        if (doActions && this._actions && this._actions[currentFrame]) {
+            let frameActions = this._actions[currentFrame];
+            for (let j = 0; j < frameActions.length; ++j) {
+                frameActions[j].call(this);
             }
         }
     }
