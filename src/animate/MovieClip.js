@@ -247,6 +247,14 @@ class MovieClip extends Container {
          */
         this._beforeUpdate = null;
 
+        /**
+         * time in second from last `advance` to this
+         * @name PIXI.animate.MovieClip#_frameDeltaTime
+         * @type Number
+         * @protected
+         */
+        this._frameDeltaTime = 0;
+
         if (this.mode === MovieClip.INDEPENDENT) {
             this._tickListener = this._tickListener.bind(this);
             this._onAdded = this._onAdded.bind(this);
@@ -273,7 +281,7 @@ class MovieClip extends Container {
         }
         SharedTicker.add(this._tickListener);
     }
-
+    
     _tickListener(tickerDeltaTime) {
         if (this.paused || !this.selfAdvance) {
             //see if the movieclip needs to be updated even though it isn't animating
@@ -283,6 +291,7 @@ class MovieClip extends Container {
             return;
         }
         let seconds = tickerDeltaTime / SharedTicker.speed / PIXI.settings.TARGET_FPMS / 1000;
+        this._frameDeltaTime = seconds;
         this.advance(seconds);
     }
 
@@ -721,7 +730,9 @@ class MovieClip extends Container {
             this._t += time;
         }
         if (this._t > this._duration) {
-            this._t = this.loop ? this._t - this._duration : this._duration;
+            // modified by k8w 2017/12/14
+            // may over more than 1 loop, so use `%` instead of `-`
+            this._t = this.loop ? this._t % this._duration : this._duration;
         }
         //add a tiny amount to account for potential floating point errors
         this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
@@ -807,25 +818,6 @@ class MovieClip extends Container {
     }
 
     /**
-     * Execute actions from `startFrame` to `endFrame`
-     * @method PIXI.animate.MovieClip#_doActions
-     * @protected
-     * @param {int} startFrame 
-     * @param {int} endFrame 
-     */
-    _doActions(startFrame, endFrame) {
-        const actions = this._actions;
-        for (let i = startFrame; i <= endFrame; ++i) {
-            if (actions[i]) {
-                let frameActions = actions[i];
-                for (let j = 0; j < frameActions.length; ++j) {
-                    frameActions[j].call(this);
-                }
-            }
-        }
-    }
-
-    /**
      * Set the timeline position
      * @method PIXI.animate.MovieClip#_setTimelinePosition
      * @protected
@@ -898,16 +890,31 @@ class MovieClip extends Container {
 
         //handle actions
         if (doActions) {
-            //if start frame == -1, it infers that this haven't been played, jump to currentFrame directly
-            let startPos = startFrame > -1 ? startFrame + 1 : currentFrame;
-            //Need loop
-            if (currentFrame < startPos) {
-                this._doActions(startPos, this._actions.length - 1);
-                this._doActions(0, currentFrame);
-            }
-            //No need loop
-            else {
-                this._doActions(startPos, currentFrame)
+            const actions = this._actions;
+            //NaN represents it is jumped directly via `_goto()`
+            let startPos = isNaN(startFrame) ? currentFrame : startFrame + 1;
+            let totalStepedFrames = this._frameDeltaTime / (1 / this.framerate) | 0;
+            let originalFrame = this.currentFrame;
+            for (let i = 0, frame = startPos; i < totalStepedFrames; ++i, ++frame) {
+                if (frame >= this.totalFrames) {
+                    frame = 0;
+                }
+                //Do frame action one by one, until it `_goto()` or `stop()`
+                if (actions[frame]) {
+                    let frameActions = actions[frame];
+                    for (let j = 0; j < frameActions.length; ++j) {
+                        frameActions[j].call(this);
+                    }
+                }
+                // _goto is called
+                if (this.currentFrame !== originalFrame) {
+                    break;
+                }
+                // stop is called
+                else if (this.paused) {
+                    this.currentFrame = frame;
+                    break;
+                }
             }
         }
     }
