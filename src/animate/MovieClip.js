@@ -895,7 +895,7 @@ class MovieClip extends Container {
             }
 
             //Need loop
-            if (currentFrame < startFrame) {
+            if (currentFrame < startPos) {
                 loopActions(startPos, actions.length - 1);
                 loopActions(0, currentFrame);
             }
