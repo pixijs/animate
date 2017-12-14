@@ -721,7 +721,7 @@ class MovieClip extends Container {
             this._t += time;
         }
         if (this._t > this._duration) {
-            this._t = this.loop ? this._t - this._duration : this._duration;
+            this._t = this.loop ? this._t % this._duration : this._duration;
         }
         //add a tiny amount to account for potential floating point errors
         this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
