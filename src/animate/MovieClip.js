@@ -807,6 +807,25 @@ class MovieClip extends Container {
     }
 
     /**
+     * Execute actions from `startFrame` to `endFrame`
+     * @method PIXI.animate.MovieClip#_doActions
+     * @protected
+     * @param {int} startFrame 
+     * @param {int} endFrame 
+     */
+    _doActions(startFrame, endFrame) {
+        const actions = this._actions;
+        for (let i = startFrame; i <= endFrame; ++i) {
+            if (actions[i]) {
+                let frameActions = actions[i];
+                for (let j = 0; j < frameActions.length; ++j) {
+                    frameActions[j].call(this);
+                }
+            }
+        }
+    }
+
+    /**
      * Set the timeline position
      * @method PIXI.animate.MovieClip#_setTimelinePosition
      * @protected
@@ -879,29 +898,16 @@ class MovieClip extends Container {
 
         //handle actions
         if (doActions) {
-            let actions = this._actions;
             //if start frame == -1, it infers that this haven't been played, jump to currentFrame directly
             let startPos = startFrame > -1 ? startFrame + 1 : currentFrame;
-
-            const loopActions = (start, end) => {
-                for (let i = start; i <= end; ++i) {
-                    if (actions[i]) {
-                        let frameActions = actions[i];
-                        for (let j = 0; j < frameActions.length; ++j) {
-                            frameActions[j].call(this);
-                        }
-                    }
-                }
-            }
-
             //Need loop
             if (currentFrame < startPos) {
-                loopActions(startPos, actions.length - 1);
-                loopActions(0, currentFrame);
+                this._doActions(startPos, this._actions.length - 1);
+                this._doActions(0, currentFrame);
             }
             //No need loop
             else {
-                loopActions(startPos, currentFrame)
+                this._doActions(startPos, currentFrame)
             }
         }
     }
