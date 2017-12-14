@@ -880,27 +880,28 @@ class MovieClip extends Container {
         //handle actions
         if (doActions) {
             let actions = this._actions;
-            //handle looping around
-            let needsLoop = false;
-            if (currentFrame < startFrame) {
-                length = actions.length;
-                needsLoop = true;
-            } else {
-                length = Math.min(currentFrame + 1, actions.length);
-            }
-            for (i = startFrame >= 0 ? startFrame + 1 : currentFrame; i < length; ++i) {
-                if (actions[i]) {
-                    let frameActions = actions[i];
-                    for (j = 0; j < frameActions.length; ++j) {
-                        frameActions[j].call(this);
+            //if start frame == -1, it infers that this haven't been played, jump to currentFrame directly
+            let startPos = startFrame > -1 ? startFrame + 1 : currentFrame;
+
+            const loopActions = (start, end) => {
+                for (let i = start; i <= end; ++i) {
+                    if (actions[i]) {
+                        let frameActions = actions[i];
+                        for (let j = 0; j < frameActions.length; ++j) {
+                            frameActions[j].call(this);
+                        }
                     }
                 }
-                //handle looping around
-                if (needsLoop && i === length - 1) {
-                    i = 0;
-                    length = currentFrame + 1;
-                    needsLoop = false;
-                }
+            }
+
+            //Need loop
+            if (currentFrame < startFrame) {
+                loopActions(startPos, actions.length - 1);
+                loopActions(0, currentFrame);
+            }
+            //No need loop
+            else {
+                loopActions(startPos, currentFrame)
             }
         }
     }
