@@ -1,9 +1,9 @@
 {
-  "name": "pixi-animate",
-  "description": "PIXI plugin for the PixiAnimate Extension",
-  "version": "1.3.2",
+  "name": "k8w-pixi-animate",
+  "description": "PIXI plugin for the PixiAnimate Extension (k8w modified)",
+  "version": "1.4.0",
   "main": "lib/index.js",
-  "author": "Matt Karl <matt.karl@jibo.com>",
+  "author": "k8w <me@k8w.io>",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-plugin-version-inline": "^1.0.0",
@@ -27,12 +27,12 @@
   "typings": "index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jiborobot/pixi-animate"
+    "url": "https://github.com/k8w/pixi-animate"
   },
   "bugs": {
-    "url": "https://github.com/jiborobot/pixi-animate/issues"
+    "url": "https://github.com/k8w/pixi-animate/issues"
   },
-  "homepage": "https://github.com/jiborobot/pixi-animate",
+  "homepage": "https://github.com/k8w/pixi-animate",
   "scripts": {
     "clean": "rimraf docs coverage dist/** lib/** .publish",
     "lint": "eslint src tests",
