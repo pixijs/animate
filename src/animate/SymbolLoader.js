@@ -19,7 +19,7 @@ let SymbolLoader = function() {
         } else if (data.nodeName && data.nodeName === 'IMG') {
             // Add individual images to the texture cache by their
             // short symbol name, not the URL
-            PIXI.Texture.addTextureToCache(
+            PIXI.Texture.addToCache(
                 PIXI.Texture.fromFrame(url),
                 resource.name
             );
