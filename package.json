@@ -1,7 +1,7 @@
 {
   "name": "k8w-pixi-animate",
   "description": "PIXI plugin for the PixiAnimate Extension (k8w modified)",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "lib/index.js",
   "author": "k8w <me@k8w.io>",
   "devDependencies": {
@@ -54,8 +54,7 @@
     "postversion": "npm run build && npm test",
     "publish:patch": "npm version patch && npm publish",
     "publish:minor": "npm version minor && npm publish",
-    "publish:major": "npm version major && npm publish",
-    "postpublish": "git push && git push --tags && npm run docs-live"
+    "publish:major": "npm version major && npm publish"
   },
   "files": [
     "dist/",
