@@ -112,7 +112,7 @@ const load = function(options, parent, complete, basePath, loader, metadata) {
         complete: null
     }, options || {});
 
-    const loader = new PIXI.loaders.Loader();
+    loader = loader ? loader : new PIXI.loaders.Loader();
 
     function done() {
         let instance = new options.stage();
