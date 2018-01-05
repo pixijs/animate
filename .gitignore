@@ -1,7 +1,5 @@
 /docs
 /node_modules
-/dist
-/lib
 .publish/
 /coverage
 .DS_Store
