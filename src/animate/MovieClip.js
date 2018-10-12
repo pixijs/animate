@@ -282,7 +282,7 @@ class MovieClip extends Container {
             }
             return;
         }
-        let seconds = tickerDeltaTime /  PIXI.settings.TARGET_FPMS / 1000;
+        let seconds = tickerDeltaTime / PIXI.settings.TARGET_FPMS / 1000;
         this.advance(seconds);
     }
 
