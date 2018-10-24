@@ -21,7 +21,7 @@ npm install pixi-animate
 
 ## Documentation
 
-http://jiborobot.github.io/pixi-animate/
+https://pixijs.io/pixi-animate/
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate, or use a triple slash reference for using the PIXI.animate namespace.
