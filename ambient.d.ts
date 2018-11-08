@@ -48,7 +48,7 @@ declare namespace PIXI.animate {
         public load(StageRef:any, callback?:LoadCallback, basePath?:string):PIXI.loaders.Loader;
     }
 
-    export class MovieClip extends PIXI.DisplayObject {
+    export class MovieClip extends PIXI.Container {
         public mode:number;
         public startPosition:number;
         public loop:boolean;
@@ -56,13 +56,14 @@ declare namespace PIXI.animate {
         public paused:boolean;
         public actionsEnabled:boolean;
         public autoReset:boolean;
-        public labels:FrameLabel[];
-        public labelsMap:LabelMap;
+        public readonly labels:FrameLabel[];
+        public readonly labelsMap:LabelMap;
         public elapsedTime:number;
         public framerate:number;
-        public parentFramerate:number;
-        public totalFrames:number;
-        public currentFrame:number;
+        public readonly parentFramerate:number;
+        public readonly totalFrames:number;
+        public readonly currentFrame:number;
+        public readonly currentLabel:string;
 
         constructor(
             options:number|MovieClipOptions,
