@@ -115,7 +115,7 @@ const load = function(options, parent, complete, basePath, loader, metadata) {
     loader = loader || new PIXI.loaders.Loader();
 
     function done() {
-        let instance = new options.stage();
+        let instance = typeof options.stage === "function" ? new options.stage() : null;
         if (options.parent) {
             options.parent.addChild(instance);
         }
