@@ -364,7 +364,7 @@ class MovieClip extends Container {
     }
     set framerate(value) {
         if (value > 0) {
-            if(this._framerate) {
+            if (this._framerate) {
                 this._t *= this._framerate / value;
             } else {
                 this._t = this.currentFrame / value;
