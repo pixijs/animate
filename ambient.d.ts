@@ -89,6 +89,7 @@ declare namespace PIXI.animate {
         ps(alias:string, loop?:boolean):MovieClip;
         advance(time:number):void;
         destroy():void;
+        setTint(tint:number):MovieClip;
         static extend(child:Function):typeof MovieClip;
         static e(child:Function):typeof MovieClip;
         static INDEPENDENT:number;
