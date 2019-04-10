@@ -64,6 +64,8 @@ class AnimatorTimeline {
         this.callback = callback;
 
         if (instance) {
+            //Prevent overshooting the end frame and looping back around:
+            instance.loop = false;
             instance.gotoAndStop(start);
             instance._beforeUpdate = this._update;
         }
