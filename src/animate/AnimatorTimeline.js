@@ -61,7 +61,7 @@ class AnimatorTimeline {
          * @type {Function}
          * @readOnly
          */
-        this.callback = callback; 
+        this.callback = callback;
 
         if (instance) {
             //Prevent overshooting the end frame and looping back around:
