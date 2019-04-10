@@ -24,7 +24,7 @@ npm install pixi-animate
 https://pixijs.io/pixi-animate/
 
 ## Typescript
-You can use require to get the namespace for PixiAnimate, or use a triple slash reference for using the PIXI.animate namespace.
+You can use require to get the namespace for PixiAnimate:
 ```typescript
 // Note: Must also include the pixi.js typings globally!
 import animate = require('pixi-animate');
@@ -32,12 +32,19 @@ import animate = require('pixi-animate');
 let myMC:animate.MovieClip = new animate.MovieClip();
 ```
 
+Or use a triple slash reference for using the PIXI.animate namespace:
 ```typescript
 // Note: Must also include the pixi.js typings globally!
 /// <reference path="node_modules/pixi-animate/ambient.d.ts" />
 require('pixi-animate');
 
 let myMC:PIXI.animate.MovieClip = new PIXI.animate.MovieClip();
+```
+
+Or simply import pixi-animate (after importing pixi.js):
+```typescript
+// Note: Must also include the pixi.js typings globally!
+import('pixi-animate);
 ```
 
 ## License
