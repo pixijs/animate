@@ -61,22 +61,11 @@ class AnimatorTimeline {
          * @type {Function}
          * @readOnly
          */
-        this.callback = callback;
-
-        /**
-         * State of the instance's `loop` property at timeline init
-         * @name PIXI.animate.AnimatorTimeline#_originalLoop
-         * @type {Boolean}
-         * @private
-         */
-        this._originalLoop = !instance ? null : instance.loop;
-
+        this.callback = callback; 
 
         if (instance) {
-            if(!this.loop && instance.loop){
-                //To prevent overshooting the end frame and looping back around
-                instance.loop = false;
-            }
+            //Prevent overshooting the end frame and looping back around:
+            instance.loop = false;
             instance.gotoAndStop(start);
             instance._beforeUpdate = this._update;
         }
@@ -89,9 +78,6 @@ class AnimatorTimeline {
      */
     destroy() {
         this.instance._beforeUpdate = null;
-        if(this._originalLoop !== null){
-            this.instance.loop = this._originalLoop;
-        }
         this.init(null, 0, 0, false, null);
         AnimatorTimeline._pool.push(this);
     }
@@ -116,10 +102,6 @@ class AnimatorTimeline {
                 instance.gotoAndPlay(this.start);
             } else {
                 instance.stop();
-                if(this._originalLoop !== null){
-                    instance.loop = this._originalLoop;
-                    this._originalLoop = null;
-                }
                 if (this.callback) {
                     completed = this.callback;
                 }
