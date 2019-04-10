@@ -44,7 +44,7 @@ let myMC:PIXI.animate.MovieClip = new PIXI.animate.MovieClip();
 Or simply import pixi-animate (after importing pixi.js):
 ```typescript
 // Note: Must also include the pixi.js typings globally!
-import('pixi-animate);
+import('pixi-animate');
 ```
 
 ## License
