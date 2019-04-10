@@ -364,9 +364,14 @@ class MovieClip extends Container {
     }
     set framerate(value) {
         if (value > 0) {
+            if (this._framerate) {
+                //recalculate time based on difference between new and old framerate:
+                this._t *= this._framerate / value;
+            } else {
+                this._t = this.currentFrame / value;
+            }
             this._framerate = value;
             this._duration = value ? this._totalFrames / value : 0;
-            this._t = this.currentFrame / value;
         } else {
             this._t = this._framerate = this._duration = 0;
         }
