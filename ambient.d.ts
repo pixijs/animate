@@ -15,8 +15,10 @@ declare namespace PIXI.animate {
 
     interface LoadOptions {
         stage:any;
-        parent:PIXI.Container;
-        basePath:string;
+        parent?:PIXI.Container;
+        basePath?:string;
+        complete?:LoadCallback;
+        createInstance?:boolean;
     }
 
     type LoadCallback = (instance:MovieClip) => void;
