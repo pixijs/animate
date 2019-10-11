@@ -5,3 +5,4 @@
 .publish/
 /coverage
 .DS_Store
+/*.d.ts
