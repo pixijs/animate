@@ -4,9 +4,10 @@
 		"module": "commonjs",
 		"noImplicitAny": true,
 		"types": ["pixi.js"],
-		"noEmit": true
+		"noEmit": true,
+		"lib": ["es2015", "dom"]
 	},
 	"include": [
-		"src/*.ts"
+		"src/**/*.ts"
 	]
 }

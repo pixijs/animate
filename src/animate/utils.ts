@@ -2,17 +2,14 @@
 let _prepare = null;
 
 /**
- * @namespace PIXI.animate.utils
  * @description For keyframe conversions
  */
 export default class AnimateUtils {
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
-     * @static
-     * @method PIXI.animate.utils.hexToUint
      */
-    static hexToUint(hex) {
+    static hexToUint(hex:string):number {
         // Remove the hash
         hex = hex.substr(1);
 
@@ -23,15 +20,13 @@ export default class AnimateUtils {
         return parseInt(hex, 16);
     }
 
-    /** 
+    /**
      * Fill frames with booleans of true (showing) and false (hidden).
-     * @static
-     * @method PIXI.animate.utils.fillFrames
-     * @param {Array<Boolean>} timeline
-     * @param {int} startFrame The start frame when the timeline shows up
-     * @param {int} duration The length of showing
+     * @param timeline
+     * @param startFrame The start frame when the timeline shows up
+     * @param duration The length of showing
      */
-    static fillFrames(timeline, startFrame, duration) {
+    static fillFrames(timeline:boolean[], startFrame:number, duration:number) {
         //ensure that the timeline is long enough
         const oldLength = timeline.length;
         if (oldLength < startFrame + duration) {
@@ -64,12 +59,10 @@ export default class AnimateUtils {
     /**
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
-     * @static
-     * @method PIXI.animate.utils.deserializeKeyframes
-     * @param {String} keyframes
-     * @param {Object} Resulting keyframes
+     * @param keyframes
+     * @return Resulting keyframes
      */
-    static deserializeKeyframes(keyframes) {
+    static deserializeKeyframes(keyframes:string) {
         let result = {};
         let i = 0;
         let keysMap = {
@@ -123,21 +116,19 @@ export default class AnimateUtils {
 
     /**
      * Convert serialized shapes into draw commands for PIXI.Graphics.
-     * @static
-     * @method PIXI.animate.utils.deserializeShapes
-     * @param {String} str
-     * @param {Array} Resulting shapes map
+     * @param str
+     * @param Resulting shapes map
      */
-    static deserializeShapes(str) {
+    static deserializeShapes(str:string) {
         const result = [];
         // each shape is a new line
         let shapes = str.split("\n");
         let isCommand = /^[a-z]{1,2}$/;
         for (let i = 0; i < shapes.length; i++) {
-            let shape = shapes[i].split(' '); // arguments are space separated
+            let shape:(string|number)[] = shapes[i].split(' '); // arguments are space separated
             for (let j = 0; j < shape.length; j++) {
                 // Convert all numbers to floats, ignore colors
-                let arg = shape[j];
+                let arg = shape[j] as string;
                 if (arg[0] !== '#' && !isCommand.test(arg)) {
                     shape[j] = parseFloat(arg);
                 }
@@ -147,25 +138,22 @@ export default class AnimateUtils {
         return result;
     }
 
-    /** 
+    /**
      * Parse the value of the compressed keyframe.
-     * @method PIXI.animate.utils.parseValue
-     * @static
-     * @private
-     * @param {String} prop The property key
-     * @param {String} buffer The contents
-     * @return {*} The parsed value
+     * @param prop The property key
+     * @param buffer The contents
+     * @return The parsed value
      */
-    static parseValue(prop, buffer) {
+    private static parseValue(prop:string, buffer:string) {
         switch (prop) {
             // Color transforms are parsed as an array
             case 'c':
                 {
-                    buffer = buffer.split(',');
-                    buffer.forEach(function(val, i, buffer) {
-                        buffer[i] = parseFloat(val);
+                    const buff:(string|number)[] = buffer.split(',');
+                    buff.forEach((val, i, buffer) => {
+                        buffer[i] = parseFloat(val as string);
                     });
-                    return buffer;
+                    return buff;
                 }
                 // Tint value should not be converted
                 // can be color uint or string
@@ -186,8 +174,8 @@ export default class AnimateUtils {
         }
     }
 
-    /** 
-     * Upload all the textures and graphics to the GPU. 
+    /**
+     * Upload all the textures and graphics to the GPU.
      * @method PIXI.animate.utils.upload
      * @static
      * @param {PIXI.WebGLRenderer} renderer Render to upload to
@@ -204,12 +192,9 @@ export default class AnimateUtils {
 
     /**
      * Add movie clips to the upload prepare.
-     * @method PIXI.animate.utils.addMovieClips
-     * @static
-     * @private
-     * @param {*} item To add to the queue 
+     * @param {*} item To add to the queue
      */
-    static addMovieClips(item) {
+    private static addMovieClips(item) {
         if (item instanceof PIXI.animate.MovieClip) {
             item._timedChildTimelines.forEach((timeline) => {
                 const index = item.children.indexOf(timeline.target);
