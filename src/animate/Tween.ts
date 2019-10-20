@@ -1,100 +1,99 @@
+import {MovieClip} from './MovieClip';
+import {Graphics, Sprite} from 'pixi.js';
+
+export type EaseMethod = (input:number)=>number;
+
+export interface TweenProps {
+    x?: number;
+    y?: number;
+    sx?: number;
+    sy?: number;
+    kx?: number;
+    ky?: number;
+    r?: number;
+    a?: number;
+    t?: number;
+    v?: boolean;
+    c?: number[];
+    m?: Graphics|Sprite;
+    g?: any;
+}
+
 /**
- * Provide timeline playback of movieclip
- * @memberof PIXI.animate
- * @class Tween
- * @constructor
- * @param {PIXI.animate.MovieClip} target The target to play
- * @param {Object} startProps The starting properties
- * @param {Object} endProps The ending properties
- * @param {int} startFrame frame number on which to begin tweening
- * @param {int} duration Number of frames to tween
- * @param {Function} [ease] Ease function to use
+ * Provides timeline playback of movieclip
  */
+export class Tween {
+    /**
+     * Target display object.
+     */
+    private target:MovieClip;
+    /**
+     * Properties at the start of the tween
+     */
+    public startProps:TweenProps;
+    /**
+     * Properties at the end of the tween, as well as any properties that are set
+     * instead of tweened
+     */
+    public endProps:TweenProps;
+    /**
+     * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
+     */
+    private duration:number;
+    /**
+     * The frame that the tween starts on
+     */
+    private startFrame:number;
+    /**
+     * the frame that the tween ends on
+     */
+    public endFrame:number;
+    /**
+     * easing function to use, if any
+     */
+    private ease:EaseMethod;
+    /**
+     * If we don't tween.
+     */
+    public isTweenlessFrame:boolean;
 
-class Tween {
-
-    constructor(target, startProps, endProps, startFrame, duration, ease) {
-
-        /**
-         * target display object
-         * @name PIXI.animate.Tween#target
-         * @type {Object}
-         */
+    /**
+     * @param target The target to play
+     * @param startProps The starting properties
+     * @param endProps The ending properties
+     * @param startFrame frame number on which to begin tweening
+     * @param duration Number of frames to tween
+     * @param ease Ease function to use
+     */
+    constructor(target:MovieClip, startProps:TweenProps, endProps:TweenProps|null, startFrame:number, duration:number, ease?:EaseMethod) {
         this.target = target;
-
-        /**
-         * properties at the start of the tween
-         * @type {Object}
-         * @name PIXI.animate.Tween#startProps
-         */
         this.startProps = startProps;
-
-        /**
-         * properties at the end of the tween, as well as any properties that are set
-         * instead of tweened
-         * @type {Object}
-         * @name PIXI.animate.Tween#endProps
-         */
         this.endProps = {};
-
-        /**
-         * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
-         * @type {int}
-         * @name PIXI.animate.Tween#duration
-         */
         this.duration = duration;
-
-        /**
-         * The frame that the tween starts on
-         * @type {int}
-         * @name PIXI.animate.Tween#startFrame
-         */
         this.startFrame = startFrame;
-
-        /**
-         * the frame that the tween ends on
-         * @type {int}
-         * @name PIXI.animate.Tween#endFrame
-         */
         this.endFrame = startFrame + duration;
-
-        /**
-         * easing function to use, if any
-         * @type {Function}
-         * @name PIXI.animate.Tween#ease
-         */
         this.ease = ease;
-
-        /**
-         * If we don't tween.
-         * @type {Boolean}
-         * @name PIXI.animate.Tween#isTweenlessFrame
-         */
         this.isTweenlessFrame = !endProps;
 
-
-        let prop;
         if (endProps) {
             //make a copy to safely include any unchanged values from the start of the tween
-            for (prop in endProps) {
-                this.endProps[prop] = endProps[prop];
+            for (const prop in endProps) {
+                this.endProps[prop as keyof TweenProps] = endProps[prop as keyof TweenProps];
             }
         }
 
         //copy in any starting properties don't change
-        for (prop in startProps) {
+        for (const prop in startProps) {
             if (!this.endProps.hasOwnProperty(prop)) {
-                this.endProps[prop] = startProps[prop];
+                this.endProps[prop as keyof TweenProps] = startProps[prop as keyof TweenProps];
             }
         }
     }
 
     /**
      * Set the current frame.
-     * @method PIXI.animate.Tween#setPosition
-     * @param {int} currentFrame
      */
-    setPosition(currentFrame) {
+    public setPosition(currentFrame:number) {
         //if this is a single frame with no tweening, or at the end of the tween, then
         //just speed up the process by setting values
         if (currentFrame >= this.endFrame) {
@@ -111,15 +110,15 @@ class Tween {
         if (this.ease) {
             time = this.ease(time);
         }
-        let target = this.target;
-        let startProps = this.startProps;
-        let endProps = this.endProps;
-        for (let prop in endProps) {
-            let lerp = props[prop];
+        const target = this.target;
+        const startProps = this.startProps;
+        const endProps = this.endProps;
+        for (const prop in endProps) {
+            const lerp = PROP_LERPS[prop as keyof TweenProps];
             if (lerp) {
-                setPropFromShorthand(target, prop, lerp(startProps[prop], endProps[prop], time));
+                setPropFromShorthand(target, prop, lerp(startProps[prop as keyof TweenProps], endProps[prop as keyof TweenProps], time));
             } else {
-                setPropFromShorthand(target, prop, startProps[prop]);
+                setPropFromShorthand(target, prop, startProps[prop as keyof TweenProps]);
             }
         }
     }
@@ -132,17 +131,17 @@ class Tween {
         let endProps = this.endProps;
         let target = this.target;
         for (let prop in endProps) {
-            setPropFromShorthand(target, prop, endProps[prop]);
+            setPropFromShorthand(target, prop, endProps[prop as keyof TweenProps]);
         }
     }
 }
 
 //standard tweening
-function lerpValue(start, end, t) {
+function lerpValue(start:number, end:number, t:number) {
     return start + (end - start) * t;
 }
 
-const props = {
+const PROP_LERPS:{[P in keyof TweenProps]:(start:number, end:number, t:number)=>number} = {
     //position
     x: lerpValue,
     y: lerpValue,
@@ -209,7 +208,7 @@ const TWO_PI = PI * 2;
 //handle 355 -> 5 degrees only going through a 10 degree change instead of
 //the long way around
 //Math from http://stackoverflow.com/a/2708740
-function lerpRotation(start, end, t) {
+function lerpRotation(start:number, end:number, t:number) {
     let difference = Math.abs(end - start);
     if (difference > PI) {
         // We need to add on to one of the values.
@@ -234,7 +233,7 @@ function lerpRotation(start, end, t) {
     return value;
 }
 
-function setPropFromShorthand(target, prop, value) {
+function setPropFromShorthand(target:MovieClip, prop:keyof MovieClip, value:any) {
     switch (prop) {
         case "x":
             target.transform.position.x = value;
@@ -274,6 +273,3 @@ function setPropFromShorthand(target, prop, value) {
             break;
     }
 }
-
-// Assign to namespace
-export default Tween;

@@ -1,23 +1,42 @@
 import utils from './utils';
+import {DrawCommands} from '../mixins';
 
+interface ShapeMap {
+    [name:string]:DrawCommands[];
+}
+interface ShapeCache {
+    /**
+     * Add an item or items to the cache
+     * @param prop The id of graphic to add
+     * @param items Collection of draw commands
+     */
+    add(prop:string, items:string|DrawCommands[]):void;
+    /**
+     * Get a graphic from cache
+     * @param id The cache id
+     * @return Series of graphic draw commands
+     */
+    fromCache(prop:string):DrawCommands[];
+    /**
+     * Remove a graphic from cache
+     * @param id The cache id or map (id keys) to remove
+     */
+    remove(prop:string|{[id:string]:any}):void;
+    /**
+     * Remove all graphics from cache
+     */
+    removeAll():void;
+}
 /**
  * Contains the collection of graphics data
  * @memberof PIXI.animate
  * @class ShapesCache
  */
-const ShapesCache = {};
+export const ShapesCache:ShapeMap & ShapeCache = {} as any;
 
-/**
- * Add an item or itesm to the cache
- * @method PIXI.animate.ShapesCache.add
- * @static
- * @param {String} prop  The id of graphic or the map of graphics to add
- * @param {String|Array<Array>} items Collection of draw commands
- */
 Object.defineProperty(ShapesCache, 'add', {
     enumerable: false,
-    value: function(prop, items) {
-
+    value: function(prop:string, items:string|DrawCommands[]) {
         // Decode string to map of files
         if (typeof items === "string") {
             items = utils.deserializeShapes(items);
@@ -37,30 +56,16 @@ Object.defineProperty(ShapesCache, 'add', {
     }
 });
 
-
-/**
- * Get the graphic from cache
- * @method  PIXI.animate.ShapesCache.fromCache
- * @static
- * @param  {String} id The cache id
- * @return {Array} Series of graphic draw commands
- */
 Object.defineProperty(ShapesCache, 'fromCache', {
     enumerable: false,
-    value: function(id) {
+    value: function(id:string) {
         return ShapesCache[id] || null;
     }
 });
 
-/**
- * Remove the graphic from cache
- * @method  PIXI.animate.ShapesCache.remove
- * @static
- * @param  {String|Object} id The cache id or map
- */
 Object.defineProperty(ShapesCache, 'remove', {
     enumerable: false,
-    value: function(id) {
+    value: function(id:string|{[id:string]:any}) {
         if (typeof id === "object") {
             for (let name in id) {
                 ShapesCache.remove(name);
@@ -74,11 +79,6 @@ Object.defineProperty(ShapesCache, 'remove', {
     }
 });
 
-/**
- * Remove all graphics from cache
- * @method  PIXI.animate.ShapesCache.removeAll
- * @static
- */
 Object.defineProperty(ShapesCache, 'removeAll', {
     enumerable: false,
     value: function() {
@@ -87,6 +87,3 @@ Object.defineProperty(ShapesCache, 'removeAll', {
         }
     }
 });
-
-// Assign to namespace
-export default ShapesCache;

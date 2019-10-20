@@ -1,3 +1,5 @@
+import {DrawCommands} from '../mixins';
+
 // If the movieclip plugin is installed
 let _prepare = null;
 
@@ -125,7 +127,7 @@ export default class AnimateUtils {
         let shapes = str.split("\n");
         let isCommand = /^[a-z]{1,2}$/;
         for (let i = 0; i < shapes.length; i++) {
-            let shape:(string|number)[] = shapes[i].split(' '); // arguments are space separated
+            let shape:DrawCommands = shapes[i].split(' '); // arguments are space separated
             for (let j = 0; j < shape.length; j++) {
                 // Convert all numbers to floats, ignore colors
                 let arg = shape[j] as string;

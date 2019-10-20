@@ -7,6 +7,8 @@ if (filters) {
     ColorMatrixFilter = filters.ColorMatrixFilter;
 }
 
+export type DrawCommands = (string|number)[];
+
 export class Graphics extends PGraphics {
     // **************************
     //     Graphics methods
@@ -18,7 +20,7 @@ export class Graphics extends PGraphics {
      * @param commands The commands and parameters to draw
      * @return This instance for chaining.
      */
-    public drawCommands(commands:(string|number)[]) {
+    public drawCommands(commands:DrawCommands) {
         let currentCommand:string, params = [],
             i = 0;
 
