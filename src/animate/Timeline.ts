@@ -1,5 +1,5 @@
 import {Tween, TweenProps, EaseMethod} from './Tween';
-import {MovieClip} from './MovieClip';
+import {DisplayObject} from '../mixins';
 
 /**
  * The Timeline class represents a
@@ -13,13 +13,13 @@ export class Timeline extends Array<Tween> {
     /**
      * The target DisplayObject.
      */
-    public target:MovieClip;
+    public target:DisplayObject;
     /**
      * Current properties in the tween, to make building the timeline more
      * efficient.
      */
     private _currentProps:TweenProps;
-    constructor(target:MovieClip) {
+    constructor(target:DisplayObject) {
         super();
         this.target = target;
         this._currentProps = {};
@@ -40,17 +40,17 @@ export class Timeline extends Array<Tween> {
         for (const prop in properties) {
             //if we have already set that property in an earlier tween, use the ending value
             if (this._currentProps.hasOwnProperty(prop)) {
-                startProps[prop as keyof TweenProps] = this._currentProps[prop as keyof TweenProps];
+                (startProps[prop as keyof TweenProps] as any) = this._currentProps[prop as keyof TweenProps];
             }
             //otherwise, get the current value
             else {
-                let startValue = startProps[prop as keyof TweenProps] = this.getPropFromShorthand(prop as keyof TweenProps);
+                let startValue = (startProps[prop as keyof TweenProps] as any) = this.getPropFromShorthand(prop as keyof TweenProps);
                 //go through previous tweens to set the value so that when the timeline loops
                 //around, the values are set properly - having each tween know what came before
                 //allows us to set to a specific frame without running through the entire timeline
                 for (let i = this.length - 1; i >= 0; --i) {
-                    this[i].startProps[prop as keyof TweenProps] = startValue;
-                    this[i].endProps[prop as keyof TweenProps] = startValue;
+                    (this[i].startProps[prop as keyof TweenProps] as any) = startValue;
+                    (this[i].endProps[prop as keyof TweenProps] as any) = startValue;
                 }
             }
         }
@@ -108,25 +108,25 @@ export class Timeline extends Array<Tween> {
         const target = this.target;
         switch (prop) {
             case 'x':
-                return target.position.x;
+                return target.position.x as any;
             case 'y':
-                return target.position.y;
+                return target.position.y as any;
             case 'sx':
-                return target.scale.x;
+                return target.scale.x as any;
             case 'sy':
-                return target.scale.y;
+                return target.scale.y as any;
             case 'kx':
-                return target.skew.x;
+                return target.skew.x as any;
             case 'ky':
-                return target.skew.y;
+                return target.skew.y as any;
             case 'r':
-                return target.rotation;
+                return target.rotation as any;
             case 'a':
-                return target.alpha;
+                return target.alpha as any;
             case 'v':
-                return target.visible;
+                return target.visible as any;
             case 'm':
-                return target.mask;
+                return target.mask as any;
                 // case 't':
                 //   return target.tint;
                 //not sure if we'll actually handle graphics this way?

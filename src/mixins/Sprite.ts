@@ -1,5 +1,5 @@
 import { Sprite as PSprite, filters, Graphics } from 'pixi.js';
-import utils from '../animate/utils';
+import {utils} from '../animate/utils';
 type CMF = filters.ColorMatrixFilter;
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;

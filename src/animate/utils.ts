@@ -1,17 +1,20 @@
 import {DrawCommands} from '../mixins';
+import {TweenProps} from './Tween';
+import {MovieClip} from './MovieClip';
+import {DisplayObject, CanvasRenderer, WebGLRenderer, prepare} from 'pixi.js';
 
 // If the movieclip plugin is installed
-let _prepare = null;
+let _prepare:prepare.BasePrepare<any> = null;
 
 /**
  * @description For keyframe conversions
  */
-export default class AnimateUtils {
+export namespace utils {
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
      */
-    static hexToUint(hex:string):number {
+    export function hexToUint(hex:string):number {
         // Remove the hash
         hex = hex.substr(1);
 
@@ -28,7 +31,7 @@ export default class AnimateUtils {
      * @param startFrame The start frame when the timeline shows up
      * @param duration The length of showing
      */
-    static fillFrames(timeline:boolean[], startFrame:number, duration:number) {
+    export function fillFrames(timeline:boolean[], startFrame:number, duration:number) {
         //ensure that the timeline is long enough
         const oldLength = timeline.length;
         if (oldLength < startFrame + duration) {
@@ -58,43 +61,44 @@ export default class AnimateUtils {
         }
     }
 
+    const keysMap:{[s:string]:keyof TweenProps} = {
+        X: 'x', // x position
+        Y: 'y', // y position
+        A: 'sx', // scale x
+        B: 'sy', // scale y
+        C: 'kx', // skew x
+        D: 'ky', // skew y
+        R: 'r', // rotation
+        L: 'a', // alpha
+        T: 't', // tint
+        F: 'c', // colorTransform
+        V: 'v' // visibility
+    };
+
     /**
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
      * @param keyframes
      * @return Resulting keyframes
      */
-    static deserializeKeyframes(keyframes:string) {
-        let result = {};
+    export function deserializeKeyframes(keyframes:string) {
+        let result:{[s:number]:TweenProps} = {};
         let i = 0;
-        let keysMap = {
-            X: 'x', // x position
-            Y: 'y', // y position
-            A: 'sx', // scale x
-            B: 'sy', // scale y
-            C: 'kx', // skew x
-            D: 'ky', // skew y
-            R: 'r', // rotation
-            L: 'a', // alpha
-            T: 't', // tint
-            F: 'c', // colorTransform
-            V: 'v' // visibility
-        };
-        let c,
-            buffer = '',
-            isFrameStarted = false,
-            prop,
-            frame = {};
+
+        let buffer = '';
+        let isFrameStarted = false;
+        let prop:keyof TweenProps;
+        let frame:TweenProps = {};
 
         while (i <= keyframes.length) {
-            c = keyframes[i];
+            const c = keyframes[i];
             if (keysMap[c]) {
                 if (!isFrameStarted) {
                     isFrameStarted = true;
-                    result[buffer] = frame;
+                    result[buffer as any] = frame;
                 }
                 if (prop) {
-                    frame[prop] = this.parseValue(prop, buffer);
+                    (frame[prop] as any) = parseValue(prop, buffer);
                 }
                 prop = keysMap[c];
                 buffer = '';
@@ -103,7 +107,7 @@ export default class AnimateUtils {
             // Start a new prop
             else if (!c || c === ' ') {
                 i++;
-                frame[prop] = this.parseValue(prop, buffer);
+                (frame[prop] as any) = parseValue(prop, buffer);
                 buffer = '';
                 prop = null;
                 frame = {};
@@ -121,7 +125,7 @@ export default class AnimateUtils {
      * @param str
      * @param Resulting shapes map
      */
-    static deserializeShapes(str:string) {
+    export function deserializeShapes(str:string) {
         const result = [];
         // each shape is a new line
         let shapes = str.split("\n");
@@ -146,7 +150,7 @@ export default class AnimateUtils {
      * @param buffer The contents
      * @return The parsed value
      */
-    private static parseValue(prop:string, buffer:string) {
+    function parseValue(prop:string, buffer:string) {
         switch (prop) {
             // Color transforms are parsed as an array
             case 'c':
@@ -178,16 +182,14 @@ export default class AnimateUtils {
 
     /**
      * Upload all the textures and graphics to the GPU.
-     * @method PIXI.animate.utils.upload
-     * @static
-     * @param {PIXI.WebGLRenderer} renderer Render to upload to
-     * @param {PIXI.DisplayObject} clip MovieClip to upload
-     * @param {function} done When complete
+     * @param renderer Render to upload to
+     * @param clip MovieClip to upload
+     * @param done When complete
      */
-    static upload(renderer, displayObject, done) {
+    export function upload(renderer:CanvasRenderer|WebGLRenderer, displayObject:DisplayObject, done:()=>void) {
         if (!_prepare) {
             _prepare = renderer.plugins.prepare;
-            _prepare.register(this.addMovieClips);
+            _prepare.registerFindHook(addMovieClips);
         }
         _prepare.upload(displayObject, done);
     }
@@ -196,8 +198,8 @@ export default class AnimateUtils {
      * Add movie clips to the upload prepare.
      * @param {*} item To add to the queue
      */
-    private static addMovieClips(item) {
-        if (item instanceof PIXI.animate.MovieClip) {
+    export function addMovieClips(item:any) {
+        if (item instanceof MovieClip) {
             item._timedChildTimelines.forEach((timeline) => {
                 const index = item.children.indexOf(timeline.target);
                 if (index === -1) {

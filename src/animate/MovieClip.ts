@@ -1,25 +1,211 @@
-import Timeline from './Timeline';
-import utils from './utils';
+import {Timeline} from './Timeline';
+import {TweenProps, EaseMethod} from './Tween';
+import {utils} from './utils';
+import {sound} from './sound';
+import {Container, DisplayObject} from '../mixins';
+import {ticker, settings, Graphics, Sprite} from 'pixi.js';
+const SharedTicker = ticker.shared;
 
-const Container = PIXI.Container;
-const SharedTicker = PIXI.ticker.shared;
+export interface MovieClipOptions {
+    /**
+     * The default playback mode is independent (0). Child movieclips are given a different value as subordinate objects.
+     */
+    mode?: number;
+    /**
+     * The starting frame. Default is 0.
+     */
+    startPosition?:number;
+    /**
+     * If playback is looped. Default is true.
+     */
+    loop?:boolean;
+    /**
+     * The frame labels map - label to frames
+     */
+    labels?:LabelMap;
+    /**
+     * The duration of the clip. If no duration is provided, length is automatically determined.
+     */
+    duration?:number;
+    /**
+     * The framerate to use for an independent mode MovieClip. Default is 24.
+     */
+    framerate?:number;
+}
+
+export interface FrameLabel {
+    label:string;
+    position:number;
+}
+
+export interface LabelMap {
+    [label:string]:number;
+}
+
+export type FrameAction = (this:MovieClip)=>void;
+
+type TimedChildTimeline = boolean[] & {target?:DisplayObject};
 
 /**
  * Provide timeline playback of movieclip
- * @memberof PIXI.animate
- * @class MovieClip
- * @extends PIXI.Container
- * @constructor
- * @param {Object|int} [options] The options object or the mode to play
- * @param {int} [options.mode=0] The playback mode default is independent (0),
- * @param {int} [options.startPosition=0] The starting frame
- * @param {Boolean} [options.loop=true] If playback is looped
- * @param {Object} [options.labels] The frame labels map of label to frames
- * @param {int} [options.duration] The duration, if no duration is provided, auto determines length
- * @param {int} [options.framerate=24] The framerate to use for independent mode
  */
-class MovieClip extends Container {
-    constructor(options, duration, loop, framerate, labels) {
+export class MovieClip extends Container {
+    /**
+     * The MovieClip will advance independently of its parent, even if its parent is paused.
+     * This is the default mode.
+     */
+    public static readonly INDEPENDENT = 0;
+
+    /**
+     * The MovieClip will only display a single frame (as determined by the startPosition property).
+     */
+    public static readonly SINGLE_FRAME = 1;
+
+    /**
+     * The MovieClip will be advanced only when its parent advances and will be synched to the position of
+     * the parent MovieClip.
+     */
+    public static readonly SYNCHED = 2;
+
+    /**
+     * The default framerate if none is specified or there's not parent clip with a framerate.
+     */
+    public static readonly DEFAULT_FRAMERATE = 24;
+
+    /**
+     * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
+     * See each constant for a description of the behaviour.
+     */
+    public mode:number;
+
+    /**
+     * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
+     */
+    public startPosition:number;
+
+    /**
+     * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
+     */
+    public loop:boolean;
+
+    /**
+     * The current frame of the movieclip.
+     * @readOnly
+     */
+    public currentFrame:number;
+
+    /**
+     * The collection of private labels
+     */
+    private _labels:FrameLabel[];
+
+    /**
+     * The collection of private labels
+     */
+    private _labelDict:LabelMap;
+
+    /**
+     * If true, this movieclip will animate automatically whenever it is on the stage.
+     */
+    public selfAdvance:boolean;
+
+    /**
+     * If true, the MovieClip's position will not advance when ticked.
+     */
+    public paused:boolean;
+
+    /**
+     * If true, actions in this MovieClip's tweens will be run when the playhead advances.
+     */
+    public actionsEnabled:boolean;
+
+    /**
+     * If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
+     * it back onto the display list. This only applies to MovieClip instances with mode=INDEPENDENT.
+     * <br><br>
+     * For example, if you had a character animation with a 'body' child MovieClip instance
+     * with different costumes on each frame, you could set body.autoReset = false, so that
+     * you can manually change the frame it is on, without worrying that it will be reset
+     * automatically.
+     */
+    public autoReset:boolean;
+
+    /**
+     * Offset from parent frame for a synched movieclip.
+     */
+    private _synchOffset:number;
+
+    /**
+     * Previous position that this movieclip was stopped on.
+     */
+    private _prevPos:number;
+
+    /**
+     * Note - changed from default: When the MovieClip is framerate independent, this is the time
+     * elapsed from frame 0 in seconds.
+     */
+    private _t:number;
+
+    /**
+     * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
+     * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
+     * framerate.
+     */
+    protected _framerate:number;
+
+    /**
+     * The total time in seconds for the animation. This is changed when setting the framerate.
+     */
+    private _duration:number;
+
+    /**
+     * The total duration in frames for the animation.
+     */
+    private _totalFrames:number;
+
+    /**
+     * Standard tween timelines for all objects. Each element in the _timelines array
+     * is a Timeline object - an array of tweens for one target, in order of occurrence.
+     */
+    protected _timelines:Timeline[];
+
+    /**
+     * Array of child timelines denoting if a child is actively a child of this movieclip
+     * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
+     * property, and is an array of boolean values indexed by frame.
+     */
+    protected _timedChildTimelines:TimedChildTimeline[];
+
+    /**
+     * Array to depth sort timed children
+     */
+    protected _depthSorted:DisplayObject[];
+
+    /**
+     * Array of frame scripts, indexed by frame.
+     */
+    protected _actions:FrameAction[][];
+
+    /**
+     * Optional callback fired before timeline is updated.
+     * Can be used to clamp or update the currentFrame.
+     */
+    private _beforeUpdate:(target:MovieClip)=>(()=>void|null);
+
+    /**
+     * @param options The options object
+     */
+    constructor(options?:MovieClipOptions);
+    /**
+     * @param mode The playback mode default is independent (0),
+     * @param startPosition The starting frame
+     * @param loop If playback is looped
+     * @param labels The frame labels map of label to frames
+     * @param duration The duration, if no duration is provided, auto determines length
+     * @param framerate The framerate to use for independent mode
+     */
+    constructor(mode?:number, duration?:number, loop?:boolean, framerate?:number, labels?:LabelMap);
+    constructor(options?:MovieClipOptions|number, duration?:number, loop?:boolean, framerate?:number, labels?:LabelMap) {
         super();
 
         // Default options
@@ -47,55 +233,13 @@ class MovieClip extends Container {
             }, options);
         }
 
-        /**
-         * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
-         * See each constant for a description of the behaviour.
-         * @name PIXI.animate.MovieClip#mode
-         * @type int
-         * @default null
-         */
         this.mode = options.mode;
-
-        /**
-         * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
-         * @name PIXI.animate.MovieClip#startPosition
-         * @type Number
-         * @default 0
-         */
         this.startPosition = options.startPosition;
-
-        /**
-         * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
-         * @name PIXI.animate.MovieClip#loop
-         * @type Boolean
-         * @default true
-         */
         this.loop = !!options.loop;
-
-        /**
-         * The current frame of the movieclip.
-         * @name PIXI.animate.MovieClip#currentFrame
-         * @type Number
-         * @default 0
-         * @readOnly
-         */
         this.currentFrame = 0;
-
-        /**
-         * The collection of private labels
-         * @name PIXI.animate.MovieClip#_labels
-         * @type Array
-         * @private
-         */
         this._labels = [];
-
-        /**
-         * The collection of private labels
-         * @name PIXI.animate.MovieClip#_labelDict
-         * @type Object
-         * @private
-         */
         this._labelDict = options.labels;
+
         if (options.labels) {
             for (let name in options.labels) {
                 let label = {
@@ -109,142 +253,20 @@ class MovieClip extends Container {
             });
         }
 
-        /**
-         * If true, this movieclip will animate automatically whenever it is on the stage.
-         * @name PIXI.animate.MovieClip#selfAdvance
-         * @type Boolean
-         * @default true
-         */
         this.selfAdvance = true;
-
-        /**
-         * If true, the MovieClip's position will not advance when ticked.
-         * @name PIXI.animate.MovieClip#paused
-         * @type Boolean
-         * @default false
-         */
         this.paused = false;
-
-        /**
-         * If true, actions in this MovieClip's tweens will be run when the playhead advances.
-         * @name PIXI.animate.MovieClip#actionsEnabled
-         * @type Boolean
-         * @default true
-         */
         this.actionsEnabled = true;
-
-        /**
-         * If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
-         * it back onto the display list. This only applies to MovieClip instances with mode=INDEPENDENT.
-         * <br><br>
-         * For example, if you had a character animation with a 'body' child MovieClip instance
-         * with different costumes on each frame, you could set body.autoReset = false, so that
-         * you can manually change the frame it is on, without worrying that it will be reset
-         * automatically.
-         * @name PIXI.animate.MovieClip#autoReset
-         * @type Boolean
-         * @default true
-         */
         this.autoReset = true;
-
-        /**
-         * @name PIXI.animate.MovieClip#_synchOffset
-         * @type Number
-         * @default 0
-         * @private
-         */
         this._synchOffset = 0;
-
-        /**
-         * @name PIXI.animate.MovieClip#_prevPos
-         * @type Number
-         * @default -1
-         * @private
-         */
         this._prevPos = -1; // TODO: evaluate using a ._reset Boolean prop instead of -1.
-
-        /**
-         * Note - changed from default: When the MovieClip is framerate independent, this is the time
-         * elapsed from frame 0 in seconds.
-         * @name PIXI.animate.MovieClip#_t
-         * @type Number
-         * @default 0
-         * @private
-         */
         this._t = 0;
-
-        /**
-         * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
-         * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
-         * framerate.
-         *
-         * @name PIXI.animate.MovieClip#_framerate
-         * @type {Number}
-         * @default 0
-         * @protected
-         */
         this._framerate = options.framerate;
-
-        /**
-         * The total time in seconds for the animation. This is changed when setting the framerate.
-         * @name PIXI.animate.MovieClip#_duration
-         * @type Number
-         * @default 0
-         * @private
-         */
         this._duration = 0;
-
-        /**
-         * The total duration in frames for the animation.
-         * @name PIXI.animate.MovieClip#_totalFrames
-         * @type Number
-         * @default 0
-         * @private
-         */
         this._totalFrames = options.duration;
-
-        /**
-         * Standard tween timelines for all objects. Each element in the _timelines array
-         * is a Timeline object - an array of tweens for one target, in order of occurrence.
-         * @name PIXI.animate.MovieClip#_timelines
-         * @type Array
-         * @protected
-         */
         this._timelines = [];
-
-        /**
-         * Array of child timelines denoting if a child is actively a child of this movieclip
-         * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
-         * property, and is an array of boolean values indexed by frame.
-         * @name PIXI.animate.MovieClip#_timedChildTimelines
-         * @type {Array}
-         * @protected
-         */
         this._timedChildTimelines = [];
-
-        /**
-         * Array to depth sort timed children
-         * @name PIXI.animate.MovieClip#_depthSorted
-         * @type {Array}
-         * @private
-         */
         this._depthSorted = [];
-
-        /**
-         * Array of frame scripts, indexed by frame.
-         * @name PIXI.animate.MovieClip#_actions
-         * @type {Array}
-         * @protected
-         */
         this._actions = [];
-
-        /**
-         * Optional callback fired before timeline is updated.
-         * Can be used to clamp or update the currentFrame.
-         * @name PIXI.animate.MovieClip#_beforeUpdate
-         * @type {Function}
-         * @private
-         */
         this._beforeUpdate = null;
 
         if (this.mode === MovieClip.INDEPENDENT) {
@@ -267,14 +289,14 @@ class MovieClip extends Container {
         this._goto = this._goto;
     }
 
-    _onAdded() {
+    private _onAdded() {
         if (!this._framerate) {
             this.framerate = this.parentFramerate;
         }
         SharedTicker.add(this._tickListener);
     }
 
-    _tickListener(tickerDeltaTime) {
+    private _tickListener(tickerDeltaTime:number) {
         if (this.paused || !this.selfAdvance) {
             //see if the movieclip needs to be updated even though it isn't animating
             if (this._prevPos < 0) {
@@ -282,41 +304,32 @@ class MovieClip extends Container {
             }
             return;
         }
-        let seconds = tickerDeltaTime / PIXI.settings.TARGET_FPMS / 1000;
+        let seconds = tickerDeltaTime / settings.TARGET_FPMS / 1000;
         this.advance(seconds);
     }
 
-    _onRemoved() {
+    private _onRemoved() {
         SharedTicker.remove(this._tickListener);
     }
 
     /**
      * Returns an array of objects with label and position (aka frame) properties, sorted by position.
-     * @name PIXI.animate.MovieClip#labels
-     * @type {Array}
-     * @readonly
      */
-    get labels() {
+    public get labels() {
         return this._labels;
     }
 
     /**
      * Returns a dictionary of labels where key is the label and value is the frame.
-     * @name PIXI.animate.MovieClip#labelsMap
-     * @type {Object}
-     * @readonly
      */
-    get labelsMap() {
+    public get labelsMap() {
         return this._labelDict;
     }
 
     /**
      * Returns the name of the label on or immediately before the current frame.
-     * @name PIXI.animate.MovieClip#currentLabel
-     * @type {String}
-     * @readonly
      */
-    get currentLabel() {
+    public get currentLabel() {
         let labels = this._labels;
         let current = null;
         for (let i = 0, len = labels.length; i < len; ++i) {
@@ -331,16 +344,12 @@ class MovieClip extends Container {
 
     /**
      * When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
-     * @name PIXI.animate.MovieClip#elapsedTime
-     * @type Number
-     * @default 0
-     * @public
      */
-    get elapsedTime() {
+    public get elapsedTime() {
         return this._t;
     }
 
-    set elapsedTime(value) {
+    public set elapsedTime(value) {
         this._t = value;
     }
 
@@ -355,14 +364,11 @@ class MovieClip extends Container {
      *
      * This feature is dependent on the tick event object (or an object with an appropriate 'delta' property) being
      * passed into {{#crossLink 'Stage/update'}}{{/crossLink}}.
-     * @name PIXI.animate.MovieClip#framerate
-     * @type {Number}
-     * @default 0
      */
-    get framerate() {
+    public get framerate() {
         return this._framerate;
     }
-    set framerate(value) {
+    public set framerate(value) {
         if (value > 0) {
             if (this._framerate) {
                 //recalculate time based on difference between new and old framerate:
@@ -379,22 +385,15 @@ class MovieClip extends Container {
 
     /**
      * Get the total number of frames (duration) of this MovieClip
-     * @name PIXI.animate.MovieClip#totalFrames
-     * @type {Number}
-     * @default 0
-     * @readOnly
      */
-    get totalFrames() {
+    public get totalFrames() {
         return this._totalFrames;
     }
 
     /**
      * Extend the timeline to the last frame.
-     * @method PIXI.animate.MovieClip#_autoExtend
-     * @private
-     * @param {int} endFrame
      */
-    _autoExtend(endFrame) {
+    private _autoExtend(endFrame:number) {
         if (this._totalFrames < endFrame) {
             this._totalFrames = endFrame;
         }
@@ -402,11 +401,8 @@ class MovieClip extends Container {
 
     /**
      * Convert values of properties
-     * @method PIXI.animate.MovieClip#_parseProperties
-     * @private
-     * @param {Object} properties
      */
-    _parseProperties(properties) {
+    private _parseProperties(properties:TweenProps & {t?:string|number, v?:number|boolean}) {
         // Convert any string colors to uints
         if (typeof properties.t === 'string') {
             properties.t = utils.hexToUint(properties.t);
@@ -417,12 +413,8 @@ class MovieClip extends Container {
 
     /**
      * Get a timeline for a child, synced timeline.
-     * @method PIXI.animate.MovieClip#_getChildTimeline
-     * @private
-     * @param {PIXI.animate.MovieClip} instance
-     * @return {PIXI.animate.Timeline}
      */
-    _getChildTimeline(instance) {
+    private _getChildTimeline(instance:DisplayObject) {
         for (let i = this._timelines.length - 1; i >= 0; --i) {
             if (this._timelines[i].target === instance) {
                 return this._timelines[i];
@@ -435,12 +427,8 @@ class MovieClip extends Container {
 
     /**
      * Add mask or masks
-     * @method PIXI.animate.MovieClip#addTimedMask
-     * @param {PIXI.DisplayObject} instance Instance to mask
-     * @param {Object} keyframes The map of frames to mask objects
-     * @return {PIXI.animate.MovieClip} instance of clip for chaining
      */
-    addTimedMask(instance, keyframes) {
+    public addTimedMask(instance:DisplayObject, keyframes:{[frame:number]:Graphics|Sprite}) {
         for (let i in keyframes) {
             this.addKeyframe(instance, {
                 m: keyframes[i]
@@ -454,28 +442,18 @@ class MovieClip extends Container {
 
     /**
      * Shortcut alias for `addTimedMask`
-     * @method PIXI.animate.MovieClip#am
-     * @param {PIXI.DisplayObject} instance Instance to mask
-     * @param {Object} keyframes The map of frames to mask objects
-     * @return {PIXI.animate.MovieClip} instance of clip for chaining
      */
-    am(instance, keyframes) {
-        return this.addTimedMask(instance, keyframes);
-    }
+    public am = this.addTimedMask;
 
     /**
      * Add a tween to the clip
-     * @method PIXI.animate.MovieClip#addTween
-     * @param {PIXI.DisplayObject} instance The clip to tween
-     * @param {Object} properties The property or property to tween
-     * @param {int} startFrame The frame to start tweening
-     * @param {int} [duration=0] Number of frames to tween. If 0, then the properties are set
-     *                           with no tweening.
-     * @param {Function} [ease] An optional easing function that takes the tween time from 0-1.
-     * @return {PIXI.animate.MovieClip}
+     * @param instance The clip to tween
+     * @param properties The property or property to tween
+     * @param startFrame The frame to start tweening
+     * @param duration Number of frames to tween. If 0, then the properties are set with no tweening.
+     * @param ease An optional easing function that takes the tween time from 0-1.
      */
-    addTween(instance, properties, startFrame, duration, ease) {
-
+    public addTween(instance:DisplayObject, properties:TweenProps, startFrame:number, duration?:number, ease?:EaseMethod) {
         let timeline = this._getChildTimeline(instance);
         this._parseProperties(properties);
         timeline.addTween(properties, startFrame, duration, ease);
@@ -485,17 +463,11 @@ class MovieClip extends Container {
 
     /**
      * Add a tween to the clip
-     * @method PIXI.animate.MovieClip#addKeyframe
-     * @param {PIXI.DisplayObject} instance The clip to tween
-     * @param {Object} properties The property or property to tween
-     * @param {int} startFrame The frame to start tweening
-     * @param {int} [duration=0] Number of frames to tween. If 0, then the properties are set
-     *                           with no tweening.
-     * @param {Function} [ease] An optional easing function that takes the tween time from 0-1.
-     * @return {PIXI.animate.MovieClip}
+     * @param instance The clip to tween
+     * @param properties The property or property to tween
+     * @param startFrame The frame to start tweening
      */
-    addKeyframe(instance, properties, startFrame) {
-
+    public addKeyframe(instance:DisplayObject, properties:TweenProps, startFrame:number) {
         let timeline = this._getChildTimeline(instance);
         this._parseProperties(properties);
         timeline.addKeyframe(properties, startFrame);
@@ -505,24 +477,17 @@ class MovieClip extends Container {
 
     /**
      * Alias for method `addTimedChild`
-     * @method PIXI.animate.MovieClip#at
-     * @return {PIXI.animate.MovieClip}
      */
-    at(instance, startFrame, duration, keyframes) {
-        return this.addTimedChild(instance, startFrame, duration, keyframes);
-    }
+    public at = this.addTimedChild;
 
     /**
      * Add a child to show for a certain number of frames before automatic removal.
-     * @method PIXI.animate.MovieClip#addTimedChild
-     * @param {PIXI.DisplayObject} instance The clip to show
-     * @param {int} startFrame The starting frame
-     * @param {int} [duration=1] The number of frames to display the child before removing it.
-     * @param {String|Array} [keyframes] The collection of static keyframes to add
-     * @return {PIXI.animate.MovieClip}
+     * @param instance The clip to show
+     * @param startFrame The starting frame
+     * @param duration The number of frames to display the child before removing it.
+     * @param keyframes The collection of static keyframes to add
      */
-    addTimedChild(instance, startFrame, duration, keyframes) {
-
+    public addTimedChild(instance:DisplayObject, startFrame:number, duration?:number, keyframes?:string|{[frame:number]:TweenProps}) {
         if (startFrame === undefined) // jshint ignore:line
         {
             startFrame = 0;
@@ -533,16 +498,16 @@ class MovieClip extends Container {
         }
 
         // Add the starting offset for synced movie clips
-        if (instance.mode === MovieClip.SYNCHED) {
+        if (instance instanceof MovieClip && instance.mode === MovieClip.SYNCHED) {
             instance.parentStartPosition = startFrame;
         }
 
         //add tweening info about this child's presence on stage
         //when the child is (re)added, if it has 'autoReset' set to true, then it
         //should be set back to frame 0
-        let timeline, i;
+        let timeline:TimedChildTimeline;
         //get existing timeline
-        for (i = this._timedChildTimelines.length - 1; i >= 0; --i) {
+        for (let i = this._timedChildTimelines.length - 1; i >= 0; --i) {
             if (this._timedChildTimelines[i].target === instance) {
                 timeline = this._timedChildTimelines[i];
                 break;
@@ -588,24 +553,15 @@ class MovieClip extends Container {
 
     /**
      * Short cut for `addAction`
-     * @method PIXI.animate.MovieClip#aa
-     * @param {Function} callback The clip call on a certain frame
-     * @param {int|String} startFrame The starting frame index or label
-     * @return {PIXI.animate.MovieClip}
      */
-    aa(callback, startFrame) {
-        return this.addAction(callback, startFrame);
-    }
+    public aa = this.addAction;
 
     /**
      * Handle frame actions, callback is bound to the instance of the MovieClip.
-     * @method PIXI.animate.MovieClip#addAction
-     * @param {Function} callback The clip call on a certain frame
-     * @param {int|String} startFrame The starting frame index or label
-     * @return {PIXI.animate.MovieClip}
+     * @param callback The clip call on a certain frame
+     * @param startFrame The starting frame index or label
      */
-    addAction(callback, startFrame) {
-
+    public addAction(callback:FrameAction, startFrame:number|string) {
         if (typeof startFrame === 'string') {
             const index = this._labelDict[startFrame];
             if (index === undefined) {
@@ -633,32 +589,22 @@ class MovieClip extends Container {
 
     /**
      * Short cut for `playSound`
-     * @method PIXI.animate.MovieClip#ps
-     * @param {String} alias The name of the Sound
-     * @param {Boolean} [loop=false] The loop property of the sound
-     * @param {MovieClip} context The MovieClip the sound originates from
-     * @return {PIXI.animate.MovieClip}
      */
-    ps(alias, loop) {
-        return this.playSound(alias, loop);
-    }
+    public ps = this.playSound;
 
     /**
      * Handle sounds.
      * @method PIXI.animate.MovieClip#playSound
      * @param {String} alias The name of the Sound
      * @param {Boolean} [loop=false] The loop property of the sound
-     * @param {MovieClip} context The MovieClip the sound originates from
-     * @return {PIXI.animate.MovieClip}
      */
-    playSound(alias, loop) {
-        PIXI.animate.sound.emit('play', alias, !!loop, this);
+    public playSound(alias:string, loop?:boolean) {
+        sound.emit('play', alias, !!loop, this);
         return this;
     }
 
     /**
      * Sets paused to false.
-     * @method PIXI.animate.MovieClip#play
      */
     play() {
         this.paused = false;
@@ -666,7 +612,6 @@ class MovieClip extends Container {
 
     /**
      * Sets paused to true.
-     * @method PIXI.animate.MovieClip#stop
      */
     stop() {
         this.paused = true;
@@ -674,34 +619,29 @@ class MovieClip extends Container {
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to false.
-     * @method PIXI.animate.MovieClip#gotoAndPlay
-     * @param {String|Number} positionOrLabel The animation name or frame number to go to.
+     * @param positionOrLabel The animation name or frame number to go to.
      */
-    gotoAndPlay(positionOrLabel) {
+    public gotoAndPlay(positionOrLabel:string|number) {
         this.paused = false;
         this._goto(positionOrLabel);
     }
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to true.
-     * @method PIXI.animate.MovieClip#gotoAndStop
-     * @param {String|Number} positionOrLabel The animation or frame name to go to.
+     * @param positionOrLabel The animation or frame name to go to.
      */
-    gotoAndStop(positionOrLabel) {
+    public gotoAndStop(positionOrLabel:string|number) {
         this.paused = true;
         this._goto(positionOrLabel);
     }
 
     /**
      * Get the close parent with a valid framerate. If no parent, returns the default framerate.
-     * @name PIXI.animate.MovieClip#parentFramerate
-     * @type {Number}
-     * @readOnly
      */
-    get parentFramerate() {
-        let o = this,
+    public get parentFramerate() {
+        let o:MovieClip = this,
             fps = o._framerate;
-        while ((o = o.parent) && !fps) {
+        while ((o = o.parent as MovieClip) && !fps) {
             if (o.mode === MovieClip.INDEPENDENT) {
                 fps = o._framerate;
             }
@@ -711,11 +651,9 @@ class MovieClip extends Container {
 
     /**
      * Advances the playhead. This occurs automatically each tick by default.
-     * @method PIXI.animate.MovieClip#advance
-     * @param [time] {Number} The amount of time in seconds to advance by. Only applicable if framerate is set.
+     * @param time The amount of time in seconds to advance by. Only applicable if framerate is set.
      */
-    advance(time) {
-
+    public advance(time?:number) {
         // Handle any other cases where starting to play
         // and no framerate has been set yet
         if (!this._framerate) {
@@ -748,11 +686,9 @@ class MovieClip extends Container {
     }
 
     /**
-     * @method PIXI.animate.MovieClip#_goto
-     * @param {String|Number} positionOrLabel The animation name or frame number to go to.
-     * @protected
+     * @param positionOrLabel The animation name or frame number to go to.
      */
-    _goto(positionOrLabel) {
+    protected _goto(positionOrLabel:string|number) {
         let pos = typeof positionOrLabel === 'string' ? this._labelDict[positionOrLabel] : positionOrLabel;
         if (pos === undefined) // jshint ignore:line
         {
@@ -778,20 +714,18 @@ class MovieClip extends Container {
     }
 
     /**
-     * @method PIXI.animate.MovieClip#_reset
-     * @private
+     * Reset the movieclip to the first frame (without advancing the timeline).
      */
-    _reset() {
+    private _reset() {
         this._prevPos = -1;
         this._t = 0;
         this.currentFrame = 0;
     }
 
     /**
-     * @method PIXI.animate.MovieClip#_updateTimeline
-     * @protected
+     * Update timeline position according to playback, performing actions and updating children.
      */
-    _updateTimeline() {
+    protected _updateTimeline() {
         let synched = this.mode !== MovieClip.INDEPENDENT;
 
         if (synched) {
@@ -813,17 +747,12 @@ class MovieClip extends Container {
 
     /**
      * Set the timeline position
-     * @method PIXI.animate.MovieClip#_setTimelinePosition
-     * @protected
-     * @param {int} startFrame
-     * @param {int} currentFrame
-     * @param {Boolean} doActions
      */
-    _setTimelinePosition(startFrame, currentFrame, doActions) {
+    protected _setTimelinePosition(startFrame:number, currentFrame:number, doActions:boolean) {
         if (startFrame !== currentFrame && doActions) {
             let startPos = isNaN(startFrame) ? currentFrame : (startFrame >= this._totalFrames - 1 ? 0 : startFrame + 1);
             // generate actionFrames on the way
-            let actionFrames = [];   // number[]
+            let actionFrames:number[] = [];
             // loop
             if (currentFrame < startPos) {
                 for (let i = startPos; i < this._actions.length; ++i) {
@@ -859,10 +788,10 @@ class MovieClip extends Container {
         }
 
         //handle all tweens
-        let i, j, length, _timelines = this._timelines;
-        for (i = _timelines.length - 1; i >= 0; --i) {
+        let _timelines = this._timelines;
+        for (let i = _timelines.length - 1; i >= 0; --i) {
             let timeline = _timelines[i];
-            for (j = 0, length = timeline.length; j < length; ++j) {
+            for (let j = 0, length = timeline.length; j < length; ++j) {
                 let tween = timeline[j];
                 //if the tween contains part of the timeline that we are travelling through
                 if (currentFrame >= tween.startFrame &&
@@ -877,7 +806,7 @@ class MovieClip extends Container {
 
         let timedChildTimelines = this._timedChildTimelines;
         let depthSorted = this._depthSorted;
-        for (i = 0, length = timedChildTimelines.length; i < length; ++i) {
+        for (let i = 0, length = timedChildTimelines.length; i < length; ++i) {
             let target = timedChildTimelines[i].target;
             let shouldBeChild = timedChildTimelines[i][currentFrame];
             //if child should be on stage and is not:
@@ -888,8 +817,8 @@ class MovieClip extends Container {
                 if (target.parent !== this) {
                     // add the target if it's not there already
                     this.addChild(target);
-                    if (target.mode === MovieClip.INDEPENDENT && target.autoReset) {
-                        target._reset();
+                    if (target instanceof MovieClip && target.mode === MovieClip.INDEPENDENT && target.autoReset) {
+                        (target as MovieClip)._reset();
                     }
                 }
             } else if (!shouldBeChild && target.parent === this) {
@@ -898,7 +827,7 @@ class MovieClip extends Container {
         }
 
         // Properly depth sort the children
-        for (i = 0, length = depthSorted.length; i < length; i++) {
+        for (let i = 0, length = depthSorted.length; i < length; i++) {
             let target = depthSorted[i];
             let currentIndex = this.children.indexOf(target);
             if (currentIndex !== i) {
@@ -910,11 +839,10 @@ class MovieClip extends Container {
         depthSorted.length = 0;
 
         //go through all children and update synched movieclips that are not single frames
-        let children = this.children,
-            child;
-        for (i = 0, length = children.length; i < length; ++i) {
-            child = children[i];
-            if (child.mode === MovieClip.SYNCHED) {
+        const children = this.children;
+        for (let i = 0, length = children.length; i < length; ++i) {
+            const child = children[i];
+            if (child instanceof MovieClip && child.mode === MovieClip.SYNCHED) {
                 child._synchOffset = currentFrame - child.parentStartPosition;
                 child._updateTimeline();
             }
@@ -929,13 +857,13 @@ class MovieClip extends Container {
         }
     }
 
-    destroy(destroyChildren) {
+    destroy(destroyChildren?:boolean) {
         if (this._tickListener) {
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
         const hiddenChildren = [];
-        let timelines = this._timelines;
+        const timelines = this._timelines;
         if (timelines) {
             for (let i = 0; i < timelines.length; i++) {
                 const timeline = timelines[i];
@@ -944,14 +872,13 @@ class MovieClip extends Container {
                 timeline.length = 0;
             }
         }
-        timelines = this._timedChildTimelines;
-        if (timelines) {
-            for (let i = 0; i < timelines.length; i++) {
-                const timeline = timelines[i];
+        const childTimelines = this._timedChildTimelines;
+        if (childTimelines) {
+            for (let i = 0; i < childTimelines.length; i++) {
+                const timeline = childTimelines[i];
                 if (hiddenChildren.indexOf(timeline.target) < 0) {
                     hiddenChildren.push(timeline.target);
                 }
-                timeline._currentProps = null;
                 timeline.length = 0;
             }
         }
@@ -973,70 +900,3 @@ class MovieClip extends Container {
         super.destroy(destroyChildren);
     }
 }
-
-/**
- * The MovieClip will advance independently of its parent, even if its parent is paused.
- * This is the default mode.
- * @name PIXI.animate.MovieClip.INDEPENDENT
- * @static
- * @type String
- * @default 0
- * @readonly
- */
-MovieClip.INDEPENDENT = 0;
-
-/**
- * The MovieClip will only display a single frame (as determined by the startPosition property).
- * @name PIXI.animate.MovieClip.SINGLE_FRAME
- * @static
- * @type String
- * @default 1
- * @readonly
- */
-MovieClip.SINGLE_FRAME = 1;
-
-/**
- * The MovieClip will be advanced only when its parent advances and will be synched to the position of
- * the parent MovieClip.
- * @name PIXI.animate.MovieClip.SYNCHED
- * @static
- * @type String
- * @default 2
- * @readonly
- */
-MovieClip.SYNCHED = 2;
-
-
-/**
- * The default framerate if none is specified or there's not parent clip with a framerate.
- * @name PIXI.animate.MovieClip.DEFAULT_FRAMERATE
- * @static
- * @type Number
- * @default 24
- * @readonly
- */
-MovieClip.DEFAULT_FRAMERATE = 24;
-
-/**
- * Extend a container
- * @method PIXI.animate.MovieClip.extend
- * @static
- * @param {PIXI.animate.MovieClip} child The child function
- * @return {PIXI.animate.MovieClip} The child
- */
-/**
- * Extend a container (alias for `extend`)
- * @method PIXI.animate.MovieClip.e
- * @static
- * @param {PIXI.animate.MovieClip} child The child function
- * @return {PIXI.animate.MovieClip} The child
- */
-MovieClip.extend = MovieClip.e = function(child) {
-    child.prototype = Object.create(MovieClip.prototype);
-    child.prototype.__parent = MovieClip.prototype;
-    child.prototype.constructor = child;
-    return child;
-};
-
-// Assign to namespace
-export default MovieClip;

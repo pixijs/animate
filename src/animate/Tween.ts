@@ -1,8 +1,10 @@
-import {MovieClip} from './MovieClip';
+import {DisplayObject} from '../mixins';
 import {Graphics, Sprite} from 'pixi.js';
 
 export type EaseMethod = (input:number)=>number;
 
+// NOTE ABOUT KEYS OF TweenProps: Use "(myProps[key] as any) = myVal;"
+// Typescript is unhelpful in this case: https://github.com/microsoft/TypeScript/issues/31663
 export interface TweenProps {
     x?: number;
     y?: number;
@@ -26,7 +28,7 @@ export class Tween {
     /**
      * Target display object.
      */
-    private target:MovieClip;
+    public target:DisplayObject;
     /**
      * Properties at the start of the tween
      */
@@ -39,11 +41,11 @@ export class Tween {
     /**
      * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
      */
-    private duration:number;
+    public duration:number;
     /**
      * The frame that the tween starts on
      */
-    private startFrame:number;
+    public startFrame:number;
     /**
      * the frame that the tween ends on
      */
@@ -51,7 +53,7 @@ export class Tween {
     /**
      * easing function to use, if any
      */
-    private ease:EaseMethod;
+    public ease:EaseMethod;
     /**
      * If we don't tween.
      */
@@ -65,7 +67,7 @@ export class Tween {
      * @param duration Number of frames to tween
      * @param ease Ease function to use
      */
-    constructor(target:MovieClip, startProps:TweenProps, endProps:TweenProps|null, startFrame:number, duration:number, ease?:EaseMethod) {
+    constructor(target:DisplayObject, startProps:TweenProps, endProps:TweenProps|null, startFrame:number, duration:number, ease?:EaseMethod) {
         this.target = target;
         this.startProps = startProps;
         this.endProps = {};
@@ -78,14 +80,14 @@ export class Tween {
         if (endProps) {
             //make a copy to safely include any unchanged values from the start of the tween
             for (const prop in endProps) {
-                this.endProps[prop as keyof TweenProps] = endProps[prop as keyof TweenProps];
+                (this.endProps[prop as keyof TweenProps] as any) = endProps[prop as keyof TweenProps];
             }
         }
 
         //copy in any starting properties don't change
         for (const prop in startProps) {
             if (!this.endProps.hasOwnProperty(prop)) {
-                this.endProps[prop as keyof TweenProps] = startProps[prop as keyof TweenProps];
+                (this.endProps[prop as keyof TweenProps] as any) = startProps[prop as keyof TweenProps];
             }
         }
     }
@@ -116,9 +118,9 @@ export class Tween {
         for (const prop in endProps) {
             const lerp = PROP_LERPS[prop as keyof TweenProps];
             if (lerp) {
-                setPropFromShorthand(target, prop, lerp(startProps[prop as keyof TweenProps], endProps[prop as keyof TweenProps], time));
+                setPropFromShorthand(target, prop as keyof TweenProps, lerp(startProps[prop as keyof TweenProps], endProps[prop as keyof TweenProps], time));
             } else {
-                setPropFromShorthand(target, prop, startProps[prop as keyof TweenProps]);
+                setPropFromShorthand(target, prop as keyof TweenProps, startProps[prop as keyof TweenProps]);
             }
         }
     }
@@ -131,7 +133,7 @@ export class Tween {
         let endProps = this.endProps;
         let target = this.target;
         for (let prop in endProps) {
-            setPropFromShorthand(target, prop, endProps[prop as keyof TweenProps]);
+            setPropFromShorthand(target, prop as keyof TweenProps, endProps[prop as keyof TweenProps]);
         }
     }
 }
@@ -233,7 +235,7 @@ function lerpRotation(start:number, end:number, t:number) {
     return value;
 }
 
-function setPropFromShorthand(target:MovieClip, prop:keyof MovieClip, value:any) {
+function setPropFromShorthand(target:DisplayObject, prop:keyof TweenProps, value:any) {
     switch (prop) {
         case "x":
             target.transform.position.x = value;
@@ -263,7 +265,7 @@ function setPropFromShorthand(target:MovieClip, prop:keyof MovieClip, value:any)
             target.i(value); // i = setTint
             break;
         case "c":
-            target.c.apply(target, value); // c = setColorTransform
+            target.setColorTransform.apply(target, value); // c = setColorTransform
             break;
         case "v":
             target.visible = value;
