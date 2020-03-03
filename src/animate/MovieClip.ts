@@ -189,8 +189,9 @@ export class MovieClip extends Container {
     /**
      * Optional callback fired before timeline is updated.
      * Can be used to clamp or update the currentFrame.
+     * @private
      */
-    private _beforeUpdate:(target:MovieClip)=>(()=>void|null);
+    public _beforeUpdate:(target:MovieClip)=>(()=>void|null);
 
     /**
      * @param options The options object
@@ -724,8 +725,9 @@ export class MovieClip extends Container {
 
     /**
      * Update timeline position according to playback, performing actions and updating children.
+     * @private
      */
-    protected _updateTimeline() {
+    public _updateTimeline() {
         let synched = this.mode !== MovieClip.INDEPENDENT;
 
         if (synched) {

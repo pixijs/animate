@@ -1,11 +1,47 @@
-const pool = [];
+import {MovieClip} from './MovieClip';
+import {Animator} from './Animator';
+
+const pool:AnimatorTimeline[] = [];
 
 /**
  * Represents a single animation play.
- * @class AnimatorTimeline
- * @memberof PIXI.animate
  */
-class AnimatorTimeline {
+export class AnimatorTimeline {
+    /**
+     * Bound copy of update().
+     */
+    private _update:(instance:MovieClip)=>(()=>void|null);
+    
+    /**
+     * Instance of clip to play.
+     * @readOnly
+     */
+    public instance:MovieClip;
+    
+    /**
+     * `true` if the timeline is suppose to loop.
+     * @readOnly
+     */
+    public loop:boolean;
+    
+    /**
+     * Frame number of the starting farme.
+     * @readOnly
+     */
+    public start:number;
+    
+    /**
+     * Frame number of the ending frame.
+     * @readOnly
+     */
+    public end:number;
+    
+    /**
+     * Callback called when completed (non-looping animation).
+     * @readOnly
+     */
+    public callback:()=>void;
+    
     constructor() {
         this._update = this.update.bind(this);
         this.init(null, 0, 0, false, null);
@@ -13,54 +49,17 @@ class AnimatorTimeline {
 
     /**
      * The pool of timelines to use
-     * @method PIXI.animate.AnimatorTimeline#init
-     * @param {PIXI.animate.MovieClip} instance
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Boolean} loop
-     * @param {Function} callback
-     * @private
+     * @param instance
+     * @param start
+     * @param end
+     * @param loop
+     * @param callback
      */
-    init(instance, start, end, loop, callback) {
-
-        /**
-         * Instance of clip to play.
-         * @name PIXI.animate.AnimatorTimeline#instance
-         * @type {PIXI.animate.MovieClip}
-         * @readOnly
-         */
+    private init(instance:MovieClip, start:number, end:number, loop:boolean, callback:()=>void) {
         this.instance = instance;
-
-        /**
-         * `true` if the timeline is suppose to loop.
-         * @name PIXI.animate.AnimatorTimeline#loop
-         * @type {Boolean}
-         * @readOnly
-         */
         this.loop = loop;
-
-        /**
-         * Frame number of the starting farme.
-         * @name PIXI.animate.AnimatorTimeline#start
-         * @type {int}
-         * @readOnly
-         */
         this.start = start;
-
-        /**
-         * Frame number of the ending frame.
-         * @name PIXI.animate.AnimatorTimeline#end
-         * @type {int}
-         * @readOnly
-         */
         this.end = end;
-
-        /**
-         * Callback called when completed (non-looping animation).
-         * @name PIXI.animate.AnimatorTimeline#callback
-         * @type {Function}
-         * @readOnly
-         */
         this.callback = callback;
 
         if (instance) {
@@ -73,7 +72,6 @@ class AnimatorTimeline {
 
     /**
      * Don't use after this
-     * @method PIXI.animate.AnimatorTimeline#destroy
      * @private
      */
     destroy() {
@@ -85,11 +83,11 @@ class AnimatorTimeline {
     /**
      * Is the animation complete
      * @method PIXI.animate.AnimatorTimeline#update
-     * @param {PIXI.animate.MovieClip} instance
-     * @return {Function} Callback to do after updateTimeline
+     * @param instance
+     * @return Callback to do after updateTimeline
      * @private
      */
-    update(instance) {
+    update(instance:MovieClip) {
         let completed;
         if (instance.currentFrame >= this.end) {
 
@@ -113,17 +111,13 @@ class AnimatorTimeline {
 
     /**
      * Stop the animation, cannot be reused.
-     * @method PIXI.animate.AnimatorTimeline#stop
      */
     stop() {
-        PIXI.animate.Animator._internalStop(this);
+        Animator._internalStop(this);
     }
 
     /**
      * The progress from 0 to 1 of the playback.
-     * @name PIXI.animate.AnimatorTimeline#progress
-     * @type {Number}
-     * @readOnly
      */
     get progress() {
         const progress = (this.instance.currentFrame - this.start) / (this.end - this.start);
@@ -132,9 +126,6 @@ class AnimatorTimeline {
 
     /**
      * The pool of timelines to use
-     * @name PIXI.animate.AnimatorTimeline._pool
-     * @type {Array<PIXI.animate.AnimatorTimeline>}
-     * @static
      * @private
      */
     static get _pool() {
@@ -143,16 +134,8 @@ class AnimatorTimeline {
 
     /**
      * Create a new timeline
-     * @method PIXI.animate.AnimatorTimeline.create
-     * @static
-     * @param {PIXI.animate.MovieClip} instance
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Boolean} loop
-     * @param {Function} callback
-     * @return {PIXI.animate.AnimatorTimeline}
      */
-    static create(instance, start, end, loop, callback) {
+    static create(instance:MovieClip, start:number, end:number, loop:boolean, callback:()=>void) {
         var timeline;
         if (this._pool.length) {
             timeline = this._pool.pop();
@@ -163,5 +146,3 @@ class AnimatorTimeline {
         return timeline;
     }
 }
-
-module.exports = AnimatorTimeline;
