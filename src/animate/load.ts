@@ -1,6 +1,6 @@
 import {loaders, Container} from 'pixi.js';
 
-interface StageRef {
+export interface StageRef {
     new ():Container;
     /**
      * Assets used to preload
