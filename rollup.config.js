@@ -3,7 +3,7 @@ import replace from '@rollup/plugin-replace';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import typescript from 'rollup-plugin-typescript';
+import ts from 'rollup-plugin-ts';
 import jscc from 'rollup-plugin-jscc';
 
 async function main()
@@ -12,7 +12,7 @@ async function main()
 	const plugins = [
 		replace({__VERSION__:pkg.version}),
 		sourcemaps(),
-		typescript(),
+		ts({browserslist: false}),
 		resolve({
 			browser: true,
 			preferBuiltins: false,
