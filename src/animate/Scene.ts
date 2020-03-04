@@ -1,6 +1,7 @@
 import {load, StageRef} from './load';
 import {sound} from './sound';
 import {MovieClip} from './MovieClip';
+import {Application, StageOptions} from 'pixi.js';
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
@@ -15,7 +16,7 @@ import {MovieClip} from './MovieClip';
  * @param {Object} [renderOptions] See PIXI.Application for more info.
  * @param {Boolean} [noWebGL=false] Disable WebGL
  */
-export class Scene extends PIXI.Application {
+export class Scene extends Application {
     /**
      * Reference to the global sound object
      * @readOnly
@@ -50,7 +51,7 @@ export class Scene extends PIXI.Application {
      * @param stageOptions Options parameter. A boolean will act as if all options
      *  have been set to that value
      */
-    destroy(removeView?: boolean, stageOptions?: PIXI.StageOptions | boolean): void {
+    destroy(removeView?: boolean, stageOptions?: StageOptions | boolean): void {
         if (this.instance) {
             this.instance.destroy(true);
             this.instance = null;

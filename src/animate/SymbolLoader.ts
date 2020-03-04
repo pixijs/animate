@@ -1,5 +1,5 @@
 import {ShapesCache} from './ShapesCache';
-import {loaders} from 'pixi.js';
+import {loaders, Texture} from 'pixi.js';
 
 /**
  * The middleware for PIXI's ResourceLoader to be able to
@@ -18,7 +18,7 @@ export const SymbolLoader = function() {
         } else if (data.nodeName && data.nodeName === 'IMG') {
             // Add individual images to the texture cache by their
             // short symbol name, not the URL
-            PIXI.Texture.addTextureToCache(
+            Texture.addTextureToCache(
                 resource.texture,
                 resource.name
             );
