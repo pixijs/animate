@@ -80,7 +80,6 @@ async function main()
 					'pixi.js': 'PIXI'
 				}
 			},
-			treeshake: false,
 			external: ['pixi.js'],
 			plugins: [jscc({values:{_IIFE:true}})].concat(plugins),
 		});
