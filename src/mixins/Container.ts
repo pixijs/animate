@@ -1,5 +1,5 @@
 import { Container, filters, Graphics, Sprite } from 'pixi.js';
-import {utils} from '../animate/utils';
+import {utils_ns as utils} from '../animate/utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
 if (filters) {

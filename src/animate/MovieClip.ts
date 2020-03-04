@@ -1,6 +1,6 @@
 import {Timeline} from './Timeline';
 import {TweenProps, EaseMethod} from './Tween';
-import {utils} from './utils';
+import {utils_ns as utils} from './utils';
 import {sound} from './sound';
 import {AnimateContainer, AnimateDisplayObject} from '../mixins';
 import {ticker, settings, Graphics, Sprite} from 'pixi.js';

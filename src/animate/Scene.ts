@@ -1,7 +1,7 @@
 import {load, StageRef} from './load';
 import {sound} from './sound';
 import {MovieClip} from './MovieClip';
-import {Application, StageOptions} from 'pixi.js';
+import {Application, StageOptions, utils} from 'pixi.js';
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
@@ -21,7 +21,7 @@ export class Scene extends Application {
      * Reference to the global sound object
      * @readOnly
      */
-    public readonly sound = sound;
+    public readonly sound:utils.EventEmitter = sound;
     
     /**
      * The stage object created.

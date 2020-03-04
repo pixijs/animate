@@ -1,4 +1,4 @@
-import {utils} from './utils';
+import {utils_ns as utils} from './utils';
 import {DrawCommands} from '../mixins';
 
 interface ShapeMap {

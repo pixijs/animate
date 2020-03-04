@@ -6,10 +6,8 @@ import {DisplayObject, CanvasRenderer, WebGLRenderer, prepare} from 'pixi.js';
 // If the movieclip plugin is installed
 let _prepare:prepare.BasePrepare<any> = null;
 
-/**
- * @description For keyframe conversions
- */
-export namespace utils {
+// awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
+export namespace utils_ns {
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
