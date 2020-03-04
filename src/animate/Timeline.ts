@@ -1,5 +1,5 @@
 import {Tween, TweenProps, EaseMethod} from './Tween';
-import {DisplayObject} from '../mixins';
+import {AnimateDisplayObject} from '../mixins';
 
 /**
  * The Timeline class represents a
@@ -13,14 +13,14 @@ export class Timeline extends Array<Tween> {
     /**
      * The target DisplayObject.
      */
-    public target:DisplayObject;
+    public target:AnimateDisplayObject;
     /**
      * Current properties in the tween, to make building the timeline more
      * efficient.
      */
     private _currentProps:TweenProps;
     
-    constructor(target:DisplayObject) {
+    constructor(target:AnimateDisplayObject) {
         super();
         this.target = target;
         this._currentProps = {};

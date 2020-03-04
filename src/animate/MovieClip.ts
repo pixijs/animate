@@ -2,7 +2,7 @@ import {Timeline} from './Timeline';
 import {TweenProps, EaseMethod} from './Tween';
 import {utils} from './utils';
 import {sound} from './sound';
-import {Container, DisplayObject} from '../mixins';
+import {AnimateContainer, AnimateDisplayObject} from '../mixins';
 import {ticker, settings, Graphics, Sprite} from 'pixi.js';
 const SharedTicker = ticker.shared;
 
@@ -44,12 +44,12 @@ export interface LabelMap {
 
 export type FrameAction = (this:MovieClip)=>void;
 
-type TimedChildTimeline = boolean[] & {target?:DisplayObject};
+type TimedChildTimeline = boolean[] & {target?:AnimateDisplayObject};
 
 /**
  * Provide timeline playback of movieclip
  */
-export class MovieClip extends Container {
+export class MovieClip extends AnimateContainer {
     /**
      * The MovieClip will advance independently of its parent, even if its parent is paused.
      * This is the default mode.
@@ -180,7 +180,7 @@ export class MovieClip extends Container {
     /**
      * Array to depth sort timed children
      */
-    protected _depthSorted:DisplayObject[];
+    protected _depthSorted:AnimateDisplayObject[];
 
     /**
      * Array of frame scripts, indexed by frame.
@@ -422,7 +422,7 @@ export class MovieClip extends Container {
     /**
      * Get a timeline for a child, synced timeline.
      */
-    private _getChildTimeline(instance:DisplayObject) {
+    private _getChildTimeline(instance:AnimateDisplayObject) {
         for (let i = this._timelines.length - 1; i >= 0; --i) {
             if (this._timelines[i].target === instance) {
                 return this._timelines[i];
@@ -436,7 +436,7 @@ export class MovieClip extends Container {
     /**
      * Add mask or masks
      */
-    public addTimedMask(instance:DisplayObject, keyframes:{[frame:number]:Graphics|Sprite}) {
+    public addTimedMask(instance:AnimateDisplayObject, keyframes:{[frame:number]:Graphics|Sprite}) {
         for (let i in keyframes) {
             this.addKeyframe(instance, {
                 m: keyframes[i]
@@ -461,7 +461,7 @@ export class MovieClip extends Container {
      * @param duration Number of frames to tween. If 0, then the properties are set with no tweening.
      * @param ease An optional easing function that takes the tween time from 0-1.
      */
-    public addTween(instance:DisplayObject, properties:TweenProps, startFrame:number, duration?:number, ease?:EaseMethod) {
+    public addTween(instance:AnimateDisplayObject, properties:TweenProps, startFrame:number, duration?:number, ease?:EaseMethod) {
         let timeline = this._getChildTimeline(instance);
         this._parseProperties(properties);
         timeline.addTween(properties, startFrame, duration, ease);
@@ -475,7 +475,7 @@ export class MovieClip extends Container {
      * @param properties The property or property to tween
      * @param startFrame The frame to start tweening
      */
-    public addKeyframe(instance:DisplayObject, properties:TweenProps, startFrame:number) {
+    public addKeyframe(instance:AnimateDisplayObject, properties:TweenProps, startFrame:number) {
         let timeline = this._getChildTimeline(instance);
         this._parseProperties(properties);
         timeline.addKeyframe(properties, startFrame);
@@ -495,7 +495,7 @@ export class MovieClip extends Container {
      * @param duration The number of frames to display the child before removing it.
      * @param keyframes The collection of static keyframes to add
      */
-    public addTimedChild(instance:DisplayObject, startFrame:number, duration?:number, keyframes?:string|{[frame:number]:TweenProps}) {
+    public addTimedChild(instance:AnimateDisplayObject, startFrame:number, duration?:number, keyframes?:string|{[frame:number]:TweenProps}) {
         if (startFrame === undefined) // jshint ignore:line
         {
             startFrame = 0;

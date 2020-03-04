@@ -1,4 +1,4 @@
-import {DisplayObject} from '../mixins';
+import {AnimateDisplayObject} from '../mixins';
 import {Graphics, Sprite} from 'pixi.js';
 
 export type EaseMethod = (input:number)=>number;
@@ -28,7 +28,7 @@ export class Tween {
     /**
      * Target display object.
      */
-    public target:DisplayObject;
+    public target:AnimateDisplayObject;
     /**
      * Properties at the start of the tween
      */
@@ -67,7 +67,7 @@ export class Tween {
      * @param duration Number of frames to tween
      * @param ease Ease function to use
      */
-    constructor(target:DisplayObject, startProps:TweenProps, endProps:TweenProps|null, startFrame:number, duration:number, ease?:EaseMethod) {
+    constructor(target:AnimateDisplayObject, startProps:TweenProps, endProps:TweenProps|null, startFrame:number, duration:number, ease?:EaseMethod) {
         this.target = target;
         this.startProps = startProps;
         this.endProps = {};
@@ -235,7 +235,7 @@ function lerpRotation(start:number, end:number, t:number) {
     return value;
 }
 
-function setPropFromShorthand(target:DisplayObject, prop:keyof TweenProps, value:any) {
+function setPropFromShorthand(target:AnimateDisplayObject, prop:keyof TweenProps, value:any) {
     switch (prop) {
         case "x":
             target.transform.position.x = value;

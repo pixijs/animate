@@ -1,6 +1,5 @@
-import { Container as PContainer, filters, Graphics, Sprite } from 'pixi.js';
+import { Container, filters, Graphics, Sprite } from 'pixi.js';
 import {utils} from '../animate/utils';
-type CMF = filters.ColorMatrixFilter;
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
 if (filters) {
@@ -10,7 +9,7 @@ if (filters) {
 /**
  * Utility subclass of PIXI.Container
  */
-export class Container extends PContainer {
+export class AnimateContainer extends Container {
     // **************************
     //     Container methods
     // **************************
@@ -133,11 +132,11 @@ export class Container extends PContainer {
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter:CMF;
+    protected _colorTransformFilter:filters.ColorMatrixFilter;
     /**
      * The current default color transforming filters
      */
-    public set colorTransformFilter(filter:CMF) {
+    public set colorTransformFilter(filter:filters.ColorMatrixFilter) {
         this._colorTransformFilter = filter;
     }
     public get colorTransformFilter() {

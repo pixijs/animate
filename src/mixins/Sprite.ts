@@ -1,6 +1,5 @@
-import { Sprite as PSprite, filters, Graphics } from 'pixi.js';
+import { Sprite, filters, Graphics } from 'pixi.js';
 import {utils} from '../animate/utils';
-type CMF = filters.ColorMatrixFilter;
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
 if (filters) {
@@ -10,7 +9,7 @@ if (filters) {
 /**
  * Utility subclass of PIXI.Sprite
  */
-export class Sprite extends PSprite {
+export class AnimateSprite extends Sprite {
     // **************************
     //     DisplayObject methods
     // **************************
@@ -39,12 +38,12 @@ export class Sprite extends PSprite {
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask:Graphics|PSprite) {
+    public setMask(mask:Graphics|Sprite) {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
         // movieclips and displayobjects/containers
         if (mask) {
-            if (!(mask instanceof Graphics) && !(mask instanceof PSprite)) {
+            if (!(mask instanceof Graphics) && !(mask instanceof Sprite)) {
                 if (typeof console !== "undefined" && console.warn) {
                     console.warn("Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.");
                 }
@@ -124,11 +123,11 @@ export class Sprite extends PSprite {
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter:CMF;
+    protected _colorTransformFilter:filters.ColorMatrixFilter;
     /**
      * The current default color transforming filters
      */
-    public set colorTransformFilter(filter:CMF) {
+    public set colorTransformFilter(filter:filters.ColorMatrixFilter) {
         this._colorTransformFilter = filter;
     }
     public get colorTransformFilter() {
