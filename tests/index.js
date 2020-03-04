@@ -15,7 +15,8 @@ function extendable(classRef) {
 
 global.extendable = extendable;
 global.assert = global.chai.assert;
-global.animate = require('../dist/pixi-animate');
+// assigning here because /dist/pixi-animate.js is designed for <script> inclusion, not require().
+global.PIXI.animate = require('../dist/pixi-animate').PIXI.animate;
 
 describe('PIXI', function() {
 
