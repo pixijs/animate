@@ -192,6 +192,11 @@ export class MovieClip extends Container {
      * @private
      */
     public _beforeUpdate:(target:MovieClip)=>(()=>void|null);
+    
+    /**
+     * Internal property used to control child MovieClips relative to parents.
+     */
+    private parentStartPosition:number;
 
     /**
      * @param options The options object
@@ -269,6 +274,7 @@ export class MovieClip extends Container {
         this._depthSorted = [];
         this._actions = [];
         this._beforeUpdate = null;
+        this.parentStartPosition = 0;
 
         if (this.mode === MovieClip.INDEPENDENT) {
             this._tickListener = this._tickListener.bind(this);
@@ -500,7 +506,7 @@ export class MovieClip extends Container {
 
         // Add the starting offset for synced movie clips
         if (instance instanceof MovieClip && instance.mode === MovieClip.SYNCHED) {
-            instance.parentStartPosition = startFrame;
+            (instance as MovieClip).parentStartPosition = startFrame;
         }
 
         //add tweening info about this child's presence on stage
@@ -870,8 +876,7 @@ export class MovieClip extends Container {
             for (let i = 0; i < timelines.length; i++) {
                 const timeline = timelines[i];
                 hiddenChildren.push(timeline.target);
-                timeline._currentProps = null;
-                timeline.length = 0;
+                timeline.destroy();
             }
         }
         const childTimelines = this._timedChildTimelines;

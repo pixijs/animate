@@ -19,6 +19,7 @@ export class Timeline extends Array<Tween> {
      * efficient.
      */
     private _currentProps:TweenProps;
+    
     constructor(target:DisplayObject) {
         super();
         this.target = target;
@@ -133,5 +134,10 @@ export class Timeline extends Array<Tween> {
                 //g: return null;
         }
         return null;
+    }
+    
+    public destroy() {
+        this._currentProps = null;
+        this.length = 0;
     }
 }
