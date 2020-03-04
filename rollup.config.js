@@ -1,4 +1,5 @@
 import path from 'path';
+import replace from '@rollup/plugin-replace';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
@@ -7,7 +8,9 @@ import jscc from 'rollup-plugin-jscc';
 
 async function main()
 {
+	const pkg = require('./package.json');
 	const plugins = [
+		replace({__VERSION__:pkg.version}),
 		sourcemaps(),
 		typescript(),
 		resolve({
@@ -21,7 +24,6 @@ async function main()
 	const sourcemap = true;
 	const results = [];
 
-	const pkg = require('./package.json');
 	const banner = [
 		`/*!`,
 		` * ${pkg.name} - v${pkg.version}`,

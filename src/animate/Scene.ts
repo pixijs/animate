@@ -15,7 +15,7 @@ import {MovieClip} from './MovieClip';
  * @param {Object} [renderOptions] See PIXI.Application for more info.
  * @param {Boolean} [noWebGL=false] Disable WebGL
  */
-class Scene extends PIXI.Application {
+export class Scene extends PIXI.Application {
     /**
      * Reference to the global sound object
      * @readOnly
@@ -58,5 +58,3 @@ class Scene extends PIXI.Application {
         super.destroy(removeView, stageOptions);
     }
 }
-
-export default Scene;

@@ -173,8 +173,9 @@ export class MovieClip extends Container {
      * Array of child timelines denoting if a child is actively a child of this movieclip
      * on any given frame. Each element in the _timedChildTimelines is an array with a 'target'
      * property, and is an array of boolean values indexed by frame.
+     * @private
      */
-    protected _timedChildTimelines:TimedChildTimeline[];
+    public _timedChildTimelines:TimedChildTimeline[];
 
     /**
      * Array to depth sort timed children

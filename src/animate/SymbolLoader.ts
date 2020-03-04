@@ -1,4 +1,4 @@
-import ShapesCache from './ShapesCache';
+import {ShapesCache} from './ShapesCache';
 import {loaders} from 'pixi.js';
 
 /**
