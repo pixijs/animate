@@ -31,7 +31,7 @@ const Renderer = function(viewWebGL, viewContext2d) {
     this.render();
 
     this.instance = null;
-    this.imagediff = new ImageDiff(Renderer.WIDTH, Renderer.HEIGHT, Renderer.TOLERANCE);
+    this.imagediff = new ImageDiff(Renderer.WIDTH, Renderer.HEIGHT);
 };
 
 // Reference to the prototype
@@ -39,7 +39,10 @@ const p = Renderer.prototype;
 
 Renderer.WIDTH = 32;
 Renderer.HEIGHT = 32;
-Renderer.TOLERANCE = 0.01;
+Renderer.WEBGL_TOLERANCE = 0.01;
+// Prerendered solutions were created in an older version of Floss, and thus and older version
+// of Electron, so there are some canvas differences that we will let slide.
+Renderer.CANVAS_TOLERANCE = 0.06;
 
 /**
  * Rerender the stage
@@ -117,17 +120,19 @@ p.run = function(file, callback) {
  * @param {Function} callback Complete callback, takes err as an error and success boolean as args.
  */
 p.compare = function(file, solution, callback) {
-    this.run(file, (err, result) => {
+    this.run(file, async (err, result) => {
         if (err) {
             return callback(err);
         }
         if (this.hasWebGL) {
-            if (!this.compareFrames(solution.webgl, result.webgl)) {
-                return callback(new Error('WebGL results do not match.'));    
+            const compareResult = await this.compareFrames(solution.webgl, result.webgl, Renderer.WEBGL_TOLERANCE);
+            if (compareResult !== true) {
+                return callback(new Error(`WebGL results do not match: ${compareResult}.`));
             }
         }
-        if (!this.compareFrames(solution.canvas, result.canvas)) {
-            return callback(new Error('Canvas results do not match.'));
+        const compareResult = await this.compareFrames(solution.canvas, result.canvas, Renderer.CANVAS_TOLERANCE);
+        if (compareResult !== true) {
+            return callback(new Error(`Canvas results do not match: ${compareResult}.`));
         }
         callback(null, true);
     });
@@ -141,27 +146,27 @@ p.compare = function(file, solution, callback) {
  * @param {Array} b
  * @return {Boolean} If we're equal
  */
-p.compareFrames = function(a, b) {
+p.compareFrames = async function(a, b, tolerance) {
     if (a === b) {
         return true;
     }
     if (a === null || b === null) {
-        return false;
+        return 'null render';
     }
 
     let length = a.length;
     if (b.length !== length) {
-        return false;
+        return `unequal length: ${length} : ${b.length}`;
     }
 
     for (let i=0; i<length; i++) {
         if (a[i].hash !== b[i].hash) {
-            if (!this.imagediff.compare(a[i].image, b[i].image)) {
+            if (!await this.imagediff.compare(a[i].image, b[i].image, tolerance)) {
                 const renders = document.getElementById('renders-failed');
                 renders.innerHTML += '<img width="32" height"32" style="border:1px solid #999" src="'+a[i].image+'">';
                 renders.innerHTML += '<img width="32" height"32" style="border:1px solid #999" src="'+b[i].image+'">';
                 renders.innerHTML += '&nbsp;&nbsp;';
-                return false;
+                return `frame ${i}`;
             }
         }
     }

@@ -19,10 +19,9 @@ describe('Renders', function() {
             this.renderer.imagediff.tolerance = tolerance;
             this.renderer.compare(fla, require(solution), function(err, success) {
                 if (err) {
-                    assert(false, err.message);
+                    return done(err.message);
                 }
-                assert(success, 'Render not successful');
-                done();
+                done(success ? undefined : 'Render not successful');
             });
         };
 
