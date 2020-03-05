@@ -17,7 +17,6 @@
     "eslint": "^4.18.2",
     "floss": "^3.0.0",
     "gh-pages": "^2.0.0",
-    "http-server": "*",
     "js-md5": "^0.4.1",
     "nyc": "^15.0.0",
     "pixi.js": "^4.2.2",
@@ -31,7 +30,7 @@
     "semver": "^5.3.0",
     "terser": "^3.16.1",
     "tslib": "^1.9.3",
-    "typedoc": "^0.15.0",
+    "typedoc": "^0.16.0",
     "typescript": "^3.3.0"
   },
   "peerDependencies": {
