@@ -45,7 +45,7 @@ export class AnimateGraphics extends Graphics {
     /**
      * Shortcut for `closePath`.
      **/
-    public c = super.closePath;
+    public cp = super.closePath;
 
     /**
      * Shortcut for `addHole`
@@ -309,6 +309,10 @@ export class AnimateGraphics extends Graphics {
     /**
      * Shortcut for `setColor`.
      */
+    // method instead of direct reference to allow override in v1 shim
+    public c(r:number, rA:number, g:number, gA:number, b:number, bA:number) {
+        this.setColorTransform(r, rA, g, gA, b, bA);
+    }
     // public c = this.setColorTransform;
 
     protected _colorTransformFilter:filters.ColorMatrixFilter;

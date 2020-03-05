@@ -21,3 +21,6 @@ PIXI.Text.extend = PIXI.Text.e = extend;
 PIXI.Sprite.extend = PIXI.Sprite.e = extend;
 PIXI.Graphics.extend = PIXI.Graphics.e = extend;
 PIXI.animate.MovieClip.extend = PIXI.animate.MovieClip.e = extend;
+
+// Replace Graphics.c as closePath instead of setColorTransform, as it was in 1.X
+PIXI.Graphics.prototype.c = PIXI.Graphics.prototype.closePath;
