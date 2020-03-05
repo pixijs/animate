@@ -20,10 +20,20 @@ export class Timeline extends Array<Tween> {
      */
     private _currentProps:TweenProps;
     
-    constructor(target:AnimateDisplayObject) {
+    /**
+     * Creates a new Timeline. Must be used instead of a constructor because extending the Array
+     * class is a pain: https://blog.simontest.net/extend-array-with-typescript-965cc1134b3
+     */
+    public static create(target:AnimateDisplayObject) {
+        const out = Object.create(Timeline.prototype) as Timeline;
+        out.target = target;
+        out._currentProps = {};
+        return out;
+    }
+    
+    // exists to be private to prevent usage
+    private constructor() {
         super();
-        this.target = target;
-        this._currentProps = {};
     }
 
     /**

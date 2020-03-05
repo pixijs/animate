@@ -23,7 +23,7 @@ describe('Container', function() {
         var p = new PIXI.animate.Container();
         assert.equal(p.ac, p.addChild);
     });
-    it.skip('should be extendable', function() {
+    it('should be extendable', function() {
         extendable(PIXI.animate.Container);
     });
 });

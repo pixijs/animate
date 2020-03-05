@@ -17,11 +17,12 @@ global.extendable = extendable;
 global.assert = global.chai.assert;
 // assigning here because /dist/pixi-animate.js is designed for <script> inclusion, not require().
 global.PIXI.animate = require('../dist/pixi-animate').PIXI.animate;
+// require the asset shim, for our render tests
+require('../v1-asset-shim');
 
 describe('PIXI', function() {
 
     require('./mixins/Container');
-    require('./mixins/DisplayObject');
     require('./mixins/Graphics');
     require('./mixins/Sprite');
     require('./mixins/Text');

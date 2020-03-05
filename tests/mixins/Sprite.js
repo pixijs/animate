@@ -19,7 +19,7 @@ describe('Sprite', function() {
         assert.isOk(p.setColorTransform);
         assert.equal(p.setColorTransform, p.c);
     });
-    it.skip('should be extendable', function() {
+    it('should be extendable', function() {
         extendable(PIXI.animate.Sprite);
     });
 });

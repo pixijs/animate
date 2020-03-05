@@ -428,7 +428,7 @@ export class MovieClip extends AnimateContainer {
                 return this._timelines[i];
             }
         }
-        let timeline = new Timeline(instance);
+        let timeline = Timeline.create(instance);
         this._timelines.push(timeline);
         return timeline;
     }
