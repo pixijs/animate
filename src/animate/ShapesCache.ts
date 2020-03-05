@@ -29,8 +29,6 @@ interface ShapeCache {
 }
 /**
  * Contains the collection of graphics data
- * @memberof PIXI.animate
- * @class ShapesCache
  */
 export const ShapesCache:ShapeMap & ShapeCache = {} as any;
 

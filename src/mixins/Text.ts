@@ -77,12 +77,7 @@ export class AnimateText extends Text {
      * @param style
      * @return This instance for chaining.
      */
-    /**
-     * Shortcut for `setStyle`.
-     * @method PIXI.Text#ss
-     * @param {Object} style
-     * @return {PIXI.Text} instance of text field
-     */
+    
     public setStyle(style:TextStyleOptions) {
         // Replace short STYLE_PROPS with long names
         for (const k in STYLE_PROPS) {
@@ -94,6 +89,9 @@ export class AnimateText extends Text {
         this.style = style as any;
         return this;
     }
+    /**
+     * Shortcut for `setStyle`.
+     */
     public ss = this.setStyle;
 
     /**
@@ -127,7 +125,7 @@ export class AnimateText extends Text {
 
     /**
      * Function to set if this is renderable or not. Useful for setting masks.
-     * @param  renderable Make renderable. Defaults to false.
+     * @param renderable Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
     public setRenderable(renderable?:boolean) {

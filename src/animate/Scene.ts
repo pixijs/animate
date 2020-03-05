@@ -9,12 +9,6 @@ import {Application, StageOptions, utils} from 'pixi.js';
  * const scene = new PIXI.animate.Scene();
  * scene.load(lib.StageName);
  * ```
- * @class Scene
- * @memberof PIXI.animate
- * @param {Number} [width=800] Stage width
- * @param {Number} [height=600] Stage height
- * @param {Object} [renderOptions] See PIXI.Application for more info.
- * @param {Boolean} [noWebGL=false] Disable WebGL
  */
 export class Scene extends Application {
     /**
@@ -30,7 +24,6 @@ export class Scene extends Application {
 
     /**
      * Load a stage scene and add it to the stage.
-     * @method PIXI.animate.Scene#load
      * @param StageRef Reference to the stage class.
      * @param complete Callback when finished loading.
      * @param basePath Optional base directory to prepend to assets.

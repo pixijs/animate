@@ -127,7 +127,6 @@ export class Tween {
 
     /**
      * Set to the end position
-     * @method PIXI.animate.Tween#setToEnd
      */
     setToEnd() {
         let endProps = this.endProps;

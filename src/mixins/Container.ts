@@ -25,7 +25,7 @@ export class AnimateContainer extends Container {
 
     /**
      * Function to set if this is renderable or not. Useful for setting masks.
-     * @param  renderable Make renderable. Defaults to false.
+     * @param renderable Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
     public setRenderable(renderable?:boolean) {

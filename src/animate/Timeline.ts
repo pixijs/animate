@@ -2,12 +2,7 @@ import {Tween, TweenProps, EaseMethod} from './Tween';
 import {AnimateDisplayObject} from '../mixins';
 
 /**
- * The Timeline class represents a
- * @memberof PIXI.animate
- * @class Timeline
- * @param {PIXI.DisplayObject} Target The target for this string of tweens.
- * @extends Array
- * @constructor
+ * The Timeline class represents a series of tweens, tied to keyframes.
  */
 export class Timeline extends Array<Tween> {
     /**
@@ -23,6 +18,8 @@ export class Timeline extends Array<Tween> {
     /**
      * Creates a new Timeline. Must be used instead of a constructor because extending the Array
      * class is a pain: https://blog.simontest.net/extend-array-with-typescript-965cc1134b3
+     * @param target The target for this string of tweens.
+     * @returns A new Timeline instance.
      */
     public static create(target:AnimateDisplayObject) {
         const out = Object.create(Timeline.prototype) as Timeline;

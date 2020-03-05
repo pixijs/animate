@@ -54,15 +54,13 @@ interface LoadOptions {
  * }
  * update();
  * ```
- * @method PIXI.animate.load
- * @param {Function} StageRef Reference to the stage class.
- * @param {Object} [StageRef.assets] Assets used to preload.
- * @param {PIXI.Container} parent The Container to auto-add the stage to.
- * @param {Function} [complete] The callback function when complete.
- * @param {String} [basePath] Base root directory
- * @param {PIXI.loaders.Loader} [loader] A Pixi loader object
- * @param {Object} [metadata] A metadata object for the asset being loaded
- * @return {PIXI.loaders.Loader} instance of PIXI resource loader
+ * @param StageRef Reference to the stage class.
+ * @param parent The Container to auto-add the stage to.
+ * @param complete The callback function when complete.
+ * @param basePath Base root directory
+ * @param loader A Pixi loader object
+ * @param metadata A metadata object for the asset being loaded
+ * @return instance of PIXI resource loader
  */
 export function load(stage:StageRef, parent:Container, complete?:Complete, basePath?:string, loader?:loaders.Loader, metadata?:any):loaders.Loader;
 /**
@@ -77,12 +75,10 @@ export function load(stage:StageRef, parent:Container, complete?:Complete, baseP
  * }
  * update();
  * ```
- * @method PIXI.animate.load
- * @param {Function} StageRef Reference to the stage class.
- * @param {Object} [StageRef.assets] Assets used to preload.
- * @param {PIXI.Container} parent The Container to auto-add the stage to.
- * @param {String} [basePath] Base root directory
- * @return {PIXI.loaders.Loader} instance of PIXI resource loader
+ * @param StageRef Reference to the stage class.
+ * @param parent The Container to auto-add the stage to.
+ * @param basePath Base root directory
+ * @return instance of PIXI resource loader
  */
 export function load(stage:StageRef, parent:Container, basePath?:string):loaders.Loader;
 /**
@@ -99,23 +95,15 @@ export function load(stage:StageRef, parent:Container, basePath?:string):loaders
  * }
  * update();
  * ```
- * @method PIXI.animate.load
- * @param {Function} StageRef Reference to the stage class.
- * @param {Object} [StageRef.assets] Assets used to preload.
- * @param {Function} complete The callback function when complete.
- * @return {PIXI.loaders.Loader} instance of PIXI resource loader
+ * @param StageRef Reference to the stage class.
+ * @param complete The callback function when complete.
+ * @return instance of PIXI resource loader
  */
 export function load(stage:StageRef, complete:Complete, basePath?:string):loaders.Loader;
 /**
  * Load the stage class and preload any assets
- * @method PIXI.animate.load
- * @param {Object} options Options for loading.
- * @param {Function} options.stage Reference to the stage class
- * @param {Object} [options.stage.assets] Assets used to preload
- * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
- * @param {String} [options.basePath] Base root directory
- * @param {boolean} [options.createInstance] enable or disable automatic instantiation of stage
- * @return {PIXI.loaders.Loader} instance of PIXI resource loader
+ * @param options Options for loading.
+ * @return instance of PIXI resource loader
  */
 export function load(options:LoadOptions):loaders.Loader;
 export function load(optionsOrStage:LoadOptions|StageRef, parentOrComplete?:Complete|Container, completeOrPath?:Complete|string, basePath?:string, loader?:loaders.Loader, metadata?:any):loaders.Loader {
