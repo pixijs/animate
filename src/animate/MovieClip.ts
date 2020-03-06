@@ -3,8 +3,15 @@ import {TweenProps, EaseMethod} from './Tween';
 import {utils_ns as utils} from './utils';
 import {sound} from './sound';
 import {AnimateContainer, AnimateDisplayObject} from '../mixins';
-import {ticker, settings, Graphics, Sprite} from 'pixi.js';
-const SharedTicker = ticker.shared;
+import {Ticker, settings, Graphics, Sprite, /*IDestroyOptions*/} from 'pixi.js';
+const SharedTicker = Ticker.shared;
+
+// TODO: Remove with next release of pixi.js
+interface IDestroyOptions {
+    children?: boolean;
+    texture?: boolean;
+    baseTexture?: boolean;
+}
 
 export interface MovieClipOptions {
     /**
@@ -866,7 +873,7 @@ export class MovieClip extends AnimateContainer {
         }
     }
 
-    destroy(destroyChildren?:boolean) {
+    destroy(options?: IDestroyOptions|boolean) {
         if (this._tickListener) {
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
@@ -894,7 +901,7 @@ export class MovieClip extends AnimateContainer {
         for (let i = 0; i < hiddenChildren.length; i++) {
             // Don't destroy children in the display list
             if (this.children.indexOf(hiddenChildren[i]) < 0) {
-                hiddenChildren[i].destroy(destroyChildren);
+                hiddenChildren[i].destroy(options as IDestroyOptions);
             }
         }
         hiddenChildren.length = 0;
@@ -905,6 +912,6 @@ export class MovieClip extends AnimateContainer {
         this._beforeUpdate = null;
         this._labels = null;
         this._labelDict = null;
-        super.destroy(destroyChildren);
+        super.destroy(options as IDestroyOptions);
     }
 }

@@ -24,3 +24,14 @@ PIXI.animate.MovieClip.extend = PIXI.animate.MovieClip.e = extend;
 
 // Replace Graphics.c as closePath instead of setColorTransform, as it was in 1.X
 PIXI.Graphics.prototype.c = PIXI.Graphics.prototype.closePath;
+
+// Put in a version of addHole() that works like PIXI v4
+PIXI.Graphics.prototype.h = PIXI.Graphics.prototype.addHole = function() {
+	const data = this.geometry.graphicsData.pop();
+	data.fillStyle = null;
+	this.geometry.graphicsData[this.geometry.graphicsData.length - 1].holes.push(data);
+	return this;
+}
+
+// restore fromFrame(), which from() has subsumed
+PIXI.Texture.fromFrame = PIXI.Texture.from;

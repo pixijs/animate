@@ -7,6 +7,5 @@ import {AnimateContainer} from './Container';
 import {AnimateSprite} from './Sprite';
 import {AnimateGraphics} from './Graphics';
 import {AnimateText} from './Text';
-import {TransformStatic} from 'pixi.js';
 
-export type AnimateDisplayObject = (AnimateContainer|AnimateGraphics|AnimateSprite|AnimateText) & {transform:TransformStatic};
+export type AnimateDisplayObject = (AnimateContainer|AnimateGraphics|AnimateSprite|AnimateText);

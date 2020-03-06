@@ -1,4 +1,4 @@
-import { Text, filters, Graphics, Sprite, TextStyleOptions } from 'pixi.js';
+import { Text, filters, Graphics, Sprite } from 'pixi.js';
 import {utils_ns as utils} from '../animate/utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
@@ -77,8 +77,8 @@ export class AnimateText extends Text {
      * @param style
      * @return This instance for chaining.
      */
-    
-    public setStyle(style:TextStyleOptions) {
+    // TODO: improve typing of style parameter (needs ITextStyle interface to exist)
+    public setStyle(style:any) {
         // Replace short STYLE_PROPS with long names
         for (const k in STYLE_PROPS) {
             if ((style as any)[k] !== undefined) {

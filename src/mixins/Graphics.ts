@@ -48,9 +48,14 @@ export class AnimateGraphics extends Graphics {
     public cp = super.closePath;
 
     /**
-     * Shortcut for `addHole`
+     * Shortcut for `beginHole`
      **/
-    public h = super.addHole;
+    public bh = super.beginHole;
+    
+    /**
+     * Shortcut for `endHole`
+     **/
+    public eh = super.endHole;
 
     /**
      * Shortcut for `moveTo`.

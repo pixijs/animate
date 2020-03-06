@@ -1,10 +1,10 @@
 import {DrawCommands} from '../mixins';
 import {TweenProps} from './Tween';
 import {MovieClip} from './MovieClip';
-import {DisplayObject, CanvasRenderer, WebGLRenderer, prepare} from 'pixi.js';
+import {DisplayObject, Renderer, Prepare} from 'pixi.js';
 
 // If the movieclip plugin is installed
-let _prepare:prepare.BasePrepare<any> = null;
+let _prepare:Prepare = null;
 
 // awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
 export namespace utils_ns {
@@ -184,7 +184,7 @@ export namespace utils_ns {
      * @param clip MovieClip to upload
      * @param done When complete
      */
-    export function upload(renderer:CanvasRenderer|WebGLRenderer, displayObject:DisplayObject, done:()=>void) {
+    export function upload(renderer:Renderer, displayObject:DisplayObject, done:()=>void) {
         if (!_prepare) {
             _prepare = renderer.plugins.prepare;
             _prepare.registerFindHook(addMovieClips);

@@ -13,19 +13,24 @@ const Renderer = function(viewWebGL, viewContext2d) {
     this.stage = new PIXI.Container();
     this.hasWebGL = PIXI.utils.isWebGLSupported();
     if (this.hasWebGL) {
-        this.webgl = new PIXI.WebGLRenderer(Renderer.WIDTH, Renderer.HEIGHT, {
+        this.webgl = new PIXI.Renderer({
+            width: Renderer.WIDTH,
+            height: Renderer.HEIGHT,
             view: viewWebGL,
             backgroundColor: 0xffffff,
             antialias: false,
             preserveDrawingBuffer: true
         });
     }
-    this.canvas = new PIXI.CanvasRenderer(Renderer.WIDTH, Renderer.HEIGHT, {
+    PIXI.settings.ROUND_PIXELS = true;
+    this.canvas = new PIXI.CanvasRenderer({
+        width: Renderer.WIDTH,
+        height: Renderer.HEIGHT,
         view: viewContext2d,
         backgroundColor: 0xffffff,
         antialias: false,
         preserveDrawingBuffer: true,
-        roundPixels: true
+        // roundPixels: true
     });
     this.canvas.smoothProperty = null;
     this.render();

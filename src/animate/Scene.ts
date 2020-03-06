@@ -1,7 +1,14 @@
 import {load, StageRef} from './load';
 import {sound} from './sound';
 import {MovieClip} from './MovieClip';
-import {Application, StageOptions, utils} from 'pixi.js';
+import {Application, utils, /*IDestroyOptions*/} from 'pixi.js';
+
+// TODO: Remove with next release of pixi.js
+interface IDestroyOptions {
+    children?: boolean;
+    texture?: boolean;
+    baseTexture?: boolean;
+}
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
@@ -44,11 +51,11 @@ export class Scene extends Application {
      * @param stageOptions Options parameter. A boolean will act as if all options
      *  have been set to that value
      */
-    destroy(removeView?: boolean, stageOptions?: StageOptions | boolean): void {
+    destroy(removeView?: boolean, stageOptions?: IDestroyOptions | boolean): void {
         if (this.instance) {
             this.instance.destroy(true);
             this.instance = null;
         }
-        super.destroy(removeView, stageOptions);
+        super.destroy(removeView, stageOptions as IDestroyOptions);
     }
 }

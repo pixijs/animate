@@ -1,6 +1,6 @@
 "use strict";
 
-require('pixi.js');
+global.PIXI = require('pixi.js-legacy');
 
 function extendable(classRef) {
     assert.isOk(classRef.extend);

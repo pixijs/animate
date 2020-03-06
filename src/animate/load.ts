@@ -1,4 +1,4 @@
-import {loaders, Container} from 'pixi.js';
+import {Loader, Container} from 'pixi.js';
 
 export interface StageRef {
     new ():Container;
@@ -7,7 +7,7 @@ export interface StageRef {
      */
     assets:any;
 }
-type Complete = (instance:Container, loader:loaders.Loader) => void;
+type Complete = (instance:Container, loader:Loader) => void;
 interface LoadOptions {
     /**
      * Reference to the stage class
@@ -62,7 +62,7 @@ interface LoadOptions {
  * @param metadata A metadata object for the asset being loaded
  * @return instance of PIXI resource loader
  */
-export function load(stage:StageRef, parent:Container, complete?:Complete, basePath?:string, loader?:loaders.Loader, metadata?:any):loaders.Loader;
+export function load(stage:StageRef, parent:Container, complete?:Complete, basePath?:string, loader?:Loader, metadata?:any):Loader;
 /**
  * Load the stage class and preload any assets
  * ```
@@ -80,7 +80,7 @@ export function load(stage:StageRef, parent:Container, complete?:Complete, baseP
  * @param basePath Base root directory
  * @return instance of PIXI resource loader
  */
-export function load(stage:StageRef, parent:Container, basePath?:string):loaders.Loader;
+export function load(stage:StageRef, parent:Container, basePath?:string):Loader;
 /**
  * Load the stage class and preload any assets
  * ```
@@ -99,14 +99,14 @@ export function load(stage:StageRef, parent:Container, basePath?:string):loaders
  * @param complete The callback function when complete.
  * @return instance of PIXI resource loader
  */
-export function load(stage:StageRef, complete:Complete, basePath?:string):loaders.Loader;
+export function load(stage:StageRef, complete:Complete, basePath?:string):Loader;
 /**
  * Load the stage class and preload any assets
  * @param options Options for loading.
  * @return instance of PIXI resource loader
  */
-export function load(options:LoadOptions):loaders.Loader;
-export function load(optionsOrStage:LoadOptions|StageRef, parentOrComplete?:Complete|Container, completeOrPath?:Complete|string, basePath?:string, loader?:loaders.Loader, metadata?:any):loaders.Loader {
+export function load(options:LoadOptions):Loader;
+export function load(optionsOrStage:LoadOptions|StageRef, parentOrComplete?:Complete|Container, completeOrPath?:Complete|string, basePath?:string, loader?:Loader, metadata?:any):Loader {
     let complete:Complete;
     let parent:Container;
     // Support arguments (ref, complete, basePath)
@@ -143,7 +143,7 @@ export function load(optionsOrStage:LoadOptions|StageRef, parentOrComplete?:Comp
         createInstance: true
     }, optionsOrStage || {});
 
-    loader = loader || new loaders.Loader();
+    loader = loader || new Loader();
 
     function done() {
         let instance = (options.createInstance && typeof options.stage === "function") ? new options.stage() : null;

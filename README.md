@@ -17,11 +17,19 @@ npm install pixi-animate
 
 ### Dependencies
 
-* [Pixi.js v4](http://pixijs.com) is required
+* [Pixi.js v5](http://pixijs.com) is required
 
 ## Documentation
 
 https://pixijs.io/pixi-animate/
+
+## Breaking Changes from v1.3
+* DisplayObject, Container, Graphics, Sprite, and Text from PIXI are no longer modified. Instead, subclasses are provided from the library with the same names (or on the PIXI.animate namespace).
+* static `extend()` and `e()` methods no longer exist on the display object classes.
+* On Graphics, `c()` is no longer the shorthand for `closePath()`; instead, use `cp()`.
+* On Graphics, `drawHole()` and `h()` no longer exist. Instead of making the previous shape a hole, use `beginHole()` (`bh()`) before drawing a hole and `endHole()` (`eh()`) when it is complete.
+
+Loading the file `v1-asset-shim.js` (requires `PIXI` and `PIXI.animate` namespaces to be set up) will restore these changes so that assets published for the previous version of PixiAnimate will work correctly.
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate:

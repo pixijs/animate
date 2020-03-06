@@ -1,5 +1,5 @@
 import {ShapesCache} from './ShapesCache';
-import {loaders, Texture} from 'pixi.js';
+import {LoaderResource, Loader, Texture} from 'pixi.js';
 
 /**
  * The middleware for PIXI's ResourceLoader to be able to
@@ -7,7 +7,7 @@ import {loaders, Texture} from 'pixi.js';
  * @private
  */
 export const SymbolLoader = function() {
-    return function(resource:loaders.Resource, next:()=>void) {
+    return function(resource:LoaderResource, next:()=>void) {
         let url = resource.url;
         let data = resource.data;
 
@@ -18,7 +18,7 @@ export const SymbolLoader = function() {
         } else if (data.nodeName && data.nodeName === 'IMG') {
             // Add individual images to the texture cache by their
             // short symbol name, not the URL
-            Texture.addTextureToCache(
+            Texture.addToCache(
                 resource.texture,
                 resource.name
             );
@@ -28,4 +28,4 @@ export const SymbolLoader = function() {
 };
 
 // Assign to the loader
-loaders.Loader.addPixiMiddleware(SymbolLoader);
+Loader.registerPlugin({use:SymbolLoader()});
