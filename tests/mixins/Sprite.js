@@ -1,6 +1,8 @@
+const {Sprite} = require('../..');
+
 describe('Sprite', function() {
     it('should have DisplayObject shortened names', function() {
-        var p = new PIXI.animate.Sprite();
+        var p = new Sprite();
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -19,7 +21,14 @@ describe('Sprite', function() {
         assert.isOk(p.setColorTransform);
         assert.equal(p.setColorTransform, p.c);
     });
-    it('should be extendable', function() {
-        extendable(PIXI.animate.Sprite);
+    
+    describe('legacy', function() {
+        it('should override base', function() {
+            assert.equal(PIXI.Sprite, PIXI.animate.Sprite);
+        });
+        
+        it('should be extendable', function() {
+            extendable(PIXI.Sprite);
+        });
     });
 });

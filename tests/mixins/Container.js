@@ -1,6 +1,8 @@
+const {Container} = require('../..');
+
 describe('Container', function() {
     it('should have DisplayObject shortened names', function() {
-        var p = new PIXI.animate.Container();
+        var p = new Container();
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -20,10 +22,16 @@ describe('Container', function() {
         assert.equal(p.setColorTransform, p.c);
     });
     it('should have shortened names', function() {
-        var p = new PIXI.animate.Container();
+        var p = new Container();
         assert.equal(p.ac, p.addChild);
     });
-    it('should be extendable', function() {
-        extendable(PIXI.animate.Container);
+    describe('legacy', function() {
+        it('should override base', function() {
+            assert.equal(PIXI.Container, PIXI.animate.Container);
+        });
+        
+        it('should be extendable', function() {
+            extendable(PIXI.Container);
+        });
     });
 });

@@ -1,5 +1,7 @@
+const animate = require('../..');
+
 describe('Timeline', function() {
     it('should exist', function() {
-        assert.isOk(PIXI.animate.Timeline);
+        assert.isOk(animate.Timeline);
     });
 });

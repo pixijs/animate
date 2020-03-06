@@ -1,6 +1,8 @@
+const {Text} = require('../..');
+
 describe('Text', function() {
     it('should have DisplayObject shortened names', function() {
-        var p = new PIXI.animate.Text();
+        var p = new Text();
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -20,7 +22,7 @@ describe('Text', function() {
         assert.equal(p.setColorTransform, p.c);
     });
     it('should have shortened names', function() {
-        var p = new PIXI.animate.Text();
+        var p = new Text();
         assert.isOk(p.setStyle);
         assert.isOk(p.ss);
         assert.equal(p.setStyle, p.ss);

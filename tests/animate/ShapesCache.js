@@ -1,5 +1,7 @@
+const animate = require('../..');
+
 describe('ShapesCache', function() {
-    var ShapesCache = PIXI.animate.ShapesCache;
+    var ShapesCache = animate.ShapesCache;
     it('should exist', function() {
         assert.isOk(ShapesCache);
     });

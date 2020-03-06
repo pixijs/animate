@@ -1,6 +1,8 @@
+const animate = require('../..');
+const {Container} = require('pixi.js');
+
 describe('MovieClip', function() {
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
+    var MovieClip = animate.MovieClip;
     it('should exist', function() {
         assert.isOk(MovieClip);
     });
@@ -9,5 +11,6 @@ describe('MovieClip', function() {
         assert.isOk(Container);
         var clip = new MovieClip();
         assert.isOk(clip instanceof Container);
+        assert.isOk(clip instanceof animate.Container);
     });
 });

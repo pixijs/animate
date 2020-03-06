@@ -1,6 +1,8 @@
+const {Graphics} = require('../..');
+
 describe('Graphics', function() {
     it('should have DisplayObject shortened names', function() {
-        var p = new PIXI.animate.Graphics();
+        var p = new Graphics();
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -16,16 +18,17 @@ describe('Graphics', function() {
         assert.isOk(p.setTint);
         assert.equal(p.setTint, p.i);
         // NOTE: Graphics overrides c(), which is bad, but a breaking change to fix
-        // assert.isOk(p.c);
+        assert.isOk(p.c);
         assert.isOk(p.setColorTransform);
+        // NOTE: on Graphics, c() wraps setColorTransform so that we can override it in the shim
         // assert.equal(p.setColorTransform, p.c);
     });
     it('should have shortened names', function() {
-        var p = new PIXI.animate.Graphics();
+        var p = new Graphics();
         assert.isOk(p.drawCommands);
         assert.isOk(p.d);
         assert.equal(p.drawCommands, p.d);
-        assert.equal(p.c, p.closePath);
+        assert.equal(p.cp, p.closePath);
         assert.equal(p.h, p.addHole);
         assert.equal(p.m, p.moveTo);
         assert.equal(p.l, p.lineTo);
@@ -39,5 +42,11 @@ describe('Graphics', function() {
         assert.equal(p.ar, p.arc);
         assert.equal(p.at, p.arcTo);
         assert.equal(p.de, p.drawEllipse);
+    });
+    describe('legacy', function() {
+        it('should have addHole', function() {
+            assert.isOk(PIXI.Graphics.prototype.addHole);
+            assert.equal(PIXI.Graphics.prototype.h, PIXI.Graphics.prototype.addHole);
+        });
     });
 });

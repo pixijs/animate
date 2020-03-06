@@ -1,5 +1,7 @@
+const animate = require('../..');
+
 describe('load', function() {
     it('should exist', function() {
-        assert.isOk(PIXI.animate.load);
+        assert.isOk(animate.load);
     });
 });
