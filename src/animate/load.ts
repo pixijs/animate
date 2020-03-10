@@ -1,6 +1,6 @@
 import {Loader, LoaderResource, Container} from 'pixi.js';
-import type {AnimateAsset} from '../AnimateAsset';
-import type {MovieClip} from './MovieClip';
+import {AnimateAsset} from '../AnimateAsset';
+import {MovieClip} from './MovieClip';
 import {DrawCommands} from '../mixins';
 import {utils_ns as utils} from './utils';
 

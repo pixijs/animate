@@ -1,5 +1,5 @@
-import type * as Animate from './';
-import type {Texture, Spritesheet} from 'pixi.js';
+import * as Animate from './';
+import {Texture, Spritesheet} from 'pixi.js';
 
 /**
  * The format of the output javascript file when publishing a scene.

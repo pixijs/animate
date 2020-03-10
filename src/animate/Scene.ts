@@ -2,7 +2,7 @@ import {load} from './load';
 import {sound} from './sound';
 import {MovieClip} from './MovieClip';
 import {Application, utils, /*IDestroyOptions*/} from 'pixi.js';
-import type {AnimateAsset} from '../AnimateAsset';
+import {AnimateAsset} from '../AnimateAsset';
 
 // TODO: Remove with next release of pixi.js
 interface IDestroyOptions {
