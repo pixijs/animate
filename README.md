@@ -35,6 +35,7 @@ Loading the file `v1-asset-shim.js` (requires `PIXI` and `PIXI.animate` namespac
 
 Changes that the shim doesn't account for:
 * `load()` no longer has so many variants allowed. Instead, the first argument is always the scene that you want to load, followed by either a callback or an options object. If using the legacy shim, pass in the constructor for the main scene MovieClip, as you did in v1.
+* `createInstance` now defaults to false, instead of true, when calling `load()`.
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate:

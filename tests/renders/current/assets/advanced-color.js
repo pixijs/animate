@@ -1,18 +1,61 @@
 const data = {
+    /**
+     * Constructor for the root MovieClip. Is null before setup() is run.
+     */
     stage: null,
+    /**
+     * Background color of the scene, as defined when the asset is published.
+     */
     background: 0xffffff,
+    /**
+     * Width of the scene, as defined when the asset is published.
+     */
     width: 32,
+    /**
+     * Height of the scene, as defined when the asset is published.
+     */
     height: 32,
+    /**
+     * Framerate of the scene (frames per second), as defined when the asset is published.
+     */
     framerate: 24,
+    /**
+     * Total number of frames of the root MovieClip.
+     */
     totalFrames: 1,
+    /**
+     * Dictionary of paths to shape files and textures, indexed by unique id within the scene file.
+     */
     assets: {
         "advanced_color": "images/advanced_color.shapes.json"
     },
+    /**
+     * Dictionary of display object constructors used within this scene. This is an empty object
+     * before setup() is run, but can be overwritten with a shared library dictionary (before setup() is run).
+     */
     lib: {},
-    shapes: {}, // should be filled by loader from shapes loaded from assets
-    textures: {}, // should be filled by loader with individual images from assets
-    spritesheets: [], // should be filled by loader with spritesheets from assets
-    // TODO: method for getting textures (can be externally set to PIXI.Texture.from())
+    /**
+     * Dictionary of loaded shape instructions for this scene. This is intially an empty object that
+     * can be filled by animate.load(), or by a custom loading system. It must be filled before
+     * any items are instantiated.
+     */
+    shapes: {},
+    /**
+     * Dictionary of loaded individual images for this scene.This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * getTexture(), and is not needed if getTexture() is overridden.
+     */
+    textures: {},
+    /**
+     * Dictionary of loaded spritesheet for this scene.This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * getTexture(), and is not needed if getTexture() is overridden.
+     */
+    spritesheets: [],
+    /**
+     * Function for getting a texture by ID.
+     * It can be set to PIXI.Texture.from for global texture atlas.
+     */
     getTexture: function(id) {
         if (data.textures[id]) {
             return data.textures[id];
@@ -20,11 +63,11 @@ const data = {
         const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
         return atlas ? atlas.textures[id] : null;
     },
-    
+    /**
+     * Creates classes for each Container and MovieClip within the scene, filling data.lib and
+     * setting data.stage.
+     */
     setup: function(animate) {
-        // pulls classes from animate (the animate namespace)
-        // puts classes for all the library items in data.library, also puts the root one in data.stage
-        
         const MovieClip = animate.MovieClip;
         const Container = animate.Container;
         const Graphics = animate.Graphics;
@@ -55,7 +98,9 @@ const data = {
     }
 };
 
-// ** choose mutually exclusive output type when publishing **
+/**
+ * choose mutually exclusive output type when publishing
+ */
 // CommonJS output
 module.exports = data;
 // ES6 output
