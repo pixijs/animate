@@ -31,7 +31,7 @@
     "terser": "^3.16.1",
     "tslib": "^1.9.3",
     "typedoc": "^0.16.0",
-    "typescript": "^3.3.0"
+    "typescript": "^3.8.0"
   },
   "peerDependencies": {
     "pixi.js": ">=5.0.0"
@@ -69,8 +69,7 @@
     "LICENSE",
     "package.json",
     "README.md",
-    "index.d.ts",
-    "ambient.d.ts"
+    "v1-asset-shim.js"
   ],
   "keywords": [
     "webgl",

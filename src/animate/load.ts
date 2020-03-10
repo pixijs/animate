@@ -1,20 +1,13 @@
-import {Loader, Container} from 'pixi.js';
+import {Loader, LoaderResource, Container} from 'pixi.js';
+import type {AnimateAsset} from '../AnimateAsset';
+import type {MovieClip} from './MovieClip';
+import {DrawCommands} from '../mixins';
+import {utils_ns as utils} from './utils';
 
-export interface StageRef {
-    new ():Container;
+type Complete = (instance:MovieClip|null, loader:Loader) => void;
+export interface LoadOptions {
     /**
-     * Assets used to preload
-     */
-    assets:any;
-}
-type Complete = (instance:Container, loader:Loader) => void;
-interface LoadOptions {
-    /**
-     * Reference to the stage class
-     */
-    stage:StageRef;
-    /**
-     * The Container to auto-add the stage to.
+     * The Container to auto-add the stage to, if createInstance is true.
      */
     parent?:Container;
     /**
@@ -26,18 +19,47 @@ interface LoadOptions {
      */
     basePath?:string;
     /**
-     * enable or disable automatic instantiation of stage
+     * Enable or disable automatic instantiation of stage - defaults to false.
      */
     createInstance?:boolean;
+    /**
+     * Metadata to be handed off to the loader for assets that are loaded.
+     */
+    metadata?:any;
+    /**
+     * Pre-existing loader to use.
+     */
+    loader?:Loader;
 }
 /**
  * Load the stage class and preload any assets
  * ```
- * let basePath = "file:/path/to/assets";
+ * import MyAsset from './myAsset.js';
  * let renderer = new PIXI.autoDetectRenderer(1280, 720);
+ * let stage = new PIXI.Container();
+ * PIXI.animate.load(MyAsset, function(asset){
+ *     stage.addChild(new asset.stage());
+ * });
+ * function update() {
+ *      renderer.render(stage);
+ *      update();
+ * }
+ * update();
+ * ```
+ * @param scene Reference to the scene data.
+ * @param complete The callback function when complete.
+ * @return instance of PIXI resource loader
+ */
+export function load(scene:AnimateAsset, complete?:Complete):Loader;
+/**
+ * Load the stage class and preload any assets
+ * ```
+ * import MyAsset from './myAsset.js';
+ * let basePath = "file:/path/to/assets";
+ * let renderer = new PIXI.Renderer(1280, 720);
  *
  * let extensions = PIXI.compressedTextures.detectExtensions(renderer);
- * let loader = new PIXI.loaders.Loader();
+ * let loader = new PIXI.Loader();
  * // this is an example of setting up a pre loader plugin to handle compressed textures in this case
  * loader.pre(PIXI.compressedTextures.extensionChooser(extensions));
  *
@@ -47,47 +69,12 @@ interface LoadOptions {
  * let metadata = { MyStage_atlas_1: { metadata: { imageMetadata: { choice: [".crn"] } } } };
  *
  * let stage = new PIXI.Container();
- * PIXI.animate.load(lib.MyStage, stage, ()=>{}, basePath, loader, metadata);
- * function update() {
- *      renderer.render(stage);
- *      update();
- * }
- * update();
- * ```
- * @param StageRef Reference to the stage class.
- * @param parent The Container to auto-add the stage to.
- * @param complete The callback function when complete.
- * @param basePath Base root directory
- * @param loader A Pixi loader object
- * @param metadata A metadata object for the asset being loaded
- * @return instance of PIXI resource loader
- */
-export function load(stage:StageRef, parent:Container, complete?:Complete, basePath?:string, loader?:Loader, metadata?:any):Loader;
-/**
- * Load the stage class and preload any assets
- * ```
- * let renderer = new PIXI.autoDetectRenderer(1280, 720);
- * let stage = new PIXI.Container();
- * PIXI.animate.load(lib.MyStage, stage);
- * function update() {
- *      renderer.render(stage);
- *      update();
- * }
- * update();
- * ```
- * @param StageRef Reference to the stage class.
- * @param parent The Container to auto-add the stage to.
- * @param basePath Base root directory
- * @return instance of PIXI resource loader
- */
-export function load(stage:StageRef, parent:Container, basePath?:string):Loader;
-/**
- * Load the stage class and preload any assets
- * ```
- * let renderer = new PIXI.autoDetectRenderer(1280, 720);
- * let stage = new PIXI.Container();
- * PIXI.animate.load(lib.MyStage, function(instance){
- *     stage.addChild(instance);
+ * PIXI.animate.load(MyAsset, {
+ *     parent: stage,
+ *     complete: ()=>{},
+ *     basePath: basePath,
+ *     loader: loader,
+ *     metadata: metadata
  * });
  * function update() {
  *      renderer.render(stage);
@@ -95,87 +82,91 @@ export function load(stage:StageRef, parent:Container, basePath?:string):Loader;
  * }
  * update();
  * ```
- * @param StageRef Reference to the stage class.
- * @param complete The callback function when complete.
- * @return instance of PIXI resource loader
- */
-export function load(stage:StageRef, complete:Complete, basePath?:string):Loader;
-/**
- * Load the stage class and preload any assets
+ * @param scene Reference to the scene data.
  * @param options Options for loading.
  * @return instance of PIXI resource loader
  */
-export function load(options:LoadOptions):Loader;
-export function load(optionsOrStage:LoadOptions|StageRef, parentOrComplete?:Complete|Container, completeOrPath?:Complete|string, basePath?:string, loader?:Loader, metadata?:any):Loader {
-    let complete:Complete;
-    let parent:Container;
-    // Support arguments (ref, complete, basePath)
-    if (typeof parentOrComplete === "function") {
-        basePath = completeOrPath as string;
-        complete = parentOrComplete;
-        parentOrComplete = null;
-    } else {
-        parent = parentOrComplete;
-        if (typeof completeOrPath === "string") {
-            basePath = completeOrPath;
-            completeOrPath = null;
-            complete = null;
-        }
-        else {
-            complete = completeOrPath;
-        }
-    }
+export function load(scene:AnimateAsset, options:LoadOptions):Loader;
+export function load(scene:AnimateAsset, optionsOrComplete?:Complete|LoadOptions):Loader {
+    let complete:Complete = typeof optionsOrComplete === 'function' ? optionsOrComplete : (optionsOrComplete ? optionsOrComplete.complete : null);
+    let basePath:string = '';
+    let parent:Container = null;
+    let metadata:any;
+    let createInstance = false;
+    let loader:Loader;
 
-    if (typeof optionsOrStage === "function") {
-        optionsOrStage = {
-            stage: optionsOrStage,
-            parent: parent,
-            basePath: basePath || "",
-            complete
-        };
+    if (optionsOrComplete && typeof optionsOrComplete !== "function") {
+        basePath = optionsOrComplete.basePath || '';
+        parent = optionsOrComplete.parent;
+        metadata = optionsOrComplete.metadata;
+        createInstance = !!optionsOrComplete.createInstance;
+        loader = optionsOrComplete.loader;
     }
-
-    const options:LoadOptions = Object.assign({
-        stage: null,
-        parent: null,
-        basePath: '',
-        complete: null,
-        createInstance: true
-    }, optionsOrStage || {});
 
     loader = loader || new Loader();
 
     function done() {
-        let instance = (options.createInstance && typeof options.stage === "function") ? new options.stage() : null;
-        if (options.parent) {
-            options.parent.addChild(instance);
+        let instance = (createInstance && typeof scene.stage === "function") ? new scene.stage() : null;
+        if (parent && instance) {
+            parent.addChild(instance);
         }
-        if (options.complete) {
-            options.complete(instance, loader);
+        if (complete) {
+            complete(instance, loader);
         }
     }
 
     // Check for assets to preload
-    let assets = options.stage.assets || {};
+    let assets = scene.assets || {};
     if (assets && Object.keys(assets).length) {
         // assetBaseDir can accept either with trailing slash or not
-        let basePath = options.basePath;
         if (basePath) {
             basePath += "/";
         }
         for (let id in assets) {
-            var data = null;
+            let data = null;
             if(metadata) {
                 // if the metadata was supplied for this particular asset, use these options
                 if(metadata[id]) {
                     data = metadata[id];
                 }
                 // if the metadata supplied a default option
-                else if (metadata.default){
+                else if (metadata.default) {
                     data = metadata.default;
                 }
             }
-            loader.add(id, basePath + assets[id], data);
+            loader.add(id, basePath + assets[id], data, (resource:LoaderResource) => {
+                if (!resource.data) {
+                    return;
+                }
+                if (resource.spritesheet) {
+                    // handle spritesheets
+                    scene.spritesheets.push(resource.spritesheet);
+                }
+                else if (resource.data.nodeName === 'IMG') {
+                    // handle individual textures
+                    scene.textures[resource.name] = resource.texture;
+                }
+                else if (resource.url.search(/\.shapes\.(json|txt)$/i) > -1) {
+                    // save shape data
+                    let items:string|DrawCommands[] = resource.data;
+                    // Decode string to map of files
+                    if (typeof items === "string") {
+                        items = utils.deserializeShapes(items);
+                    }
+
+                    // Convert all hex string colors (animate) to int (pixi.js)
+                    for (let i = 0; i < items.length; i++) {
+                        let item = items[i];
+                        for (let j = 0; j < item.length; j++) {
+                            let arg = item[j];
+                            if (typeof arg === 'string' && arg[0] === '#') {
+                                item[j] = utils.hexToUint(arg);
+                            }
+                        }
+                    }
+                    scene.shapes[resource.name] = items;
+                }
+            });
         }
         loader.once('complete', done).load();
     } else {

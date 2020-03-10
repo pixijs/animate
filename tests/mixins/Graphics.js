@@ -17,10 +17,9 @@ describe('Graphics', function() {
         assert.isOk(p.i);
         assert.isOk(p.setTint);
         assert.equal(p.setTint, p.i);
-        // NOTE: Graphics overrides c(), which is bad, but a breaking change to fix
+        // NOTE: on Graphics, c() wraps setColorTransform so that we can override it in the shim
         assert.isOk(p.c);
         assert.isOk(p.setColorTransform);
-        // NOTE: on Graphics, c() wraps setColorTransform so that we can override it in the shim
         // assert.equal(p.setColorTransform, p.c);
     });
     it('should have shortened names', function() {
@@ -42,11 +41,5 @@ describe('Graphics', function() {
         assert.equal(p.ar, p.arc);
         assert.equal(p.at, p.arcTo);
         assert.equal(p.de, p.drawEllipse);
-    });
-    describe('legacy', function() {
-        it('should have addHole', function() {
-            assert.isOk(PIXI.Graphics.prototype.addHole);
-            assert.equal(PIXI.Graphics.prototype.h, PIXI.Graphics.prototype.addHole);
-        });
     });
 });

@@ -1,7 +1,8 @@
-import {load, StageRef} from './load';
+import {load} from './load';
 import {sound} from './sound';
 import {MovieClip} from './MovieClip';
 import {Application, utils, /*IDestroyOptions*/} from 'pixi.js';
+import type {AnimateAsset} from '../AnimateAsset';
 
 // TODO: Remove with next release of pixi.js
 interface IDestroyOptions {
@@ -31,18 +32,23 @@ export class Scene extends Application {
 
     /**
      * Load a stage scene and add it to the stage.
-     * @param StageRef Reference to the stage class.
+     * @param asset Reference to the scene to load.
      * @param complete Callback when finished loading.
      * @param basePath Optional base directory to prepend to assets.
      * @return instance of PIXI resource loader
      */
-    public load(StageRef:StageRef, complete?:(instance?:MovieClip)=>void, basePath?:string) {
-        return load(StageRef, this.stage, (instance) => {
-            this.instance = instance as MovieClip;
-            if (complete) {
-                complete(this.instance);
-            }
-        }, basePath);
+    public load(asset:AnimateAsset, complete?:(instance?:MovieClip)=>void, basePath?:string) {
+        return load(asset, {
+            parent: this.stage,
+            createInstance: true,
+            complete: (instance) => {
+                this.instance = instance as MovieClip;
+                if (complete) {
+                    complete(this.instance);
+                }
+            },
+            basePath
+        });
     }
 
     /**

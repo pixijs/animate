@@ -25,13 +25,4 @@ describe('Container', function() {
         var p = new Container();
         assert.equal(p.ac, p.addChild);
     });
-    describe('legacy', function() {
-        it('should override base', function() {
-            assert.equal(PIXI.Container, PIXI.animate.Container);
-        });
-        
-        it('should be extendable', function() {
-            extendable(PIXI.Container);
-        });
-    });
 });

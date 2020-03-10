@@ -35,3 +35,22 @@ PIXI.Graphics.prototype.h = PIXI.Graphics.prototype.addHole = function() {
 
 // restore fromFrame(), which from() has subsumed
 PIXI.Texture.fromFrame = PIXI.Texture.from;
+
+// Create global library and shape data caches
+PIXI.animate.ShapesCache = {};
+window.lib = window.lib || {};
+
+// wrap load() with one that intercepts and handles the v1 assets.
+const realLoad = PIXI.animate.load;
+PIXI.animate.load = function(scene, optionsOrComplete) {
+	if (typeof scene === 'function') {
+		scene = {
+			stage: scene,
+			assets: scene.assets,
+			textures: PIXI.utils.TextureCache,
+			shapes: PIXI.animate.ShapesCache,
+			lib: window.lib
+		};
+	}
+	return realLoad(scene, optionsOrComplete);
+};

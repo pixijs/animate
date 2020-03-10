@@ -21,14 +21,4 @@ describe('Sprite', function() {
         assert.isOk(p.setColorTransform);
         assert.equal(p.setColorTransform, p.c);
     });
-    
-    describe('legacy', function() {
-        it('should override base', function() {
-            assert.equal(PIXI.Sprite, PIXI.animate.Sprite);
-        });
-        
-        it('should be extendable', function() {
-            extendable(PIXI.Sprite);
-        });
-    });
 });

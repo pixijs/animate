@@ -28,8 +28,13 @@ https://pixijs.io/pixi-animate/
 * static `extend()` and `e()` methods no longer exist on the display object classes.
 * On Graphics, `c()` is no longer the shorthand for `closePath()`; instead, use `cp()`.
 * On Graphics, `drawHole()` and `h()` no longer exist. Instead of making the previous shape a hole, use `beginHole()` (`bh()`) before drawing a hole and `endHole()` (`eh()`) when it is complete.
+* ShapesCache no longer exists.
+* The SymbolLoader plugin no longer exists, so individual images are no longer added to PIXI's global texture cache by resource name, and shape assets are no longer added to a global shape cache.
 
-Loading the file `v1-asset-shim.js` (requires `PIXI` and `PIXI.animate` namespaces to be set up) will restore these changes so that assets published for the previous version of PixiAnimate will work correctly.
+Loading the file `v1-asset-shim.js` (requires `PIXI` and `PIXI.animate` namespaces to be set up) will restore the removed functionality so that assets published for the previous version of PixiAnimate will work correctly.
+
+Changes that the shim doesn't account for:
+* `load()` no longer has so many variants allowed. Instead, the first argument is always the scene that you want to load, followed by either a callback or an options object. If using the legacy shim, pass in the constructor for the main scene MovieClip, as you did in v1.
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate:

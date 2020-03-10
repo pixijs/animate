@@ -1,8 +1,4 @@
-export * from './animate';
-export {
-	AnimateDisplayObject as DisplayObject,
-	AnimateContainer as Container,
-	AnimateText as Text,
-	AnimateGraphics as Graphics,
-	AnimateSprite as Sprite
-} from './mixins';
+// Because AnimateAsset wants to import the entire library for typing purposes, they are separated
+// at this level to try to reduce odd references
+export * from './main';
+export * from './AnimateAsset';
