@@ -282,7 +282,7 @@ class MovieClip extends Container {
             }
             return;
         }
-        let seconds = tickerDeltaTime / SharedTicker.speed / PIXI.settings.TARGET_FPMS / 1000;
+        let seconds = tickerDeltaTime / PIXI.settings.TARGET_FPMS / 1000;
         this.advance(seconds);
     }
 
@@ -364,9 +364,14 @@ class MovieClip extends Container {
     }
     set framerate(value) {
         if (value > 0) {
+            if (this._framerate) {
+                //recalculate time based on difference between new and old framerate:
+                this._t *= this._framerate / value;
+            } else {
+                this._t = this.currentFrame / value;
+            }
             this._framerate = value;
             this._duration = value ? this._totalFrames / value : 0;
-            this._t = this.currentFrame / value;
         } else {
             this._t = this._framerate = this._duration = 0;
         }
@@ -721,7 +726,7 @@ class MovieClip extends Container {
             this._t += time;
         }
         if (this._t > this._duration) {
-            this._t = this.loop ? this._t - this._duration : this._duration;
+            this._t = this.loop ? this._t % this._duration : this._duration;
         }
         //add a tiny amount to account for potential floating point errors
         this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
@@ -815,6 +820,44 @@ class MovieClip extends Container {
      * @param {Boolean} doActions
      */
     _setTimelinePosition(startFrame, currentFrame, doActions) {
+        if (startFrame !== currentFrame && doActions) {
+            let startPos = isNaN(startFrame) ? currentFrame : (startFrame >= this._totalFrames - 1 ? 0 : startFrame + 1);
+            // generate actionFrames on the way
+            let actionFrames = [];   // number[]
+            // loop
+            if (currentFrame < startPos) {
+                for (let i = startPos; i < this._actions.length; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+                for (let i = 0; i <= currentFrame; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+            }
+            // no loop
+            else {
+                for (let i = startPos; i <= currentFrame; ++i) {
+                    this._actions[i] && actionFrames.push(i);
+                }
+            }
+
+            if (actionFrames.length) {
+                let oldCurrentFrame = this.currentFrame;
+                for (let i = 0; i < actionFrames.length; ++i) {
+                    let frame = actionFrames[i];
+                    this._setTimelinePosition(frame, frame, true);
+                    // _goto is called OR last frame reached
+                    if (this.currentFrame !== oldCurrentFrame || frame === currentFrame) {
+                        return;
+                    }
+                    // stop is called
+                    else if (this.paused) {
+                        this.currentFrame = frame;
+                        return;
+                    }
+                }
+            }
+        }
+
         //handle all tweens
         let i, j, length, _timelines = this._timelines;
         for (i = _timelines.length - 1; i >= 0; --i) {
@@ -878,29 +921,10 @@ class MovieClip extends Container {
         }
 
         //handle actions
-        if (doActions) {
-            let actions = this._actions;
-            //handle looping around
-            let needsLoop = false;
-            if (currentFrame < startFrame) {
-                length = actions.length;
-                needsLoop = true;
-            } else {
-                length = Math.min(currentFrame + 1, actions.length);
-            }
-            for (i = startFrame >= 0 ? startFrame + 1 : currentFrame; i < length; ++i) {
-                if (actions[i]) {
-                    let frameActions = actions[i];
-                    for (j = 0; j < frameActions.length; ++j) {
-                        frameActions[j].call(this);
-                    }
-                }
-                //handle looping around
-                if (needsLoop && i === length - 1) {
-                    i = 0;
-                    length = currentFrame + 1;
-                    needsLoop = false;
-                }
+        if (doActions && this._actions && this._actions[currentFrame]) {
+            let frameActions = this._actions[currentFrame];
+            for (let j = 0; j < frameActions.length; ++j) {
+                frameActions[j].call(this);
             }
         }
     }

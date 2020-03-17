@@ -6,7 +6,8 @@
  * @param {PIXI.animate.MovieClip} target The target to play
  * @param {Object} startProps The starting properties
  * @param {Object} endProps The ending properties
- * @param {int} duration Number oframes to tween
+ * @param {int} startFrame frame number on which to begin tweening
+ * @param {int} duration Number of frames to tween
  * @param {Function} [ease] Ease function to use
  */
 

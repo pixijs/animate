@@ -6,6 +6,7 @@
  * @param {Object} [options.stage.assets] Assets used to preload
  * @param {PIXI.Container} options.parent The Container to auto-add the stage to.
  * @param {String} [options.basePath] Base root directory
+ * @param {boolean} [options.createInstance] enable or disable automatic instantiation of stage
  * @return {PIXI.loaders.Loader} instance of PIXI resource loader
  */
 /**
@@ -109,13 +110,14 @@ const load = function(options, parent, complete, basePath, loader, metadata) {
         stage: null,
         parent: null,
         basePath: '',
-        complete: null
+        complete: null,
+        createInstance: true
     }, options || {});
 
     loader = loader || new PIXI.loaders.Loader();
 
     function done() {
-        let instance = new options.stage();
+        let instance = (options.createInstance && typeof options.stage === "function") ? new options.stage() : null;
         if (options.parent) {
             options.parent.addChild(instance);
         }
