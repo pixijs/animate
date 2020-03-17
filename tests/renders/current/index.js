@@ -31,6 +31,7 @@ describe('Renders - Current asset format', function() {
             var file = path.join(__dirname, 'assets', id + '.js');
             delete require.cache[path.resolve(file)];
             var fla = require(file);
+            fla.setup(animate);
             animate.load(fla, {
                 createInstance: true,
                 complete: done,
@@ -57,7 +58,7 @@ describe('Renders - Current asset format', function() {
         this.validate('advanced-color', done);
     });
 
-    it.skip('should render an alpha', function(done){
+    it('should render an alpha', function(done){
         this.validate('alpha', done);
     });
 
@@ -257,7 +258,7 @@ describe('Renders - Current asset format', function() {
         this.validate('visible', done);
     });
 
-    it.skip('should work for actions', function(done) {
+    it('should work for actions', function(done) {
         this.getInstance('actions', (instance) => {
             instance.once('actionsWork', () => {
                 done();
