@@ -7,8 +7,8 @@ import ShapesCache from './ShapesCache';
  * @class SymbolLoader
  * @private
  */
-let SymbolLoader = function() {
-    return function(resource, next) {
+let SymbolLoader = {
+    use: function(resource, next) {
         let url = resource.url;
         let data = resource.data;
 
@@ -19,16 +19,16 @@ let SymbolLoader = function() {
         } else if (data.nodeName && data.nodeName === 'IMG') {
             // Add individual images to the texture cache by their
             // short symbol name, not the URL
-            PIXI.Texture.addTextureToCache(
+            PIXI.Texture.addTexture(
                 resource.texture,
                 resource.name
             );
         }
         next();
-    };
+    }
 };
 
 // Assign to the loader
-PIXI.loaders.Loader.addPixiMiddleware(SymbolLoader);
+PIXI.Loader.registerPlugin(SymbolLoader);
 
 export default SymbolLoader;

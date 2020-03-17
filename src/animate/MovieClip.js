@@ -2,7 +2,7 @@ import Timeline from './Timeline';
 import utils from './utils';
 
 const Container = PIXI.Container;
-const SharedTicker = PIXI.ticker.shared;
+const SharedTicker = PIXI.Ticker.shared;
 
 /**
  * Provide timeline playback of movieclip
