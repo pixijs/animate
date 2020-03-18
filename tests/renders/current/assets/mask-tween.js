@@ -1,25 +1,49 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 30,
+    totalFrames: 3,
+	assets: {
+        "mask_tween": "images/mask_tween.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Graphics = animate.Graphics;
 
-    var Graphic1 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphics()
-            .drawCommands(shapes.mask_tween[0]);
+    const Graphic1 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.mask_tween[0]);
         this.addTimedChild(instance1);
-    });
+    }
+    }
 
-    lib.mask_tween = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.mask_tween = class extends MovieClip {
+    constructor() {
+        super({
             duration: 3,
             framerate: 30
         });
-        var instance1 = new Graphic1(MovieClip.SYNCHED)
+        const instance1 = new Graphic1(MovieClip.SYNCHED)
             .setRenderable(false);
-        var instance2 = new Graphics()
-            .drawCommands(shapes.mask_tween[1])
+        const instance2 = new Graphics()
+            .drawCommands(data.shapes.mask_tween[1])
             .setMask(instance1);
         this.addTimedChild(instance1, 0, 3, {
                 "0": {
@@ -34,21 +58,12 @@
                 }
             })
             .addTimedChild(instance2);
-    });
+    }
+    }
 
-    lib.mask_tween.assets = {
-        "mask_tween": "images/mask_tween.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.mask_tween,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 30,
-        totalFrames: 3,
-        library: lib
-    };
-}
+    data.stage = data.lib.mask_tween;
+
+	}
+};
+
+module.exports = data;

@@ -1,19 +1,43 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 3,
+	assets: {
+        "tween_nested_graphics": "images/tween_nested_graphics.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Graphics = animate.Graphics;
 
-    var Graphic1 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphics()
-            .drawCommands(shapes.tween_nested_graphics[0]);
+    const Graphic1 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.tween_nested_graphics[0]);
         this.addTimedChild(instance1);
-    });
+    }
+    }
 
-    var Graphic2 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphic1(MovieClip.SYNCHED);
+    const Graphic2 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphic1(MovieClip.SYNCHED);
         this.addTimedChild(instance1, 0, 3, {
             "0": {
                 sx: 0.667,
@@ -27,11 +51,13 @@
                 r: 0.785
             }
         });
-    });
+    }
+    }
 
-    var Graphic3 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphic2(MovieClip.SYNCHED);
+    const Graphic3 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphic2(MovieClip.SYNCHED);
         this.addTimedChild(instance1, 0, 3, {
             "0": {
                 sx: 1,
@@ -46,11 +72,13 @@
                 sy: 0.067
             }
         });
-    });
+    }
+    }
 
-    var Graphic4 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphic3(MovieClip.SYNCHED);
+    const Graphic4 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphic3(MovieClip.SYNCHED);
         this.addTimedChild(instance1, 0, 3, {
             "0": {
                 x: 4.95,
@@ -63,11 +91,13 @@
                 x: -10
             }
         });
-    });
+    }
+    }
 
-    var Graphic5 = MovieClip.extend(function (mode) {
-        MovieClip.call(this, { mode: mode, duration: 3, loop: false });
-        var instance1 = new Graphic4(MovieClip.SYNCHED);
+    const Graphic5 = class extends MovieClip {
+    constructor(mode) {
+        super({ mode: mode, duration: 3, loop: false });
+        const instance1 = new Graphic4(MovieClip.SYNCHED);
         this.addTimedChild(instance1, 0, 3, {
             "0": {
                 y: 0
@@ -79,31 +109,24 @@
                 y: 14.7
             }
         });
-    });
+    }
+    }
 
-    lib.tween_nested_graphics = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.tween_nested_graphics = class extends MovieClip {
+    constructor() {
+        super({
             duration: 3,
             framerate: 24
         });
-        var instance1 = new Graphic5(MovieClip.SYNCHED)
+        const instance1 = new Graphic5(MovieClip.SYNCHED)
             .setTransform(16, 16);
         this.addTimedChild(instance1);
-    });
+    }
+    }
 
-    lib.tween_nested_graphics.assets = {
-        "tween_nested_graphics": "images/tween_nested_graphics.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.tween_nested_graphics,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 3,
-        library: lib
-    };
-}
+    data.stage = data.lib.tween_nested_graphics;
+
+	}
+};
+
+module.exports = data;

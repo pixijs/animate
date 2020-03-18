@@ -1,40 +1,55 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 2,
+	assets: {
+        "end_only": "images/end_only.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Container = animate.Container;
+    const Graphics = animate.Graphics;
 
-    lib.Graphic1 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.end_only[0]);
+    data.lib.Graphic1 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.end_only[0]);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.end_only = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.end_only = class extends MovieClip {
+    constructor() {
+        super({
             duration: 2,
             framerate: 24
         });
-        var instance1 = new lib.Graphic1()
+        const instance1 = new data.lib.Graphic1()
             .setTransform(16, 16);
         this.addTimedChild(instance1, 1, 1);
-    });
+    }
+    }
 
-    lib.end_only.assets = {
-        "end_only": "images/end_only.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.end_only,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 2,
-        library: lib
-    };
-}
+    data.stage = data.lib.end_only;
+
+	}
+};
+
+module.exports = data;

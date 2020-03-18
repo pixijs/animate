@@ -1,36 +1,49 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 1,
+	assets: {
+        "depth_sorting": "images/depth_sorting.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Graphics = animate.Graphics;
 
-    lib.depth_sorting = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.depth_sorting = class extends MovieClip {
+    constructor() {
+        super({
             duration: 1,
             framerate: 24
         });
-        var instance3 = new Graphics()
-            .drawCommands(shapes.depth_sorting[2]);
-        var instance2 = new Graphics()
-            .drawCommands(shapes.depth_sorting[1]);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.depth_sorting[0]);
+        const instance3 = new Graphics()
+            .drawCommands(data.shapes.depth_sorting[2]);
+        const instance2 = new Graphics()
+            .drawCommands(data.shapes.depth_sorting[1]);
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.depth_sorting[0]);
         this.addChild(instance3, instance2, instance1);
-    });
+    }
+    }
 
-    lib.depth_sorting.assets = {
-        "depth_sorting": "images/depth_sorting.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.depth_sorting,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 1,
-        library: lib
-    };
-}
+    data.stage = data.lib.depth_sorting;
+
+	}
+};
+
+module.exports = data;

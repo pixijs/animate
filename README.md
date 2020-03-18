@@ -37,10 +37,16 @@ Changes that the shim doesn't account for:
 * `load()` no longer has so many variants allowed. Instead, the first argument is always the scene that you want to load, followed by either a callback or an options object. If using the legacy shim, pass in the constructor for the main scene MovieClip, as you did in v1.
 * `createInstance` now defaults to false, instead of true, when calling `load()`.
 
+### Asset changes
+The expected asset format is now a module based asset that uses ES6 classes, for use with `require()` (publish for CommonJS) or `import()` (publish for ES6). A script has been provided to update v1 assets to the new format - `scripts/assetConversion.js`.
+* CommonJS export: `node node_modules/pixi-animate/assetConversion.js path/to/myFile.js path/to/my2ndFile.js`
+* ES6 export: `node node_modules/pixi-animate/assetConversion.js -e path/to/myFile.js path/to/my2ndFile.js`
+
+Note that this script does not update graphics paths - you will have to go into your `*.shapes.*` files and replace `"c"` with `"cp"`.
+
 ## Typescript
 You can use require to get the namespace for PixiAnimate:
 ```typescript
-// Note: Must also include the pixi.js typings globally!
 import animate = require('pixi-animate');
 
 let myMC:animate.MovieClip = new animate.MovieClip();
@@ -49,16 +55,11 @@ let myMC:animate.MovieClip = new animate.MovieClip();
 Or use a triple slash reference for using the PIXI.animate namespace:
 ```typescript
 // Note: Must also include the pixi.js typings globally!
-/// <reference path="node_modules/pixi-animate/ambient.d.ts" />
-require('pixi-animate');
+/// <reference path="node_modules/pixi-animate/dist/pixi-animate-ambient.d.ts" />
+// In your HTML:
+// <script src="node_modules/pixi-animate/dist/pixi-animate.d.ts"></script>
 
 let myMC:PIXI.animate.MovieClip = new PIXI.animate.MovieClip();
-```
-
-Or simply import pixi-animate (after importing pixi.js):
-```typescript
-// Note: Must also include the pixi.js typings globally!
-import('pixi-animate');
 ```
 
 ## License

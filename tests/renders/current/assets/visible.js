@@ -1,23 +1,47 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 2,
+	assets: {
+        "visible": "images/visible.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Container = animate.Container;
+    const Graphics = animate.Graphics;
 
-    lib.graphic = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.visible[0]);
+    data.lib.graphic = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.visible[0]);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.visible = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.visible = class extends MovieClip {
+    constructor() {
+        super({
             duration: 2,
             framerate: 24
         });
-        var instance1 = new lib.graphic();
+        const instance1 = new data.lib.graphic();
         this.addTimedChild(instance1, 0, 2, {
             "0": {
                 x: 16,
@@ -28,21 +52,12 @@
                 v: 0
             }
         });
-    });
+    }
+    }
 
-    lib.visible.assets = {
-        "visible": "images/visible.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.visible,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 2,
-        library: lib
-    };
-}
+    data.stage = data.lib.visible;
+
+	}
+};
+
+module.exports = data;

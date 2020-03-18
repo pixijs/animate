@@ -17,7 +17,14 @@ for (let file of files) {
 	if (!path.isAbsolute(file)) {
 		file = path.resolve(process.cwd(), file);
 	}
-	const orig = fs.readFileSync(file, 'utf8');
+	let orig;
+	try {
+		orig = fs.readFileSync(file, 'utf8');
+	}
+	catch (e) {
+		console.log(e.message);
+		continue;
+	}
 	
 	const libSetup = /\(function \(([^)]+)\) {((?:.|[\n\r])+)}\)\(/m.exec(orig);
 	/* LIB ARGS (Match 1):
@@ -63,7 +70,12 @@ for (let file of files) {
 	}
 	
 	const [arg_PIXI, arg_lib] = libSetup[1].split(', ');
-	const [fullAssetSetup, stageName, assets] = new RegExp(`${arg_lib}\\.([a-zA-Z_$0-9]+)\\.assets = ({[^}]+});`).exec(orig);
+	const foundAssets = new RegExp(`${arg_lib}\\.([a-zA-Z_$0-9]+)\\.assets = ({[^}]*});`).exec(orig);
+	if (!libSetup) {
+		console.log('Unable to parse library assets (and which item is the stage) from ' + file);
+		continue;
+	}
+	const [fullAssetSetup, stageName, assets] = foundAssets;
 	
 	/* STAGE DATA (optional):
 	module.exports = {
@@ -76,12 +88,12 @@ for (let file of files) {
 	    library: lib
 	};
 	*/
-	const stageData = /module\.exports = {([^}])};/m.exec(orig);
+	const stageData = /module\.exports = {([^}]+)};/m.exec(orig);
 	let data = `const data = {
 	stage: null,
 `;
 	if (stageData) {
-		data += stageData[1].trim().split(/[\n\r]*/)
+		data += stageData[1].trim().split(/[\n\r]+/)
 			.map(s => s.trim())
 			.filter(s => !s.startsWith('stage') && !s.startsWith('library'))
 			.map(s => '    ' + s)
@@ -118,9 +130,11 @@ for (let file of files) {
 	// remove the fromFrame variable, if present
 	setup = setup.replace(new RegExp(`^\\s+var fromFrame = ${arg_PIXI}\\.Texture\\.fromFrame;\\r?\\n?`, 'm'), '');
 	// replace MovieClip variable
-	setup = setup.replace(new RegExp(`${arg_PIXI}\\.MovieClip`), 'animate.MovieClip');
+	setup = setup.replace(new RegExp(`${arg_PIXI}\\.animate.MovieClip`), 'animate.MovieClip');
 	// replace Container variable
 	setup = setup.replace(new RegExp(`${arg_PIXI}\\.Container`), 'animate.Container');
+	// replace Sprite variable
+	setup = setup.replace(new RegExp(`${arg_PIXI}\\.Sprite`), 'animate.Sprite');
 	// replace Text variable
 	setup = setup.replace(new RegExp(`${arg_PIXI}\\.Text`), 'animate.Text');
 	// replace Graphics variable
@@ -132,14 +146,14 @@ for (let file of files) {
 	// fix fromFrame usage
 	setup = setup.replace(new RegExp(`(\\W)(fromFrame)(?=\\()`, 'g'), '$1data.getTexture');
 	// fix MovieClip extension
-	const MCFinder = /^([ \t]+)(data.lib.[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(\) {/m;
+	const MCFinder = /^([ \t]+)((?:data\.lib\.|var )[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(([^)]*)\) {/m;
 	let found = MCFinder.exec(setup);
 	while (found) {
-		const [fullMatch, indent, libItem] = found;
+		const [fullMatch, indent, libItem, args] = found;
 		const {index} = found;
 		// replace extend() with class declaration & constructor
 		setup = setup.replace(fullMatch, `${indent}${libItem}class extends MovieClip {
-${indent}constructor() {`);
+${indent}constructor(${args}) {`);
 		// replace super call with real super()
 		const superFinder = /MovieClip.call\(this, /;
 		superFinder.lastIndex = index;
@@ -152,7 +166,7 @@ ${indent}constructor() {`);
 		found = MCFinder.exec(setup);
 	}
 	// fix Container extension
-	const ContainerFinder = /^([ \t]+)(data.lib.[a-zA-Z_$0-9]+ = )Container.extend\(function \(\) {/m;
+	const ContainerFinder = /^([ \t]+)((?:data\.lib\.|var )[a-zA-Z_$0-9]+ = )Container.extend\(function \(([^)]*)\) {/m;
 	found = ContainerFinder.exec(setup);
 	while (found) {
 		const [fullMatch, indent, libItem] = found;

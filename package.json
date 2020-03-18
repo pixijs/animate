@@ -69,7 +69,8 @@
     "LICENSE",
     "package.json",
     "README.md",
-    "v1-asset-shim.js"
+    "v1-asset-shim.js",
+    "scripts/assetConversion.js"
   ],
   "keywords": [
     "webgl",

@@ -62,7 +62,7 @@ describe('Renders - Current asset format', function() {
         this.validate('alpha', done);
     });
 
-    it.skip('should render a bitmap', function(done){
+    it('should render a bitmap', function(done){
         this.validate('bitmap', done);
     });
 
@@ -74,19 +74,19 @@ describe('Renders - Current asset format', function() {
     //     this.validate('bitmap-mask-transparent', done);
     // });
 
-    it.skip('should render a bitmap inside a symbol', function(done){
+    it('should render a bitmap inside a symbol', function(done){
         this.validate('bitmap-symbol', done);
     });
 
-    it.skip('should render brightness', function(done){
+    it('should render brightness', function(done){
         this.validate('brightness', done);
     });
 
-    it.skip('should render depth sorting (single frame)', function(done){
+    it('should render depth sorting (single frame)', function(done){
         this.validate('depth-sorting', done);
     });
 
-    it.skip('should render depth sorting over the timeline', function(done){
+    it('should render depth sorting over the timeline', function(done){
         this.validate('depth-sorting-timeline', done);
     });
 
@@ -94,27 +94,27 @@ describe('Renders - Current asset format', function() {
     //     this.validate('eye-disappearing', done);
     // });
 
-    it.skip('should render end-of-timeline only', function(done){
+    it('should render end-of-timeline only', function(done){
         this.validate('end-only', done);
     });
 
-    it.skip('should render a graphic', function(done){
+    it('should render a graphic', function(done){
         this.validate('graphic', done);
     });
 
-    it.skip('should render a graphic set to "loop"', function(done){
+    it('should render a graphic set to "loop"', function(done){
         this.validate('graphic-loop', done);
     });
 
-    it.skip('should render a graphic animating on a path', function(done){
+    it('should render a graphic animating on a path', function(done){
         this.validate('graphic-path', done);
     });
 
-    it.skip('should render a graphic set to "play once"', function(done){
+    it('should render a graphic set to "play once"', function(done){
         this.validate('graphic-playonce', done);
     });
 
-    it.skip('should render a graphic set to "single frame"', function(done){
+    it('should render a graphic set to "single frame"', function(done){
         this.validate('graphic-singleframe', done);
     });
 
@@ -130,7 +130,7 @@ describe('Renders - Current asset format', function() {
     //     this.validate('mask-nested-tween', done);
     // });
 
-    it.skip('should render a mask inside a symbol', function(done){
+    it('should render a mask inside a symbol', function(done){
         this.validate('mask-nested', done);
     });
 
@@ -138,35 +138,35 @@ describe('Renders - Current asset format', function() {
     //     this.validate('mask-tween', done);
     // });
 
-    it.skip('should render a mask', function(done){
+    it('should render a mask', function(done){
         this.validate('mask', done);
     });
 
-    it.skip('should render a shape primitive mask', function(done){
+    it('should render a shape primitive mask', function(done){
         this.validate('mask-primitive', done);
     });
 
-    it.skip('should render a nested mixed transformation (scale/skew/rotate)', function(done){
+    it('should render a nested mixed transformation (scale/skew/rotate)', function(done){
         this.validate('nested-mixed-transform', done);
     });
 
-    it.skip('should render a nested rotation', function(done){
+    it('should render a nested rotation', function(done){
         this.validate('nested-rotate', done);
     });
 
-    it.skip('should render a nested scale', function(done){
+    it('should render a nested scale', function(done){
         this.validate('nested-scale', done);
     });
 
-    it.skip('should render a nested skew', function(done){
+    it('should render a nested skew', function(done){
         this.validate('nested-skew', 0.05, done);
     });
 
-    it.skip('should render only the middle of the timeline', function(done){
+    it('should render only the middle of the timeline', function(done){
         this.validate('no-start-end', done);
     });
 
-    it.skip('should render only the start of the timeline', function(done){
+    it('should render only the start of the timeline', function(done){
         this.validate('start-only', done);
     });
 
@@ -174,87 +174,87 @@ describe('Renders - Current asset format', function() {
     //     this.validate('text', done);
     // });
 
-    it.skip('should render a tint', function(done){
+    it('should render a tint', function(done){
         this.validate('tint', done);
     });
 
-    it.skip('should render a tween from alpha to tint', function(done){
+    it('should render a tween from alpha to tint', function(done){
         this.validate('tween-alpha-tint', done);
     });
 
-    it.skip('should render a nested graphics tween', function(done){
+    it('should render a nested graphics tween', function(done){
         this.validate('tween-nested-graphics', done);
     });
 
-    it.skip('should render a nested movieclip tween', function(done){
+    it('should render a nested movieclip tween', function(done){
         this.validate('tween-nested-movieclip', done);
     });
 
-    it.skip('should render multiple instances of a nested tween', function(done){
+    it('should render multiple instances of a nested tween', function(done){
         this.validate('tween-nested-multiple-instances', done);
     });
 
-    it.skip('should render a tween from normal to advanced color', function(done){
+    it('should render a tween from normal to advanced color', function(done){
         this.validate('tween-normal-advanced', done);
     });
 
-    it.skip('should render a tween from normal to alpha', function(done){
+    it('should render a tween from normal to alpha', function(done){
         this.validate('tween-normal-alpha', done);
     });
 
-    it.skip('should render a tween from normal to brightness', function(done){
+    it('should render a tween from normal to brightness', function(done){
         this.validate('tween-normal-brightness', done);
     });
 
-    it.skip('should render a tween from normal to tint', function(done){
+    it('should render a tween from normal to tint', function(done){
         this.validate('tween-normal-tint', done);
     });
 
-    it.skip('should render a rotating tween', function(done){
+    it('should render a rotating tween', function(done){
         this.validate('tween-rotate', done);
     });
 
-    it.skip('should render a tween scaling uniformly', function(done){
+    it('should render a tween scaling uniformly', function(done){
         this.validate('tween-scale-uniform', done);
     });
 
-    it.skip('should render a tween scaling horizontally', function(done){
+    it('should render a tween scaling horizontally', function(done){
         this.validate('tween-scale-x', done);
     });
 
-    it.skip('should render a tween scaling vertically', function(done){
+    it('should render a tween scaling vertically', function(done){
         this.validate('tween-scale-y', done);
     });
 
-    it.skip('should render a tween skewing x and y', function(done){
+    it('should render a tween skewing x and y', function(done){
         this.validate('tween-skew-both', 0.06, done);
     });
 
-    it.skip('should render a tween skewing horizontally', function(done){
+    it('should render a tween skewing horizontally', function(done){
         this.validate('tween-skew-x', done);
     });
 
-    it.skip('should render a tween skewing vertically', function(done){
+    it('should render a tween skewing vertically', function(done){
         this.validate('tween-skew-y', 0.05, done);
     });
 
-    it.skip('should render a tween from one tint to another', function(done){
+    it('should render a tween from one tint to another', function(done){
         this.validate('tween-tint-tint', done);
     });
 
-    it.skip('should render a tween along both x and y axes', function(done){
+    it('should render a tween along both x and y axes', function(done){
         this.validate('tween-x-y', done);
     });
 
-    it.skip('should render a horizontal tween', function(done){
+    it('should render a horizontal tween', function(done){
         this.validate('tween-x', done);
     });
 
-    it.skip('should render a vertical tween', function(done){
+    it('should render a vertical tween', function(done){
         this.validate('tween-y', done);
     });
 
-    it.skip('should render visibility toggling on/off', function(done){
+    it('should render visibility toggling on/off', function(done){
         this.validate('visible', done);
     });
 
@@ -268,7 +268,7 @@ describe('Renders - Current asset format', function() {
         });
     });
 
-    it.skip('should work for named instances', function(done) {
+    it('should work for named instances', function(done) {
         this.getInstance('named-instance', (instance) => {
             assert(instance.example, 'Missing named instance');
             done();

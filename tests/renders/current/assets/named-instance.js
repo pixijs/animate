@@ -1,41 +1,56 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 1,
+	assets: {
+        "NamedInstance": "images/NamedInstance.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Container = animate.Container;
+    const Graphics = animate.Graphics;
 
-    lib.Example = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.NamedInstance[0]);
+    data.lib.Example = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.NamedInstance[0]);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.NamedInstance = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.NamedInstance = class extends MovieClip {
+    constructor() {
+        super({
             duration: 1,
             framerate: 24
         });
-        var instance1 = this.example = new lib.Example()
+        const instance1 = this.example = new data.lib.Example()
             .setTransform(4, 4)
             .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.NamedInstance.assets = {
-        "NamedInstance": "images/NamedInstance.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.NamedInstance,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 1,
-        library: lib
-    };
-}
+    data.stage = data.lib.NamedInstance;
+
+	}
+};
+
+module.exports = data;

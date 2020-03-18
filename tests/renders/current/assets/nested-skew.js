@@ -1,54 +1,73 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 1,
+	assets: {
+        "nested_skew": "images/nested_skew.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Container = animate.Container;
+    const Graphics = animate.Graphics;
 
-    lib.Graphic1 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.nested_skew[0]);
+    data.lib.Graphic1 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.nested_skew[0]);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.Graphic2 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new lib.Graphic1()
+    data.lib.Graphic2 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new data.lib.Graphic1()
             .setTransform(0, 0, 0.947, 1.057, 0, -0.124, 0.157);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.Graphic3 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new lib.Graphic2()
+    data.lib.Graphic3 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new data.lib.Graphic2()
             .setTransform(0, 0, 1.086, 1.059, 0, 0.337, 0.181);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.nested_skew = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.nested_skew = class extends MovieClip {
+    constructor() {
+        super({
             duration: 1,
             framerate: 24
         });
-        var instance1 = new lib.Graphic3()
+        const instance1 = new data.lib.Graphic3()
             .setTransform(16, 16, 1.011, 1.007, 0, -0.116, -0.07);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.nested_skew.assets = {
-        "nested_skew": "images/nested_skew.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.nested_skew,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 1,
-        library: lib
-    };
-}
+    data.stage = data.lib.nested_skew;
+
+	}
+};
+
+module.exports = data;

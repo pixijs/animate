@@ -1,57 +1,76 @@
-(function (PIXI, lib) {
+const data = {
+	stage: null,
+    background: 0xffffff,
+    width: 32,
+    height: 32,
+    framerate: 24,
+    totalFrames: 1,
+	assets: {
+        "nested_rotate": "images/nested_rotate.shapes.json"
+    },
+	lib: {},
+	shapes: {},
+	textures: {},
+	spritesheets: [],
+	getTexture: function(id) {
+		if (data.textures[id]) {
+			return data.textures[id];
+		}
+		const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+		return atlas ? atlas.textures[id] : null;
+	},
+	setup: function(animate) {
+	
 
-    var MovieClip = PIXI.animate.MovieClip;
-    var Container = PIXI.Container;
-    var Graphics = PIXI.Graphics;
-    var shapes = PIXI.animate.ShapesCache;
+    const MovieClip = animate.MovieClip;
+    const Container = animate.Container;
+    const Graphics = animate.Graphics;
 
-    lib.Graphic1 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new Graphics()
-            .drawCommands(shapes.nested_rotate[0]);
+    data.lib.Graphic1 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new Graphics()
+            .drawCommands(data.shapes.nested_rotate[0]);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.Graphic2 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new lib.Graphic1()
+    data.lib.Graphic2 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new data.lib.Graphic1()
             .setTransform(0, 0, 1, 1, 0.588)
             .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.Graphic3 = Container.extend(function () {
-        Container.call(this);
-        var instance1 = new lib.Graphic2()
+    data.lib.Graphic3 = class extends Container {
+    constructor() {
+        super();
+        const instance1 = new data.lib.Graphic2()
             .setTransform(0, 0, 1, 1, 0.977)
             .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.nested_rotate = MovieClip.extend(function () {
-        MovieClip.call(this, {
+    data.lib.nested_rotate = class extends MovieClip {
+    constructor() {
+        super({
             duration: 1,
             framerate: 24
         });
-        var instance1 = new lib.Graphic3()
+        const instance1 = new data.lib.Graphic3()
             .setTransform(16, 16, 1, 1, 0.226)
             .setColorTransform(1, 0, 1, 0, 1, 0);
         this.addChild(instance1);
-    });
+    }
+    }
 
-    lib.nested_rotate.assets = {
-        "nested_rotate": "images/nested_rotate.shapes.json"
-    };
-})(PIXI, lib = lib || {});
-var lib;
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        stage: lib.nested_rotate,
-        background: 0xffffff,
-        width: 32,
-        height: 32,
-        framerate: 24,
-        totalFrames: 1,
-        library: lib
-    };
-}
+    data.stage = data.lib.nested_rotate;
+
+	}
+};
+
+module.exports = data;
