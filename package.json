@@ -6,7 +6,11 @@
   "module": "lib/pixi-animate.es.js",
   "bundle": "dist/pixi-animate.js",
   "typings": "lib/pixi-animate.d.ts",
-  "author": "Matt Karl <matt.karl@jibo.com>",
+  "contributors": [
+      "Matt Karl <matt@mattkarl.com>",
+      "Eric Ente (https://github.com/ericente)",
+      "Andrew Start (https://github.com/andrewstart)"
+  ],
   "devDependencies": {
     "@rollup/plugin-replace": "^2.3.1",
     "browserify-derequire": "^0.9.4",
