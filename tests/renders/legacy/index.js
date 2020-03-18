@@ -90,10 +90,6 @@ describe('Renders - Legacy asset format', function() {
         this.validate('depth-sorting-timeline', done);
     });
 
-    // it('should render no disappearing eye', function(done){
-    //     this.validate('eye-disappearing', done);
-    // });
-
     it('should render end-of-timeline only', function(done){
         this.validate('end-only', done);
     });
