@@ -3,8 +3,6 @@ export {sound} from './sound';
 export {utils_ns as utils} from './utils';
 export {MovieClip} from './MovieClip';
 export {Scene} from './Scene';
-// export {ShapesCache} from './ShapesCache';
-// export {SymbolLoader} from './SymbolLoader';
 export {Timeline} from './Timeline';
 export {Tween} from './Tween';
 export {Animator} from './Animator';
