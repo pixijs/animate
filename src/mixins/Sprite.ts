@@ -1,15 +1,18 @@
 import { Sprite, filters, Graphics } from 'pixi.js';
-import {utils_ns as utils} from '../animate/utils';
+import { utils_ns as utils } from '../animate/utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
-if (filters) {
+
+if (filters)
+{
     ColorMatrixFilter = filters.ColorMatrixFilter;
 }
 
 /**
  * Utility subclass of PIXI.Sprite
  */
-export class AnimateSprite extends Sprite {
+export class AnimateSprite extends Sprite
+{
     // **************************
     //     DisplayObject methods
     // **************************
@@ -19,8 +22,10 @@ export class AnimateSprite extends Sprite {
      * @param renderable Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
-    public setRenderable(renderable?:boolean) {
+    public setRenderable(renderable?: boolean): this
+    {
         this.renderable = !!renderable;
+
         return this;
     }
     /**
@@ -38,19 +43,25 @@ export class AnimateSprite extends Sprite {
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask:Graphics|Sprite) {
+    public setMask(mask: Graphics|Sprite): this
+    {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
         // movieclips and displayobjects/containers
-        if (mask) {
-            if (!(mask instanceof Graphics) && !(mask instanceof Sprite)) {
-                if (typeof console !== "undefined" && console.warn) {
-                    console.warn("Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.");
+        if (mask)
+        {
+            if (!(mask instanceof Graphics) && !(mask instanceof Sprite))
+            {
+                if (typeof console !== 'undefined' && console.warn)
+                {
+                    console.warn('Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.');
                 }
+
                 return this;
             }
         }
         this.mask = mask;
+
         return this;
     }
     /**
@@ -63,8 +74,10 @@ export class AnimateSprite extends Sprite {
      * @param alpha The alpha amount to use, from 0 to 1
      * @return Instance for chaining
      */
-    public setAlpha(alpha:number) {
+    public setAlpha(alpha: number): this
+    {
         this.alpha = alpha;
+
         return this;
     }
     /**
@@ -77,8 +90,10 @@ export class AnimateSprite extends Sprite {
      * @param tint The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint:string|number) {
-        if (typeof tint === "string") {
+    public setTint(tint: string|number): this
+    {
+        if (typeof tint === 'string')
+        {
             tint = utils.hexToUint(tint);
         }
         // this.tint = tint
@@ -87,9 +102,10 @@ export class AnimateSprite extends Sprite {
         // once the functionality is added to Pixi.js, for
         // now we'll use the slower ColorMatrixFilter to handle
         // the color transformation
-        const r = tint >> 16 & 0xFF;
-        const g = tint >> 8 & 0xFF;
+        const r = (tint >> 16) & 0xFF;
+        const g = (tint >> 8) & 0xFF;
         const b = tint & 0xFF;
+
         return this.setColorTransform(r / 255, 0, g / 255, 0, b / 255, 0);
     }
     /**
@@ -107,8 +123,10 @@ export class AnimateSprite extends Sprite {
      * @param bA The additive blue value
      * @return Object for chaining
      */
-    public setColorTransform(r:number, rA:number, g:number, gA:number, b:number, bA:number) {
+    public setColorTransform(r: number, rA: number, g: number, gA: number, b: number, bA: number): this
+    {
         const filter = this.colorTransformFilter;
+
         filter.matrix[0] = r;
         filter.matrix[4] = rA;
         filter.matrix[6] = g;
@@ -116,6 +134,7 @@ export class AnimateSprite extends Sprite {
         filter.matrix[12] = b;
         filter.matrix[14] = bA;
         this.filters = [filter];
+
         return this;
     }
     /**
@@ -123,14 +142,16 @@ export class AnimateSprite extends Sprite {
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter:filters.ColorMatrixFilter;
+    protected _colorTransformFilter: filters.ColorMatrixFilter;
     /**
      * The current default color transforming filters
      */
-    public set colorTransformFilter(filter:filters.ColorMatrixFilter) {
+    public set colorTransformFilter(filter: filters.ColorMatrixFilter)
+    {
         this._colorTransformFilter = filter;
     }
-    public get colorTransformFilter() {
+    public get colorTransformFilter(): filters.ColorMatrixFilter
+    {
         return this._colorTransformFilter || new ColorMatrixFilter();
     }
 }

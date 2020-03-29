@@ -1,8 +1,8 @@
-import {load} from './load';
-import {sound} from './sound';
-import {MovieClip} from './MovieClip';
-import {Application, utils, /*IDestroyOptions*/} from 'pixi.js';
-import {AnimateAsset} from '../AnimateAsset';
+import { load } from './load';
+import { sound } from './sound';
+import { MovieClip } from './MovieClip';
+import { Application, utils, Loader /* IDestroyOptions*/ } from 'pixi.js';
+import { AnimateAsset } from '../AnimateAsset';
 
 // TODO: Remove with next release of pixi.js
 interface IDestroyOptions {
@@ -18,17 +18,18 @@ interface IDestroyOptions {
  * scene.load(lib.StageName);
  * ```
  */
-export class Scene extends Application {
+export class Scene extends Application
+{
     /**
      * Reference to the global sound object
      * @readOnly
      */
-    public readonly sound:utils.EventEmitter = sound;
-    
+    public readonly sound: utils.EventEmitter = sound;
+
     /**
      * The stage object created.
      */
-    public instance:MovieClip = null;
+    public instance: MovieClip = null;
 
     /**
      * Load a stage scene and add it to the stage.
@@ -37,17 +38,20 @@ export class Scene extends Application {
      * @param basePath Optional base directory to prepend to assets.
      * @return instance of PIXI resource loader
      */
-    public load(asset:AnimateAsset, complete?:(instance?:MovieClip)=>void, basePath?:string) {
+    public load(asset: AnimateAsset, complete?: (instance?: MovieClip) => void, basePath?: string): Loader
+    {
         return load(asset, {
             parent: this.stage,
             createInstance: true,
-            complete: (instance) => {
+            complete: (instance) =>
+            {
                 this.instance = instance as MovieClip;
-                if (complete) {
+                if (complete)
+                {
                     complete(this.instance);
                 }
             },
-            basePath
+            basePath,
         });
     }
 
@@ -57,8 +61,10 @@ export class Scene extends Application {
      * @param stageOptions Options parameter. A boolean will act as if all options
      *  have been set to that value
      */
-    destroy(removeView?: boolean, stageOptions?: IDestroyOptions | boolean): void {
-        if (this.instance) {
+    destroy(removeView?: boolean, stageOptions?: IDestroyOptions | boolean): void
+    {
+        if (this.instance)
+        {
             this.instance.destroy(true);
             this.instance = null;
         }

@@ -1,19 +1,21 @@
-import {Timeline} from './Timeline';
-import {TweenProps, EaseMethod} from './Tween';
-import {utils_ns as utils} from './utils';
-import {sound} from './sound';
-import {AnimateContainer, AnimateDisplayObject} from '../mixins';
-import {Ticker, settings, Graphics, Sprite, /*IDestroyOptions*/} from 'pixi.js';
+import { Timeline } from './Timeline';
+import { TweenProps, EaseMethod } from './Tween';
+import { utils_ns as utils } from './utils';
+import { sound } from './sound';
+import { AnimateContainer, AnimateDisplayObject } from '../mixins';
+import { Ticker, settings, Graphics, Sprite /* , IDestroyOptions */ } from 'pixi.js';
 const SharedTicker = Ticker.shared;
 
 // TODO: Remove with next release of pixi.js
-interface IDestroyOptions {
+interface IDestroyOptions
+{
     children?: boolean;
     texture?: boolean;
     baseTexture?: boolean;
 }
 
-export interface MovieClipOptions {
+export interface MovieClipOptions
+{
     /**
      * The default playback mode is independent (0). Child movieclips are given a different value as subordinate objects.
      */
@@ -21,42 +23,45 @@ export interface MovieClipOptions {
     /**
      * The starting frame. Default is 0.
      */
-    startPosition?:number;
+    startPosition?: number;
     /**
      * If playback is looped. Default is true.
      */
-    loop?:boolean;
+    loop?: boolean;
     /**
      * The frame labels map - label to frames
      */
-    labels?:LabelMap;
+    labels?: LabelMap;
     /**
      * The duration of the clip. If no duration is provided, length is automatically determined.
      */
-    duration?:number;
+    duration?: number;
     /**
      * The framerate to use for an independent mode MovieClip. Default is 24.
      */
-    framerate?:number;
+    framerate?: number;
 }
 
-export interface FrameLabel {
-    label:string;
-    position:number;
+export interface FrameLabel
+{
+    label: string;
+    position: number;
 }
 
-export interface LabelMap {
-    [label:string]:number;
+export interface LabelMap
+{
+    [label: string]: number;
 }
 
-export type FrameAction = (this:MovieClip)=>void;
+export type FrameAction = (this: MovieClip) => void;
 
-type TimedChildTimeline = boolean[] & {target?:AnimateDisplayObject};
+type TimedChildTimeline = boolean[] & {target?: AnimateDisplayObject};
 
 /**
  * Provide timeline playback of movieclip
  */
-export class MovieClip extends AnimateContainer {
+export class MovieClip extends AnimateContainer
+{
     /**
      * The MovieClip will advance independently of its parent, even if its parent is paused.
      * This is the default mode.
@@ -83,48 +88,48 @@ export class MovieClip extends AnimateContainer {
      * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
      * See each constant for a description of the behaviour.
      */
-    public mode:number;
+    public mode: number;
 
     /**
      * Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.
      */
-    public startPosition:number;
+    public startPosition: number;
 
     /**
      * Indicates whether this MovieClip should loop when it reaches the end of its timeline.
      */
-    public loop:boolean;
+    public loop: boolean;
 
     /**
      * The current frame of the movieclip.
      * @readOnly
      */
-    public currentFrame:number;
+    public currentFrame: number;
 
     /**
      * The collection of private labels
      */
-    private _labels:FrameLabel[];
+    private _labels: FrameLabel[];
 
     /**
      * The collection of private labels
      */
-    private _labelDict:LabelMap;
+    private _labelDict: LabelMap;
 
     /**
      * If true, this movieclip will animate automatically whenever it is on the stage.
      */
-    public selfAdvance:boolean;
+    public selfAdvance: boolean;
 
     /**
      * If true, the MovieClip's position will not advance when ticked.
      */
-    public paused:boolean;
+    public paused: boolean;
 
     /**
      * If true, actions in this MovieClip's tweens will be run when the playhead advances.
      */
-    public actionsEnabled:boolean;
+    public actionsEnabled: boolean;
 
     /**
      * If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds
@@ -135,46 +140,46 @@ export class MovieClip extends AnimateContainer {
      * you can manually change the frame it is on, without worrying that it will be reset
      * automatically.
      */
-    public autoReset:boolean;
+    public autoReset: boolean;
 
     /**
      * Offset from parent frame for a synched movieclip.
      */
-    private _synchOffset:number;
+    private _synchOffset: number;
 
     /**
      * Previous position that this movieclip was stopped on.
      */
-    private _prevPos:number;
+    private _prevPos: number;
 
     /**
      * Note - changed from default: When the MovieClip is framerate independent, this is the time
      * elapsed from frame 0 in seconds.
      */
-    private _t:number;
+    private _t: number;
 
     /**
      * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
      * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
      * framerate.
      */
-    protected _framerate:number;
+    protected _framerate: number;
 
     /**
      * The total time in seconds for the animation. This is changed when setting the framerate.
      */
-    private _duration:number;
+    private _duration: number;
 
     /**
      * The total duration in frames for the animation.
      */
-    private _totalFrames:number;
+    private _totalFrames: number;
 
     /**
      * Standard tween timelines for all objects. Each element in the _timelines array
      * is a Timeline object - an array of tweens for one target, in order of occurrence.
      */
-    protected _timelines:Timeline[];
+    protected _timelines: Timeline[];
 
     /**
      * Array of child timelines denoting if a child is actively a child of this movieclip
@@ -182,34 +187,34 @@ export class MovieClip extends AnimateContainer {
      * property, and is an array of boolean values indexed by frame.
      * @private
      */
-    public _timedChildTimelines:TimedChildTimeline[];
+    public _timedChildTimelines: TimedChildTimeline[];
 
     /**
      * Array to depth sort timed children
      */
-    protected _depthSorted:AnimateDisplayObject[];
+    protected _depthSorted: AnimateDisplayObject[];
 
     /**
      * Array of frame scripts, indexed by frame.
      */
-    protected _actions:FrameAction[][];
+    protected _actions: FrameAction[][];
 
     /**
      * Optional callback fired before timeline is updated.
      * Can be used to clamp or update the currentFrame.
      * @private
      */
-    public _beforeUpdate:(target:MovieClip)=>(()=>void|null);
-    
+    public _beforeUpdate: (target: MovieClip) => (() => void|null);
+
     /**
      * Internal property used to control child MovieClips relative to parents.
      */
-    private parentStartPosition:number;
+    private parentStartPosition: number;
 
     /**
      * @param options The options object
      */
-    constructor(options?:MovieClipOptions);
+    constructor(options?: MovieClipOptions);
     /**
      * @param mode The playback mode default is independent (0),
      * @param startPosition The starting frame
@@ -218,24 +223,28 @@ export class MovieClip extends AnimateContainer {
      * @param duration The duration, if no duration is provided, auto determines length
      * @param framerate The framerate to use for independent mode
      */
-    constructor(mode?:number, duration?:number, loop?:boolean, framerate?:number, labels?:LabelMap);
-    constructor(options?:MovieClipOptions|number, duration?:number, loop?:boolean, framerate?:number, labels?:LabelMap) {
+    constructor(mode?: number, duration?: number, loop?: boolean, framerate?: number, labels?: LabelMap);
+    constructor(options?: MovieClipOptions|number, duration?: number, loop?: boolean, framerate?: number, labels?: LabelMap)
+    {
         super();
 
         // Default options
         options = options === undefined ? {} : options;
 
         // Options can also be the mode
-        if (typeof options === 'number') {
+        if (typeof options === 'number')
+        {
             options = {
                 mode: options || MovieClip.INDEPENDENT,
                 duration: duration || 0,
                 loop: loop === undefined ? true : loop,
                 labels: labels || {},
                 framerate: framerate || 0,
-                startPosition: 0
+                startPosition: 0,
             };
-        } else {
+        }
+        else
+        {
             // Apply defaults to options
             options = Object.assign({
                 mode: MovieClip.INDEPENDENT,
@@ -243,7 +252,7 @@ export class MovieClip extends AnimateContainer {
                 loop: true,
                 labels: {},
                 duration: 0,
-                framerate: 0
+                framerate: 0,
             }, options);
         }
 
@@ -254,17 +263,18 @@ export class MovieClip extends AnimateContainer {
         this._labels = [];
         this._labelDict = options.labels;
 
-        if (options.labels) {
-            for (let name in options.labels) {
-                let label = {
+        if (options.labels)
+        {
+            for (const name in options.labels)
+            {
+                const label = {
                     label: name,
-                    position: options.labels[name]
+                    position: options.labels[name],
                 };
+
                 this._labels.push(label);
             }
-            this._labels.sort(function(a, b) {
-                return a.position - b.position;
-            });
+            this._labels.sort((a, b) => a.position - b.position);
         }
 
         this.selfAdvance = true;
@@ -284,7 +294,8 @@ export class MovieClip extends AnimateContainer {
         this._beforeUpdate = null;
         this.parentStartPosition = 0;
 
-        if (this.mode === MovieClip.INDEPENDENT) {
+        if (this.mode === MovieClip.INDEPENDENT)
+        {
             this._tickListener = this._tickListener.bind(this);
             this._onAdded = this._onAdded.bind(this);
             this._onRemoved = this._onRemoved.bind(this);
@@ -292,108 +303,138 @@ export class MovieClip extends AnimateContainer {
             this.on('removed', this._onRemoved);
         }
 
-        if (options.framerate) {
+        if (options.framerate)
+        {
             this.framerate = options.framerate;
         }
 
-        //save often used methods on the instance so that they can be fetched slightly faster
-        //than if they had to be fetched from the prototype
+        // save often used methods on the instance so that they can be fetched slightly faster
+        // than if they had to be fetched from the prototype
+        /* eslint-disable no-self-assign */
         this.advance = this.advance;
         this._updateTimeline = this._updateTimeline;
         this._setTimelinePosition = this._setTimelinePosition;
         this._goto = this._goto;
+        /* eslint-enable no-self-assign */
     }
 
-    private _onAdded() {
-        if (!this._framerate) {
+    private _onAdded(): void
+    {
+        if (!this._framerate)
+        {
             this.framerate = this.parentFramerate;
         }
         SharedTicker.add(this._tickListener);
     }
 
-    private _tickListener(tickerDeltaTime:number) {
-        if (this.paused || !this.selfAdvance) {
-            //see if the movieclip needs to be updated even though it isn't animating
-            if (this._prevPos < 0) {
+    private _tickListener(tickerDeltaTime: number): void
+    {
+        if (this.paused || !this.selfAdvance)
+        {
+            // see if the movieclip needs to be updated even though it isn't animating
+            if (this._prevPos < 0)
+            {
                 this._goto(this.currentFrame);
             }
+
             return;
         }
-        let seconds = tickerDeltaTime / settings.TARGET_FPMS / 1000;
+        const seconds = tickerDeltaTime / settings.TARGET_FPMS / 1000;
+
         this.advance(seconds);
     }
 
-    private _onRemoved() {
+    private _onRemoved(): void
+    {
         SharedTicker.remove(this._tickListener);
     }
 
     /**
      * Returns an array of objects with label and position (aka frame) properties, sorted by position.
      */
-    public get labels() {
+    public get labels(): FrameLabel[]
+    {
         return this._labels;
     }
 
     /**
      * Returns a dictionary of labels where key is the label and value is the frame.
      */
-    public get labelsMap() {
+    public get labelsMap(): LabelMap
+    {
         return this._labelDict;
     }
 
     /**
      * Returns the name of the label on or immediately before the current frame.
      */
-    public get currentLabel() {
-        let labels = this._labels;
-        let current = null;
-        for (let i = 0, len = labels.length; i < len; ++i) {
-            if (labels[i].position <= this.currentFrame) {
+    public get currentLabel(): string|null
+    {
+        const labels = this._labels;
+        let current: string = null;
+
+        for (let i = 0, len = labels.length; i < len; ++i)
+        {
+            if (labels[i].position <= this.currentFrame)
+            {
                 current = labels[i].label;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
+
         return current;
     }
 
     /**
      * When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.
      */
-    public get elapsedTime() {
+    public get elapsedTime(): number
+    {
         return this._t;
     }
 
-    public set elapsedTime(value) {
+    public set elapsedTime(value)
+    {
         this._t = value;
     }
 
     /**
-     * By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip
-     * will cause it to advance based on elapsed time between ticks as appropriate to maintain the target
-     * framerate.
+     * By default MovieClip instances advance one frame per tick. Specifying a framerate for the
+     * MovieClip will cause it to advance based on elapsed time between ticks as appropriate to
+     * maintain the target framerate.
      *
-     * For example, if a MovieClip with a framerate of 10 is placed on a Stage being updated at 40fps, then the MovieClip will
-     * advance roughly one frame every 4 ticks. This will not be exact, because the time between each tick will
-     * vary slightly between frames.
+     * For example, if a MovieClip with a framerate of 10 is placed on a Stage being updated at
+     * 40fps, then the MovieClip advance roughly one frame every 4 ticks. This will not be exact,
+     * because the time between each tick vary slightly between frames.
      *
      * This feature is dependent on the tick event object (or an object with an appropriate 'delta' property) being
      * passed into {{#crossLink 'Stage/update'}}{{/crossLink}}.
      */
-    public get framerate() {
+    public get framerate(): number
+    {
         return this._framerate;
     }
-    public set framerate(value) {
-        if (value > 0) {
-            if (this._framerate) {
-                //recalculate time based on difference between new and old framerate:
+    public set framerate(value)
+    {
+        if (value > 0)
+        {
+            if (this._framerate)
+            {
+                // recalculate time based on difference between new and old framerate:
                 this._t *= this._framerate / value;
-            } else {
+            }
+            else
+            {
                 this._t = this.currentFrame / value;
             }
             this._framerate = value;
             this._duration = value ? this._totalFrames / value : 0;
-        } else {
+        }
+        else
+        {
             this._t = this._framerate = this._duration = 0;
         }
     }
@@ -401,15 +442,18 @@ export class MovieClip extends AnimateContainer {
     /**
      * Get the total number of frames (duration) of this MovieClip
      */
-    public get totalFrames() {
+    public get totalFrames(): number
+    {
         return this._totalFrames;
     }
 
     /**
      * Extend the timeline to the last frame.
      */
-    private _autoExtend(endFrame:number) {
-        if (this._totalFrames < endFrame) {
+    private _autoExtend(endFrame: number): void
+    {
+        if (this._totalFrames < endFrame)
+        {
             this._totalFrames = endFrame;
         }
     }
@@ -417,11 +461,15 @@ export class MovieClip extends AnimateContainer {
     /**
      * Convert values of properties
      */
-    private _parseProperties(properties:TweenProps & {t?:string|number, v?:number|boolean}) {
+    private _parseProperties(properties: TweenProps & {t?: string|number; v?: number|boolean}): void
+    {
         // Convert any string colors to uints
-        if (typeof properties.t === 'string') {
+        if (typeof properties.t === 'string')
+        {
             properties.t = utils.hexToUint(properties.t);
-        } else if (typeof properties.v === 'number') {
+        }
+        else if (typeof properties.v === 'number')
+        {
             properties.v = !!properties.v;
         }
     }
@@ -429,29 +477,37 @@ export class MovieClip extends AnimateContainer {
     /**
      * Get a timeline for a child, synced timeline.
      */
-    private _getChildTimeline(instance:AnimateDisplayObject) {
-        for (let i = this._timelines.length - 1; i >= 0; --i) {
-            if (this._timelines[i].target === instance) {
+    private _getChildTimeline(instance: AnimateDisplayObject): Timeline
+    {
+        for (let i = this._timelines.length - 1; i >= 0; --i)
+        {
+            if (this._timelines[i].target === instance)
+            {
                 return this._timelines[i];
             }
         }
-        let timeline = Timeline.create(instance);
+        const timeline = Timeline.create(instance);
+
         this._timelines.push(timeline);
+
         return timeline;
     }
 
     /**
      * Add mask or masks
      */
-    public addTimedMask(instance:AnimateDisplayObject, keyframes:{[frame:number]:Graphics|Sprite}) {
-        for (let i in keyframes) {
+    public addTimedMask(instance: AnimateDisplayObject, keyframes: {[frame: number]: Graphics|Sprite}): this
+    {
+        for (const i in keyframes)
+        {
             this.addKeyframe(instance, {
-                m: keyframes[i]
+                m: keyframes[i],
             }, parseInt(i, 10));
         }
 
         // Set the initial position/add
         this._setTimelinePosition(this.currentFrame, this.currentFrame, true);
+
         return this;
     }
 
@@ -468,11 +524,18 @@ export class MovieClip extends AnimateContainer {
      * @param duration Number of frames to tween. If 0, then the properties are set with no tweening.
      * @param ease An optional easing function that takes the tween time from 0-1.
      */
-    public addTween(instance:AnimateDisplayObject, properties:TweenProps, startFrame:number, duration?:number, ease?:EaseMethod) {
-        let timeline = this._getChildTimeline(instance);
+    public addTween(instance: AnimateDisplayObject,
+        properties: TweenProps,
+        startFrame: number,
+        duration?: number,
+        ease?: EaseMethod): this
+    {
+        const timeline = this._getChildTimeline(instance);
+
         this._parseProperties(properties);
         timeline.addTween(properties, startFrame, duration, ease);
         this._autoExtend(startFrame + duration);
+
         return this;
     }
 
@@ -482,11 +545,14 @@ export class MovieClip extends AnimateContainer {
      * @param properties The property or property to tween
      * @param startFrame The frame to start tweening
      */
-    public addKeyframe(instance:AnimateDisplayObject, properties:TweenProps, startFrame:number) {
-        let timeline = this._getChildTimeline(instance);
+    public addKeyframe(instance: AnimateDisplayObject, properties: TweenProps, startFrame: number): this
+    {
+        const timeline = this._getChildTimeline(instance);
+
         this._parseProperties(properties);
         timeline.addKeyframe(properties, startFrame);
         this._autoExtend(startFrame);
+
         return this;
     }
 
@@ -502,7 +568,11 @@ export class MovieClip extends AnimateContainer {
      * @param duration The number of frames to display the child before removing it.
      * @param keyframes The collection of static keyframes to add
      */
-    public addTimedChild(instance:AnimateDisplayObject, startFrame:number, duration?:number, keyframes?:string|{[frame:number]:TweenProps}) {
+    public addTimedChild(instance: AnimateDisplayObject,
+        startFrame: number,
+        duration?: number,
+        keyframes?: string|{[frame: number]: TweenProps}): this
+    {
         if (startFrame === undefined) // jshint ignore:line
         {
             startFrame = 0;
@@ -513,23 +583,28 @@ export class MovieClip extends AnimateContainer {
         }
 
         // Add the starting offset for synced movie clips
-        if (instance instanceof MovieClip && instance.mode === MovieClip.SYNCHED) {
+        if (instance instanceof MovieClip && instance.mode === MovieClip.SYNCHED)
+        {
             (instance as MovieClip).parentStartPosition = startFrame;
         }
 
-        //add tweening info about this child's presence on stage
-        //when the child is (re)added, if it has 'autoReset' set to true, then it
-        //should be set back to frame 0
-        let timeline:TimedChildTimeline;
-        //get existing timeline
-        for (let i = this._timedChildTimelines.length - 1; i >= 0; --i) {
-            if (this._timedChildTimelines[i].target === instance) {
+        // add tweening info about this child's presence on stage
+        // when the child is (re)added, if it has 'autoReset' set to true, then it
+        // should be set back to frame 0
+        let timeline: TimedChildTimeline;
+
+        // get existing timeline
+        for (let i = this._timedChildTimelines.length - 1; i >= 0; --i)
+        {
+            if (this._timedChildTimelines[i].target === instance)
+            {
                 timeline = this._timedChildTimelines[i];
                 break;
             }
         }
-        //if there wasn't one, make a new one
-        if (!timeline) {
+        // if there wasn't one, make a new one
+        if (!timeline)
+        {
             timeline = [];
             timeline.target = instance;
             this._timedChildTimelines.push(timeline);
@@ -540,19 +615,24 @@ export class MovieClip extends AnimateContainer {
 
         // Update the total frames if the instance extends our current
         // total frames for this movieclip
-        if (this._totalFrames < startFrame + duration) {
+        if (this._totalFrames < startFrame + duration)
+        {
             this._totalFrames = startFrame + duration;
         }
 
         // Add the collection of keyframes
-        if (keyframes) {
-            if (typeof keyframes === "string") {
+        if (keyframes)
+        {
+            if (typeof keyframes === 'string')
+            {
                 keyframes = utils.deserializeKeyframes(keyframes);
             }
             // Convert the keyframes object into
             // individual properties
             let lastFrame = {};
-            for (let i in keyframes) {
+
+            for (const i in keyframes)
+            {
                 lastFrame = Object.assign({}, lastFrame, keyframes[i]);
                 this.addKeyframe(instance, lastFrame, parseInt(i, 10));
             }
@@ -576,29 +656,40 @@ export class MovieClip extends AnimateContainer {
      * @param callback The clip call on a certain frame
      * @param startFrame The starting frame index or label
      */
-    public addAction(callback:FrameAction, startFrame:number|string) {
-        if (typeof startFrame === 'string') {
+    public addAction(callback: FrameAction, startFrame: number|string): this
+    {
+        if (typeof startFrame === 'string')
+        {
             const index = this._labelDict[startFrame];
-            if (index === undefined) {
-                throw `The label '${startFrame}' does not exist on this timeline`;
+
+            if (index === undefined)
+            {
+                throw new Error(`The label '${startFrame}' does not exist on this timeline`);
             }
             startFrame = index;
         }
 
-        let actions = this._actions;
-        //ensure that the movieclip timeline is long enough to support the target frame
-        if (actions.length <= startFrame) {
+        const actions = this._actions;
+
+        // ensure that the movieclip timeline is long enough to support the target frame
+        if (actions.length <= startFrame)
+        {
             actions.length = startFrame + 1;
         }
-        if (this._totalFrames < startFrame) {
+        if (this._totalFrames < startFrame)
+        {
             this._totalFrames = startFrame;
         }
-        //add the action
-        if (actions[startFrame]) {
+        // add the action
+        if (actions[startFrame])
+        {
             actions[startFrame].push(callback);
-        } else {
+        }
+        else
+        {
             actions[startFrame] = [callback];
         }
+
         return this;
     }
 
@@ -613,22 +704,26 @@ export class MovieClip extends AnimateContainer {
      * @param {String} alias The name of the Sound
      * @param {Boolean} [loop=false] The loop property of the sound
      */
-    public playSound(alias:string, loop?:boolean) {
+    public playSound(alias: string, loop?: boolean): this
+    {
         sound.emit('play', alias, !!loop, this);
+
         return this;
     }
 
     /**
      * Sets paused to false.
      */
-    play() {
+    play(): void
+    {
         this.paused = false;
     }
 
     /**
      * Sets paused to true.
      */
-    stop() {
+    stop(): void
+    {
         this.paused = true;
     }
 
@@ -636,7 +731,8 @@ export class MovieClip extends AnimateContainer {
      * Advances this movie clip to the specified position or label and sets paused to false.
      * @param positionOrLabel The animation name or frame number to go to.
      */
-    public gotoAndPlay(positionOrLabel:string|number) {
+    public gotoAndPlay(positionOrLabel: string|number): void
+    {
         this.paused = false;
         this._goto(positionOrLabel);
     }
@@ -645,7 +741,8 @@ export class MovieClip extends AnimateContainer {
      * Advances this movie clip to the specified position or label and sets paused to true.
      * @param positionOrLabel The animation or frame name to go to.
      */
-    public gotoAndStop(positionOrLabel:string|number) {
+    public gotoAndStop(positionOrLabel: string|number): void
+    {
         this.paused = true;
         this._goto(positionOrLabel);
     }
@@ -653,14 +750,20 @@ export class MovieClip extends AnimateContainer {
     /**
      * Get the close parent with a valid framerate. If no parent, returns the default framerate.
      */
-    public get parentFramerate() {
-        let o:MovieClip = this,
-            fps = o._framerate;
-        while ((o = o.parent as MovieClip) && !fps) {
-            if (o.mode === MovieClip.INDEPENDENT) {
+    public get parentFramerate(): number
+    {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        let o: MovieClip = this;
+        let fps = o._framerate;
+
+        while ((o = o.parent as MovieClip) && !fps)
+        {
+            if (o.mode === MovieClip.INDEPENDENT)
+            {
                 fps = o._framerate;
             }
         }
+
         return fps || MovieClip.DEFAULT_FRAMERATE;
     }
 
@@ -668,34 +771,42 @@ export class MovieClip extends AnimateContainer {
      * Advances the playhead. This occurs automatically each tick by default.
      * @param time The amount of time in seconds to advance by. Only applicable if framerate is set.
      */
-    public advance(time?:number) {
+    public advance(time?: number): void
+    {
         // Handle any other cases where starting to play
         // and no framerate has been set yet
-        if (!this._framerate) {
+        if (!this._framerate)
+        {
             this.framerate = this.parentFramerate;
         }
 
-        if (time) {
+        if (time)
+        {
             this._t += time;
         }
-        if (this._t > this._duration) {
+        if (this._t > this._duration)
+        {
             this._t = this.loop ? this._t % this._duration : this._duration;
         }
-        //add a tiny amount to account for potential floating point errors
-        this.currentFrame = Math.floor(this._t * this._framerate + 0.00000001);
-        //final error checking
-        if (this.currentFrame >= this._totalFrames) {
+        // add a tiny amount to account for potential floating point errors
+        this.currentFrame = Math.floor((this._t * this._framerate) + 0.00000001);
+        // final error checking
+        if (this.currentFrame >= this._totalFrames)
+        {
             this.currentFrame = this._totalFrames - 1;
         }
         let afterUpdateOnce;
-        if (this._beforeUpdate) {
+
+        if (this._beforeUpdate)
+        {
             afterUpdateOnce = this._beforeUpdate(this);
         }
-        //update all tweens & actions in the timeline
+        // update all tweens & actions in the timeline
         this._updateTimeline();
 
         // Do the animator callback here
-        if (afterUpdateOnce) {
+        if (afterUpdateOnce)
+        {
             afterUpdateOnce();
         }
     }
@@ -703,8 +814,10 @@ export class MovieClip extends AnimateContainer {
     /**
      * @param positionOrLabel The animation name or frame number to go to.
      */
-    protected _goto(positionOrLabel:string|number) {
-        let pos = typeof positionOrLabel === 'string' ? this._labelDict[positionOrLabel] : positionOrLabel;
+    protected _goto(positionOrLabel: string|number): void
+    {
+        const pos = typeof positionOrLabel === 'string' ? this._labelDict[positionOrLabel] : positionOrLabel;
+
         if (pos === undefined) // jshint ignore:line
         {
             return;
@@ -715,14 +828,18 @@ export class MovieClip extends AnimateContainer {
 
         // Handle the case where trying to play but haven't
         // added to the stage yet
-        if (!this._framerate) {
+        if (!this._framerate)
+        {
             this.framerate = this.parentFramerate;
         }
 
-        //update the elapsed time if a time based movieclip
-        if (this._framerate > 0) {
+        // update the elapsed time if a time based movieclip
+        if (this._framerate > 0)
+        {
             this._t = pos / this._framerate;
-        } else {
+        }
+        else
+        {
             this._t = 0;
         }
         this._updateTimeline();
@@ -731,7 +848,8 @@ export class MovieClip extends AnimateContainer {
     /**
      * Reset the movieclip to the first frame (without advancing the timeline).
      */
-    private _reset() {
+    private _reset(): void
+    {
         this._prevPos = -1;
         this._t = 0;
         this.currentFrame = 0;
@@ -741,17 +859,21 @@ export class MovieClip extends AnimateContainer {
      * Update timeline position according to playback, performing actions and updating children.
      * @private
      */
-    public _updateTimeline() {
-        let synched = this.mode !== MovieClip.INDEPENDENT;
+    public _updateTimeline(): void
+    {
+        const synched = this.mode !== MovieClip.INDEPENDENT;
 
-        if (synched) {
+        if (synched)
+        {
             this.currentFrame = this.startPosition + (this.mode === MovieClip.SINGLE_FRAME ? 0 : this._synchOffset);
-            if (this.currentFrame >= this._totalFrames) {
+            if (this.currentFrame >= this._totalFrames)
+            {
                 this.currentFrame %= this._totalFrames;
             }
         }
 
-        if (this._prevPos === this.currentFrame) {
+        if (this._prevPos === this.currentFrame)
+        {
             return;
         }
 
@@ -764,89 +886,138 @@ export class MovieClip extends AnimateContainer {
     /**
      * Set the timeline position
      */
-    protected _setTimelinePosition(startFrame:number, currentFrame:number, doActions:boolean) {
-        if (startFrame !== currentFrame && doActions) {
-            let startPos = isNaN(startFrame) ? currentFrame : (startFrame >= this._totalFrames - 1 ? 0 : startFrame + 1);
+    protected _setTimelinePosition(startFrame: number, currentFrame: number, doActions: boolean): void
+    {
+        if (startFrame !== currentFrame && doActions)
+        {
+            let startPos: number;
+
+            if (isNaN(startFrame))
+            {
+                startPos = currentFrame;
+            }
+            else
+            {
+                startPos = (startFrame >= this._totalFrames - 1 ? 0 : startFrame + 1);
+            }
             // generate actionFrames on the way
-            let actionFrames:number[] = [];
+            const actionFrames: number[] = [];
+
             // loop
-            if (currentFrame < startPos) {
-                for (let i = startPos; i < this._actions.length; ++i) {
-                    this._actions[i] && actionFrames.push(i);
+            if (currentFrame < startPos)
+            {
+                for (let i = startPos; i < this._actions.length; ++i)
+                {
+                    if (this._actions[i])
+                    {
+                        actionFrames.push(i);
+                    }
                 }
-                for (let i = 0; i <= currentFrame; ++i) {
-                    this._actions[i] && actionFrames.push(i);
+                for (let i = 0; i <= currentFrame; ++i)
+                {
+                    if (this._actions[i])
+                    {
+                        actionFrames.push(i);
+                    }
                 }
             }
             // no loop
-            else {
-                for (let i = startPos; i <= currentFrame; ++i) {
-                    this._actions[i] && actionFrames.push(i);
+            else
+            {
+                for (let i = startPos; i <= currentFrame; ++i)
+                {
+                    if (this._actions[i])
+                    {
+                        actionFrames.push(i);
+                    }
                 }
             }
 
-            if (actionFrames.length) {
-                let oldCurrentFrame = this.currentFrame;
-                for (let i = 0; i < actionFrames.length; ++i) {
-                    let frame = actionFrames[i];
+            if (actionFrames.length)
+            {
+                const oldCurrentFrame = this.currentFrame;
+
+                for (let i = 0; i < actionFrames.length; ++i)
+                {
+                    const frame = actionFrames[i];
+
                     this._setTimelinePosition(frame, frame, true);
                     // _goto is called OR last frame reached
-                    if (this.currentFrame !== oldCurrentFrame || frame === currentFrame) {
+                    if (this.currentFrame !== oldCurrentFrame || frame === currentFrame)
+                    {
                         return;
                     }
                     // stop is called
-                    else if (this.paused) {
+                    else if (this.paused)
+                    {
                         this.currentFrame = frame;
+
                         return;
                     }
                 }
             }
         }
 
-        //handle all tweens
-        let _timelines = this._timelines;
-        for (let i = _timelines.length - 1; i >= 0; --i) {
-            let timeline = _timelines[i];
-            for (let j = 0, length = timeline.length; j < length; ++j) {
-                let tween = timeline[j];
-                //if the tween contains part of the timeline that we are travelling through
-                if (currentFrame >= tween.startFrame &&
-                    currentFrame <= tween.endFrame) {
+        // handle all tweens
+        const _timelines = this._timelines;
+
+        for (let i = _timelines.length - 1; i >= 0; --i)
+        {
+            const timeline = _timelines[i];
+
+            for (let j = 0, length = timeline.length; j < length; ++j)
+            {
+                const tween = timeline[j];
+
+                // if the tween contains part of the timeline that we are travelling through
+                if (currentFrame >= tween.startFrame && currentFrame <= tween.endFrame)
+                {
                     // set the position within that tween
-                    //and break the loop to move onto the next timeline
+                    // and break the loop to move onto the next timeline
                     tween.setPosition(currentFrame);
                     break;
                 }
             }
         }
 
-        let timedChildTimelines = this._timedChildTimelines;
-        let depthSorted = this._depthSorted;
-        for (let i = 0, length = timedChildTimelines.length; i < length; ++i) {
-            let target = timedChildTimelines[i].target;
-            let shouldBeChild = timedChildTimelines[i][currentFrame];
-            //if child should be on stage and is not:
-            if (shouldBeChild) {
+        const timedChildTimelines = this._timedChildTimelines;
+        const depthSorted = this._depthSorted;
+
+        for (let i = 0, length = timedChildTimelines.length; i < length; ++i)
+        {
+            const target = timedChildTimelines[i].target;
+            const shouldBeChild = timedChildTimelines[i][currentFrame];
+
+            // if child should be on stage and is not:
+            if (shouldBeChild)
+            {
                 // Add to the depthSorted object so we can
                 // check that items are property drawn later
                 depthSorted.push(target);
-                if (target.parent !== this) {
+                if (target.parent !== this)
+                {
                     // add the target if it's not there already
                     this.addChild(target);
-                    if (target instanceof MovieClip && target.mode === MovieClip.INDEPENDENT && target.autoReset) {
-                        (target as MovieClip)._reset();
+                    if (target instanceof MovieClip && target.mode === MovieClip.INDEPENDENT && target.autoReset)
+                    {
+                        target._reset();
                     }
                 }
-            } else if (!shouldBeChild && target.parent === this) {
+            }
+            else if (!shouldBeChild && target.parent === this)
+            {
                 this.removeChild(target);
             }
         }
 
         // Properly depth sort the children
-        for (let i = 0, length = depthSorted.length; i < length; i++) {
-            let target = depthSorted[i];
-            let currentIndex = this.children.indexOf(target);
-            if (currentIndex !== i) {
+        for (let i = 0, length = depthSorted.length; i < length; i++)
+        {
+            const target = depthSorted[i];
+            const currentIndex = this.children.indexOf(target);
+
+            if (currentIndex !== i)
+            {
                 this.addChildAt(target, i);
             }
         }
@@ -854,53 +1025,73 @@ export class MovieClip extends AnimateContainer {
         // Clear the temporary depth sorting array
         depthSorted.length = 0;
 
-        //go through all children and update synched movieclips that are not single frames
+        // go through all children and update synched movieclips that are not single frames
         const children = this.children;
-        for (let i = 0, length = children.length; i < length; ++i) {
+
+        for (let i = 0, length = children.length; i < length; ++i)
+        {
             const child = children[i];
-            if (child instanceof MovieClip && child.mode === MovieClip.SYNCHED) {
+
+            if (child instanceof MovieClip && child.mode === MovieClip.SYNCHED)
+            {
                 child._synchOffset = currentFrame - child.parentStartPosition;
                 child._updateTimeline();
             }
         }
 
-        //handle actions
-        if (doActions && this._actions && this._actions[currentFrame]) {
-            let frameActions = this._actions[currentFrame];
-            for (let j = 0; j < frameActions.length; ++j) {
+        // handle actions
+        if (doActions && this._actions && this._actions[currentFrame])
+        {
+            const frameActions = this._actions[currentFrame];
+
+            for (let j = 0; j < frameActions.length; ++j)
+            {
                 frameActions[j].call(this);
             }
         }
     }
 
-    destroy(options?: IDestroyOptions|boolean) {
-        if (this._tickListener) {
+    destroy(options?: IDestroyOptions|boolean): void
+    {
+        if (this._tickListener)
+        {
             SharedTicker.remove(this._tickListener);
             this._tickListener = null;
         }
         const hiddenChildren = [];
         const timelines = this._timelines;
-        if (timelines) {
-            for (let i = 0; i < timelines.length; i++) {
+
+        if (timelines)
+        {
+            for (let i = 0; i < timelines.length; i++)
+            {
                 const timeline = timelines[i];
+
                 hiddenChildren.push(timeline.target);
                 timeline.destroy();
             }
         }
         const childTimelines = this._timedChildTimelines;
-        if (childTimelines) {
-            for (let i = 0; i < childTimelines.length; i++) {
+
+        if (childTimelines)
+        {
+            for (let i = 0; i < childTimelines.length; i++)
+            {
                 const timeline = childTimelines[i];
-                if (hiddenChildren.indexOf(timeline.target) < 0) {
+
+                if (hiddenChildren.indexOf(timeline.target) < 0)
+                {
                     hiddenChildren.push(timeline.target);
                 }
                 timeline.length = 0;
             }
         }
         // Destroy all the children
-        for (let i = 0; i < hiddenChildren.length; i++) {
+        for (let i = 0; i < hiddenChildren.length; i++)
+        {
             // Don't destroy children in the display list
-            if (this.children.indexOf(hiddenChildren[i]) < 0) {
+            if (this.children.indexOf(hiddenChildren[i]) < 0)
+            {
                 hiddenChildren[i].destroy(options as IDestroyOptions);
             }
         }

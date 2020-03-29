@@ -1,8 +1,10 @@
 import { Text, filters, Graphics, Sprite } from 'pixi.js';
-import {utils_ns as utils} from '../animate/utils';
+import { utils_ns as utils } from '../animate/utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
-if (filters) {
+
+if (filters)
+{
     ColorMatrixFilter = filters.ColorMatrixFilter;
 }
 
@@ -11,7 +13,7 @@ enum ALIGN_VALUES {
     center = 0,
     right = 1,
     left = -1
-};
+}
 
 // Map of short names to long names
 const STYLE_PROPS = {
@@ -35,7 +37,7 @@ const STYLE_PROPS = {
     x: 'textBaseline',
     j: 'lineJoin',
     m: 'miterLimit',
-    e: 'letterSpacing'
+    e: 'letterSpacing',
 };
 
 /**
@@ -44,11 +46,13 @@ const STYLE_PROPS = {
  * @param defaultValue The default value if value is undefined
  * @return Either the value or the default value
  */
-function isUndefinedOr<T>(value:T, defaultValue:T) {
+function isUndefinedOr<T>(value: T, defaultValue: T): T
+{
     return value === undefined ? defaultValue : value;
-};
+}
 
-export class AnimateText extends Text {
+export class AnimateText extends Text
+{
     // **************************
     //     Text methods
     // **************************
@@ -59,12 +63,15 @@ export class AnimateText extends Text {
      * @param align Either center (0), right (1), left (-1)
      * @return This instance for chaining
      */
-    public setAlign(align:'center'|'right'|'left'|0|1|-1) {
-        if (typeof align == "string") {
+    public setAlign(align: 'center'|'right'|'left'|0|1|-1): this
+    {
+        if (typeof align === 'string')
+        {
             align = ALIGN_VALUES[align];
         }
-        this.style.align = ALIGN_VALUES[align] || "left";
+        this.style.align = ALIGN_VALUES[align] || 'left';
         this.anchor.x = (align + 1) / 2;
+
         return this;
     }
     /**
@@ -78,15 +85,19 @@ export class AnimateText extends Text {
      * @return This instance for chaining.
      */
     // TODO: improve typing of style parameter (needs ITextStyle interface to exist)
-    public setStyle(style:any) {
+    public setStyle(style: any): this
+    {
         // Replace short STYLE_PROPS with long names
-        for (const k in STYLE_PROPS) {
-            if ((style as any)[k] !== undefined) {
+        for (const k in STYLE_PROPS)
+        {
+            if ((style as any)[k] !== undefined)
+            {
                 (style as any)[(STYLE_PROPS as any)[k]] = (style as any)[k];
                 delete (style as any)[k];
             }
         }
         this.style = style as any;
+
         return this;
     }
     /**
@@ -101,17 +112,21 @@ export class AnimateText extends Text {
      * @param distance The offset distance
      * @return This instance for chaining
      */
-    public setShadow(color:string|number, angle:number, distance:number) {
+    public setShadow(color: string|number, angle: number, distance: number): this
+    {
         const style = this.style;
+
         style.dropShadow = true;
 
         // Convert color to hex string
-        if (color && typeof color === 'number') {
-            color = "#" + color.toString(16);
+        if (color && typeof color === 'number')
+        {
+            color = `#${color.toString(16)}`;
         }
         style.dropShadowColor = isUndefinedOr(color, style.dropShadowColor);
         style.dropShadowAngle = isUndefinedOr(angle, style.dropShadowAngle);
         style.dropShadowDistance = isUndefinedOr(distance, style.dropShadowDistance);
+
         return this;
     }
     /**
@@ -128,8 +143,10 @@ export class AnimateText extends Text {
      * @param renderable Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
-    public setRenderable(renderable?:boolean) {
+    public setRenderable(renderable?: boolean): this
+    {
         this.renderable = !!renderable;
+
         return this;
     }
     /**
@@ -147,19 +164,25 @@ export class AnimateText extends Text {
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask:Graphics|Sprite) {
+    public setMask(mask: Graphics|Sprite): this
+    {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
         // movieclips and displayobjects/containers
-        if (mask) {
-            if (!(mask instanceof Graphics) && !(mask instanceof Sprite)) {
-                if (typeof console !== "undefined" && console.warn) {
-                    console.warn("Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.");
+        if (mask)
+        {
+            if (!(mask instanceof Graphics) && !(mask instanceof Sprite))
+            {
+                if (typeof console !== 'undefined' && console.warn)
+                {
+                    console.warn('Warning: Masks can only be PIXI.Graphics or PIXI.Sprite objects.');
                 }
+
                 return this;
             }
         }
         this.mask = mask;
+
         return this;
     }
     /**
@@ -172,8 +195,10 @@ export class AnimateText extends Text {
      * @param alpha The alpha amount to use, from 0 to 1
      * @return Instance for chaining
      */
-    public setAlpha(alpha:number) {
+    public setAlpha(alpha: number): this
+    {
         this.alpha = alpha;
+
         return this;
     }
     /**
@@ -186,8 +211,10 @@ export class AnimateText extends Text {
      * @param tint The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint:string|number) {
-        if (typeof tint === "string") {
+    public setTint(tint: string|number): this
+    {
+        if (typeof tint === 'string')
+        {
             tint = utils.hexToUint(tint);
         }
         // this.tint = tint
@@ -196,9 +223,10 @@ export class AnimateText extends Text {
         // once the functionality is added to Pixi.js, for
         // now we'll use the slower ColorMatrixFilter to handle
         // the color transformation
-        const r = tint >> 16 & 0xFF;
-        const g = tint >> 8 & 0xFF;
+        const r = (tint >> 16) & 0xFF;
+        const g = (tint >> 8) & 0xFF;
         const b = tint & 0xFF;
+
         return this.setColorTransform(r / 255, 0, g / 255, 0, b / 255, 0);
     }
     /**
@@ -216,8 +244,10 @@ export class AnimateText extends Text {
      * @param bA The additive blue value
      * @return Object for chaining
      */
-    public setColorTransform(r:number, rA:number, g:number, gA:number, b:number, bA:number) {
+    public setColorTransform(r: number, rA: number, g: number, gA: number, b: number, bA: number): this
+    {
         const filter = this.colorTransformFilter;
+
         filter.matrix[0] = r;
         filter.matrix[4] = rA;
         filter.matrix[6] = g;
@@ -225,6 +255,7 @@ export class AnimateText extends Text {
         filter.matrix[12] = b;
         filter.matrix[14] = bA;
         this.filters = [filter];
+
         return this;
     }
     /**
@@ -232,14 +263,16 @@ export class AnimateText extends Text {
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter:filters.ColorMatrixFilter;
+    protected _colorTransformFilter: filters.ColorMatrixFilter;
     /**
      * The current default color transforming filters
      */
-    public set colorTransformFilter(filter:filters.ColorMatrixFilter) {
+    public set colorTransformFilter(filter: filters.ColorMatrixFilter)
+    {
         this._colorTransformFilter = filter;
     }
-    public get colorTransformFilter() {
+    public get colorTransformFilter(): filters.ColorMatrixFilter
+    {
         return this._colorTransformFilter || new ColorMatrixFilter();
     }
 }
