@@ -23,3 +23,4 @@ fs.writeFileSync(path.resolve('./dist/pixi-animate-ambient.d.ts'), ambientTypes)
 // remove unused .d.ts files, just to clean up
 fs.unlinkSync(path.resolve('./dist/pixi-animate.d.ts'));
 fs.unlinkSync(path.resolve('./lib/pixi-animate.es.d.ts'));
+fs.unlinkSync(path.resolve('./dist/pixi-animate-legacy.d.ts'));

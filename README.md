@@ -31,9 +31,9 @@ https://pixijs.io/pixi-animate/
 * ShapesCache no longer exists.
 * The SymbolLoader plugin no longer exists, so individual images are no longer added to PIXI's global texture cache by resource name, and shape assets are no longer added to a global shape cache.
 
-Loading the file `v1-asset-shim.js` (requires `PIXI` and `PIXI.animate` namespaces to be set up) will restore the removed functionality so that assets published for the previous version of PixiAnimate will work correctly.
+Using the legacy bundle file `dist/pixi-animate-legacy.js` (requires `PIXI` namespace to be set up) will restore the removed functionality so that assets published for the previous version of PixiAnimate will work correctly.
 
-Changes that the shim doesn't account for:
+Changes that the legacy build doesn't account for:
 * `load()` no longer has so many variants allowed. Instead, the first argument is always the scene that you want to load, followed by either a callback or an options object. If using the legacy shim, pass in the constructor for the main scene MovieClip, as you did in v1.
 * `createInstance` now defaults to false, instead of true, when calling `load()`.
 

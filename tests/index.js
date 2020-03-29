@@ -1,11 +1,10 @@
 "use strict";
 
 global.assert = require('chai').assert;
+// setup for bundle inclusion (the legacy require)
 global.PIXI = require('pixi.js-legacy');
-// assigning here because /dist/pixi-animate.js is designed for <script> inclusion, not require().
-global.PIXI.animate = require('../dist/pixi-animate').PIXI.animate;
-// require the asset shim, for our render tests
-require('../v1-asset-shim');
+// assigning here because builds in /dist/ are designed for <script> inclusion, not require().
+global.PIXI = require('../dist/pixi-animate-legacy').PIXI;
 
 describe('PIXI', function() {
     describe('subclasses', function() {
@@ -22,7 +21,7 @@ describe('PIXI', function() {
         require('./animate/Tween');
         require('./animate/utils');
     });
-    
+
     describe('legacy shim', function() {
         require('./legacy-shim/Container');
         require('./legacy-shim/Graphics');
