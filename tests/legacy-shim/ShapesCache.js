@@ -1,9 +1,12 @@
-describe('ShapesCache', function() {
-    var ShapesCache = PIXI.animate.ShapesCache;
-    it('should exist', function() {
+describe('ShapesCache', function ()
+{
+    const ShapesCache = PIXI.animate.ShapesCache;
+
+    it('should exist', function ()
+    {
         assert.isOk(ShapesCache);
     });
-    
+
     // in library use of ShapesCache.add isn't used - the laoder just runs the add() code directly
     // it('should add shapes to cache', function() {
     //     var commands = [[

@@ -1,8 +1,11 @@
-const {Graphics} = require('../..');
+const { Graphics } = require('../..');
 
-describe('Graphics', function() {
-    it('should have DisplayObject shortened names', function() {
-        var p = new Graphics();
+describe('Graphics', function ()
+{
+    it('should have DisplayObject shortened names', function ()
+    {
+        const p = new Graphics();
+
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -22,8 +25,10 @@ describe('Graphics', function() {
         assert.isOk(p.setColorTransform);
         // assert.equal(p.setColorTransform, p.c);
     });
-    it('should have shortened names', function() {
-        var p = new Graphics();
+    it('should have shortened names', function ()
+    {
+        const p = new Graphics();
+
         assert.isOk(p.drawCommands);
         assert.isOk(p.d);
         assert.equal(p.drawCommands, p.d);

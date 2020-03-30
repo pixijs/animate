@@ -1,8 +1,11 @@
-const {Container} = require('../..');
+const { Container } = require('../..');
 
-describe('Container', function() {
-    it('should have DisplayObject shortened names', function() {
-        var p = new Container();
+describe('Container', function ()
+{
+    it('should have DisplayObject shortened names', function ()
+    {
+        const p = new Container();
+
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -21,8 +24,10 @@ describe('Container', function() {
         assert.isOk(p.setColorTransform);
         assert.equal(p.setColorTransform, p.c);
     });
-    it('should have shortened names', function() {
-        var p = new Container();
+    it('should have shortened names', function ()
+    {
+        const p = new Container();
+
         assert.equal(p.ac, p.addChild);
     });
 });

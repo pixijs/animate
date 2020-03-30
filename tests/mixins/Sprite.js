@@ -1,8 +1,11 @@
-const {Sprite} = require('../..');
+const { Sprite } = require('../..');
 
-describe('Sprite', function() {
-    it('should have DisplayObject shortened names', function() {
-        var p = new Sprite();
+describe('Sprite', function ()
+{
+    it('should have DisplayObject shortened names', function ()
+    {
+        const p = new Sprite();
+
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);

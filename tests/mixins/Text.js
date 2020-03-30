@@ -1,8 +1,11 @@
-const {Text} = require('../..');
+const { Text } = require('../..');
 
-describe('Text', function() {
-    it('should have DisplayObject shortened names', function() {
-        var p = new Text();
+describe('Text', function ()
+{
+    it('should have DisplayObject shortened names', function ()
+    {
+        const p = new Text();
+
         assert.isOk(p.setRenderable);
         assert.isOk(p.re);
         assert.equal(p.setRenderable, p.re);
@@ -21,8 +24,10 @@ describe('Text', function() {
         assert.isOk(p.setColorTransform);
         assert.equal(p.setColorTransform, p.c);
     });
-    it('should have shortened names', function() {
-        var p = new Text();
+    it('should have shortened names', function ()
+    {
+        const p = new Text();
+
         assert.isOk(p.setStyle);
         assert.isOk(p.ss);
         assert.equal(p.setStyle, p.ss);

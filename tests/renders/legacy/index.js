@@ -1,48 +1,63 @@
-describe('Renders - Legacy asset format', function() {
-    before(function(){
+describe('Renders - Legacy asset format', function ()
+{
+    before(function ()
+    {
         PIXI.utils.skipHello();
-        var Renderer = require('./renderer');
-        var webgl = this.webgl = document.createElement('canvas');
-        var canvas = this.canvas = document.createElement('canvas');
+        const Renderer = require('./renderer');
+        const webgl = this.webgl = document.createElement('canvas');
+        const canvas = this.canvas = document.createElement('canvas');
+
         document.body.appendChild(webgl);
         document.body.appendChild(canvas);
         this.renderer = new Renderer(webgl, canvas);
-        this.validate = function(id, tolerance, done) {
-            if (typeof tolerance === "function") {
+        this.validate = function (id, tolerance, done)
+        {
+            if (typeof tolerance === 'function')
+            {
                 done = tolerance;
                 tolerance = Renderer.TOLERANCE;
             }
             // Override the tolerance
-            var path = require('path');
-            var solution = path.resolve(__dirname, '..', 'solutions', id + '.json');
-            var fla = path.join(__dirname, 'assets', id + '.js');
+            const path = require('path');
+            const solution = path.resolve(__dirname, '..', 'solutions', `${id}.json`);
+            const fla = path.join(__dirname, 'assets', `${id}.js`);
+
             this.renderer.imagediff.tolerance = tolerance;
-            this.renderer.compare(fla, require(solution), function(err, success) {
-                if (err) {
-                    return done(err.message);
+            this.renderer.compare(fla, require(solution), function (err, success)
+            {
+                if (err)
+                {
+                    done(err.message);
+
+                    return;
                 }
                 done(success ? undefined : 'Render not successful');
             });
         };
 
-        this.getInstance = function(id, done) {
-            var path = require('path');
-            var file = path.join(__dirname, 'assets', id + '.js');
+        this.getInstance = function (id, done)
+        {
+            const path = require('path');
+            const file = path.join(__dirname, 'assets', `${id}.js`);
+
             delete require.cache[path.resolve(file)];
-            var fla = require(file);
+            const fla = require(file);
+
             PIXI.animate.load(fla.stage, {
                 complete: done,
                 basePath: path.join(__dirname, 'assets'),
-                createInstance: true
+                createInstance: true,
             });
         };
     });
 
-    beforeEach(function(){
+    beforeEach(function ()
+    {
         this.renderer.clear();
     });
 
-    after(function(){
+    after(function ()
+    {
         this.webgl.parentNode.removeChild(this.webgl);
         this.canvas.parentNode.removeChild(this.canvas);
         this.webgl = null;
@@ -54,15 +69,18 @@ describe('Renders - Legacy asset format', function() {
 
     // -------------- Tests begin here --------------
 
-    it('should render advanced color', function(done){
+    it('should render advanced color', function (done)
+    {
         this.validate('advanced-color', done);
     });
 
-    it('should render an alpha', function(done){
+    it('should render an alpha', function (done)
+    {
         this.validate('alpha', done);
     });
 
-    it('should render a bitmap', function(done){
+    it('should render a bitmap', function (done)
+    {
         this.validate('bitmap', done);
     });
 
@@ -74,43 +92,53 @@ describe('Renders - Legacy asset format', function() {
     //     this.validate('bitmap-mask-transparent', done);
     // });
 
-    it('should render a bitmap inside a symbol', function(done){
+    it('should render a bitmap inside a symbol', function (done)
+    {
         this.validate('bitmap-symbol', done);
     });
 
-    it('should render brightness', function(done){
+    it('should render brightness', function (done)
+    {
         this.validate('brightness', done);
     });
 
-    it('should render depth sorting (single frame)', function(done){
+    it('should render depth sorting (single frame)', function (done)
+    {
         this.validate('depth-sorting', done);
     });
 
-    it('should render depth sorting over the timeline', function(done){
+    it('should render depth sorting over the timeline', function (done)
+    {
         this.validate('depth-sorting-timeline', done);
     });
 
-    it('should render end-of-timeline only', function(done){
+    it('should render end-of-timeline only', function (done)
+    {
         this.validate('end-only', done);
     });
 
-    it('should render a graphic', function(done){
+    it('should render a graphic', function (done)
+    {
         this.validate('graphic', done);
     });
 
-    it('should render a graphic set to "loop"', function(done){
+    it('should render a graphic set to "loop"', function (done)
+    {
         this.validate('graphic-loop', done);
     });
 
-    it('should render a graphic animating on a path', function(done){
+    it('should render a graphic animating on a path', function (done)
+    {
         this.validate('graphic-path', done);
     });
 
-    it('should render a graphic set to "play once"', function(done){
+    it('should render a graphic set to "play once"', function (done)
+    {
         this.validate('graphic-playonce', done);
     });
 
-    it('should render a graphic set to "single frame"', function(done){
+    it('should render a graphic set to "single frame"', function (done)
+    {
         this.validate('graphic-singleframe', done);
     });
 
@@ -126,7 +154,8 @@ describe('Renders - Legacy asset format', function() {
     //     this.validate('mask-nested-tween', done);
     // });
 
-    it('should render a mask inside a symbol', function(done){
+    it('should render a mask inside a symbol', function (done)
+    {
         this.validate('mask-nested', done);
     });
 
@@ -134,35 +163,43 @@ describe('Renders - Legacy asset format', function() {
     //     this.validate('mask-tween', done);
     // });
 
-    it('should render a mask', function(done){
+    it('should render a mask', function (done)
+    {
         this.validate('mask', done);
     });
 
-    it('should render a shape primitive mask', function(done){
+    it('should render a shape primitive mask', function (done)
+    {
         this.validate('mask-primitive', done);
     });
 
-    it('should render a nested mixed transformation (scale/skew/rotate)', function(done){
+    it('should render a nested mixed transformation (scale/skew/rotate)', function (done)
+    {
         this.validate('nested-mixed-transform', done);
     });
 
-    it('should render a nested rotation', function(done){
+    it('should render a nested rotation', function (done)
+    {
         this.validate('nested-rotate', done);
     });
 
-    it('should render a nested scale', function(done){
+    it('should render a nested scale', function (done)
+    {
         this.validate('nested-scale', done);
     });
 
-    it('should render a nested skew', function(done){
+    it('should render a nested skew', function (done)
+    {
         this.validate('nested-skew', 0.05, done);
     });
 
-    it('should render only the middle of the timeline', function(done){
+    it('should render only the middle of the timeline', function (done)
+    {
         this.validate('no-start-end', done);
     });
 
-    it('should render only the start of the timeline', function(done){
+    it('should render only the start of the timeline', function (done)
+    {
         this.validate('start-only', done);
     });
 
@@ -170,93 +207,117 @@ describe('Renders - Legacy asset format', function() {
     //     this.validate('text', done);
     // });
 
-    it('should render a tint', function(done){
+    it('should render a tint', function (done)
+    {
         this.validate('tint', done);
     });
 
-    it('should render a tween from alpha to tint', function(done){
+    it('should render a tween from alpha to tint', function (done)
+    {
         this.validate('tween-alpha-tint', done);
     });
 
-    it('should render a nested graphics tween', function(done){
+    it('should render a nested graphics tween', function (done)
+    {
         this.validate('tween-nested-graphics', done);
     });
 
-    it('should render a nested movieclip tween', function(done){
+    it('should render a nested movieclip tween', function (done)
+    {
         this.validate('tween-nested-movieclip', done);
     });
 
-    it('should render multiple instances of a nested tween', function(done){
+    it('should render multiple instances of a nested tween', function (done)
+    {
         this.validate('tween-nested-multiple-instances', done);
     });
 
-    it('should render a tween from normal to advanced color', function(done){
+    it('should render a tween from normal to advanced color', function (done)
+    {
         this.validate('tween-normal-advanced', done);
     });
 
-    it('should render a tween from normal to alpha', function(done){
+    it('should render a tween from normal to alpha', function (done)
+    {
         this.validate('tween-normal-alpha', done);
     });
 
-    it('should render a tween from normal to brightness', function(done){
+    it('should render a tween from normal to brightness', function (done)
+    {
         this.validate('tween-normal-brightness', done);
     });
 
-    it('should render a tween from normal to tint', function(done){
+    it('should render a tween from normal to tint', function (done)
+    {
         this.validate('tween-normal-tint', done);
     });
 
-    it('should render a rotating tween', function(done){
+    it('should render a rotating tween', function (done)
+    {
         this.validate('tween-rotate', done);
     });
 
-    it('should render a tween scaling uniformly', function(done){
+    it('should render a tween scaling uniformly', function (done)
+    {
         this.validate('tween-scale-uniform', done);
     });
 
-    it('should render a tween scaling horizontally', function(done){
+    it('should render a tween scaling horizontally', function (done)
+    {
         this.validate('tween-scale-x', done);
     });
 
-    it('should render a tween scaling vertically', function(done){
+    it('should render a tween scaling vertically', function (done)
+    {
         this.validate('tween-scale-y', done);
     });
 
-    it('should render a tween skewing x and y', function(done){
+    it('should render a tween skewing x and y', function (done)
+    {
         this.validate('tween-skew-both', 0.06, done);
     });
 
-    it('should render a tween skewing horizontally', function(done){
+    it('should render a tween skewing horizontally', function (done)
+    {
         this.validate('tween-skew-x', done);
     });
 
-    it('should render a tween skewing vertically', function(done){
+    it('should render a tween skewing vertically', function (done)
+    {
         this.validate('tween-skew-y', 0.05, done);
     });
 
-    it('should render a tween from one tint to another', function(done){
+    it('should render a tween from one tint to another', function (done)
+    {
         this.validate('tween-tint-tint', done);
     });
 
-    it('should render a tween along both x and y axes', function(done){
+    it('should render a tween along both x and y axes', function (done)
+    {
         this.validate('tween-x-y', done);
     });
 
-    it('should render a horizontal tween', function(done){
+    it('should render a horizontal tween', function (done)
+    {
         this.validate('tween-x', done);
     });
 
-    it('should render a vertical tween', function(done){
+    it('should render a vertical tween', function (done)
+    {
         this.validate('tween-y', done);
     });
 
-    it('should render visibility toggling on/off', function(done){
+    it('should render visibility toggling on/off', function (done)
+    {
         this.validate('visible', done);
     });
 
-    it('should work for actions', function(done) {
-        this.getInstance('actions', (instance) => {
-            instance.once('actionsWork', () => {
+    it('should work for actions', function (done)
+    {
+        this.getInstance('actions', (instance) =>
+        {
+            instance.once('actionsWork', () =>
+            {
                 done();
             });
             this.renderer.stage.addChild(instance);
@@ -264,8 +325,10 @@ describe('Renders - Legacy asset format', function() {
         });
     });
 
-    it('should work for named instances', function(done) {
-        this.getInstance('named-instance', (instance) => {
+    it('should work for named instances', function (done)
+    {
+        this.getInstance('named-instance', (instance) =>
+        {
             assert(instance.example, 'Missing named instance');
             done();
         });
