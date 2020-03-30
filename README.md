@@ -42,7 +42,7 @@ The expected asset format is now a module based asset that uses ES6 classes, for
 * CommonJS export: `node pixi-animate-upgrade path/to/myFile.js path/to/my2ndFile.js`
 * ES6 export: `node pixi-animate-upgrade -e path/to/myFile.js path/to/my2ndFile.js`
 
-Note that this script does not update graphics paths - you will have to go into your `*.shapes.*` files and replace `"c"` with `"cp"`.
+Note that this script will do its best to update graphics paths (`*.shapes.json` files), but you should confirm that they were properly updated (closePath & hole changes).
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate:

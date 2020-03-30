@@ -81,7 +81,7 @@ for (let file of files)
 
     const [arg_PIXI, arg_lib] = libSetup[1].split(', ');
     const foundAssets = new RegExp(`${arg_lib}\\.([a-zA-Z_$0-9]+)\\.assets = ({[^}]*});`).exec(orig);
-    if (!libSetup)
+    if (!foundAssets)
     {
         console.log('Unable to parse library assets (and which item is the stage) from ' + file);
         continue;
@@ -215,4 +215,112 @@ for (let file of files)
 ${moduleMode === 'CJS' ? 'module.exports =' : 'export default'} data;`;
 
     fs.writeFileSync(file, data, 'utf8');
+
+    // now look at shapes so that we can update them
+    const shapeFileFinder = /"([^"]+.shapes.(?:json|txt))"/g;
+    let foundShape;
+    // eslint-disable-next-line no-cond-assign
+    while (foundShape = shapeFileFinder.exec(assets))
+    {
+        let [, shapeFile] = foundShape;
+        if (!path.isAbsolute(shapeFile))
+        {
+            shapeFile = path.resolve(path.dirname(file), shapeFile);
+        }
+        let orig;
+        try
+        {
+            orig = fs.readFileSync(shapeFile, 'utf8');
+        }
+        catch (e)
+        {
+            console.log(e.message);
+            continue;
+        }
+
+        if (shapeFile.endsWith('json'))
+        {
+            const json = JSON.parse(orig);
+
+            /* assume that json is an array of arrays - example:
+            [[
+                "f", "#345ffa", 1,
+                "m", 3, 6,
+                "l", 3, 22,
+                "l", 19, 22,
+                "l", 19, 6,
+                "l", 3, 6,
+                "c"],
+               [
+                "f", "#eb34fa", 1,
+                "m", 11, 12,
+                "l", 11, 28,
+                "l", 27, 28,
+                "l", 27, 12,
+                "l", 11, 12,
+                "c"],
+               [
+                "f", "#060", 1,
+                "m", 13, 2,
+                "l", 13, 18,
+                "l", 29, 18,
+                "l", 29, 2,
+                "l", 13, 2,
+                "c"]]
+            */
+
+            if (!Array.isArray(json) || !Array.isArray(json[0]))
+            {
+                console.log(`Unexpected format for ${shapeFile}`);
+                continue;
+            }
+            // go through the list of shapes/distinct drawing commands
+            for (let s = 0; s < json.length; ++s)
+            {
+                const shape = json[s];
+                // go through each individual command
+                for (let i = 0; i < shape.length; ++i)
+                {
+                    if (shape[i] === 'c')
+                    {
+                        // if it was the old close path, replace it with the new close path
+                        shape[i] = 'cp';
+                    }
+                    else if (shape[i] === 'h')
+                    {
+                        // if it was the old addHole, then replace it with endHold and go back to
+                        // insert a begin hole
+                        shape[i] = 'eh';
+                        // go back 2 indices - we want to skip the 'cp' that just happened and keep
+                        // going backwards from there
+                        let prevIndex = i - 2;
+
+                        for (; prevIndex >= 0; --prevIndex)
+                        {
+                            /* eslint-disable max-depth */
+                            if (shape[prevIndex] === 'cp')
+                            {
+                                break;
+                            }
+                            /* eslint-enable max-depth */
+                        }
+                        // at this point prevIndex is the location of the ending of the shape
+                        // before our hole, or -1 if there was somehow nothing but a hole
+                        // so we can insert beginHole right after that index
+                        shape.splice(prevIndex + 1, 0, 'bh');
+                        // increment i because we inserted a thing earlier into the array
+                        ++i;
+                    }
+                }
+            }
+
+            fs.writeFileSync(shapeFile, JSON.stringify(json, null, 2), 'utf8');
+        }
+        else
+        {
+            // TODO: not quite sure what the format here is
+            console.log(`Upgrade script currently can't handle .txt files: ${shapeFile}`);
+            continue;
+        }
+    }
 }
