@@ -39,8 +39,9 @@ Changes that the legacy build doesn't account for:
 
 ### Asset changes
 The expected asset format is now a module based asset that uses ES6 classes, for use with `require()` (publish for CommonJS) or `import()` (publish for ES6). A script has been provided to update v1 assets to the new format - `pixi-animate-upgrade` (see `bin/assetConversion.js` for the source).
-* CommonJS export: `node pixi-animate-upgrade path/to/myFile.js path/to/my2ndFile.js`
-* ES6 export: `node pixi-animate-upgrade -e path/to/myFile.js path/to/my2ndFile.js`
+* CommonJS export: `npm run pixi-animate-upgrade path/to/myFile.js path/to/my2ndFile.js`
+* ES6 export: `npm run pixi-animate-upgrade -e path/to/myFile.js path/to/my2ndFile.js`
+* ES6 autorun export: `npm run pixi-animate-upgrade -a path/to/myFile.js path/to/my2ndFile.js`
 
 Note that this script will do its best to update graphics paths (`*.shapes.json` files), but you should confirm that they were properly updated (closePath & hole changes).
 

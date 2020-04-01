@@ -6,18 +6,38 @@ const path = require('path');
 
 const files = process.argv.slice(2);
 
-let moduleMode = 'CJS';
+const MODE_COMMONJS = 'CJS';
+const MODE_ES6 = 'ES6';
+const MODE_ES6_AUTORUN = 'ES6_A';
+let moduleMode = MODE_COMMONJS;
 
 for (let file of files)
 {
-    if (file === '-e')
+    if (file === '-h')
     {
-        moduleMode = 'ES6';
+        console.log(`Usage: pixi-animate-upgrade <mode> path/to/file1.js path/to/file2.js
+
+Modes:
+    -c (Default) CommonJS/Node style export
+    -e ES6 style export (export default)
+    -a ES6 style export with auto import of pixi-animate and run of setup(), exports library items as well as the default.
+`);
+
+        return;
+    }
+    else if (file === '-e')
+    {
+        moduleMode = MODE_ES6;
         continue;
     }
     else if (file === '-c')
     {
-        moduleMode = 'CJS';
+        moduleMode = MODE_COMMONJS;
+        continue;
+    }
+    else if (file === '-a')
+    {
+        moduleMode = MODE_ES6_AUTORUN;
         continue;
     }
     if (!path.isAbsolute(file))
@@ -103,6 +123,11 @@ for (let file of files)
     let data = `const data = {
     stage: null,
 `;
+    // if we are doing an autorun, then we need to put that at the top
+    if (moduleMode === MODE_ES6_AUTORUN)
+    {
+        data = 'import animate from \'pixi-animate\';\n' + data;
+    }
     if (stageData)
     {
         data += stageData[1].trim().split(/[\n\r]+/)
@@ -156,12 +181,14 @@ for (let file of files)
     setup = setup.replace(new RegExp(`(\\W)(shapes)(?=\\.)`, 'g'), '$1data.shapes');
     // fix fromFrame usage
     setup = setup.replace(new RegExp(`(\\W)(fromFrame)(?=\\()`, 'g'), '$1data.getTexture');
+    // list of classes that need to be exported if in MODE_ES6_AUTORUN
+    const classList = [];
     // fix MovieClip extension
-    const MCFinder = /^([ \t]+)((?:data\.lib\.|var )[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(([^)]*)\) {/m;
+    const MCFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(([^)]*)\) {/m;
     let found = MCFinder.exec(setup);
     while (found)
     {
-        const [fullMatch, indent, libItem, args] = found;
+        const [fullMatch, indent, libItem, libOrVar, args] = found;
         const { index } = found;
         // replace extend() with class declaration & constructor
         setup = setup.replace(fullMatch, `${indent}${libItem}class extends MovieClip {
@@ -174,15 +201,22 @@ for (let file of files)
         const endFinder = new RegExp(`^${indent}}\\);`, 'm');
         endFinder.lastIndex = index;
         setup = setup.replace(endFinder, `${indent}}\n${indent}}`);
+        // add to class list if not a var
+        if (libOrVar === 'data.lib.')
+        {
+            // extract just the class name
+            const [, className] = (/([^. ]+) =/).exec(libItem);
+            classList.push(className);
+        }
         // find next
         found = MCFinder.exec(setup);
     }
     // fix Container extension
-    const ContainerFinder = /^([ \t]+)((?:data\.lib\.|var )[a-zA-Z_$0-9]+ = )Container.extend\(function \(([^)]*)\) {/m;
+    const ContainerFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )Container.extend\(function \(([^)]*)\) {/m;
     found = ContainerFinder.exec(setup);
     while (found)
     {
-        const [fullMatch, indent, libItem] = found;
+        const [fullMatch, indent, libItem, libOrVar] = found;
         const { index } = found;
         // replace extend() with class declaration & constructor
         setup = setup.replace(fullMatch, `${indent}${libItem}class extends Container {
@@ -195,6 +229,13 @@ for (let file of files)
         const endFinder = new RegExp(`^${indent}}\\);`, 'm');
         endFinder.lastIndex = index;
         setup = setup.replace(endFinder, `${indent}}\n${indent}}`);
+        // add to class list if not a var
+        if (libOrVar === 'data.lib.')
+        {
+            // extract just the class name
+            const [, className] = (/([^. ]+) =/).exec(libItem);
+            classList.push(className);
+        }
         // find next
         found = ContainerFinder.exec(setup);
     }
@@ -210,11 +251,26 @@ for (let file of files)
     // close data object
     data += '};\n';
 
-    // do export - TODO: ES6 as well
+    // if in autorun mode, run setup and do individual exports
+    if (moduleMode === MODE_ES6_AUTORUN)
+    {
+        data += 'data.setup(animate);\n';
+        for (const className of classList)
+        {
+            data += `const ${className} = data.lib.${className};
+export {${className}};
+`;
+        }
+    }
+    // do default export
     data += `
-${moduleMode === 'CJS' ? 'module.exports =' : 'export default'} data;`;
+${moduleMode === MODE_COMMONJS ? 'module.exports =' : 'export default'} data;`;
 
     fs.writeFileSync(file, data, 'utf8');
+
+    // *********************************************
+    //       SHAPE UPDATING
+    // *********************************************
 
     // now look at shapes so that we can update them
     const shapeFileFinder = /"([^"]+.shapes.(?:json|txt))"/g;
