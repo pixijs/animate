@@ -184,7 +184,7 @@ Modes:
     // list of classes that need to be exported if in MODE_ES6_AUTORUN
     const classList = [];
     // fix MovieClip extension
-    const MCFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(([^)]*)\) {/m;
+    const MCFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )MovieClip.extend\(function \(([^)]*)\) {/gm;
     let found = MCFinder.exec(setup);
     while (found)
     {
@@ -212,7 +212,7 @@ Modes:
         found = MCFinder.exec(setup);
     }
     // fix Container extension
-    const ContainerFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )Container.extend\(function \(([^)]*)\) {/m;
+    const ContainerFinder = /^([ \t]+)((data\.lib\.|var )[a-zA-Z_$0-9]+ = )Container.extend\(function \(([^)]*)\) {/gm;
     found = ContainerFinder.exec(setup);
     while (found)
     {
