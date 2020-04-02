@@ -39,20 +39,20 @@ Changes that the legacy build doesn't account for:
 
 ### Asset changes
 The expected asset format is now a module based asset that uses ES6 classes, for use with `require()` (publish for CommonJS) or `import()` (publish for ES6). A script has been provided to update v1 assets to the new format - `pixi-animate-upgrade` (see `bin/assetConversion.js` for the source).
-* CommonJS export: `npm run pixi-animate-upgrade path/to/myFile.js path/to/my2ndFile.js`
+* CommonJS export: `npx pixi-animate-upgrade path/to/myFile.js path/to/my2ndFile.js`
   * Asset object is the main, and only, export.
   * Example: `const asset = require('./myAsset');`
-* ES6 export: `npm run pixi-animate-upgrade -e path/to/myFile.js path/to/my2ndFile.js`
+* ES6 export: `npx pixi-animate-upgrade -e path/to/myFile.js path/to/my2ndFile.js`
   * Asset object is the default, and only, export.
   * Example: `import asset from './myAsset'` or `const asset = await import('./myAsset')`;
-* ES6 autorun export: `npm run pixi-animate-upgrade -a path/to/myFile.js path/to/my2ndFile.js`
+* ES6 autorun export: `npx pixi-animate-upgrade -a path/to/myFile.js path/to/my2ndFile.js`
   * Asset automatically imports `'pixi-animate'` and runs `setup()`. Individual library items are exported by name in addition to the default export.
   * Example: `import asset, {MyScene} from './myAsset'`
 
 Note that this script will do its best to update graphics paths (`*.shapes.json` files), but you should confirm that they were properly updated (closePath & hole changes).
 
 If you want to have a Typescript declaration specific to an individual asset file, use the `pixi-animate-type-assets` script to generate a .d.ts file. This script will work on any of the 3 variants of the current asset format.
-Example: `npm run pixi-animate-type-assets path/to/myFile.js path/to/my2ndFile.js`
+Example: `npx pixi-animate-type-assets path/to/myFile.js path/to/my2ndFile.js`
 
 ## Typescript
 You can use require to get the namespace for PixiAnimate:
