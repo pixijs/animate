@@ -1,8 +1,9 @@
 import { Timeline } from './Timeline';
 import { TweenProps, EaseMethod } from './Tween';
-import { utils_ns as utils } from './utils';
+import { utils } from './utils';
 import { sound } from './sound';
-import { AnimateContainer, AnimateDisplayObject } from '../mixins';
+import { AnimateContainer } from './Container';
+import { AnimateDisplayObject } from './DisplayObject';
 import { Ticker, settings, Graphics, Sprite /* , IDestroyOptions */ } from 'pixi.js';
 const SharedTicker = Ticker.shared;
 

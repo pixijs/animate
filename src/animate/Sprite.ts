@@ -1,5 +1,5 @@
-import { Container, filters, Graphics, Sprite } from 'pixi.js';
-import { utils_ns as utils } from '../animate/utils';
+import { Sprite, filters, Graphics } from 'pixi.js';
+import { utils } from './utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
 
@@ -9,19 +9,10 @@ if (filters)
 }
 
 /**
- * Utility subclass of PIXI.Container
+ * Utility subclass of PIXI.Sprite
  */
-export class AnimateContainer extends Container
+export class AnimateSprite extends Sprite
 {
-    // **************************
-    //     Container methods
-    // **************************
-
-    /**
-     * Shortcut for `addChild`.
-     */
-    public ac = super.addChild;
-
     // **************************
     //     DisplayObject methods
     // **************************

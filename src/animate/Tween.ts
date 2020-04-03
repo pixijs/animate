@@ -1,4 +1,4 @@
-import { AnimateDisplayObject } from '../mixins';
+import { AnimateDisplayObject } from './DisplayObject';
 import { Graphics, Sprite } from 'pixi.js';
 
 export type EaseMethod = (input: number) => number;

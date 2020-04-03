@@ -1,5 +1,5 @@
 import { Tween, TweenProps, EaseMethod } from './Tween';
-import { AnimateDisplayObject } from '../mixins';
+import { AnimateDisplayObject } from './DisplayObject';
 
 /**
  * The Timeline class represents a series of tweens, tied to keyframes.

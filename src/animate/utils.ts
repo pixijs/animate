@@ -1,4 +1,4 @@
-import { DrawCommands } from '../mixins';
+import { DrawCommands } from './Graphics';
 import { TweenProps } from './Tween';
 import { MovieClip } from './MovieClip';
 import { DisplayObject, Renderer, Prepare } from 'pixi.js';
@@ -6,9 +6,9 @@ import { DisplayObject, Renderer, Prepare } from 'pixi.js';
 // If the movieclip plugin is installed
 let _prepare: Prepare = null;
 
-/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-namespace, no-inner-declarations */
+/* eslint-disable @typescript-eslint/no-namespace, no-inner-declarations */
 // awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
-export namespace utils_ns {
+export namespace utils {
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint

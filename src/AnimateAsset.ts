@@ -1,5 +1,13 @@
-import * as Animate from './';
+import { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprite, DrawCommands } from './animate';
 import { Texture, Spritesheet } from 'pixi.js';
+
+interface PixiAnimate {
+    Movieclip: typeof MovieClip;
+    Container: typeof AnimateContainer;
+    Graphics: typeof AnimateGraphics;
+    Text: typeof AnimateText;
+    Sprite: typeof AnimateSprite;
+}
 
 /**
  * The format of the output javascript file when publishing a scene.
@@ -8,7 +16,7 @@ export interface AnimateAsset {
     /**
      * Constructor for the root MovieClip. Is null before setup() is run.
      */
-    stage: new () => Animate.MovieClip;
+    stage: new () => MovieClip;
     /**
      * Background color of the scene, as defined when the asset is published.
      */
@@ -37,13 +45,13 @@ export interface AnimateAsset {
      * Dictionary of display object constructors used within this scene. This is an empty object
      * before setup() is run, but can be overwritten with a shared library dictionary (before setup() is run).
      */
-    lib: { [id: string]: (new () => (Animate.MovieClip|Animate.Container))};
+    lib: { [id: string]: (new () => (MovieClip|AnimateContainer))};
     /**
      * Dictionary of loaded shape instructions for this scene. This is intially an empty object that
      * can be filled by animate.load(), or by a custom loading system. It must be filled before
      * any items are instantiated.
      */
-    shapes: { [id: string]: Animate.DrawCommands[] };
+    shapes: { [id: string]: DrawCommands[] };
     /**
      * Dictionary of loaded individual images for this scene.This is intially an empty object that
      * will be filled by animate.load(). It will be used by the animate.load() method for
@@ -65,5 +73,5 @@ export interface AnimateAsset {
      * Creates classes for each Container and MovieClip within the scene, filling data.lib and
      * setting data.stage.
      */
-    setup: (animate: typeof Animate) => void;
+    setup: (animate: PixiAnimate) => void;
 }

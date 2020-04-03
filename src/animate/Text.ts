@@ -1,5 +1,5 @@
-import { Sprite, filters, Graphics } from 'pixi.js';
-import { utils_ns as utils } from '../animate/utils';
+import { Text, filters, Graphics, Sprite } from 'pixi.js';
+import { utils } from './utils';
 // Color Matrix filter
 let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
 
@@ -8,11 +8,132 @@ if (filters)
     ColorMatrixFilter = filters.ColorMatrixFilter;
 }
 
+// Possible align values
+enum ALIGN_VALUES {
+    center = 0,
+    right = 1,
+    left = -1
+}
+
+// Map of short names to long names
+const STYLE_PROPS = {
+    o: 'font', // TODO: deprecate in Pixi v4
+    z: 'fontSize',
+    f: 'fontFamily',
+    y: 'fontStyle',
+    g: 'fontWeight',
+    i: 'fill',
+    a: 'align',
+    s: 'stroke',
+    t: 'strokeThickness',
+    w: 'wordWrap',
+    d: 'wordWrapWidth',
+    l: 'lineHeight',
+    h: 'dropShadow',
+    c: 'dropShadowColor',
+    n: 'dropShadowAngle',
+    b: 'dropShadowBlur',
+    p: 'padding',
+    x: 'textBaseline',
+    j: 'lineJoin',
+    m: 'miterLimit',
+    e: 'letterSpacing',
+};
+
 /**
- * Utility subclass of PIXI.Sprite
+ * Check if a value is undefined, fallback to default value
+ * @param value The value to check
+ * @param defaultValue The default value if value is undefined
+ * @return Either the value or the default value
  */
-export class AnimateSprite extends Sprite
+function isUndefinedOr<T>(value: T, defaultValue: T): T
 {
+    return value === undefined ? defaultValue : value;
+}
+
+export class AnimateText extends Text
+{
+    // **************************
+    //     Text methods
+    // **************************
+
+    /**
+     * Setter for the alignment, also sets the anchor point
+     * to make sure the positioning is correct.
+     * @param align Either center (0), right (1), left (-1)
+     * @return This instance for chaining
+     */
+    public setAlign(align: 'center'|'right'|'left'|0|1|-1): this
+    {
+        if (typeof align === 'string')
+        {
+            align = ALIGN_VALUES[align];
+        }
+        this.style.align = ALIGN_VALUES[align] || 'left';
+        this.anchor.x = (align + 1) / 2;
+
+        return this;
+    }
+    /**
+     * Shortcut for `setAlign`.
+     */
+    public g = this.setAlign;
+
+    /**
+     * Set the style, a chainable version of style setter
+     * @param style
+     * @return This instance for chaining.
+     */
+    // TODO: improve typing of style parameter (needs ITextStyle interface to exist)
+    public setStyle(style: any): this
+    {
+        // Replace short STYLE_PROPS with long names
+        for (const k in STYLE_PROPS)
+        {
+            if ((style as any)[k] !== undefined)
+            {
+                (style as any)[(STYLE_PROPS as any)[k]] = (style as any)[k];
+                delete (style as any)[k];
+            }
+        }
+        this.style = style as any;
+
+        return this;
+    }
+    /**
+     * Shortcut for `setStyle`.
+     */
+    public ss = this.setStyle;
+
+    /**
+     * Initial setting of the drop shadow.
+     * @param color The color to set
+     * @param angle The angle of offset, in radians
+     * @param distance The offset distance
+     * @return This instance for chaining
+     */
+    public setShadow(color: string|number, angle: number, distance: number): this
+    {
+        const style = this.style;
+
+        style.dropShadow = true;
+
+        // Convert color to hex string
+        if (color && typeof color === 'number')
+        {
+            color = `#${color.toString(16)}`;
+        }
+        style.dropShadowColor = isUndefinedOr(color, style.dropShadowColor);
+        style.dropShadowAngle = isUndefinedOr(angle, style.dropShadowAngle);
+        style.dropShadowDistance = isUndefinedOr(distance, style.dropShadowDistance);
+
+        return this;
+    }
+    /**
+     * Shortcut for `setShadow`.
+     */
+    public sh = this.setShadow;
+
     // **************************
     //     DisplayObject methods
     // **************************

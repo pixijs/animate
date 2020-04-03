@@ -1,8 +1,8 @@
 import { Loader, LoaderResource, Container } from 'pixi.js';
 import { AnimateAsset } from '../AnimateAsset';
 import { MovieClip } from './MovieClip';
-import { DrawCommands } from '../mixins';
-import { utils_ns as utils } from './utils';
+import { DrawCommands } from './Graphics';
+import { utils } from './utils';
 
 type Complete = (instance: MovieClip|null, loader: Loader) => void;
 export interface LoadOptions {
