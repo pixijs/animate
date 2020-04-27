@@ -142,6 +142,11 @@ describe('Renders - Legacy asset format', function ()
         this.validate('graphic-singleframe', done);
     });
 
+    it('should render a hole', function (done)
+    {
+        this.validate('hole', done);
+    });
+
     // it('should render a graphic mask', function(done){
     //     this.validate('mask-graphic', done);
     // });

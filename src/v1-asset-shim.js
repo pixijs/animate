@@ -36,10 +36,13 @@ this.PIXI.Graphics.prototype.c = this.PIXI.Graphics.prototype.closePath;
 // Put in a version of addHole() that works like this.PIXI v4
 this.PIXI.Graphics.prototype.h = this.PIXI.Graphics.prototype.addHole = function ()
 {
-    const data = this.geometry.graphicsData.pop();
-
-    data.fillStyle = null;
-    this.geometry.graphicsData[this.geometry.graphicsData.length - 1].holes.push(data);
+    // note: this works fine when a moveTo() happened before the hole started (which should have
+    // in most/all cases), because moveTo() ends the polygon that was previously drawn.
+    // if something like that _didn't_ happen, then this won't work properly
+    // enable hole mode (retroactively)
+    this._holeMode = true;
+    // end the hole that we just drew
+    this.endHole();
 
     return this;
 };
