@@ -2,7 +2,7 @@ import { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprit
 import { Texture, Spritesheet } from 'pixi.js';
 
 interface PixiAnimate {
-    Movieclip: typeof MovieClip;
+    MovieClip: typeof MovieClip;
     Container: typeof AnimateContainer;
     Graphics: typeof AnimateGraphics;
     Text: typeof AnimateText;
