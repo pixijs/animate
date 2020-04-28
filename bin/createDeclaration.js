@@ -67,7 +67,8 @@ for (let file of files)
         // grab a string of just the constructor
         const constructor = source.substring(constructorStart, constructorEnd);
         // loop through all the properties defined in the constructor (if any)
-        const propFinder = /this\.([a-zA-Z0-9$_]+) = new (data\.lib\.)?([a-zA-Z0-9$_]+)/g;
+        // prop declaration format: this.foo = new data.lib.Foo();
+        let propFinder = /this\.([a-zA-Z0-9$_]+) = new (data\.lib\.)?([a-zA-Z0-9$_]+)/g;
         const props = [];
         let foundProp = propFinder.exec(constructor);
         while (foundProp)
@@ -80,6 +81,26 @@ for (let file of files)
                 type,
             });
             foundProp = propFinder.exec(constructor);
+        }
+        // if we couldn't find any props, try a different format
+        if (!props.length)
+        {
+            // prop declaration format: this[instance2.name = "fore"] = instance2;
+            propFinder = /this\[([a-zA-Z0-9$_]+)\.name ?= ?"([^"]+)"\]/g;
+            foundProp = propFinder.exec(constructor);
+            while (foundProp)
+            {
+                const [, instanceName, name] = foundProp;
+                const [, source, type] = new RegExp(`const ${instanceName} ?= ?new (data\\.lib\\.)?([a-zA-Z0-9$_]+)`)
+                    .exec(constructor);
+                // track property name, source of property (data.lib. vs nothing), and type
+                props.push({
+                    name,
+                    source,
+                    type,
+                });
+                foundProp = propFinder.exec(constructor);
+            }
         }
         // now that we have all the data, add it to the list
         classes.push({
@@ -102,8 +123,10 @@ ${classData.props.map(({ name, source, type }) => `    ${name}: ${source ? '' : 
 ${classes.map(({ className }) => `    ${className}: typeof ${className};`).join('\n')}
 }
 `;
+    // figure out which class is the root class
+    const [, root] = (/data\.stage ?= ?data\.lib\.([a-zA-Z0-9$_]+)/).exec(source);
     // declare the data object, mix in our specific library (can't override it, I think?)
-    output += `declare const data: animate.AnimateAsset & {lib: Lib};
+    output += `declare const data: animate.AnimateAsset & {lib: Lib, stage: typeof ${root}};
 `;
     output += `${source.match(/export default data/) ? 'export default' : 'export ='} data;
 `;
