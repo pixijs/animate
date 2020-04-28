@@ -113,9 +113,11 @@ for (let file of files)
     // for each class, set up a declaration for it
     for (const classData of classes)
     {
-        output += `declare class ${classData.className} extends animate.${classData.baseClass} {
-${classData.props.map(({ name, source, type }) => `    ${name}: ${source ? '' : 'animate.'}${type};`).join('\n')}
-}
+        output += `declare class ${classData.className} extends animate.${classData.baseClass} {${classData.props.length
+            ? '\n' + classData.props
+                .map(({ name, source, type }) => `    ${name}: ${source ? '' : 'animate.'}${type};`)
+                .join('\n') + '\n'
+            : ''}}
 `;
     }
     // create an interface for our specific library
@@ -126,7 +128,7 @@ ${classes.map(({ className }) => `    ${className}: typeof ${className};`).join(
     // figure out which class is the root class
     const [, root] = (/data\.stage ?= ?data\.lib\.([a-zA-Z0-9$_]+)/).exec(source);
     // declare the data object, mix in our specific library (can't override it, I think?)
-    output += `declare const data: animate.AnimateAsset & {lib: Lib, stage: typeof ${root}};
+    output += `declare const data: Omit<animate.AnimateAsset, 'stage'|'lib'> & {lib: Lib, stage: typeof ${root}};
 `;
     output += `${source.match(/export default data/) ? 'export default' : 'export ='} data;
 `;
