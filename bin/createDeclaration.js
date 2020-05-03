@@ -28,10 +28,6 @@ for (let file of files)
         continue;
     }
 
-    // start off by importing pixi-animate
-    let output = `import * as animate from \'pixi-animate\';
-`;
-
     const classes = [];
     // get set up to find any classes that are in the library, and make a list
     const classFinder = /data\.lib\.([a-zA-Z_$0-9]+) = class extends (MovieClip|Container)/g;
@@ -110,31 +106,101 @@ for (let file of files)
         });
         foundClass = classFinder.exec(source);
     }
+    let lib = '';
     // for each class, set up a declaration for it
     for (const classData of classes)
     {
-        output += `declare class ${classData.className} extends animate.${classData.baseClass} {${classData.props.length
+        // indented twice, for two namespaces in
+        lib += `        export class ${classData.className} extends animate.${classData.baseClass} {${classData.props.length
             ? '\n' + classData.props
-                .map(({ name, source, type }) => `    ${name}: ${source ? '' : 'animate.'}${type};`)
-                .join('\n') + '\n'
+                .map(({ name, source, type }) => `            ${name}: ${source ? '' : 'animate.'}${type};`)
+                .join('\n') + '\n        '
             : ''}}
 `;
     }
-    // create an interface for our specific library
-    output += `interface Lib {
-${classes.map(({ className }) => `    ${className}: typeof ${className};`).join('\n')}
-}
-`;
     // figure out which class is the root class
     const [, root] = (/data\.stage ?= ?data\.lib\.([a-zA-Z0-9$_]+)/).exec(source);
-    // declare the data object, mix in our specific library (can't override it, I think?)
-    output += `declare const data: Omit<animate.AnimateAsset, 'stage'|'lib'> & {lib: Lib, stage: typeof ${root}};
-`;
-    output += `${source.match(/export default data/) ? 'export default' : 'export ='} data;
+    // set up our library using a modified copy of AnimateAsset as a template
+    let output = `import * as animate from 'pixi-animate';
+import { Texture, Spritesheet } from 'pixi.js';
+
+declare namespace data
+{
+    /**
+     * Background color of the scene, as defined when the asset is published.
+     */
+    export const background: number;
+    /**
+     * Width of the scene, as defined when the asset is published.
+     */
+    export const width: number;
+    /**
+     * Height of the scene, as defined when the asset is published.
+     */
+    export const height: number;
+    /**
+     * Framerate of the scene (frames per second), as defined when the asset is published.
+     */
+    export const framerate: number;
+    /**
+     * Total number of frames of the root MovieClip.
+     */
+    export const totalFrames: number;
+    /**
+     * Dictionary of paths to shape files and textures, indexed by unique id within the scene file.
+     */
+    export let assets: { [id: string]: string };
+    /**
+     * Dictionary of loaded shape instructions for this scene. This is intially an empty object that
+     * can be filled by animate.load(), or by a custom loading system. It must be filled before
+     * any items are instantiated.
+     */
+    export let shapes: { [id: string]: animate.DrawCommands[] };
+    /**
+     * Dictionary of loaded individual images for this scene.This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * getTexture(), and is not needed if getTexture() is overridden.
+     */
+    export let textures: { [id: string]: Texture };
+    /**
+     * Dictionary of loaded spritesheet for this scene.This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * getTexture(), and is not needed if getTexture() is overridden.
+     */
+    export let spritesheets: Spritesheet[];
+    /**
+     * Function for getting a texture by ID.
+     * It can be set to PIXI.Texture.from for global texture atlas.
+     */
+    export let getTexture: (id: string) => Texture;
+    /**
+     * Creates classes for each Container and MovieClip within the scene, filling data.lib and
+     * setting data.stage.
+     */
+    export function setup(library: typeof animate): void;
+    /**
+     * Dictionary of display object constructors used within this scene. This is an empty object
+     * before setup() is run, but can be overwritten with a shared library dictionary (before setup() is run).
+     */
+    export namespace lib
+    {
+${lib}
+    }
+    /**
+     * Constructor for the root MovieClip. Is null before setup() is run.
+     */
+    export let stage: typeof lib.${root};
+}
+${source.match(/export default data/) ? 'export default' : 'export ='} data;
 `;
     if ((/export {[a-zA-Z0-9$_]+}/).test(source))
     {
-        output += `export {${classes.map(({ className }) => className).join(', ')}};`;
+        for (const className of classes)
+        {
+            output += `import ${className} = data.lib.${className};
+export { ${className} };
+`;
+        }
     }
 
     fs.writeFileSync(file.replace('.js', '.d.ts'), output, 'utf8');
