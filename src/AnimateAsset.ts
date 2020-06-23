@@ -53,14 +53,14 @@ export interface AnimateAsset {
      */
     shapes: { [id: string]: DrawCommands[] };
     /**
-     * Dictionary of loaded individual images for this scene.This is intially an empty object that
-     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * Dictionary of loaded individual images for this scene. This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the default method for
      * getTexture(), and is not needed if getTexture() is overridden.
      */
     textures: { [id: string]: Texture };
     /**
-     * Dictionary of loaded spritesheet for this scene.This is intially an empty object that
-     * will be filled by animate.load(). It will be used by the animate.load() method for
+     * Dictionary of loaded spritesheets for this scene. This is intially an empty object that
+     * will be filled by animate.load(). It will be used by the default method for
      * getTexture(), and is not needed if getTexture() is overridden.
      */
     spritesheets: Spritesheet[];
