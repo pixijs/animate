@@ -66,6 +66,8 @@ this.PIXI.animate.load = (scene, optionsOrComplete) =>
             assets: scene.assets,
             textures: this.PIXI.utils.TextureCache,
             shapes: this.PIXI.animate.ShapesCache,
+            // spritesheets needs to exist, even if legacy assets won't read from it
+            spritesheets: [],
             lib: window.lib,
         };
     }
