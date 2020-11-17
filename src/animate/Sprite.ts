@@ -1,12 +1,7 @@
-import { Sprite, filters, Graphics } from 'pixi.js';
+import { Sprite } from '@pixi/sprite';
+import { Graphics } from '@pixi/graphics';
+import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
 import { utils } from './utils';
-// Color Matrix filter
-let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
-
-if (filters)
-{
-    ColorMatrixFilter = filters.ColorMatrixFilter;
-}
 
 /**
  * Utility subclass of PIXI.Sprite
@@ -142,15 +137,15 @@ export class AnimateSprite extends Sprite
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter: filters.ColorMatrixFilter;
+    protected _colorTransformFilter: ColorMatrixFilter;
     /**
-     * The current default color transforming filters
+     * The current default color transforming filter
      */
-    public set colorTransformFilter(filter: filters.ColorMatrixFilter)
+    public set colorTransformFilter(filter: ColorMatrixFilter)
     {
         this._colorTransformFilter = filter;
     }
-    public get colorTransformFilter(): filters.ColorMatrixFilter
+    public get colorTransformFilter(): ColorMatrixFilter
     {
         return this._colorTransformFilter || new ColorMatrixFilter();
     }

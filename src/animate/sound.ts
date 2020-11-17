@@ -1,4 +1,4 @@
-import { utils } from 'pixi.js';
+import { EventEmitter } from '@pixi/utils';
 /**
  * @description Event emitter for all sound events. This emits a single
  * `play` event which contains the alias, loop and MovieClip which is playing
@@ -10,4 +10,4 @@ import { utils } from 'pixi.js';
  *    // where 'alias' is the ID in stage assets
  * });
  */
-export const sound = new utils.EventEmitter();
+export const sound = new EventEmitter();

@@ -1,12 +1,8 @@
-import { Text, filters, Graphics, Sprite } from 'pixi.js';
+import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
+import { Text, TextStyleAlign } from '@pixi/text';
+import { Graphics } from '@pixi/graphics';
+import { Sprite } from '@pixi/sprite';
 import { utils } from './utils';
-// Color Matrix filter
-let ColorMatrixFilter: typeof filters.ColorMatrixFilter;
-
-if (filters)
-{
-    ColorMatrixFilter = filters.ColorMatrixFilter;
-}
 
 // Possible align values
 enum ALIGN_VALUES {
@@ -69,7 +65,7 @@ export class AnimateText extends Text
         {
             align = ALIGN_VALUES[align];
         }
-        this.style.align = ALIGN_VALUES[align] || 'left';
+        this.style.align = ALIGN_VALUES[align] as TextStyleAlign || 'left';
         this.anchor.x = (align + 1) / 2;
 
         return this;
@@ -263,15 +259,15 @@ export class AnimateText extends Text
      */
     public c = this.setColorTransform;
 
-    protected _colorTransformFilter: filters.ColorMatrixFilter;
+    protected _colorTransformFilter: ColorMatrixFilter;
     /**
-     * The current default color transforming filters
+     * The current default color transforming filter
      */
-    public set colorTransformFilter(filter: filters.ColorMatrixFilter)
+    public set colorTransformFilter(filter: ColorMatrixFilter)
     {
         this._colorTransformFilter = filter;
     }
-    public get colorTransformFilter(): filters.ColorMatrixFilter
+    public get colorTransformFilter(): ColorMatrixFilter
     {
         return this._colorTransformFilter || new ColorMatrixFilter();
     }

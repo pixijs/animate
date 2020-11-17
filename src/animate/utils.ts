@@ -1,7 +1,9 @@
 import { DrawCommands } from './Graphics';
 import { TweenProps } from './Tween';
 import { MovieClip } from './MovieClip';
-import { DisplayObject, Renderer, Prepare } from 'pixi.js';
+import { DisplayObject } from '@pixi/display';
+import { Renderer } from '@pixi/core';
+import { Prepare } from '@pixi/prepare';
 
 // If the movieclip plugin is installed
 let _prepare: Prepare = null;

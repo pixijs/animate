@@ -4,16 +4,12 @@ import { utils } from './utils';
 import { sound } from './sound';
 import { AnimateContainer } from './Container';
 import { AnimateDisplayObject } from './DisplayObject';
-import { Ticker, settings, Graphics, Sprite /* , IDestroyOptions */ } from 'pixi.js';
+import { Ticker } from '@pixi/ticker';
+import { settings } from '@pixi/settings';
+import { Graphics } from '@pixi/graphics';
+import { Sprite } from '@pixi/sprite';
+import { IDestroyOptions } from '@pixi/display';
 const SharedTicker = Ticker.shared;
-
-// TODO: Remove with next release of pixi.js
-interface IDestroyOptions
-{
-    children?: boolean;
-    texture?: boolean;
-    baseTexture?: boolean;
-}
 
 export interface MovieClipOptions
 {
@@ -325,7 +321,7 @@ export class MovieClip extends AnimateContainer
         {
             this.framerate = this.parentFramerate;
         }
-        SharedTicker.add(this._tickListener);
+        SharedTicker.add(this._tickListener, null);
     }
 
     private _tickListener(tickerDeltaTime: number): void
@@ -347,7 +343,7 @@ export class MovieClip extends AnimateContainer
 
     private _onRemoved(): void
     {
-        SharedTicker.remove(this._tickListener);
+        SharedTicker.remove(this._tickListener, null);
     }
 
     /**
@@ -1056,7 +1052,7 @@ export class MovieClip extends AnimateContainer
     {
         if (this._tickListener)
         {
-            SharedTicker.remove(this._tickListener);
+            SharedTicker.remove(this._tickListener, null);
             this._tickListener = null;
         }
         const hiddenChildren = [];

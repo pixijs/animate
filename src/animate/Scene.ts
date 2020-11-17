@@ -1,15 +1,11 @@
 import { load } from './load';
 import { sound } from './sound';
 import { MovieClip } from './MovieClip';
-import { Application, utils, Loader /* IDestroyOptions*/ } from 'pixi.js';
+import { Application } from '@pixi/app';
+import { EventEmitter } from '@pixi/utils';
+import { Loader } from '@pixi/loaders';
+import { IDestroyOptions } from '@pixi/display';
 import { AnimateAsset } from '../AnimateAsset';
-
-// TODO: Remove with next release of pixi.js
-interface IDestroyOptions {
-    children?: boolean;
-    texture?: boolean;
-    baseTexture?: boolean;
-}
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
@@ -24,7 +20,7 @@ export class Scene extends Application
      * Reference to the global sound object
      * @readOnly
      */
-    public readonly sound: utils.EventEmitter = sound;
+    public readonly sound: EventEmitter = sound;
 
     /**
      * The stage object created.

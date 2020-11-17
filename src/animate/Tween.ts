@@ -1,5 +1,6 @@
 import { AnimateDisplayObject } from './DisplayObject';
-import { Graphics, Sprite } from 'pixi.js';
+import { Graphics } from '@pixi/Graphics';
+import { Sprite } from '@pixi/sprite';
 
 export type EaseMethod = (input: number) => number;
 

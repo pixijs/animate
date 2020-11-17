@@ -1,4 +1,5 @@
-import { Loader, LoaderResource, Container } from 'pixi.js';
+import { Loader, LoaderResource } from '@pixi/loaders';
+import { Container } from '@pixi/display';
 import { AnimateAsset } from '../AnimateAsset';
 import { MovieClip } from './MovieClip';
 import { DrawCommands } from './Graphics';
