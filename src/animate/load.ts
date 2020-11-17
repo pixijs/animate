@@ -1,4 +1,4 @@
-import { Loader, LoaderResource } from '@pixi/loaders';
+import { Loader, ILoaderResource } from '@pixi/loaders';
 import { Container } from '@pixi/display';
 import { AnimateAsset } from '../AnimateAsset';
 import { MovieClip } from './MovieClip';
@@ -150,7 +150,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
                     data = metadata.default;
                 }
             }
-            loader.add(id, basePath + assets[id], data, (resource: LoaderResource) =>
+            loader.add(id, basePath + assets[id], data, (resource: ILoaderResource) =>
             {
                 if (!resource.data)
                 {

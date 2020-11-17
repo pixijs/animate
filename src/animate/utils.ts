@@ -234,7 +234,8 @@ export namespace utils {
 
                 if (index === -1)
                 {
-                    _prepare.add(timeline.target);
+                    // eslint-disable-next-line no-unused-expressions
+                    _prepare?.add(timeline.target);
                 }
             });
 
@@ -257,6 +258,7 @@ export namespace utils {
             _prepare = renderer.plugins.prepare;
             _prepare.registerFindHook(addMovieClips);
         }
-        _prepare.upload(displayObject, done);
+        // eslint-disable-next-line no-unused-expressions
+        _prepare?.upload(displayObject, done);
     }
 }
