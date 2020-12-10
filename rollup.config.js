@@ -78,11 +78,14 @@ async function main()
                 name: 'PIXI.animate',
                 sourcemap,
                 extend: true,
-                globals: {
-                    'pixi.js': 'PIXI',
+                globals: (id) => {
+                    if (id === '@pixi/utils') return 'PIXI.utils';
+                    if (id === '@pixi/filter-color-matrix') return 'PIXI.filters';
+
+                    return id.includes('@pixi') ? 'PIXI' : undefined;
                 },
             },
-            external: ['pixi.js'],
+            external: (id) => id.includes('@pixi'),
             plugins: [jscc({ values: { _IIFE: true } })].concat(plugins),
         });
 
@@ -99,11 +102,14 @@ async function main()
                 name: 'PIXI.animate',
                 sourcemap,
                 extend: true,
-                globals: {
-                    'pixi.js': 'PIXI',
+                globals: (id) => {
+                    if (id === '@pixi/utils') return 'PIXI.utils';
+                    if (id === '@pixi/filter-color-matrix') return 'PIXI.filters';
+
+                    return id.includes('@pixi') ? 'PIXI' : undefined;
                 },
             },
-            external: ['pixi.js'],
+            external: (id) => id.includes('@pixi'),
             plugins: [jscc({ values: { _IIFE: true } })].concat(plugins),
         });
     }
