@@ -59,7 +59,7 @@ async function main()
                 sourcemap,
             },
         ],
-        external: ['pixi.js'],
+        external: (id) => id.includes('@pixi'),
         plugins: [jscc({ values: { _IIFE: false } })].concat(plugins),
     });
 
