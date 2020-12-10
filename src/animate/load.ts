@@ -196,7 +196,8 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
                 }
             });
         }
-        loader.once('complete', done).load();
+        loader.onComplete.once(done);
+        loader.load();
     }
     else
     {
