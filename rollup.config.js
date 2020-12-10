@@ -6,6 +6,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import ts from 'rollup-plugin-ts';
 import jscc from 'rollup-plugin-jscc';
+import json from '@rollup/plugin-json';
 
 async function main()
 {
@@ -20,6 +21,7 @@ async function main()
             preferBuiltins: false,
         }),
         commonjs({ extensions: ['.js', '.ts'] }),
+        json(),
     ];
 
     const compiled = (new Date()).toUTCString().replace(/GMT/g, 'UTC');
