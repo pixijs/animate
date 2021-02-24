@@ -1,5 +1,5 @@
 import { Timeline } from './Timeline';
-import { TweenProps, EaseMethod } from './Tween';
+import { TweenProps, EaseMethod, getEaseFromConfig, TweenData } from './Tween';
 import { utils } from './utils';
 import { sound } from './sound';
 import { AnimateContainer } from './Container';
@@ -51,6 +51,12 @@ export interface LabelMap
 }
 
 export type FrameAction = (this: MovieClip) => void;
+
+export interface KeyframeData extends TweenProps
+{
+    /** Not tweenable, but information about a tween that starts on this frame */
+    tw?: TweenData;
+}
 
 type TimedChildTimeline = boolean[] & {target?: AnimateDisplayObject};
 
@@ -514,6 +520,11 @@ export class MovieClip extends AnimateContainer
     public am = this.addTimedMask;
 
     /**
+     * Shortcut alias for `addTween`
+     */
+    public tw = this.addTween;
+
+    /**
      * Add a tween to the clip
      * @param instance The clip to tween
      * @param properties The property or property to tween
@@ -542,13 +553,20 @@ export class MovieClip extends AnimateContainer
      * @param properties The property or property to tween
      * @param startFrame The frame to start tweening
      */
-    public addKeyframe(instance: AnimateDisplayObject, properties: TweenProps, startFrame: number): this
+    public addKeyframe(instance: AnimateDisplayObject, properties: KeyframeData, startFrame: number): this
     {
         const timeline = this._getChildTimeline(instance);
 
         this._parseProperties(properties);
         timeline.addKeyframe(properties, startFrame);
         this._autoExtend(startFrame);
+        // Add a tween if present in the keyframe data
+        if (properties.tw)
+        {
+            const { tw } = properties;
+
+            this.addTween(instance, tw.p, startFrame, tw.d, getEaseFromConfig(tw.e));
+        }
 
         return this;
     }

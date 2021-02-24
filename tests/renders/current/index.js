@@ -312,6 +312,12 @@ describe('Renders - Current asset format', function ()
         this.validate('tween-y', done);
     });
 
+    it('should render a programmatic tween along both x and y axes', function (done)
+    {
+        // NOTE: this file was hand made, pending the ability to export true tweens from the extension
+        this.validate('tween-x-y-programmatic', done);
+    });
+
     it('should render visibility toggling on/off', function (done)
     {
         this.validate('visible', done);

@@ -22,6 +22,13 @@ export interface TweenProps {
     g?: any;
 }
 
+export interface TweenData
+{
+    d: number;
+    p: Omit<TweenProps, 'tw'>;
+    e?: EaseMethod|{n: string; s: number};
+}
+
 // standard tweening
 function lerpValue(start: number, end: number, t: number): number
 {
@@ -312,4 +319,14 @@ export class Tween
             setPropFromShorthand(target, prop as keyof TweenProps, endProps[prop as keyof TweenProps]);
         }
     }
+}
+
+export function getEaseFromConfig(config: EaseMethod|{n: string; s: number}): EaseMethod|null
+{
+    if (!config) return null;
+    if (typeof config === 'function') return config;
+    // TODO: use config (name, strength) to determine an ease method
+    // In order to figure that out, we need to test out Animate's actual output values so we know what to use.
+
+    return null;
 }
