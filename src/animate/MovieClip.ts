@@ -1,5 +1,5 @@
 import { Timeline } from './Timeline';
-import { TweenProps, EaseMethod, getEaseFromConfig, TweenData } from './Tween';
+import { TweenProps, EaseMethod, getEaseFromConfig, KeyframeData } from './Tween';
 import { utils } from './utils';
 import { sound } from './sound';
 import { AnimateContainer } from './Container';
@@ -51,12 +51,6 @@ export interface LabelMap
 }
 
 export type FrameAction = (this: MovieClip) => void;
-
-export interface KeyframeData extends TweenProps
-{
-    /** Not tweenable, but information about a tween that starts on this frame */
-    tw?: TweenData;
-}
 
 type TimedChildTimeline = boolean[] & {target?: AnimateDisplayObject};
 

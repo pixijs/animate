@@ -25,8 +25,14 @@ export interface TweenProps {
 export interface TweenData
 {
     d: number;
-    p: Omit<TweenProps, 'tw'>;
+    p: TweenProps;
     e?: EaseMethod|{n: string; s: number};
+}
+
+export interface KeyframeData extends TweenProps
+{
+    /** Not tweenable, but information about a tween that starts on this frame */
+    tw?: TweenData;
 }
 
 // standard tweening

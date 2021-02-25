@@ -1,5 +1,5 @@
 import { DrawCommands } from './Graphics';
-import { TweenProps } from './Tween';
+import { TweenProps, KeyframeData, TweenData } from './Tween';
 import { MovieClip } from './MovieClip';
 import { DisplayObject } from '@pixi/display';
 import { Renderer } from '@pixi/core';
@@ -133,51 +133,204 @@ export namespace utils {
         }
     }
 
+    const tweenKeysMap: { [s: string]: keyof TweenData } = {
+        D: 'd', // duration
+        E: 'e', // easing
+        P: 'p', // props
+    };
+
+    /**
+     * Regex to test for a basic ease desccriptor
+     */
+    const basicEase = /(\-?\d*\.?\d+)([a-zA-Z]+)/;
+
+    /**
+     * Convert serialized tween from a serialized keyframe into TweenData
+     * `"D20E25EaseIn;PX3Y5A1.2"` to: `{ d: 20, e: { s: 25, n: "EaseIn" }, p: { x:3, y: 5, sx: 1.2 } }`
+     * @param tweenBuffer
+     * @return Resulting TweenData
+     */
+    function parseTween(tweenBuffer: string): TweenData
+    {
+        const result: TweenData = { d: 0, p: {} };
+
+        let i = 0;
+        let buffer = '';
+        let handlingProps = false;
+        let prop: keyof TweenProps|keyof TweenData;
+
+        // tween format:
+        // D20E25EaseIn;PX3Y5A1.2
+
+        while (i <= tweenBuffer.length)
+        {
+            const c = tweenBuffer[i];
+
+            if (!handlingProps && tweenKeysMap[c])
+            {
+                // handle potential active duration property, which is the only normal one
+                if (prop === 'd')
+                {
+                    (result.d as any) = parseValue(prop, buffer);
+                    prop = null;
+                }
+
+                // seeing easing means we need to read ahead to the end of the easing section
+                if (c === 'E')
+                {
+                    // search for the next space or end of the string to see where the tween ends
+                    let index = tweenBuffer.indexOf(';', i);
+
+                    // should never end early, but just in case we are somehow tweening 0 properties
+                    if (index < 0)
+                    {
+                        index = tweenBuffer.length;
+                    }
+                    const easeBuffer = tweenBuffer.substring(i, index);
+
+                    if (basicEase.test(easeBuffer))
+                    {
+                        const [, strength, name] = basicEase.exec(easeBuffer);
+
+                        result.e = {
+                            s: parseFloat(strength),
+                            n: name,
+                        };
+                    }
+                    else
+                    {
+                        // TODO: encode some sort of function for a custom ease
+                    }
+
+                    i = index + 1;
+                }
+                // seeing the p property kicks us immediately into props mode
+                else if (c === 'P')
+                {
+                    handlingProps = true;
+                    ++i;
+                }
+                else
+                {
+                    // only handles D, really
+                    prop = tweenKeysMap[c];
+                    ++i;
+                }
+                buffer = '';
+            }
+            // normal prop/buffer handling, like in the main deserializeKeyframes function
+            else if (keysMap[c])
+            {
+                if (prop)
+                {
+                    (result.p[prop as keyof TweenProps] as any) = parseValue(prop, buffer);
+                }
+                prop = keysMap[c];
+                buffer = '';
+                i++;
+            }
+            else if (!c)
+            {
+                if (prop)
+                {
+                    (result.p[prop as keyof TweenProps] as any) = parseValue(prop, buffer);
+                }
+                buffer = '';
+                prop = null;
+                i++;
+            }
+            else
+            {
+                buffer += c;
+                i++;
+            }
+        }
+
+        return result;
+    }
+
     /**
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
      * @param keyframes
      * @return Resulting keyframes
      */
-    export function deserializeKeyframes(keyframes: string): {[s: number]: TweenProps}
+    export function deserializeKeyframes(keyframes: string): {[s: number]: KeyframeData}
     {
-        const result: {[s: number]: TweenProps} = {};
+        const result: {[s: number]: KeyframeData} = {};
         let i = 0;
 
         let buffer = '';
         let isFrameStarted = false;
         let prop: keyof TweenProps;
-        let frame: TweenProps = {};
+        let frame: KeyframeData = {};
 
         while (i <= keyframes.length)
         {
             const c = keyframes[i];
 
+            // if we found the name of a property
             if (keysMap[c])
             {
+                // start a new frame if we need to
                 if (!isFrameStarted)
                 {
                     isFrameStarted = true;
                     result[buffer as any] = frame;
                 }
+                // finish a previous prop if one is running
                 if (prop)
                 {
                     (frame[prop] as any) = parseValue(prop, buffer);
                 }
+                // save the new prop that we are now handling
                 prop = keysMap[c];
+                // reset buffer (because we did the previous prop if we had to)
                 buffer = '';
                 i++;
             }
-            // Start a new prop
+            // contains a tween
+            else if (c === 'W')
+            {
+                // start a new frame if we need to
+                if (!isFrameStarted)
+                {
+                    isFrameStarted = true;
+                    result[buffer as any] = frame;
+                }
+                // finish previous prop
+                if (prop)
+                {
+                    (frame[prop] as any) = parseValue(prop, buffer);
+                    buffer = '';
+                    prop = null;
+                }
+                // search for the next space or end of the string to see where the tween ends
+                let index = keyframes.indexOf(' ', i);
+
+                if (index < 0)
+                {
+                    index = keyframes.length;
+                }
+                // parse the tween section
+                frame.tw = parseTween(keyframes.substring(i, index));
+                // skip past the tween section
+                i = index;
+            }
+            // finish existing prop & frame on end of string or space
             else if (!c || c === ' ')
             {
                 i++;
-                (frame[prop] as any) = parseValue(prop, buffer);
+                if (prop)
+                {
+                    (frame[prop] as any) = parseValue(prop, buffer);
+                }
                 buffer = '';
                 prop = null;
                 frame = {};
                 isFrameStarted = false;
             }
+            // add to the buffer for the next parse
             else
             {
                 buffer += c;

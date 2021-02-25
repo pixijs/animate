@@ -33,6 +33,34 @@ describe('utils', function ()
         assert.equal(result['2'].y, -357.6);
         assert.equal(result['3'].y, -353.25);
     });
+
+    it('should convert keyframes with tweens', function ()
+    {
+        const result = animate.utils.deserializeKeyframes('0X-55.05Y-361.05A1B1T#fffF1,2,3WD2E-1Quadratic;PY-360.2 2WD5PY-357.6 7WD3E0.8Cubic;PY-353.25');
+
+        assert.equal(typeof result, 'object');
+        assert.equal(Object.keys(result).length, 3);
+        assert.equal(result['0'].x, -55.05);
+        assert.equal(result['0'].y, -361.05);
+        assert.equal(result['0'].sx, 1);
+        assert.equal(result['0'].sy, 1);
+        assert.equal(result['0'].t, '#fff');
+        assert(Array.isArray(result['0'].c));
+        assert.equal(result['0'].c.length, 3);
+        assert.equal(result['0'].c[0], 1);
+        assert.equal(result['0'].tw.d, 2);
+        assert.equal(result['0'].tw.e.s, -1);
+        assert.equal(result['0'].tw.e.n, 'Quadratic');
+        assert.equal(result['0'].tw.p.y, -360.2);
+        assert.equal(result['2'].tw.d, 5);
+        assert.equal(result['2'].tw.e, undefined);
+        assert.equal(result['2'].tw.p.y, -357.6);
+        assert.equal(result['7'].tw.d, 3);
+        assert.equal(result['7'].tw.e.s, 0.8);
+        assert.equal(result['7'].tw.e.n, 'Cubic');
+        assert.equal(result['7'].tw.p.y, -353.25);
+    });
+
     it('should fill frames', function ()
     {
         const timeline = [];
