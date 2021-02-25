@@ -47,8 +47,8 @@
     "semver": "^5.3.0",
     "terser": "^3.16.1",
     "tslib": "^1.9.3",
-    "typedoc": "^0.16.0",
-    "typescript": "^3.8.0"
+    "typedoc": "^0.20.28",
+    "typescript": "^3.9.0"
   },
   "peerDependencies": {
     "@pixi/app": "^6.0.0-rc.3",

@@ -7,7 +7,6 @@ const timelines: AnimatorTimeline[] = [];
 /**
  * Play animation via start/stop frame labels
  * @class Animator
- * @memberof PIXI.animate
  */
 export class Animator
 {

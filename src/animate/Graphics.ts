@@ -1,5 +1,5 @@
 import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
-import { Graphics } from '@pixi/graphics';
+import { Graphics, GraphicsGeometry, ILineStyleOptions } from '@pixi/graphics';
 import { Sprite } from '@pixi/sprite';
 import { utils } from './utils';
 
@@ -7,6 +7,14 @@ export type DrawCommands = (string|number)[];
 
 export class AnimateGraphics extends Graphics
 {
+    constructor(geometry?: GraphicsGeometry)
+    {
+        super(geometry);
+
+        // overwrite with a cleaner version, so fewer function calls are involved
+        this.s = super.lineStyle;
+    }
+
     // **************************
     //     Graphics methods
     // **************************
@@ -91,7 +99,12 @@ export class AnimateGraphics extends Graphics
     /**
      * Shortcut for `lineStyle`.
      **/
-    public s = super.lineStyle;
+    public s(width: number, color?: number, alpha?: number, alignment?: number, native?: boolean): this;
+    public s(options?: ILineStyleOptions): this;
+    public s(...args: any[]): this
+    {
+        return super.lineStyle(...args);
+    }
 
     /**
      * Shortcut for `drawRect`.
