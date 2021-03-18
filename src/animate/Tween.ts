@@ -333,6 +333,14 @@ export function getEaseFromConfig(config: EaseMethod|{n: string; s: number}): Ea
     if (typeof config === 'function') return config;
     // TODO: use config (name, strength) to determine an ease method
     // In order to figure that out, we need to test out Animate's actual output values so we know what to use.
+    const s = config.s / 100;
+
+    switch (config.n)
+    {
+        case 'classic':
+            // (s + 1)x + (-s)(x^2)
+            return (t: number): number => ((s + 1) * t) + ((-s) * t * t);
+    }
 
     return null;
 }
