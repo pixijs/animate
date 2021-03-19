@@ -142,7 +142,7 @@ export namespace utils {
     /**
      * Regex to test for a basic ease desccriptor
      */
-    const basicEase = /(\-?\d*\.?\d+)([a-zA-Z]+)/;
+    const basicEase = /(\-?\d*\.?\d*)([a-zA-Z]+)/;
 
     /**
      * Convert serialized tween from a serialized keyframe into TweenData
