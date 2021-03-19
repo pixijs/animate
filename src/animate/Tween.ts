@@ -327,20 +327,129 @@ export class Tween
     }
 }
 
+// builds an ease in function for a specific exponential power, i.e. quadratic easing is power 2 and cubic is 3
+function buildPowIn(power: number): EaseMethod
+{
+    return (t): number => Math.pow(t, power);
+}
+
+// builds an ease out function for a specific exponential power, i.e. quadratic easing is power 2 and cubic is 3
+function buildPowOut(power: number): EaseMethod
+{
+    return (t): number => 1 - Math.pow(1 - t, power);
+}
+
+// builds an ease in & out function for a specific exponential power, i.e. quadratic easing is power 2 and cubic is 3
+function buildPowInOut(power: number): EaseMethod
+{
+    return (t): number =>
+    {
+        if ((t *= 2) < 1) return 0.5 * Math.pow(t, power);
+
+        return 1 - (0.5 * Math.abs(Math.pow(2 - t, power)));
+    };
+}
+const ELASTIC_AMPLITUDE = 1;
+const ELASTIC_PERIOD = 0.3;
+const ELASTIC_INOUT_PERIOD = 0.3 * 1.5;
+
+const EASE_DICT: {[name: string]: EaseMethod} = {
+    quadIn: buildPowIn(2),
+    quadOut: buildPowOut(2),
+    quadInOut: buildPowInOut(2),
+    cubicIn: buildPowIn(3),
+    cubicOut: buildPowOut(3),
+    cubicInOut: buildPowInOut(3),
+    quartIn: buildPowIn(4),
+    quartOut: buildPowOut(4),
+    quartInOut: buildPowInOut(4),
+    quintIn: buildPowIn(5),
+    quintOut: buildPowOut(5),
+    quintInOut: buildPowInOut(5),
+    sineIn: (t) => 1 - Math.cos(t * PI / 2),
+    sineOut: (t) => Math.sin(t * PI / 2),
+    sineInOut: (t) => -0.5 * (Math.cos(PI * t) - 1),
+    backIn: (t) => t * t * (((1.7 + 1) * t) - 1.7),
+    backOut: (t) => (--t * t * (((1.7 + 1) * t) + 1.7)) + 1,
+    backInOut: (t) =>
+    {
+        const constVal = 1.7 * 1.525;
+
+        if ((t *= 2) < 1) return 0.5 * (t * t * (((constVal + 1) * t) - constVal));
+
+        return 0.5 * (((t -= 2) * t * (((constVal + 1) * t) + constVal)) + 2);
+    },
+    circIn: (t) => -(Math.sqrt(1 - (t * t)) - 1),
+    circOut: (t) => Math.sqrt(1 - ((--t) * t)),
+    circInOut: (t) =>
+    {
+        if ((t *= 2) < 1) return -0.5 * (Math.sqrt(1 - (t * t)) - 1);
+
+        return 0.5 * (Math.sqrt(1 - ((t -= 2) * t)) + 1);
+    },
+    bounceIn: (t) => 1 - EASE_DICT.bounceOut(t),
+    bounceOut: (t) =>
+    {
+        if (t < 1 / 2.75)
+        {
+            return 7.5625 * t * t;
+        }
+        else if (t < 2 / 2.75)
+        {
+            return (7.5625 * (t -= 1.5 / 2.75) * t) + 0.75;
+        }
+        else if (t < 2.5 / 2.75)
+        {
+            return (7.5625 * (t -= 2.25 / 2.75) * t) + 0.9375;
+        }
+
+        return (7.5625 * (t -= 2.625 / 2.75) * t) + 0.984375;
+    },
+    // eslint-disable-next-line no-confusing-arrow
+    bounceInOut: (t) => t < 0.5 ? EASE_DICT.bounceIn(t * 2) * 0.5 : (EASE_DICT.bounceOut((t * 2) - 1) * 0.5) + 0.5,
+    elasticIn: (t) =>
+    {
+        if (t === 0 || t === 1) return t;
+        const s = ELASTIC_PERIOD / TWO_PI * Math.asin(1 / ELASTIC_AMPLITUDE);
+
+        return -(ELASTIC_AMPLITUDE * Math.pow(2, 10 * (t -= 1)) * Math.sin((t - s) * TWO_PI / ELASTIC_PERIOD));
+    },
+    elasticOut: (t) =>
+    {
+        if (t === 0 || t === 1) return t;
+        const s = ELASTIC_PERIOD / TWO_PI * Math.asin(1 / ELASTIC_AMPLITUDE);
+
+        return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * t) * Math.sin((t - s) * TWO_PI / ELASTIC_PERIOD)) + 1;
+    },
+    elasticInOut: (t) =>
+    {
+        const s = ELASTIC_INOUT_PERIOD / TWO_PI * Math.asin(1 / ELASTIC_AMPLITUDE);
+
+        if ((t *= 2) < 1)
+        {
+            return -0.5 * (ELASTIC_AMPLITUDE * Math.pow(2, 10 * (t -= 1))
+                            * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD));
+        }
+
+        return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * (t -= 1))
+                * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD) * 0.5) + 1;
+    },
+};
+
 export function getEaseFromConfig(config: EaseMethod|{n: string; s: number}): EaseMethod|null
 {
     if (!config) return null;
     if (typeof config === 'function') return config;
     // TODO: use config (name, strength) to determine an ease method
     // In order to figure that out, we need to test out Animate's actual output values so we know what to use.
-    const s = config.s / 100;
 
-    switch (config.n)
+    if (config.n === 'classic')
     {
-        case 'classic':
-            // (s + 1)x + (-s)(x^2)
-            return (t: number): number => ((s + 1) * t) + ((-s) * t * t);
+        const s = config.s / 100;
+
+        // (s + 1)t + (-s)(t^2)
+        return (t: number): number => ((s + 1) * t) + ((-s) * t * t);
     }
 
-    return null;
+    return EASE_DICT[config.n];
 }
