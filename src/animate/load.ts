@@ -32,6 +32,9 @@ export interface LoadOptions {
      */
     loader?: Loader;
 }
+
+const EXPECTED_ASSET_VERSION = 2;
+
 /**
  * Load the stage class and preload any assets
  * ```
@@ -97,6 +100,23 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
     let metadata: any;
     let createInstance = false;
     let loader: Loader;
+
+    // check scene and warn about it
+    const {version} = scene;
+
+    if (typeof version === 'number')
+    {
+        /* eslint-disable max-len */
+        if (Math.floor(version) !== Math.floor(EXPECTED_ASSET_VERSION))
+        {
+            console.warn(`Asset version is not the major version expected of ${Math.floor(EXPECTED_ASSET_VERSION)} - it may not load properly`, scene);
+        }
+        else if (version > EXPECTED_ASSET_VERSION)
+        {
+            console.warn('Asset has been published with a newer version than PixiAnimate expects. It may not load properly.', scene);
+        }
+        /* eslint-enable max-len */
+    }
 
     if (optionsOrComplete && typeof optionsOrComplete !== 'function')
     {

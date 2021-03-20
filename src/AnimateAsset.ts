@@ -2,7 +2,8 @@ import { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprit
 import { Texture } from '@pixi/core';
 import { Spritesheet } from '@pixi/spritesheet';
 
-interface PixiAnimate {
+interface PixiAnimate
+{
     MovieClip: typeof MovieClip;
     Container: typeof AnimateContainer;
     Graphics: typeof AnimateGraphics;
@@ -13,7 +14,13 @@ interface PixiAnimate {
 /**
  * The format of the output javascript file when publishing a scene.
  */
-export interface AnimateAsset {
+export interface AnimateAsset
+{
+    /**
+     * File format version that the asset was published for.
+     * 2 is the base version that PixiAnimate 2.0.0 supports.
+     */
+    version?: number;
     /**
      * Constructor for the root MovieClip. Is null before setup() is run.
      */

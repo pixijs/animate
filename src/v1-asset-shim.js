@@ -62,6 +62,7 @@ this.PIXI.animate.load = (scene, optionsOrComplete) =>
     if (typeof scene === 'function')
     {
         scene = {
+            version: 2,
             stage: scene,
             assets: scene.assets,
             textures: this.PIXI.utils.TextureCache,
