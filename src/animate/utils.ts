@@ -186,7 +186,7 @@ export namespace utils {
                     {
                         index = tweenBuffer.length;
                     }
-                    const easeBuffer = tweenBuffer.substring(i, index);
+                    const easeBuffer = tweenBuffer.substring(i + 1, index);
 
                     if (basicEase.test(easeBuffer))
                     {

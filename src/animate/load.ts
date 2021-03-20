@@ -102,7 +102,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
     let loader: Loader;
 
     // check scene and warn about it
-    const {version} = scene;
+    const { version } = scene;
 
     if (typeof version === 'number')
     {
