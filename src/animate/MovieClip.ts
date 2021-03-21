@@ -647,7 +647,9 @@ export class MovieClip extends AnimateContainer
                 this.addKeyframe(instance, lastFrame, parseInt(i, 10));
             }
             this._getChildTimeline(instance)
-                .extendLastFrame(startFrame + duration);
+                // subtract 1 from duration because we are using 0 based frame indices
+                // and duration is calculated as total frames
+                .extendLastFrame(startFrame + duration - 1);
         }
 
         // Set the initial position/add
