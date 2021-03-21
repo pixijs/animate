@@ -166,7 +166,7 @@ export namespace utils {
         {
             const c = tweenBuffer[i];
 
-            if (!handlingProps && tweenKeysMap[c])
+            if (!handlingProps && (tweenKeysMap[prop] || tweenKeysMap[c]))
             {
                 // handle potential active duration property, which is the only normal one
                 if (prop === 'd')
@@ -313,7 +313,7 @@ export namespace utils {
                     index = keyframes.length;
                 }
                 // parse the tween section
-                frame.tw = parseTween(keyframes.substring(i, index));
+                frame.tw = parseTween(keyframes.substring(i + 1, index));
                 // skip past the tween section
                 i = index;
             }

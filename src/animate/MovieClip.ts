@@ -550,15 +550,16 @@ export class MovieClip extends AnimateContainer
     public addKeyframe(instance: AnimateDisplayObject, properties: KeyframeData, startFrame: number): this
     {
         const timeline = this._getChildTimeline(instance);
+        const { tw } = properties;
 
+        // remove tw property just so that it doesn't mess anything up or confuse anyone doing debugging
+        delete properties.tw;
         this._parseProperties(properties);
         timeline.addKeyframe(properties, startFrame);
         this._autoExtend(startFrame);
         // Add a tween if present in the keyframe data
-        if (properties.tw)
+        if (tw)
         {
-            const { tw } = properties;
-
             this.addTween(instance, tw.p, startFrame, tw.d, getEaseFromConfig(tw.e));
         }
 
