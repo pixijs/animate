@@ -387,7 +387,7 @@ const EASE_DICT: {[name: string]: EaseMethod} = {
 
         return 0.5 * (Math.sqrt(1 - ((t -= 2) * t)) + 1);
     },
-    bounceIn: (t) => 1 - EASE_DICT.bounceOut(t),
+    bounceIn: (t) => 1 - EASE_DICT.bounceOut(1 - t),
     bounceOut: (t) =>
     {
         if (t < 1 / 2.75)
