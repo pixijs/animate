@@ -91,17 +91,9 @@ export class AnimateSprite extends Sprite
         {
             tint = utils.hexToUint(tint);
         }
-        // this.tint = tint
-        // return this;
-        // TODO: Replace with DisplayObject.tint setter
-        // once the functionality is added to Pixi.js, for
-        // now we'll use the slower ColorMatrixFilter to handle
-        // the color transformation
-        const r = (tint >> 16) & 0xFF;
-        const g = (tint >> 8) & 0xFF;
-        const b = tint & 0xFF;
+        this.tint = tint;
 
-        return this.setColorTransform(r / 255, 0, g / 255, 0, b / 255, 0);
+        return this;
     }
     /**
      * Shortcut for `setTint`.
