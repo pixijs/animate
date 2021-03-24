@@ -79,41 +79,53 @@ function lerpRotation(start: number, end: number, t: number): number
 }
 
 // split r, g, b into separate values for tweening
-/* function lerpColor(start, end, t)
+function lerpTint(start: number, end: number, t: number): number
 {
-    //split start color into components
-    let sR = start >> 16 & 0xFF;
-    let sG = start >> 8 & 0xFF;
-    let sB = start & 0xFF;
-    //split end color into components
-    let eR = end >> 16 & 0xFF;
-    let eG = end >> 8 & 0xFF;
-    let eB = end & 0xFF;
-    //lerp red
-    let r = sR + (eR - sR) * percent;
-    //clamp red to valid values
-    if (r < 0)
-        r = 0;
-    else if (r > 255)
-        r = 255;
-    //lerp green
-    let g = sG + (eG - sG) * percent;
-    //clamp green to valid values
-    if (g < 0)
-        g = 0;
-    else if (g > 255)
-        g = 255;
-    //lerp blue
-    let b = sB + (eB - sB) * percent;
-    //clamp blue to valid values
-    if (b < 0)
-        b = 0;
-    else if (b > 255)
-        b = 255;
+    // split start color into components
+    const sR = (start >> 16) & 0xFF;
+    const sG = (start >> 8) & 0xFF;
+    const sB = start & 0xFF;
+    // split end color into components
+    const eR = (end >> 16) & 0xFF;
+    const eG = (end >> 8) & 0xFF;
+    const eB = end & 0xFF;
+    // lerp red
+    let r = sR + ((eR - sR) * t);
 
-    let combined = (r << 16) | (g << 8) | b;
+    // clamp red to valid values
+    if (r < 0) r = 0;
+    else if (r > 255) r = 255;
+    // lerp green
+    let g = sG + ((eG - sG) * t);
+
+    // clamp green to valid values
+    if (g < 0) g = 0;
+    else if (g > 255) g = 255;
+    // lerp blue
+    let b = sB + ((eB - sB) * t);
+
+    // clamp blue to valid values
+    if (b < 0) b = 0;
+    else if (b > 255) b = 255;
+
+    const combined = (r << 16) | (g << 8) | b;
+
     return combined;
-}*/
+}
+
+const COLOR_HELPER: number[] = [];
+
+function lerpColor(start: number[], end: number[], t: number): number[]
+{
+    COLOR_HELPER[0] = start[0] + ((end[0] - start[0]) * t);
+    COLOR_HELPER[1] = start[1] + ((end[1] - start[1]) * t);
+    COLOR_HELPER[2] = start[2] + ((end[2] - start[2]) * t);
+    COLOR_HELPER[3] = start[3] + ((end[3] - start[3]) * t);
+    COLOR_HELPER[4] = start[4] + ((end[4] - start[4]) * t);
+    COLOR_HELPER[5] = start[5] + ((end[5] - start[5]) * t);
+
+    return COLOR_HELPER;
+}
 
 const PROP_LERPS: {[P in keyof TweenProps]: (start: number, end: number, t: number) => number} = {
     // position
@@ -130,11 +142,10 @@ const PROP_LERPS: {[P in keyof TweenProps]: (start: number, end: number, t: numb
     // alpha
     a: lerpValue,
     // tinting
-    // t: lerpColor,
-    t: null,
+    t: lerpTint,
     // values to be set
     v: null, // visible
-    c: null, // colorTransform
+    c: lerpColor as any, // colorTransform
     m: null, // mask
     g: null, // not sure if we'll actually handle graphics this way?
 };
