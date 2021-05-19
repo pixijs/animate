@@ -20,7 +20,11 @@ export interface TweenProps {
     c?: number[];
     m?: Graphics|Sprite;
     g?: any;
+    /** Eases for any of the tweenable properties, if published as a per-property ease */
+    e?: {[P in TweenablePropNames]?: EaseMethod|{n: string; s: number}};
 }
+
+export type TweenablePropNames = keyof Omit<TweenProps, 'm'|'g'|'e'|'v'>;
 
 export interface TweenData
 {
@@ -193,151 +197,6 @@ function setPropFromShorthand(target: AnimateDisplayObject, prop: keyof TweenPro
     }
 }
 
-/**
- * Provides timeline playback of movieclip
- */
-export class Tween
-{
-    /**
-     * Target display object.
-     */
-    public target: AnimateDisplayObject;
-    /**
-     * Properties at the start of the tween
-     */
-    public startProps: TweenProps;
-    /**
-     * Properties at the end of the tween, as well as any properties that are set
-     * instead of tweened
-     */
-    public endProps: TweenProps;
-    /**
-     * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
-     */
-    public duration: number;
-    /**
-     * The frame that the tween starts on
-     */
-    public startFrame: number;
-    /**
-     * the frame that the tween ends on
-     */
-    public endFrame: number;
-    /**
-     * easing function to use, if any
-     */
-    public ease: EaseMethod;
-    /**
-     * If we don't tween.
-     */
-    public isTweenlessFrame: boolean;
-
-    /**
-     * @param target The target to play
-     * @param startProps The starting properties
-     * @param endProps The ending properties
-     * @param startFrame frame number on which to begin tweening
-     * @param duration Number of frames to tween
-     * @param ease Ease function to use
-     */
-    constructor(target: AnimateDisplayObject,
-        startProps: TweenProps,
-        endProps: TweenProps|null,
-        startFrame: number,
-        duration: number,
-        ease?: EaseMethod)
-    {
-        this.target = target;
-        this.startProps = startProps;
-        this.endProps = {};
-        this.duration = duration;
-        this.startFrame = startFrame;
-        this.endFrame = startFrame + duration;
-        this.ease = ease;
-        this.isTweenlessFrame = !endProps;
-
-        if (endProps)
-        {
-            // make a copy to safely include any unchanged values from the start of the tween
-            for (const prop in endProps)
-            {
-                (this.endProps[prop as keyof TweenProps] as any) = endProps[prop as keyof TweenProps];
-            }
-        }
-
-        // copy in any starting properties don't change
-        for (const prop in startProps)
-        {
-            // eslint-disable-next-line no-prototype-builtins
-            if (!this.endProps.hasOwnProperty(prop))
-            {
-                (this.endProps[prop as keyof TweenProps] as any) = startProps[prop as keyof TweenProps];
-            }
-        }
-    }
-
-    /**
-     * Set the current frame.
-     */
-    public setPosition(currentFrame: number): void
-    {
-        // if this is a single frame with no tweening, or at the end of the tween, then
-        // just speed up the process by setting values
-        if (currentFrame >= this.endFrame)
-        {
-            this.setToEnd();
-
-            return;
-        }
-
-        if (this.isTweenlessFrame)
-        {
-            this.setToEnd();
-
-            return;
-        }
-
-        let time = (currentFrame - this.startFrame) / this.duration;
-
-        if (this.ease)
-        {
-            time = this.ease(time);
-        }
-        const target = this.target;
-        const startProps = this.startProps;
-        const endProps = this.endProps;
-
-        for (const prop in endProps)
-        {
-            const p = prop as keyof TweenProps;
-            const lerp = PROP_LERPS[p];
-
-            if (lerp)
-            {
-                setPropFromShorthand(target, p, lerp(startProps[p], endProps[p], time));
-            }
-            else
-            {
-                setPropFromShorthand(target, p, startProps[p]);
-            }
-        }
-    }
-
-    /**
-     * Set to the end position
-     */
-    setToEnd(): void
-    {
-        const endProps = this.endProps;
-        const target = this.target;
-
-        for (const prop in endProps)
-        {
-            setPropFromShorthand(target, prop as keyof TweenProps, endProps[prop as keyof TweenProps]);
-        }
-    }
-}
-
 // builds an ease in function for a specific exponential power, i.e. quadratic easing is power 2 and cubic is 3
 function buildPowIn(power: number): EaseMethod
 {
@@ -364,7 +223,7 @@ const ELASTIC_AMPLITUDE = 1;
 const ELASTIC_PERIOD = 0.3;
 const ELASTIC_INOUT_PERIOD = 0.3 * 1.5;
 
-const EASE_DICT: {[name: string]: EaseMethod} = {
+const EASE_DICT: { [name: string]: EaseMethod } = {
     quadIn: buildPowIn(2),
     quadOut: buildPowOut(2),
     quadInOut: buildPowInOut(2),
@@ -439,15 +298,15 @@ const EASE_DICT: {[name: string]: EaseMethod} = {
         if ((t *= 2) < 1)
         {
             return -0.5 * (ELASTIC_AMPLITUDE * Math.pow(2, 10 * (t -= 1))
-                            * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD));
+                * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD));
         }
 
         return (ELASTIC_AMPLITUDE * Math.pow(2, -10 * (t -= 1))
-                * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD) * 0.5) + 1;
+            * Math.sin((t - s) * TWO_PI / ELASTIC_INOUT_PERIOD) * 0.5) + 1;
     },
 };
 
-export function getEaseFromConfig(config: EaseMethod|{n: string; s: number}): EaseMethod|null
+export function getEaseFromConfig(config: EaseMethod | { n: string; s: number }): EaseMethod | null
 {
     if (!config) return null;
     if (typeof config === 'function') return config;
@@ -463,4 +322,163 @@ export function getEaseFromConfig(config: EaseMethod|{n: string; s: number}): Ea
     }
 
     return EASE_DICT[config.n];
+}
+
+/**
+ * Provides timeline playback of movieclip
+ */
+export class Tween
+{
+    /**
+     * Target display object.
+     */
+    public target: AnimateDisplayObject;
+    /**
+     * Properties at the start of the tween
+     */
+    public startProps: TweenProps;
+    /**
+     * Properties at the end of the tween, as well as any properties that are set
+     * instead of tweened
+     */
+    public endProps: TweenProps;
+    /**
+     * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
+     */
+    public duration: number;
+    /**
+     * The frame that the tween starts on
+     */
+    public startFrame: number;
+    /**
+     * the frame that the tween ends on
+     */
+    public endFrame: number;
+    /**
+     * easing function to use, if any
+     */
+    public ease: {[P in TweenablePropNames]?: EaseMethod};
+    /**
+     * If we don't tween.
+     */
+    public isTweenlessFrame: boolean;
+
+    /**
+     * @param target The target to play
+     * @param startProps The starting properties
+     * @param endProps The ending properties
+     * @param startFrame frame number on which to begin tweening
+     * @param duration Number of frames to tween
+     * @param ease Ease function to use
+     */
+    constructor(target: AnimateDisplayObject,
+        startProps: TweenProps,
+        endProps: TweenProps|null,
+        startFrame: number,
+        duration: number,
+        ease?: EaseMethod)
+    {
+        this.target = target;
+        this.startProps = startProps;
+        this.endProps = {};
+        this.duration = duration;
+        this.startFrame = startFrame;
+        this.endFrame = startFrame + duration;
+        this.ease = {};
+        this.isTweenlessFrame = !endProps;
+
+        if (endProps)
+        {
+            // make a copy to safely include any unchanged values from the start of the tween
+            for (const prop in endProps)
+            {
+                if (prop === 'e') continue;
+                // read the end value
+                (this.endProps[prop as TweenablePropNames] as any) = endProps[prop as TweenablePropNames];
+                // if there is an ease for that property, use that
+                if (endProps.e?.[prop as TweenablePropNames])
+                {
+                    this.ease[prop as TweenablePropNames] = getEaseFromConfig(endProps.e[prop as TweenablePropNames]);
+                }
+                // otherwise use the global ease for this tween (if any)
+                else
+                {
+                    this.ease[prop as TweenablePropNames] = ease;
+                }
+            }
+        }
+
+        // copy in any starting properties don't change
+        for (const prop in startProps)
+        {
+            // eslint-disable-next-line no-prototype-builtins
+            if (!this.endProps.hasOwnProperty(prop))
+            {
+                (this.endProps[prop as keyof TweenProps] as any) = startProps[prop as keyof TweenProps];
+            }
+        }
+    }
+
+    /**
+     * Set the current frame.
+     */
+    public setPosition(currentFrame: number): void
+    {
+        // if this is a single frame with no tweening, or at the end of the tween, then
+        // just speed up the process by setting values
+        if (currentFrame >= this.endFrame)
+        {
+            this.setToEnd();
+
+            return;
+        }
+
+        if (this.isTweenlessFrame)
+        {
+            this.setToEnd();
+
+            return;
+        }
+
+        const time = (currentFrame - this.startFrame) / this.duration;
+
+        const target = this.target;
+        const startProps = this.startProps;
+        const endProps = this.endProps;
+
+        for (const prop in endProps)
+        {
+            const p = prop as keyof TweenProps;
+            const lerp = PROP_LERPS[p];
+            let lerpedTime = time;
+
+            if (this.ease[prop as TweenablePropNames])
+            {
+                lerpedTime = this.ease[prop as TweenablePropNames](time);
+            }
+
+            if (lerp)
+            {
+                setPropFromShorthand(target, p, lerp(startProps[p], endProps[p], lerpedTime));
+            }
+            else
+            {
+                setPropFromShorthand(target, p, startProps[p]);
+            }
+        }
+    }
+
+    /**
+     * Set to the end position
+     */
+    setToEnd(): void
+    {
+        const endProps = this.endProps;
+        const target = this.target;
+
+        for (const prop in endProps)
+        {
+            setPropFromShorthand(target, prop as keyof TweenProps, endProps[prop as keyof TweenProps]);
+        }
+    }
 }

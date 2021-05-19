@@ -1,5 +1,5 @@
 import { DrawCommands } from './Graphics';
-import { TweenProps, KeyframeData, TweenData } from './Tween';
+import { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
 import { MovieClip } from './MovieClip';
 import { DisplayObject } from '@pixi/display';
 import { Renderer } from '@pixi/core';
@@ -135,7 +135,7 @@ export namespace utils {
 
     const tweenKeysMap: { [s: string]: keyof TweenData } = {
         D: 'd', // duration
-        E: 'e', // easing
+        // E: 'e', // easing - disabled for manual handling
         P: 'p', // props
     };
 
@@ -175,37 +175,8 @@ export namespace utils {
                     prop = null;
                 }
 
-                // seeing easing means we need to read ahead to the end of the easing section
-                if (c === 'E')
-                {
-                    // search for the next space or end of the string to see where the tween ends
-                    let index = tweenBuffer.indexOf(';', i);
-
-                    // should never end early, but just in case we are somehow tweening 0 properties
-                    if (index < 0)
-                    {
-                        index = tweenBuffer.length;
-                    }
-                    const easeBuffer = tweenBuffer.substring(i + 1, index);
-
-                    if (basicEase.test(easeBuffer))
-                    {
-                        const [, strength, name] = basicEase.exec(easeBuffer);
-
-                        result.e = {
-                            s: parseFloat(strength),
-                            n: name,
-                        };
-                    }
-                    else
-                    {
-                        // TODO: encode some sort of function for a custom ease
-                    }
-
-                    i = index + 1;
-                }
                 // seeing the p property kicks us immediately into props mode
-                else if (c === 'P')
+                if (c === 'P')
                 {
                     handlingProps = true;
                     ++i;
@@ -217,6 +188,54 @@ export namespace utils {
                     ++i;
                 }
                 buffer = '';
+            }
+            // seeing easing means we need to read ahead to the end of the easing section
+            else if (c === 'E')
+            {
+                // search for the next space or end of the string to see where the tween ends
+                let index = tweenBuffer.indexOf(';', i);
+
+                // should never end early, but just in case we are somehow tweening 0 properties
+                if (index < 0)
+                {
+                    index = tweenBuffer.length;
+                }
+                const easeBuffer = tweenBuffer.substring(i + 1, index);
+
+                if (basicEase.test(easeBuffer))
+                {
+                    const [, strength, name] = basicEase.exec(easeBuffer);
+
+                    // if not yet handling props, apply ease to whole tween
+                    if (!handlingProps)
+                    {
+                        result.e = {
+                            s: parseFloat(strength),
+                            n: name,
+                        };
+                    }
+                    // apply ease to last property read
+                    else if (prop)
+                    {
+                        (result.p[prop as TweenablePropNames] as any) = parseValue(prop, buffer);
+                        if (!result.p.e)
+                        {
+                            result.p.e = {};
+                        }
+                        result.p.e[prop as TweenablePropNames] = {
+                            s: parseFloat(strength),
+                            n: name,
+                        };
+                        prop = null;
+                        buffer = '';
+                    }
+                }
+                else
+                {
+                    // TODO: encode some sort of function for a custom ease
+                }
+
+                i = index + 1;
             }
             // normal prop/buffer handling, like in the main deserializeKeyframes function
             else if (keysMap[c])
