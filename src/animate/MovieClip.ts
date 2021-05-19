@@ -555,6 +555,8 @@ export class MovieClip extends AnimateContainer
         // remove tw property just so that it doesn't mess anything up or confuse anyone doing debugging
         delete properties.tw;
         this._parseProperties(properties);
+        // add keyframe - note that even if we add a tween immediately afterwards, we want to
+        // add this keyframe in order to make sure the starting properties are set
         timeline.addKeyframe(properties, startFrame);
         this._autoExtend(startFrame);
         // Add a tween if present in the keyframe data
@@ -637,14 +639,9 @@ export class MovieClip extends AnimateContainer
             {
                 keyframes = utils.deserializeKeyframes(keyframes);
             }
-            // Convert the keyframes object into
-            // individual properties
-            let lastFrame = {};
-
             for (const i in keyframes)
             {
-                lastFrame = Object.assign({}, lastFrame, keyframes[i]);
-                this.addKeyframe(instance, lastFrame, parseInt(i, 10));
+                this.addKeyframe(instance, keyframes[i], parseInt(i, 10));
             }
             this._getChildTimeline(instance)
                 // subtract 1 from duration because we are using 0 based frame indices

@@ -49,27 +49,22 @@ export class Timeline extends Array<Tween>
     public addTween(properties: TweenProps, startFrame: number, duration: number, ease?: EaseMethod): void
     {
         this.extendLastFrame(startFrame - 1);
-        // ownership of startProps is passed to the new Tween - this object should not be reused
-        const startProps: TweenProps = {};
         // figure out what the starting values for this tween should be
+        // ownership of startProps is passed to the new Tween - this object should not be reused
+        const startProps: TweenProps = Object.assign({}, this._currentProps);
 
         for (const prop in properties)
         {
             const p = prop as keyof TweenProps;
 
-            // if we have already set that property in an earlier tween, use the ending value
-            if (Object.hasOwnProperty.call(this._currentProps, prop))
-            {
-                (startProps[p] as any) = this._currentProps[p];
-            }
-            // otherwise, get the current value
-            else
+            // if we have not already set that property in an earlier tween, handle that property
+            if (!Object.hasOwnProperty.call(this._currentProps, prop))
             {
                 const startValue = (startProps[p] as any) = this.getPropFromShorthand(p);
+
                 // go through previous tweens to set the value so that when the timeline loops
                 // around, the values are set properly - having each tween know what came before
                 // allows us to set to a specific frame without running through the entire timeline
-
                 for (let i = this.length - 1; i >= 0; --i)
                 {
                     (this[i].startProps[p] as any) = startValue;
@@ -80,7 +75,16 @@ export class Timeline extends Array<Tween>
         // create the new Tween and add it to the list
         const tween = new Tween(this.target, startProps, properties, startFrame, duration, ease);
 
-        this.push(tween);
+        // if we have this frame already, replace it
+        if (startFrame === this[this.length - 1].startFrame)
+        {
+            this[this.length - 1] = tween;
+        }
+        // otherwise add it to the list
+        else
+        {
+            this.push(tween);
+        }
         // update starting values for the next tween - if tweened values included 'p', then Tween
         // parsed that to add additional data that is required
         Object.assign(this._currentProps, tween.endProps);
