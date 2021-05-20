@@ -54,6 +54,23 @@ Note that this script will do its best to update graphics paths (`*.shapes.json`
 If you want to have a Typescript declaration specific to an individual asset file, use the `pixi-animate-type-assets` script to generate a .d.ts file. This script will work on any of the 3 variants of the current asset format.
 Example: `npx pixi-animate-type-assets path/to/myFile.js path/to/my2ndFile.js`
 
+## Considerations & Limitations in Animate
+While we now support publishing tweens from Animate, there are some things to take into account to ensure that you get the smallest, most efficient asset size possible.
+
+### Tweens
+* Only classic tweens are supported at this time, not motion tweens.
+* Tweens that only affect color (alpha, tint, color adjustment) can't be detected during publishing, but will be included if your tween also affects the transformation (position, scale, rotation/skew).
+* Custom ease curves are not supported at this time, only the default selection of eases.
+
+### Considerations with Graphics
+In order to maintain an accurate export, Animate creates a unique Graphic (MovieClip in the runtime) instance for each usage in your library of anything that is a Graphic on the timeline. This has a few effects:
+* Tweens inside Graphics won't be exported, but instead converted to keyframes.
+* When a Graphic is interrupted on the timeline, each use will be a different instance in the export, causing a little bloat.
+
+In order to minimize your asset size, there are a few things that you can do:
+* Do all of your tweening at as high a level as you can manage, in something that is a MovieClip on the timeline.
+* Use one Graphic per layer, and don't have blank keyframes between uses of it or mix & match Graphic instances on the same layer.
+
 ## Typescript
 You can use require to get the namespace for PixiAnimate:
 ```typescript
