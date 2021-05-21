@@ -100,11 +100,13 @@ Modes:
     }
 
     const [arg_PIXI, arg_lib] = libSetup[1].split(', ');
-    const foundAssets = new RegExp(`${arg_lib}\\.([a-zA-Z_$0-9]+)\\.assets = ({[^}]*});`).exec(orig);
+    let foundAssets = new RegExp(`${arg_lib}\\.([a-zA-Z_$0-9]+)\\.assets = ({[^}]*});`).exec(orig);
     if (!foundAssets)
     {
-        console.log('Unable to parse library assets (and which item is the stage) from ' + file);
-        continue;
+        console.log('Warning: Unable to parse library assets (and which item is the stage) from ' + file);
+        console.log('You will need to ensure correct loading of assets and stage instantiation.');
+        console.log('At any point before instantiation, you will need to overwrite \'getTexture\' on the asset data with \'Texture.fromFrame\' from PixiJS\'s Texture class');
+        foundAssets = [null, null, null];
     }
     const [fullAssetSetup, stageName, assets] = foundAssets;
 
@@ -145,22 +147,25 @@ Modes:
     totalFrames: 1,
 `;
     }
-    data += `    assets: ${assets},
+    data += `    assets: ${assets || '{}'},
     lib: {},
     shapes: {},
     textures: {},
     spritesheets: [],
     getTexture: function(id) {
-    if (data.textures[id]) {
-    return data.textures[id];
-    }
-    const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
-    return atlas ? atlas.textures[id] : null;
+        if (data.textures[id]) {
+            return data.textures[id];
+        }
+        const atlas = data.spritesheets.find(atlas => !!atlas.textures[id]);
+        return atlas ? atlas.textures[id] : null;
     },
 `;
     let setup = libSetup[2];
-    // replace assets setup with stage reference setup
-    setup = setup.replace(fullAssetSetup, `data.stage = data.lib.${stageName};`);
+    if (fullAssetSetup && stageName)
+    {
+        // replace assets setup with stage reference setup
+        setup = setup.replace(fullAssetSetup, `data.stage = data.lib.${stageName};`);
+    }
     // remove the shapes cache variable, if present
     setup = setup.replace(new RegExp(`^\\s+var shapes = ${arg_PIXI}\\.animate\\.ShapesCache;\\r?\\n?`, 'm'), '');
     // remove the fromFrame variable, if present
