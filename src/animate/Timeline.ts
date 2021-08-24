@@ -92,19 +92,90 @@ export class Timeline extends Array<Tween>
 
     /**
      * Add a single keyframe that doesn't tween.
+     * Note that this has some capability to insert keyframes into the middle of a timeline, in order to
+     * handle how masks are published, it should only be relied upon to add keyframes to the end of a timeline.
      * @method PIXI.animate.Timeline#addKeyframe
      * @param {Object} properties The properties to set.
      * @param {int} startFrame The starting frame index.
      */
     public addKeyframe(properties: TweenProps, startFrame: number): void
     {
-        this.extendLastFrame(startFrame - 1);
-        const startProps = Object.assign({}, this._currentProps, properties);
-        // create the new Tween and add it to the list
-        const tween = new Tween(this.target, startProps, null, startFrame, 0);
+        // see if we need to go back in and insert properties
+        if (this.length && this[this.length - 1].startFrame >= startFrame)
+        {
+            for (let i = this.length - 1; i >= 0; --i)
+            {
+                const prev = this[i];
 
-        this.push(tween);
-        Object.assign(this._currentProps, tween.endProps);
+                // insert into an existing frame that shares the same keyframe
+                if (prev.startFrame === startFrame)
+                {
+                    // update the start props
+                    Object.assign(prev.startProps, properties);
+                    // carry the new props over unless they're already overridden by end props
+                    prev.endProps = Object.assign({}, prev.startProps, prev.endProps);
+                    // go through any later keyframes to update them the same way
+                    for (let k = i + 1; k < this.length; ++k)
+                    {
+                        const next = this[k];
+
+                        next.startProps = Object.assign({}, properties, next.startProps);
+                        next.endProps = Object.assign({}, next.startProps, next.endProps);
+                    }
+                    break;
+                }
+                // insert into the middle of an extended keyframe (but *not* one that tweens)
+                else if (prev.startFrame < startFrame && prev.endFrame > startFrame && prev.isTweenlessFrame)
+                {
+                    prev.endFrame = startFrame - 1;
+                    const startProps = Object.assign({}, prev.endProps, properties);
+                    // create the new Tween and add it to the list
+                    const tween = new Tween(this.target, startProps, null, startFrame, 0);
+
+                    this.splice(i, 0, tween);
+                    // go through any later keyframes to update them with our inserted props
+                    for (let k = i + 1; k < this.length; ++k)
+                    {
+                        const next = this[k];
+
+                        next.startProps = Object.assign({}, properties, next.startProps);
+                        next.endProps = Object.assign({}, next.startProps, next.endProps);
+                    }
+                    break;
+                }
+                // insert in a gap between frames (which shouldn't really happen, but just in case)
+                else if (prev.endFrame < startFrame)
+                {
+                    const startProps = Object.assign({}, prev.endProps, properties);
+                    // create the new Tween and add it to the list
+                    const tween = new Tween(this.target, startProps, null, startFrame, 0);
+
+                    this.splice(i, 0, tween);
+
+                    // go through any later keyframes to update them with our inserted props
+                    for (let k = i + 1; k < this.length; ++k)
+                    {
+                        const next = this[k];
+
+                        next.startProps = Object.assign({}, properties, next.startProps);
+                        next.endProps = Object.assign({}, next.startProps, next.endProps);
+                    }
+                    break;
+                }
+            }
+            // save in current props, but don't take priority over existing values since we went back in time
+            Object.assign(this._currentProps, properties, this._currentProps);
+        }
+        else
+        {
+            this.extendLastFrame(startFrame - 1);
+            const startProps = Object.assign({}, this._currentProps, properties);
+            // create the new Tween and add it to the list
+            const tween = new Tween(this.target, startProps, null, startFrame, 0);
+
+            this.push(tween);
+            Object.assign(this._currentProps, tween.endProps);
+        }
     }
 
     /**

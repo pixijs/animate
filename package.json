@@ -1,7 +1,7 @@
 {
   "name": "pixi-animate",
   "description": "PIXI plugin for the PixiAnimate Extension",
-  "version": "2.0.0-rc11",
+  "version": "2.0.0-rc12",
   "main": "lib/pixi-animate.js",
   "module": "lib/pixi-animate.es.js",
   "bundle": "dist/pixi-animate.js",
