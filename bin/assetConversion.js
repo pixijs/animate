@@ -15,12 +15,12 @@ for (let file of files)
 {
     if (file === '-h')
     {
-        console.log(`Usage: pixi-animate-upgrade <mode> path/to/file1.js path/to/file2.js
+        console.log(`Usage: animate-upgrade <mode> path/to/file1.js path/to/file2.js
 
 Modes:
     -c (Default) CommonJS/Node style export
     -e ES6 style export (export default)
-    -a ES6 style export with auto import of pixi-animate and run of setup(), exports library items as well as the default.
+    -a ES6 style export with auto import of @pixi/animate and run of setup(), exports library items as well as the default.
 `);
 
         return;
@@ -128,7 +128,7 @@ Modes:
     // if we are doing an autorun, then we need to put that at the top
     if (moduleMode === MODE_ES6_AUTORUN)
     {
-        data = 'import animate from \'pixi-animate\';\n' + data;
+        data = 'import animate from \'@pixi/animate\';\n' + data;
     }
     if (stageData)
     {

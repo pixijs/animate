@@ -1,11 +1,11 @@
 {
-  "name": "pixi-animate",
+  "name": "@pixi/animate",
   "description": "PIXI plugin for the PixiAnimate Extension",
-  "version": "2.0.0-rc12",
-  "main": "lib/pixi-animate.js",
-  "module": "lib/pixi-animate.es.js",
-  "bundle": "dist/pixi-animate.js",
-  "typings": "lib/pixi-animate.d.ts",
+  "version": "2.0.0",
+  "main": "lib/animate.js",
+  "module": "lib/animate.es.js",
+  "bundle": "dist/animate.js",
+  "typings": "lib/animate.d.ts",
   "contributors": [
     "Matt Karl <matt@mattkarl.com>",
     "Eric Ente (https://github.com/ericente)",
@@ -66,21 +66,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pixijs/pixi-animate"
+    "url": "https://github.com/pixijs/animate"
   },
   "bugs": {
-    "url": "https://github.com/pixijs/pixi-animate/issues"
+    "url": "https://github.com/pixijs/animate/issues"
   },
-  "homepage": "https://github.com/pixijs/pixi-animate",
+  "homepage": "https://github.com/pixijs/animate",
   "scripts": {
     "clean": "rimraf docs/docs docs/dist .publish",
     "lint": "eslint --ext .ts src",
     "prebuild": "npm run lint",
-    "build": "tsc && rollup -c && npm run build:min && npm run build:dts",
+    "build": "tsc && rollup -c && npm run build:min",
     "build:min": "npm run build:min:bundle && npm run build:min:legacy",
-    "build:min:bundle": "terser dist/pixi-animate.js -c -m -o dist/pixi-animate.min.js --source-map \"content='dist/pixi-animate.js.map',includeSources=true,filename='dist/pixi-animate.min.js.map',url='pixi-animate.min.js.map'\" --comments \"/pixi-animate.js - /\"",
-    "build:min:legacy": "terser dist/pixi-animate-legacy.js -c -m -o dist/pixi-animate-legacy.min.js --source-map \"content='dist/pixi-animate-legacy.js.map',includeSources=true,filename='dist/pixi-animate-legacy.min.js.map',url='pixi-animate-legacy.min.js.map'\" --comments \"/pixi-animate-legacy.js - /\"",
-    "build:dts": "node scripts/buildAmbientTypes.js",
+    "build:min:bundle": "terser dist/animate.js -c -m -o dist/animate.min.js --source-map \"content='dist/animate.js.map',includeSources=true,filename='dist/animate.min.js.map',url='animate.min.js.map'\" --comments \"/animate.js - /\"",
+    "build:min:legacy": "terser dist/animate-legacy.js -c -m -o dist/animate-legacy.min.js --source-map \"content='dist/animate-legacy.js.map',includeSources=true,filename='dist/animate-legacy.min.js.map',url='animate-legacy.min.js.map'\" --comments \"/animate-legacy.js - /\"",
     "test": "npm run test:floss && npm run test:tsc",
     "test:floss": "floss --path tests/index.js",
     "test:tsc": "tsc -p tests/ts-lib/tsconfig.json",
@@ -104,8 +103,8 @@
     "bin/"
   ],
   "bin": {
-    "pixi-animate-upgrade": "bin/assetConversion.js",
-    "pixi-animate-type-assets": "bin/createDeclaration.js"
+    "animate-upgrade": "bin/assetConversion.js",
+    "animate-type-assets": "bin/createDeclaration.js"
   },
   "keywords": [
     "webgl",

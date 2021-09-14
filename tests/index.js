@@ -2,7 +2,7 @@ global.assert = require('chai').assert;
 // setup for bundle inclusion (the legacy require)
 global.PIXI = require('pixi.js-legacy');
 // assigning here because builds in /dist/ are designed for <script> inclusion, not require().
-global.PIXI = require('../dist/pixi-animate-legacy').PIXI;
+global.PIXI = require('../dist/animate-legacy').PIXI;
 
 describe('PIXI', function ()
 {

@@ -1,9 +1,9 @@
-// NOTE: This file is included _only_ in the pixi-animate-legacy bundle
+// NOTE: This file is included _only_ in the animate-legacy bundle
 // any references to 'this' would be a 'window' reference, but work slightly differently when
 // require()'d in unit tests
 
 /* eslint-disable no-undef, func-names */
-// override base PixiJS versions with the pixi-animate extensions.
+// override base PixiJS versions with the @pixi/animate extensions.
 // have to override the PIXI object because individual sets may not work in all situations.
 this.PIXI = Object.assign({}, PIXI, {
     Container: this.PIXI.animate.Container,

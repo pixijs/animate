@@ -10,7 +10,7 @@ for (let file of files)
 {
     if (file === '-h')
     {
-        console.log(`Usage: pixi-animate-build-dts path/to/file1.js path/to/file2.js`);
+        console.log(`Usage: animate-build-dts path/to/file1.js path/to/file2.js`);
     }
 
     if (!path.isAbsolute(file))
@@ -121,7 +121,7 @@ for (let file of files)
     // figure out which class is the root class
     const [, root] = (/data\.stage ?= ?data\.lib\.([a-zA-Z0-9$_]+)/).exec(source);
     // set up our library using a modified copy of AnimateAsset as a template
-    let output = `import * as animate from 'pixi-animate';
+    let output = `import * as animate from '@pixi/animate';
 import { Texture, Spritesheet } from 'pixi.js';
 
 declare namespace data
