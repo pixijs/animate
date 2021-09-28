@@ -12,7 +12,7 @@ To run content exported with Pixi Animate, you must load the JavaScript library 
 
 #### NPM
 ```
-npm install animate
+npm install @pixi/animate
 ```
 
 ### Dependencies
