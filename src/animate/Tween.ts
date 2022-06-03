@@ -66,7 +66,7 @@ function lerpRotation(start: number, end: number, t: number): number
         else
         {
             // Add it on to end.
-            end += PI + TWO_PI;
+            end += TWO_PI;
         }
     }
 
