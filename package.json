@@ -26,6 +26,16 @@
         "types": "./lib/animate-legacy.d.ts",
         "default": "./lib/animate-legacy.js"
       }
+    },
+    "./lib/animate-legacy.es.js": {
+      "import": {
+        "types": "./lib/animate-legacy.d.ts",
+        "default": "./lib/animate-legacy.es.js"
+      },
+      "require": {
+        "types": "./lib/animate-legacy.d.ts",
+        "default": "./lib/animate-legacy.js"
+      }
     }
   },
   "contributors": [
