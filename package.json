@@ -6,6 +6,28 @@
   "module": "lib/animate.es.js",
   "bundle": "dist/animate.js",
   "typings": "lib/animate.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/animate.d.ts",
+        "default": "./lib/animate.es.js"
+      },
+      "require": {
+        "types": "./lib/animate.d.ts",
+        "default": "./lib/animate.js"
+      }
+    },
+    "./legacy": {
+      "import": {
+        "types": "./lib/animate-legacy.d.ts",
+        "default": "./lib/animate-legacy.es.js"
+      },
+      "require": {
+        "types": "./lib/animate-legacy.d.ts",
+        "default": "./lib/animate-legacy.js"
+      }
+    }
+  },
   "contributors": [
     "Matt Karl <matt@mattkarl.com>",
     "Eric Ente (https://github.com/ericente)",
