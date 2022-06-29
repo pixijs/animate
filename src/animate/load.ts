@@ -186,7 +186,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
                     // handle individual textures
                     scene.textures[resource.name] = resource.texture;
                 }
-                else if (resource.url.search(/\.shapes\.(json|txt)$/i) > -1)
+                else if (resource.url.search(/\.shapes\.(json|txt)(?:$|\?)/i) > -1)
                 {
                     // save shape data
                     let items: string|DrawCommands[] = resource.data;
