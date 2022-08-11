@@ -82,6 +82,43 @@ function lerpRotation(start: number, end: number, t: number): number
     return value;
 }
 
+// handle 180 -> -170 degrees only going through a 10 degree change instead of
+// the long way around
+// Math from http://stackoverflow.com/a/2708740
+// We're assuming Skew values are always in the range -PI to PI
+function lerpSkew(start: number, end: number, t: number): number
+{
+    const difference = Math.abs(end - start);
+
+    if (difference > PI)
+    {
+        // We need to add on to one of the values.
+        if (end > start)
+        {
+            // We'll add it on to start...
+            start += TWO_PI;
+        }
+        else
+        {
+            // Add it on to end.
+            end += TWO_PI;
+        }
+    }
+
+    // Interpolate it.
+    const value = (start + ((end - start) * t));
+
+    // wrap to -PI to PI
+    if(value > PI){
+        return value - TWO_PI;
+    }
+    if(value < -PI){
+        return value + TWO_PI;
+    }
+
+    return value;
+}
+
 // split r, g, b into separate values for tweening
 function lerpTint(start: number, end: number, t: number): number
 {
@@ -139,8 +176,8 @@ const PROP_LERPS: {[P in keyof TweenProps]: (start: number, end: number, t: numb
     sx: lerpValue,
     sy: lerpValue,
     // skew
-    kx: lerpValue,
-    ky: lerpValue,
+    kx: lerpSkew,
+    ky: lerpSkew,
     // rotation
     r: lerpRotation,
     // alpha
