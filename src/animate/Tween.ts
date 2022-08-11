@@ -109,12 +109,8 @@ function lerpSkew(start: number, end: number, t: number): number
     const value = (start + ((end - start) * t));
 
     // wrap to -PI to PI
-    if(value > PI){
-        return value - TWO_PI;
-    }
-    if(value < -PI){
-        return value + TWO_PI;
-    }
+    if (value > PI) return value - TWO_PI;
+    if (value < -PI) return value + TWO_PI;
 
     return value;
 }
