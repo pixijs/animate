@@ -583,7 +583,7 @@ export class MovieClip extends AnimateContainer
     public addTimedChild(instance: AnimateDisplayObject,
         startFrame: number,
         duration?: number,
-        keyframes?: string|{[frame: number]: TweenProps}): this
+        keyframes?: string|{[frame: number]: KeyframeData}): this
     {
         if (startFrame === undefined) // jshint ignore:line
         {
@@ -638,6 +638,34 @@ export class MovieClip extends AnimateContainer
             if (typeof keyframes === 'string')
             {
                 keyframes = utils.deserializeKeyframes(keyframes);
+            }
+            let sequenceUsesSkew = false;
+            for (const i in keyframes)
+            {
+                if (keyframes[i].kx || keyframes[i].ky)
+                {
+                    sequenceUsesSkew = true;
+                    break;
+                }
+            }
+            if(sequenceUsesSkew){
+                for (const i in keyframes)
+                {
+                    if (keyframes[i].r !== undefined)
+                    {
+                        keyframes[i].kx = keyframes[i].r;
+                        keyframes[i].ky = keyframes[i].r;
+                        if(keyframes[i].r){
+                            delete keyframes[i].r;
+                        }
+                    }
+                    if (keyframes[i].tw?.p?.r !== undefined)
+                    {
+                        keyframes[i].tw.p.kx = keyframes[i].tw.p.r;
+                        keyframes[i].tw.p.ky = keyframes[i].tw.p.r;
+                        delete keyframes[i].tw.p.r;
+                    }
+                }
             }
             for (const i in keyframes)
             {
