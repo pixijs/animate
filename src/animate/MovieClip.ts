@@ -640,6 +640,7 @@ export class MovieClip extends AnimateContainer
                 keyframes = utils.deserializeKeyframes(keyframes);
             }
             let sequenceUsesSkew = false;
+
             for (const i in keyframes)
             {
                 if (keyframes[i].kx || keyframes[i].ky)
@@ -648,16 +649,15 @@ export class MovieClip extends AnimateContainer
                     break;
                 }
             }
-            if(sequenceUsesSkew){
+            if (sequenceUsesSkew)
+            {
                 for (const i in keyframes)
                 {
                     if (keyframes[i].r !== undefined)
                     {
                         keyframes[i].kx = keyframes[i].r;
                         keyframes[i].ky = keyframes[i].r;
-                        if(keyframes[i].r){
-                            delete keyframes[i].r;
-                        }
+                        delete keyframes[i].r;
                     }
                     if (keyframes[i].tw?.p?.r !== undefined)
                     {
