@@ -655,14 +655,14 @@ export class MovieClip extends AnimateContainer
                 {
                     if (keyframes[i].r !== undefined)
                     {
-                        keyframes[i].kx = keyframes[i].r;
-                        keyframes[i].ky = keyframes[i].r;
+                        keyframes[i].kx = keyframes[i].kx || keyframes[i].r * -1;
+                        keyframes[i].ky = keyframes[i].ky || keyframes[i].r;
                         delete keyframes[i].r;
                     }
                     if (keyframes[i].tw?.p?.r !== undefined)
                     {
-                        keyframes[i].tw.p.kx = keyframes[i].tw.p.r;
-                        keyframes[i].tw.p.ky = keyframes[i].tw.p.r;
+                        keyframes[i].tw.p.kx = keyframes[i].tw.p.kx || keyframes[i].tw.p.r * -1;
+                        keyframes[i].tw.p.ky = keyframes[i].tw.p.ky || keyframes[i].tw.p.r;
                         delete keyframes[i].tw.p.r;
                     }
                 }
