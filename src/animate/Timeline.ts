@@ -97,8 +97,9 @@ export class Timeline extends Array<Tween>
      * @method PIXI.animate.Timeline#addKeyframe
      * @param {Object} properties The properties to set.
      * @param {int} startFrame The starting frame index.
+     * @param {int} [duration = 0] The number of frames to hold beyond startFrame (0 is single frame)
      */
-    public addKeyframe(properties: TweenProps, startFrame: number): void
+    public addKeyframe(properties: TweenProps, startFrame: number, duration = 0): void
     {
         // see if we need to go back in and insert properties
         if (this.length && this[this.length - 1].startFrame >= startFrame)
@@ -130,7 +131,7 @@ export class Timeline extends Array<Tween>
                     prev.endFrame = startFrame - 1;
                     const startProps = Object.assign({}, prev.endProps, properties);
                     // create the new Tween and add it to the list
-                    const tween = new Tween(this.target, startProps, null, startFrame, 0);
+                    const tween = new Tween(this.target, startProps, null, startFrame, duration);
 
                     this.splice(i, 0, tween);
                     // go through any later keyframes to update them with our inserted props
@@ -148,7 +149,7 @@ export class Timeline extends Array<Tween>
                 {
                     const startProps = Object.assign({}, prev.endProps, properties);
                     // create the new Tween and add it to the list
-                    const tween = new Tween(this.target, startProps, null, startFrame, 0);
+                    const tween = new Tween(this.target, startProps, null, startFrame, duration);
 
                     this.splice(i, 0, tween);
 
@@ -171,7 +172,7 @@ export class Timeline extends Array<Tween>
             this.extendLastFrame(startFrame - 1);
             const startProps = Object.assign({}, this._currentProps, properties);
             // create the new Tween and add it to the list
-            const tween = new Tween(this.target, startProps, null, startFrame, 0);
+            const tween = new Tween(this.target, startProps, null, startFrame, duration);
 
             this.push(tween);
             Object.assign(this._currentProps, tween.endProps);
@@ -194,13 +195,14 @@ export class Timeline extends Array<Tween>
                 if (prevTween.isTweenlessFrame)
                 {
                     prevTween.endFrame = endFrame;
+                    prevTween.duration = endFrame - prevTween.startFrame;
                 }
                 else
                 {
                     this.addKeyframe(
                         this._currentProps,
                         prevTween.endFrame + 1,
-                        // endFrame - prevTween.endFrame + 1
+                        endFrame - (prevTween.endFrame + 1),
                     );
                 }
             }
