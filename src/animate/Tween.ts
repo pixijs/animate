@@ -376,7 +376,7 @@ export class Tween
      */
     public endProps: TweenProps;
     /**
-     * duration of tween in frames. For a keyframe with no tweening, the duration will be 0.
+     * duration of tween in frames. A single-frame keyframe has a duration of 0.
      */
     public duration: number;
     /**
