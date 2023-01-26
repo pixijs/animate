@@ -1,16 +1,17 @@
-import { DrawCommands } from './Graphics';
-import { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
-import { MovieClip } from './MovieClip';
-import { DisplayObject } from '@pixi/display';
-import { Renderer } from '@pixi/core';
-import { Prepare } from '@pixi/prepare';
+import type { DrawCommands } from './Graphics';
+import type { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
+import type { DisplayObject } from '@pixi/display';
+import type { Renderer } from '@pixi/core';
+import type { Prepare } from '@pixi/prepare';
+import type { MovieClip } from './MovieClip';
 
 // If the movieclip plugin is installed
 let _prepare: Prepare = null;
 
 /* eslint-disable @typescript-eslint/no-namespace, no-inner-declarations */
 // awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
-export namespace utils {
+export namespace utils
+{
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
@@ -98,14 +99,14 @@ export namespace utils {
      * @param buffer The contents
      * @return The parsed value
      */
-    function parseValue(prop: string, buffer: string): string|number|boolean|(string|number)[]
+    function parseValue(prop: string, buffer: string): string | number | boolean | (string | number)[]
     {
         switch (prop)
         {
             // Color transforms are parsed as an array
             case 'c':
             {
-                const buff: (string|number)[] = buffer.split(',');
+                const buff: (string | number)[] = buffer.split(',');
 
                 buff.forEach((val, i, buffer) =>
                 {
@@ -157,7 +158,7 @@ export namespace utils {
         let i = 0;
         let buffer = '';
         let handlingProps = false;
-        let prop: keyof TweenProps|keyof TweenData;
+        let prop: keyof TweenProps | keyof TweenData;
 
         // tween format:
         // D20E25EaseIn;PX3Y5A1.2
@@ -398,11 +399,13 @@ export namespace utils {
      */
     export function addMovieClips(item: any): boolean
     {
-        if (item instanceof MovieClip)
+        if (item.isMovieClip)
         {
-            item._timedChildTimelines.forEach((timeline) =>
+            const mc = item as MovieClip;
+
+            mc._timedChildTimelines.forEach((timeline) =>
             {
-                const index = item.children.indexOf(timeline.target);
+                const index = mc.children.indexOf(timeline.target);
 
                 if (index === -1)
                 {
@@ -431,6 +434,6 @@ export namespace utils {
             _prepare.registerFindHook(addMovieClips);
         }
         // eslint-disable-next-line no-unused-expressions
-        _prepare?.upload(displayObject, done);
+        _prepare?.upload(displayObject).then(done);
     }
 }

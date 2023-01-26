@@ -1,0 +1,7498 @@
+{
+	"version": "1.0.0",
+	"metadata": {},
+	"root": {
+		"id": "root-NK2LkooRwehI375iomLgP",
+		"name": "",
+		"type": "RootDoc",
+		"members": [
+			{
+				"id": "LWRaghRmdRglec9nwgss_",
+				"name": "AnimateAsset",
+				"brief": " The format of the output javascript file when publishing a scene.",
+				"type": "InterfaceDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "2WXz1ahC4FSegTe6b8wqu",
+						"name": "version",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n File format version that the asset was published for.\n 2 is the base version that PixiAnimate 2.0.0 supports.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "QFY5lr7NevKWh2D1C2QK1",
+						"name": "stage",
+						"brief": " Constructor for the root MovieClip. Is null before setup() is run.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "9BrC1cQTvUY3spN00tt1J",
+						"name": "background",
+						"brief": " Background color of the scene, as defined when the asset is published.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "6JWg5BM757WvfgL-2akDg",
+						"name": "width",
+						"brief": " Width of the scene, as defined when the asset is published.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "kwW27Vl6n5Pv3HtJcl6Aj",
+						"name": "height",
+						"brief": " Height of the scene, as defined when the asset is published.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "xkh00Hm72JcbHAtJG2bK_",
+						"name": "framerate",
+						"brief": " Framerate of the scene (frames per second), as defined when the asset is published.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "y4J7cxNR09dU5Gu1BSO4i",
+						"name": "totalFrames",
+						"brief": " Total number of frames of the root MovieClip.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "TPvx4pRCiWmwLyegIHR-6",
+						"name": "assets",
+						"brief": " Dictionary of paths to shape files and textures, indexed by unique id within the scene file.",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "cMIcpA1LZbLGXHnb5LIsC",
+						"name": "lib",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Dictionary of display object constructors used within this scene. This is an empty object\n before setup() is run, but can b...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "6XqxMBAdMbhFvCMAX0pLV",
+						"name": "shapes",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Dictionary of loaded shape instructions for this scene. This is intially an empty object that\n can be filled by animate.loa...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FcRI0cmTNE03xGgMcnlsa",
+						"name": "textures",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Dictionary of loaded individual images for this scene. This is intially an empty object that\n will be filled by animate.loa...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "iGQb9kmrVgD-8Gk4lrgrj",
+						"name": "spritesheets",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Dictionary of loaded spritesheets for this scene. This is intially an empty object that\n will be filled by animate.load(). ...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "inBNoeFsHPzA0rSxrXVSv",
+						"name": "getTexture",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Function for getting a texture by ID.\n It can be set to PIXI.Texture.from for global texture atlas.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "-62pLj-rglf382fuJc19j",
+						"name": "setup",
+						"brief": "",
+						"type": "PropertyDoc",
+						"description": "\n Creates classes for each Container and MovieClip within the scene, filling data.lib and\n setting data.stage.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "7GIQ8-GJpYdCYkkJFQjK4",
+				"name": "Animator",
+				"brief": "",
+				"type": "ClassDoc",
+				"description": "\n Play animation via start/stop frame labels\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "_hTMcLTADu7o_r799ePZM",
+						"name": "_timelines",
+						"brief": " The collection of timelines",
+						"access": "private",
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "AIsYwj-PKoNpLc5o5RRkI",
+						"name": "STOP_LABEL",
+						"brief": " Suffix added to label for a stop.",
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "I8Wzw7EyY7vL2rYXgVJ_B",
+						"name": "LOOP_LABEL",
+						"brief": " Suffix added to label for a loop.",
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "D0iUejaTJ3qqbhOvnsR9e",
+						"name": "play",
+						"brief": "",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Play the entire duration of the MovieClip.\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "Movie clip to play.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": true,
+								"description": "Optional callback when complete",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | (() => void)",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | (() => void)"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Timeline object for stopping or getting progress.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "QOsvPTCFRY3Hu45QO4yTR",
+						"name": "play",
+						"brief": "",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Play an animation by frame labels. For instance, play animation sequence from\n 'idle' to 'idle_stop' or 'idle_loop'. If no ...",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "Movie clip to play.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "label",
+								"optional": false,
+								"description": "The frame label event to call, if no event is provided\n        will use the entire length of the MovieClip.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string",
+											"kind": "canonical"
+										}
+									],
+									"template": "string"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": true,
+								"description": "Optional callback when complete",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "() => void",
+											"kind": "canonical"
+										}
+									],
+									"template": "() => void"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Timeline object for stopping or getting progress.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "-17ZEDVLH38bVmGxksASA",
+						"name": "to",
+						"brief": "",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Play an animation from the current frame to an end frame or label.\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "Movie clip to play.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "end",
+								"optional": false,
+								"description": "The end frame or label.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": true,
+								"description": "Optional callback when complete",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "() => void",
+											"kind": "canonical"
+										}
+									],
+									"template": "() => void"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Timeline object for stopping or getting progress.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "wu2aVVbXc76fvZRKJZaFf",
+						"name": "fromTo",
+						"brief": "",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Play a MovieClip from a start to end frame.\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "Movie clip to play.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "start",
+								"optional": false,
+								"description": "The starting frame index or label.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number | string",
+											"kind": "canonical"
+										}
+									],
+									"template": "number | string"
+								}
+							},
+							{
+								"identifier": "end",
+								"optional": false,
+								"description": "The ending frame index or label.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number | string",
+											"kind": "canonical"
+										}
+									],
+									"template": "number | string"
+								}
+							},
+							{
+								"identifier": "loop",
+								"optional": true,
+								"description": "If the animation should loop.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": true,
+								"description": "Optional callback when complete",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "() => void",
+											"kind": "canonical"
+										}
+									],
+									"template": "() => void"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Timeline object for stopping or getting progress.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "3zh2qRAOd_7yZS2K96UDm",
+						"name": "stop",
+						"brief": "",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Stop the animation by instance.\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "Movie clip to play.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "EtcGVaozWGIsYwyyY1UrA",
+						"name": "stopAll",
+						"brief": " Stop all the currently playing animations.",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ZuF-NkzhM_iY4riy6PwLf",
+						"name": "_internalStop",
+						"brief": "",
+						"access": "private",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Stop the animation\n\n",
+						"params": [
+							{
+								"identifier": "timeline",
+								"optional": false,
+								"description": "Timeline to stop.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "HTqvtz2EJPMUMBnq22ziC",
+						"name": "constructor",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": []
+					}
+				]
+			},
+			{
+				"id": "t6CFXgy6LhhXrREPid9TE",
+				"name": "AnimatorTimeline",
+				"brief": " Represents a single animation play.",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "RK6o0l6uO2WoCSFnbXFuP",
+						"name": "_update",
+						"brief": " Bound copy of update().",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "RT8rB7qc33k1e-z9NJwd0",
+						"name": "instance",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Instance of clip to play.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "a9pmpje6ZNaq1PebjF0dk",
+						"name": "loop",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n `true` if the timeline is suppose to loop.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "UbVB0PJz6pFvMsinOHTuM",
+						"name": "start",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Frame number of the starting farme.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Wm54oi9LU2boufgMAxBg7",
+						"name": "end",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Frame number of the ending frame.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4-Q2gt2ngeS1rpF3YbwZT",
+						"name": "callback",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Callback called when completed (non-looping animation).\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "uPEglMyksdtwED-_6NbL4",
+						"name": "removeFromAnimator",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Removes this timeline from the Animator. This is to prevent a circular reference.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "xu-Y04afr2cFBSnw1qqmG",
+						"name": "constructor",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FrQQIDjfdVfCTG1zRrAwU",
+						"name": "init",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n The pool of timelines to use\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "start",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "end",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "loop",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "() => void",
+											"kind": "canonical"
+										}
+									],
+									"template": "() => void"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "CPmyuIMe5_KVIQx7ek1Zb",
+						"name": "destroy",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Don't use after this\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "lpJbGcHhRSiflbYic3iSt",
+						"name": "update",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Is the animation complete\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Callback to do after updateTimeline",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "(() => void) | null",
+											"kind": "canonical"
+										}
+									],
+									"template": "(() => void) | null"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "JgnjyDin_Heazk4qTvnn9",
+						"name": "stop",
+						"brief": " Stop the animation, cannot be reused.",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "rq8z_-UtcfVr3AjVtgJoN",
+						"name": "progress",
+						"brief": " The progress from 0 to 1 of the playback.",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4zLdG7FzDplvw0lK4Z4w6",
+						"name": "_pool",
+						"brief": "",
+						"access": "private",
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n The pool of timelines to use\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "VbImXUjawqn5wuHGUBHIv",
+						"name": "create",
+						"brief": " Create a new timeline",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClip",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "start",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "end",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "loop",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							},
+							{
+								"identifier": "callback",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "() => void",
+											"kind": "canonical"
+										}
+									],
+									"template": "() => void"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimatorTimeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimatorTimeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "6kVPnGSEnoBHrZz7hRDd3",
+				"name": "AnimateContainer",
+				"brief": " Utility subclass of PIXI.Container",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"Container"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "uam3LzRUFkZ335WOV3Vc0",
+						"name": "ac",
+						"brief": " Shortcut for `addChild`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "0nY6hXAmaMxvxbGCITkDE",
+						"name": "setRenderable",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Function to set if this is renderable or not. Useful for setting masks.\n\n",
+						"params": [
+							{
+								"identifier": "renderable",
+								"optional": true,
+								"description": "Make renderable. Defaults to false.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance, for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "epVQVyO5fFOKKZN-gryfA",
+						"name": "re",
+						"brief": " Shortcut for `setRenderable`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Q5XpZvgc22MeqX81ZBK6h",
+						"name": "t",
+						"brief": " Shortcut for `setTransform`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "gtpBkUd7AEJVSImm2wOTh",
+						"name": "setMask",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Setter for mask to be able to chain.\n\n",
+						"params": [
+							{
+								"identifier": "mask",
+								"optional": false,
+								"description": "The mask shape to use",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Graphics | Sprite",
+											"kind": "canonical"
+										},
+										{
+											"value": "Graphics",
+											"kind": "canonical"
+										},
+										{
+											"value": "Sprite",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | %2"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ln-Oc3Hn3wfg_Lbb1lBS8",
+						"name": "ma",
+						"brief": " Shortcut for `setMask`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "hyH8BqQ6HeBUTUoifeFW9",
+						"name": "setAlpha",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Chainable setter for alpha\n\n",
+						"params": [
+							{
+								"identifier": "alpha",
+								"optional": false,
+								"description": "The alpha amount to use, from 0 to 1",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "wP1x-Y7LpUkw_-TTbu0qO",
+						"name": "a",
+						"brief": " Shortcut for `setAlpha`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "PM0LWN2uYu8fna84K_8Id",
+						"name": "setTint",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set the tint values by color.\n\n",
+						"params": [
+							{
+								"identifier": "tint",
+								"optional": false,
+								"description": "The color value to tint",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "LN0qgz3rQx9UqtgTmEryw",
+						"name": "i",
+						"brief": " Shortcut for `setTint`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "HZ81H_mYdAcwyabqod831",
+						"name": "setColorTransform",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set additive and multiply color, tinting\n\n",
+						"params": [
+							{
+								"identifier": "r",
+								"optional": false,
+								"description": "The multiply red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "rA",
+								"optional": false,
+								"description": "The additive red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "g",
+								"optional": false,
+								"description": "The multiply green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "gA",
+								"optional": false,
+								"description": "The additive green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "b",
+								"optional": false,
+								"description": "The multiply blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "bA",
+								"optional": false,
+								"description": "The additive blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "CZ5vxUZnhdUrVFBGVi_oh",
+						"name": "c",
+						"brief": " Shortcut for `setColor`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "SdyKiAfV5I17iVqamMFKo",
+						"name": "colorTransformFilter",
+						"brief": " The current default color transforming filters",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "bJKUEh9K8uSwyFs-Fkj_h",
+						"name": "constructor",
+						"brief": " Utility subclass of PIXI.Container",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": []
+					}
+				]
+			},
+			{
+				"id": "H4BjcRE8wqdPXqpKpESOz",
+				"name": "AnimateGraphics",
+				"brief": "",
+				"type": "ClassDoc",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"Graphics"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "YgNTn1KUjFOnE0OAN3L5P",
+						"name": "constructor",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [
+							{
+								"identifier": "geometry",
+								"optional": true,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "GraphicsGeometry",
+											"kind": "canonical"
+										},
+										{
+											"value": "GraphicsGeometry",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "88aqNjNQ9rZktynMamO0z",
+						"name": "drawCommands",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Execute a series of commands, this is the name of the short function\n followed by the parameters, e.g., `[\"f\", \"#ff0000\", \"...",
+						"params": [
+							{
+								"identifier": "commands",
+								"optional": false,
+								"description": "The commands and parameters to draw",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "DrawCommands",
+											"kind": "canonical"
+										},
+										{
+											"value": "DrawCommands",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FqW6AJuJ9nhQw-0XamIKK",
+						"name": "d",
+						"brief": " Shortcut for `drawCommands`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "wPZKVZzKa_oFb-gVTTE73",
+						"name": "cp",
+						"brief": " Shortcut for `closePath`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "PCAUT6Z1lbXegaAVdmOJ-",
+						"name": "bh",
+						"brief": " Shortcut for `beginHole`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "kul6-QBeREOwm1M6zi_uy",
+						"name": "eh",
+						"brief": " Shortcut for `endHole`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "6DVChjVu1BdlWF-nnxIOc",
+						"name": "m",
+						"brief": " Shortcut for `moveTo`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "35R8bvMdDpC5ZUYIuQtOt",
+						"name": "l",
+						"brief": " Shortcut for `lineTo`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Ck145jgLCBgNq5OJ1UBHA",
+						"name": "q",
+						"brief": " Shortcut for `quadraticCurveTo`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "KheeItME4JUbR93gJiFPQ",
+						"name": "b",
+						"brief": " Shortcut for `bezierCurveTo`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "spYGdYc75mIY6xxqvlQ6I",
+						"name": "f",
+						"brief": " Shortcut for `beginFill`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "vm2nJrNZkbe-HDEYjuMr_",
+						"name": "s",
+						"brief": " Shortcut for `lineStyle`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "args",
+								"optional": false,
+								"variadic": true,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "any[]",
+											"kind": "canonical"
+										}
+									],
+									"template": "any[]"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "14Cr7FDf_-u8Yup3FYKbe",
+						"name": "dr",
+						"brief": " Shortcut for `drawRect`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "0-tdsUp00Txaah7z23o0q",
+						"name": "rr",
+						"brief": " Shortcut for `drawRoundedRect`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "rJ4QBCM_805dFTYSQsN9_",
+						"name": "rc",
+						"brief": " Shortcut for `drawRoundedRect`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Dm0fTuyAXRIZHjs4jASAh",
+						"name": "dc",
+						"brief": " Shortcut for `drawCircle`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "LghgNpo8xtmGA8BN_gUL2",
+						"name": "ar",
+						"brief": " Shortcut for `arc`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ELHFRI8chRVXMEKsiRE6x",
+						"name": "at",
+						"brief": " Shortcut for `arcTo`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "MKPLQFcRfsmaEAUigRAj3",
+						"name": "de",
+						"brief": " Shortcut for `drawEllipse`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "hwxGOlvuZ8Bf5VoX-DHX3",
+						"name": "lf",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a linear gradient fill. Pixi does not support linear gradient fills,\n so we just pick the first colo...",
+						"params": [
+							{
+								"identifier": "colorArray",
+								"optional": false,
+								"description": "An array of CSS compatible color values @see `f`",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number[]",
+											"kind": "canonical"
+										}
+									],
+									"template": "number[]"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "hbeqdEogDi_jIXGCjP1Q2",
+						"name": "rf",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a radial gradient fill. Pixi does not support radial gradient fills,\n so we just pick the first colo...",
+						"params": [
+							{
+								"identifier": "colorArray",
+								"optional": false,
+								"description": "An array of CSS compatible color values @see `f`",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number[]",
+											"kind": "canonical"
+										}
+									],
+									"template": "number[]"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "sJ9RhmkrZ19G8wOJEvg33",
+						"name": "bf",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a `beginBitmapFill`. Pixi does not support bitmap fills.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "R2ALUl6Ty5LfR0XvDEzLN",
+						"name": "sd",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a `setStrokeDash`. Pixi does not support dashed strokes.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "oDnRhwKikXcQNVTGpamIy",
+						"name": "bs",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a `beginBitmapStroke`. Pixi does not support bitmap strokes.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FMGOliCN6up57ZPPgNig0",
+						"name": "ls",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a `beginLinearGradientStroke`. Pixi does not support gradient strokes.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "N3lTmOJVQGCR2vtP5YTtw",
+						"name": "rs",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Placeholder method for a `beginRadialGradientStroke`. Pixi does not support gradient strokes.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"description": "The Graphics instance the method is called on (useful for chaining calls.)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "kh0JW9WdDx0Iqe70ecrqd",
+						"name": "setRenderable",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Function to set if this is renderable or not. Useful for setting masks.\n\n",
+						"params": [
+							{
+								"identifier": "renderable",
+								"optional": true,
+								"description": "Make renderable. Defaults to false.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance, for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "bz7DzKdTfrSI7hLU_foLp",
+						"name": "re",
+						"brief": " Shortcut for `setRenderable`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "wiWzgx4wiS9-eJK4_HSO0",
+						"name": "t",
+						"brief": " Shortcut for `setTransform`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "YbwY-9BBbzopGI8P0QIcS",
+						"name": "setMask",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Setter for mask to be able to chain.\n\n",
+						"params": [
+							{
+								"identifier": "mask",
+								"optional": false,
+								"description": "The mask shape to use",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Graphics | Sprite",
+											"kind": "canonical"
+										},
+										{
+											"value": "Graphics",
+											"kind": "canonical"
+										},
+										{
+											"value": "Sprite",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | %2"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "RXHU42iiMTeDu2nOZWokZ",
+						"name": "ma",
+						"brief": " Shortcut for `setMask`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "RYzxhJqZNsNZIR4aPxxoD",
+						"name": "setAlpha",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Chainable setter for alpha\n\n",
+						"params": [
+							{
+								"identifier": "alpha",
+								"optional": false,
+								"description": "The alpha amount to use, from 0 to 1",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "KnIJ0G3VKCflVqqUaZFp9",
+						"name": "a",
+						"brief": " Shortcut for `setAlpha`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5W1dS-6wkH1Y_9q-XT8wT",
+						"name": "setTint",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set the tint values by color.\n\n",
+						"params": [
+							{
+								"identifier": "tint",
+								"optional": false,
+								"description": "The color value to tint",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "r8JYqsweZvb31Uyd4rD6G",
+						"name": "i",
+						"brief": " Shortcut for `setTint`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "OoYIHb6kmogmMjDdkXKIH",
+						"name": "setColorTransform",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set additive and multiply color, tinting\n\n",
+						"params": [
+							{
+								"identifier": "r",
+								"optional": false,
+								"description": "The multiply red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "rA",
+								"optional": false,
+								"description": "The additive red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "g",
+								"optional": false,
+								"description": "The multiply green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "gA",
+								"optional": false,
+								"description": "The additive green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "b",
+								"optional": false,
+								"description": "The multiply blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "bA",
+								"optional": false,
+								"description": "The additive blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "wO2F-RCJyv0UP1T01PyPq",
+						"name": "c",
+						"brief": " Shortcut for `setColor`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "r",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "rA",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "g",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "gA",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "b",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "bA",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5K1FvP7okPGTT_lCojOOK",
+						"name": "colorTransformFilter",
+						"brief": " The current default color transforming filter",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "EgDraPRJK5wHXSihHK0Ez",
+				"name": "parent",
+				"brief": " The Container to auto-add the stage to, if createInstance is true.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "ij9BfH-viOVQRQ7c7OG66",
+				"name": "complete",
+				"brief": " Callback for load completion.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "zUH2nFNDMluXIjpcAe1CS",
+				"name": "basePath",
+				"brief": " Base root directory",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "sW1IX-vN2IUtug538PsAw",
+				"name": "createInstance",
+				"brief": " Enable or disable automatic instantiation of stage - defaults to false.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "mV80NnZTlvtaAK5aQ2f-0",
+				"name": "metadata",
+				"brief": " Metadata to be handed off to the loader for assets that are loaded.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "DQO_MX8bapr8yUKNNcBVM",
+				"name": "load",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Load the stage class and preload any assets\n ```\n import MyAsset from './myAsset.js';\n let renderer = new PIXI.autoDetectRe...",
+				"params": [
+					{
+						"identifier": "scene",
+						"optional": false,
+						"description": "Reference to the scene data.",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "AnimateAsset",
+									"kind": "canonical"
+								},
+								{
+									"value": "AnimateAsset",
+									"kind": "link"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "complete",
+						"optional": true,
+						"description": "The callback function when complete.",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "Complete | LoadOptions",
+									"kind": "canonical"
+								},
+								{
+									"value": "Complete",
+									"kind": "canonical"
+								},
+								{
+									"value": "LoadOptions",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1 | %2"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "instance of PIXI resource loader",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "void",
+									"kind": "canonical"
+								}
+							],
+							"template": "void"
+						}
+					}
+				],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "-MTZ1KLXPGBfkjOxW3LOB",
+						"name": "done",
+						"brief": "",
+						"type": "FunctionDoc",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "AtxNwFe6guar5aROMFaW_",
+				"name": "load",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Load the stage class and preload any assets\n ```\n import MyAsset from './myAsset.js';\n let basePath = 'file:/path/to/assets...",
+				"params": [
+					{
+						"identifier": "scene",
+						"optional": false,
+						"description": "Reference to the scene data.",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "AnimateAsset",
+									"kind": "canonical"
+								},
+								{
+									"value": "AnimateAsset",
+									"kind": "link"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "options",
+						"optional": false,
+						"description": "Options for loading.",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "LoadOptions",
+									"kind": "canonical"
+								},
+								{
+									"value": "LoadOptions",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "instance of PIXI resource loader",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "void",
+									"kind": "canonical"
+								}
+							],
+							"template": "void"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "zteqGYb_3YuOlL68knZHx",
+				"name": "mode",
+				"brief": " The default playback mode is independent (0). Child movieclips are given a different value as subordinate objects.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "wXGRl-y2ihOzRf-315Upo",
+				"name": "startPosition",
+				"brief": " The starting frame. Default is 0.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "he7Zf24T6nE4Dgt8W4CEZ",
+				"name": "loop",
+				"brief": " If playback is looped. Default is true.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "F4zM6uxKJ9Mk57tD3wMJy",
+				"name": "labels",
+				"brief": " The frame labels map - label to frames",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "a4WRe6t5f2FP5hHTwI2tR",
+				"name": "duration",
+				"brief": " The duration of the clip. If no duration is provided, length is automatically determined.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "Ag3svKARrQBGwQng4_yQw",
+				"name": "framerate",
+				"brief": " The framerate to use for an independent mode MovieClip. Default is 24.",
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "1BvHwlNwly0ni4OBHKUjP",
+				"name": "MovieClip",
+				"brief": " Provide timeline playback of movieclip",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"AnimateContainer"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "yec-7WOFJowXXtXkF-MLS",
+						"name": "INDEPENDENT",
+						"brief": "",
+						"access": "public",
+						"defaultValue": "0",
+						"readonly": true,
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n The MovieClip will advance independently of its parent, even if its parent is paused.\n This is the default mode.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "sXWmYxUk6Y88KcgvZPFo5",
+						"name": "SINGLE_FRAME",
+						"brief": " The MovieClip will only display a single frame (as determined by the startPosition property).",
+						"access": "public",
+						"defaultValue": "1",
+						"readonly": true,
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Q5UHB7gU58bmEY2ltsCGU",
+						"name": "SYNCHED",
+						"brief": "",
+						"access": "public",
+						"defaultValue": "2",
+						"readonly": true,
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n The MovieClip will be advanced only when its parent advances and will be synched to the position of\n the parent MovieClip.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "b2F6qyqo3BUEvgSIKx8Yw",
+						"name": "DEFAULT_FRAMERATE",
+						"brief": " The default framerate if none is specified or there's not parent clip with a framerate.",
+						"access": "public",
+						"defaultValue": "24",
+						"readonly": true,
+						"scope": "static",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "rbcZ4rT7OL5oCK0hgQSbX",
+						"name": "isMovieClip",
+						"brief": "",
+						"access": "public",
+						"defaultValue": "true",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Fast way of checking if a movie clip is actually a movie clip.\n Prevents circular references and is faster than instanceof.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "BFVjBQLnMvHen7HAoUp9J",
+						"name": "mode",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).\n See each ...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "hYMuTtyZIY8wJewrd6aPa",
+						"name": "startPosition",
+						"brief": " Specifies what the first frame to play in this movieclip, or the only frame to display if mode is SINGLE_FRAME.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "xykE2zDQHv61Kgy5P-xT1",
+						"name": "loop",
+						"brief": " Indicates whether this MovieClip should loop when it reaches the end of its timeline.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "CZf40oWDJZtk9iUC1b7rh",
+						"name": "currentFrame",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n The current frame of the movieclip.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "K8uH2IcEdyryWsF_N0pQV",
+						"name": "_labels",
+						"brief": " The collection of private labels",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "XTWk8j4-dZCBFu6SQuZIv",
+						"name": "_labelDict",
+						"brief": " The collection of private labels",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ZCPjGnl6bNeJyaOn5PA7z",
+						"name": "selfAdvance",
+						"brief": " If true, this movieclip will animate automatically whenever it is on the stage.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "SFIKNp_FmnCiEaN9y02By",
+						"name": "paused",
+						"brief": " If true, the MovieClip's position will not advance when ticked.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "j65muXbIJZbSkkldB9Znj",
+						"name": "actionsEnabled",
+						"brief": " If true, actions in this MovieClip's tweens will be run when the playhead advances.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "CssY2L0Mo2VxAd5jiMLNV",
+						"name": "autoReset",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n If true, the MovieClip will automatically be reset to its first frame whenever the timeline adds\n it back onto the display ...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "MkMKBRBOHDdQNLv-rBw82",
+						"name": "_synchOffset",
+						"brief": " Offset from parent frame for a synched movieclip.",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5cCbMgG6SAz5vRUmz6g_C",
+						"name": "_prevPos",
+						"brief": " Previous position that this movieclip was stopped on.",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "eJNsiJ9V-60Nv0NyOSMm8",
+						"name": "_t",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Note - changed from default: When the MovieClip is framerate independent, this is the time\n elapsed from frame 0 in seconds.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "O6Ug_iHKKepqJYLxmpzHt",
+						"name": "_framerate",
+						"brief": "",
+						"access": "protected",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n By default MovieClip instances advance one frame per tick. Specifying a framerate for the MovieClip\n will cause it to advan...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "775MPG9kprW6Hho3g0TTo",
+						"name": "_duration",
+						"brief": " The total time in seconds for the animation. This is changed when setting the framerate.",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "dWROI-wWVsRzgpLsendl0",
+						"name": "_totalFrames",
+						"brief": " The total duration in frames for the animation.",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "QVJvcHQooY8U_UJHIZYsR",
+						"name": "_timelines",
+						"brief": "",
+						"access": "protected",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Standard tween timelines for all objects. Each element in the _timelines array\n is a Timeline object - an array of tweens f...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "JGegJ10JmjMjhFMts9Fmx",
+						"name": "_timedChildTimelines",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Array of child timelines denoting if a child is actively a child of this movieclip\n on any given frame. Each element in the...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "YGAW0thkk7QzXCF55_Hy3",
+						"name": "_depthSorted",
+						"brief": " Array to depth sort timed children",
+						"access": "protected",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4KA2YLN3uss2zLcuhdo6b",
+						"name": "_actions",
+						"brief": " Array of frame scripts, indexed by frame.",
+						"access": "protected",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ZA_xGymsEKTj2brcTGwbJ",
+						"name": "_beforeUpdate",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Optional callback fired before timeline is updated.\n Can be used to clamp or update the currentFrame.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "6Tiy8I9aT4zHahjLeqCI8",
+						"name": "parentStartPosition",
+						"brief": " Internal property used to control child MovieClips relative to parents.",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "BozlL-qfJiM4ZYdU_TJQr",
+						"name": "constructor",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n",
+						"params": [
+							{
+								"identifier": "options",
+								"optional": true,
+								"description": "The options object",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "MovieClipOptions | number",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClipOptions",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | number"
+								}
+							}
+						],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "1sDCrjvAgVut771uqc5cu",
+						"name": "constructor",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n",
+						"params": [
+							{
+								"identifier": "mode",
+								"optional": true,
+								"description": "The playback mode default is independent (0),",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "startPosition",
+								"optional": true,
+								"description": "The starting frame",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "loop",
+								"optional": true,
+								"description": "If playback is looped",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							},
+							{
+								"identifier": "labels",
+								"optional": true,
+								"description": "The frame labels map of label to frames",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "duration",
+								"optional": true,
+								"description": "The duration, if no duration is provided, auto determines length",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "LabelMap",
+											"kind": "canonical"
+										},
+										{
+											"value": "LabelMap",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "framerate",
+								"description": "The framerate to use for independent mode"
+							}
+						],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "vFwy2zkBBLlwAglmSyQDf",
+						"name": "_onAdded",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "r3lxrPjQYPowPlInmPyJg",
+						"name": "_tickListener",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [
+							{
+								"identifier": "tickerDeltaTime",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "vF2ZNYmBwlDCt87047F9Z",
+						"name": "_onRemoved",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5sXlCGunbDjLIudV1lVau",
+						"name": "labels",
+						"brief": " Returns an array of objects with label and position (aka frame) properties, sorted by position.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "S9Gv78g-sbDecRpJ76ACf",
+						"name": "labelsMap",
+						"brief": " Returns a dictionary of labels where key is the label and value is the frame.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "WgoAlEFDiH20JMS86sffs",
+						"name": "currentLabel",
+						"brief": " Returns the name of the label on or immediately before the current frame.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "drBsOEeuyqhl6QL9tY7mf",
+						"name": "elapsedTime",
+						"brief": " When the MovieClip is framerate independent, this is the time elapsed from frame 0 in seconds.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "orsAYKPcIkfldWI1GOd1w",
+						"name": "framerate",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n By default MovieClip instances advance one frame per tick. Specifying a framerate for the\n MovieClip will cause it to advan...",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "q-rPf9BcbtEZMj7RwcTBN",
+						"name": "totalFrames",
+						"brief": " Get the total number of frames (duration) of this MovieClip",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "eG5AVkhi7QRUzx0GsFeRU",
+						"name": "_autoExtend",
+						"brief": " Extend the timeline to the last frame.",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "endFrame",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "kqxtgKasRmS-pUHIFoZ_H",
+						"name": "_parseProperties",
+						"brief": " Convert values of properties",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "properties",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps & { t? : string | number, v? : number | boolean }",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 & { t? : string | number, v? : number | boolean }"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "mivxpEYTakVmKVtAaXPb_",
+						"name": "_getChildTimeline",
+						"brief": " Get a timeline for a child, synced timeline.",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Timeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "Timeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "O6ZLWOOKLuPWrqo8eSAlC",
+						"name": "addTimedMask",
+						"brief": " Add mask or masks",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "keyframes",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "{ [frame: number]: Graphics | Sprite }",
+											"kind": "canonical"
+										},
+										{
+											"value": "Graphics",
+											"kind": "canonical"
+										},
+										{
+											"value": "Sprite",
+											"kind": "canonical"
+										}
+									],
+									"template": "{ [frame: number]: %1 | %2 }"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "RbvxMp6NhwW045U6zGXQv",
+						"name": "am",
+						"brief": " Shortcut alias for `addTimedMask`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "pBejMZA8CqZLwzJccGbX4",
+						"name": "tw",
+						"brief": " Shortcut alias for `addTween`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "f_nTD201wvBTjC9zTyzsV",
+						"name": "addTween",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Add a tween to the clip\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "The clip to tween",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "properties",
+								"optional": false,
+								"description": "The property or property to tween",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "The frame to start tweening",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "duration",
+								"optional": true,
+								"description": "Number of frames to tween. If 0, then the properties are set with no tweening.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "ease",
+								"optional": true,
+								"description": "An optional easing function that takes the tween time from 0-1.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "EaseMethod",
+											"kind": "canonical"
+										},
+										{
+											"value": "EaseMethod",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "cUBxehRsN1ssEv3azmLQ7",
+						"name": "addKeyframe",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Add a tween to the clip\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "The clip to tween",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "properties",
+								"optional": false,
+								"description": "The property or property to tween",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "KeyframeData",
+											"kind": "canonical"
+										},
+										{
+											"value": "KeyframeData",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "The frame to start tweening",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "39RDkUD0FGF3YrPII6R7e",
+						"name": "at",
+						"brief": " Alias for method `addTimedChild`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4tMXHP6A4t5fM2fR1K_pf",
+						"name": "addTimedChild",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Add a child to show for a certain number of frames before automatic removal.\n\n",
+						"params": [
+							{
+								"identifier": "instance",
+								"optional": false,
+								"description": "The clip to show",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "The starting frame",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "duration",
+								"optional": true,
+								"description": "The number of frames to display the child before removing it.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "keyframes",
+								"optional": true,
+								"description": "The collection of static keyframes to add",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | { [frame: number]: KeyframeData }",
+											"kind": "canonical"
+										},
+										{
+											"value": "KeyframeData",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | { [frame: number]: %1 }"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "-6n9wzJ0_QfMuK6KIX_6m",
+						"name": "aa",
+						"brief": " Short cut for `addAction`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "jl_95rzH1hUE3UFUypeRS",
+						"name": "addAction",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Handle frame actions, callback is bound to the instance of the MovieClip.\n\n",
+						"params": [
+							{
+								"identifier": "callback",
+								"optional": false,
+								"description": "The clip call on a certain frame",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "FrameAction",
+											"kind": "canonical"
+										},
+										{
+											"value": "FrameAction",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "The starting frame index or label",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number | string",
+											"kind": "canonical"
+										}
+									],
+									"template": "number | string"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "HqgRrw0d1JbxSTrHFhjzi",
+						"name": "ps",
+						"brief": " Short cut for `playSound`",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "XcjJ1csVTkGd314-op2Mz",
+						"name": "playSound",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Handle sounds.\n\n",
+						"params": [
+							{
+								"identifier": "alias",
+								"optional": false,
+								"description": "The name of the Sound",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "String",
+											"kind": "canonical"
+										},
+										{
+											"value": "String",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "loop",
+								"optional": true,
+								"default": "false",
+								"description": "The loop property of the sound",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Boolean",
+											"kind": "canonical"
+										},
+										{
+											"value": "Boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "XoVAua14yaax2AZxmxz9f",
+						"name": "play",
+						"brief": " Sets paused to false.",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "fEjBlLMbz1JA8ABGJ-ata",
+						"name": "stop",
+						"brief": " Sets paused to true.",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "oEfszNY0P4DBCBUHnRQPc",
+						"name": "gotoAndPlay",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Advances this movie clip to the specified position or label and sets paused to false.\n\n",
+						"params": [
+							{
+								"identifier": "positionOrLabel",
+								"optional": false,
+								"description": "The animation name or frame number to go to.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "rQ5Q5w-bvL8_uvnT5a_fo",
+						"name": "gotoAndStop",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Advances this movie clip to the specified position or label and sets paused to true.\n\n",
+						"params": [
+							{
+								"identifier": "positionOrLabel",
+								"optional": false,
+								"description": "The animation or frame name to go to.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "-3La5bIhfFZX_u49HtvPW",
+						"name": "parentFramerate",
+						"brief": " Get the close parent with a valid framerate. If no parent, returns the default framerate.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FFIkZI-cVCQYKDd4ukRmx",
+						"name": "advance",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Advances the playhead. This occurs automatically each tick by default.\n\n",
+						"params": [
+							{
+								"identifier": "time",
+								"optional": true,
+								"description": "The amount of time in seconds to advance by. Only applicable if framerate is set.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "md94beCTCM2eXtEB3rAoS",
+						"name": "_goto",
+						"brief": "",
+						"access": "protected",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n",
+						"params": [
+							{
+								"identifier": "positionOrLabel",
+								"optional": false,
+								"description": "The animation name or frame number to go to.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "UTa78JZVskyLXgVfMG61G",
+						"name": "_reset",
+						"brief": " Reset the movieclip to the first frame (without advancing the timeline).",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "kiX4fSa0UibUaNlm64IT1",
+						"name": "_updateTimeline",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Update timeline position according to playback, performing actions and updating children.\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "swkoFOEfcJIEfSMN3hH87",
+						"name": "_setTimelinePosition",
+						"brief": " Set the timeline position",
+						"access": "protected",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "currentFrame",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "doActions",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "lp7n1Fb1Pt4vshloECtnx",
+						"name": "destroy",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [
+							{
+								"identifier": "options",
+								"optional": true,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "IDestroyOptions | boolean",
+											"kind": "canonical"
+										},
+										{
+											"value": "IDestroyOptions",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "fbVi8NbiqxArE4vqOy7_W",
+				"name": "Scene",
+				"brief": "",
+				"type": "ClassDoc",
+				"description": "\n Extends the PIXI.Application class to provide easy loading.\n ```\n const scene = new PIXI.animate.Scene();\n scene.load(lib.S...",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"Application"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "kTPl7uzioSgZSf-iSqSNG",
+						"name": "sound",
+						"brief": "",
+						"access": "public",
+						"readonly": true,
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Reference to the global sound object\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "1EUJoFgoscofLRJypyhZ2",
+						"name": "instance",
+						"brief": " The stage object created.",
+						"access": "public",
+						"defaultValue": "undefined",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "62B6nQ0Z0nIkbWDdRwKUh",
+						"name": "load",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Load a stage scene and add it to the stage.\n\n",
+						"params": [
+							{
+								"identifier": "asset",
+								"optional": false,
+								"description": "Reference to the scene to load.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateAsset",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateAsset",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "complete",
+								"optional": true,
+								"description": "Callback when finished loading.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "(instance: MovieClip) => void",
+											"kind": "canonical"
+										},
+										{
+											"value": "MovieClip",
+											"kind": "link"
+										}
+									],
+									"template": "(instance: %1) => void"
+								}
+							},
+							{
+								"identifier": "basePath",
+								"optional": true,
+								"description": "Optional base directory to prepend to assets.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string",
+											"kind": "canonical"
+										}
+									],
+									"template": "string"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "instance of PIXI resource loader",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FHHTIiQaVCt9t-R4IQrx2",
+						"name": "destroy",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Destroy and don't use after calling.\n\n",
+						"params": [
+							{
+								"identifier": "removeView",
+								"optional": true,
+								"description": "Automatically remove canvas from DOM.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							},
+							{
+								"identifier": "stageOptions",
+								"optional": true,
+								"description": "Options parameter. A boolean will act as if all options\n  have been set to that value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "IDestroyOptions | boolean",
+											"kind": "canonical"
+										},
+										{
+											"value": "IDestroyOptions",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "3aPG_ot5twdVhurRZcaUv",
+						"name": "constructor",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": []
+					}
+				]
+			},
+			{
+				"id": "_oR3Q1flWGk19ATSIKbDo",
+				"name": "sound",
+				"brief": "",
+				"examples": [
+					{
+						"caption": "",
+						"code": "PIXI.animate.sound.on('play', (alias, loop, context) => {\n   // custom handle sounds being played\n   // where 'alias' is the ID in stage assets\n});"
+					}
+				],
+				"readonly": true,
+				"type": "PropertyDoc",
+				"description": "\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "BB9xhQ8yWRBuM0obtyxM0",
+				"name": "AnimateSprite",
+				"brief": " Utility subclass of PIXI.Sprite",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"Sprite"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "fHAOApqWBOvCY_n3GEy2p",
+						"name": "setRenderable",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Function to set if this is renderable or not. Useful for setting masks.\n\n",
+						"params": [
+							{
+								"identifier": "renderable",
+								"optional": true,
+								"description": "Make renderable. Defaults to false.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance, for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ld7PeV8M_A8ECJjPO4bPx",
+						"name": "re",
+						"brief": " Shortcut for `setRenderable`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "uORXqNvM9at6QEjSvEVN0",
+						"name": "t",
+						"brief": " Shortcut for `setTransform`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "sM7ppeUrWMpED8WUtLy7m",
+						"name": "setMask",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Setter for mask to be able to chain.\n\n",
+						"params": [
+							{
+								"identifier": "mask",
+								"optional": false,
+								"description": "The mask shape to use",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Graphics | Sprite",
+											"kind": "canonical"
+										},
+										{
+											"value": "Graphics",
+											"kind": "canonical"
+										},
+										{
+											"value": "Sprite",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | %2"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "8i6MepimqMwzTCRbZ7lTo",
+						"name": "ma",
+						"brief": " Shortcut for `setMask`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "LJFM1KEWo6w1-nys4Gcnn",
+						"name": "setAlpha",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Chainable setter for alpha\n\n",
+						"params": [
+							{
+								"identifier": "alpha",
+								"optional": false,
+								"description": "The alpha amount to use, from 0 to 1",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "6x5BGwCPTwdBZPkrBwFBQ",
+						"name": "a",
+						"brief": " Shortcut for `setAlpha`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4XQb9JH6yLe2U3nhQ-Mk_",
+						"name": "setTint",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set the tint values by color.\n\n",
+						"params": [
+							{
+								"identifier": "tint",
+								"optional": false,
+								"description": "The color value to tint",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "27IIv-jeInvX08DQvfRCX",
+						"name": "i",
+						"brief": " Shortcut for `setTint`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "FiCe1fG5PLKKjrC3q4R2A",
+						"name": "setColorTransform",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set additive and multiply color, tinting\n\n",
+						"params": [
+							{
+								"identifier": "r",
+								"optional": false,
+								"description": "The multiply red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "rA",
+								"optional": false,
+								"description": "The additive red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "g",
+								"optional": false,
+								"description": "The multiply green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "gA",
+								"optional": false,
+								"description": "The additive green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "b",
+								"optional": false,
+								"description": "The multiply blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "bA",
+								"optional": false,
+								"description": "The additive blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "DEPJZ7MlLbwfP_viGnHNZ",
+						"name": "c",
+						"brief": " Shortcut for `setColor`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "q8rMzbRUF6EcCoXtWNX3d",
+						"name": "colorTransformFilter",
+						"brief": " The current default color transforming filter",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "LelLUpb_v0XVxkjPGKAak",
+						"name": "constructor",
+						"brief": " Utility subclass of PIXI.Sprite",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": []
+					}
+				]
+			},
+			{
+				"id": "wRDkYZt-gA6d8TNxjF8oI",
+				"name": "isUndefinedOr",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Check if a value is undefined, fallback to default value\n\n",
+				"params": [
+					{
+						"identifier": "value",
+						"optional": false,
+						"description": "The value to check",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "T",
+									"kind": "canonical"
+								},
+								{
+									"value": "T",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "defaultValue",
+						"optional": false,
+						"description": "The default value if value is undefined",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "T",
+									"kind": "canonical"
+								},
+								{
+									"value": "T",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "Either the value or the default value",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "T",
+									"kind": "canonical"
+								},
+								{
+									"value": "T",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "mzHMSnz_AudB92Z6ReJLg",
+				"name": "AnimateText",
+				"brief": "",
+				"type": "ClassDoc",
+				"params": [],
+				"returns": [],
+				"extends": [
+					"Text"
+				],
+				"implements": [],
+				"members": [
+					{
+						"id": "ePYNmhRyI_6H3Iiw8VHcc",
+						"name": "setAlign",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Setter for the alignment, also sets the anchor point\n to make sure the positioning is correct.\n\n",
+						"params": [
+							{
+								"identifier": "align",
+								"optional": false,
+								"description": "Either center (0), right (1), left (-1)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "\"center\" | \"right\" | \"left\" | 0 | 1 | undefined",
+											"kind": "canonical"
+										}
+									],
+									"template": "\"center\" | \"right\" | \"left\" | 0 | 1 | undefined"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "dEKzI6nTGUlESDcWfZ68F",
+						"name": "g",
+						"brief": " Shortcut for `setAlign`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4P72SyH7SIOym9i2H_3pu",
+						"name": "setStyle",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set the style, a chainable version of style setter\n\n",
+						"params": [
+							{
+								"identifier": "style",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "any",
+											"kind": "canonical"
+										}
+									],
+									"template": "any"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "IClMWhNbItK6hkUlC7p0V",
+						"name": "ss",
+						"brief": " Shortcut for `setStyle`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "rkrZQX4I2F2oAuScHuaAI",
+						"name": "setShadow",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Initial setting of the drop shadow.\n\n",
+						"params": [
+							{
+								"identifier": "color",
+								"optional": false,
+								"description": "The color to set",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							},
+							{
+								"identifier": "angle",
+								"optional": false,
+								"description": "The angle of offset, in radians",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "distance",
+								"optional": false,
+								"description": "The offset distance",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "hxXQn9ZUuBpgQIFiu0ukm",
+						"name": "sh",
+						"brief": " Shortcut for `setShadow`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "4wwKE1J-jllGDJ71Ozqg3",
+						"name": "setRenderable",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Function to set if this is renderable or not. Useful for setting masks.\n\n",
+						"params": [
+							{
+								"identifier": "renderable",
+								"optional": true,
+								"description": "Make renderable. Defaults to false.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "boolean",
+											"kind": "canonical"
+										}
+									],
+									"template": "boolean"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "This instance, for chaining.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "tIiyI1iZPTyNojok15QkU",
+						"name": "re",
+						"brief": " Shortcut for `setRenderable`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "sJqvKCeUg-5E7MBRHWzxO",
+						"name": "t",
+						"brief": " Shortcut for `setTransform`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5fGWBwT_L_8h6S8Fw1C_D",
+						"name": "setMask",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Setter for mask to be able to chain.\n\n",
+						"params": [
+							{
+								"identifier": "mask",
+								"optional": false,
+								"description": "The mask shape to use",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Graphics | Sprite",
+											"kind": "canonical"
+										},
+										{
+											"value": "Graphics",
+											"kind": "canonical"
+										},
+										{
+											"value": "Sprite",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | %2"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "omRLshFl01A1CSwr4n2Od",
+						"name": "ma",
+						"brief": " Shortcut for `setMask`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "VTGFOw2-YRkR198Ny_Wx9",
+						"name": "setAlpha",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Chainable setter for alpha\n\n",
+						"params": [
+							{
+								"identifier": "alpha",
+								"optional": false,
+								"description": "The alpha amount to use, from 0 to 1",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Instance for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "0BTA8h7IcMnhHnnNk3Cg6",
+						"name": "a",
+						"brief": " Shortcut for `setAlpha`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "Sy4_ogDtkXViqVXiHjf33",
+						"name": "setTint",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set the tint values by color.\n\n",
+						"params": [
+							{
+								"identifier": "tint",
+								"optional": false,
+								"description": "The color value to tint",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string | number",
+											"kind": "canonical"
+										}
+									],
+									"template": "string | number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5eoJvJ4vCV7kMjV_onpw3",
+						"name": "i",
+						"brief": " Shortcut for `setTint`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "D3Ltghvzoh_dMCRE01rGf",
+						"name": "setColorTransform",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Set additive and multiply color, tinting\n\n",
+						"params": [
+							{
+								"identifier": "r",
+								"optional": false,
+								"description": "The multiply red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "rA",
+								"optional": false,
+								"description": "The additive red value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "g",
+								"optional": false,
+								"description": "The multiply green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "gA",
+								"optional": false,
+								"description": "The additive green value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "b",
+								"optional": false,
+								"description": "The multiply blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "bA",
+								"optional": false,
+								"description": "The additive blue value",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Object for chaining",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "this",
+											"kind": "canonical"
+										},
+										{
+											"value": "this",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "y9S4T3Ne0ahD16RGBGRjI",
+						"name": "c",
+						"brief": " Shortcut for `setColor`.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "HnNiuHLv_vjWxIUp-xmx-",
+						"name": "colorTransformFilter",
+						"brief": " The current default color transforming filter",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "HoSEFqGK87ZpJMAV1SFoO",
+						"name": "constructor",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": []
+					}
+				]
+			},
+			{
+				"id": "L02n6Px3Eyemjo6BKWyI9",
+				"name": "Timeline",
+				"brief": " The Timeline class represents a series of tweens, tied to keyframes.",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "0p5lkfDEj0BoUKBEpEmEl",
+						"name": "target",
+						"brief": " The target DisplayObject.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "nQRszCDw5d-awrcpp6do9",
+						"name": "_currentProps",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Current properties in the tween, to make building the timeline more\n efficient.\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "B_7V-ZBYsIyPuG3xjS8X8",
+						"name": "create",
+						"brief": "",
+						"access": "public",
+						"scope": "static",
+						"type": "MethodDoc",
+						"description": "\n Creates a new Timeline. Must be used instead of a constructor because extending the Array\n class is a pain: https://blog.si...",
+						"params": [
+							{
+								"identifier": "target",
+								"optional": false,
+								"description": "The target for this string of tweens.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "A new Timeline instance.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Timeline",
+											"kind": "canonical"
+										},
+										{
+											"value": "Timeline",
+											"kind": "link"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "SN8k-3h3LWARWqY8xx_Fn",
+						"name": "constructor",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "NPo6BRzPsHRLTrYz8BAb-",
+						"name": "addTween",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to\n remove them from the normal ticking...",
+						"params": [
+							{
+								"identifier": "tween",
+								"optional": false,
+								"description": "The tween(s) to add. Accepts multiple arguments.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"description": "Tween The first tween that was passed in.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "xhxeEjAzhM9THOa0oTL9l",
+						"name": "addKeyframe",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Add a single keyframe that doesn't tween.\n Note that this has some capability to insert keyframes into the middle of a time...",
+						"params": [
+							{
+								"identifier": "properties",
+								"optional": false,
+								"description": "The properties to set.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "Object",
+											"kind": "canonical"
+										}
+									],
+									"template": "Object"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "The starting frame index.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "int",
+											"kind": "canonical"
+										},
+										{
+											"value": "int",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "duration ",
+								"optional": true,
+								"default": " 0",
+								"description": "The number of frames to hold beyond startFrame (0 is single frame)",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "int",
+											"kind": "canonical"
+										},
+										{
+											"value": "int",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "cyi2xmxeC9K13gRt3mLEw",
+						"name": "extendLastFrame",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Extend the last frame of the tween.\n\n",
+						"params": [
+							{
+								"identifier": "endFrame",
+								"optional": false,
+								"description": "The ending frame index.",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "int",
+											"kind": "canonical"
+										},
+										{
+											"value": "int",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "tbJDZYbz5FgM5xvjPYhiK",
+						"name": "getPropFromShorthand",
+						"brief": "",
+						"access": "private",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n Get the value for a property\n\n",
+						"params": [
+							{
+								"identifier": "prop",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "string",
+											"kind": "canonical"
+										}
+									],
+									"template": "string"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps[P]",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										},
+										{
+											"value": "P",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1[%2]"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "933szN4ZlT-G9TVcAkd_P",
+						"name": "destroy",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "K6cLULoaUZ9MkzlM04k1m",
+				"name": "e",
+				"brief": " Eases for any of the tweenable properties, if published as a per-property ease",
+				"type": "PropertyDoc",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "u8PnoWrrc9iqrPIS3fzx-",
+				"name": "tw",
+				"brief": " Not tweenable, but information about a tween that starts on this frame",
+				"type": "PropertyDoc",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "Jdmc-a1BG0EYu2ZBdVqI-",
+				"name": "lerpValue",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "start",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "end",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "t",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "DxnD7MGWBiY0SNluiJQ3r",
+				"name": "lerpRotation",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "start",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "end",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "t",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "tRQwWWKeDTHp3hakNhADH",
+				"name": "lerpSkew",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "start",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "end",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "t",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "DhofKtPpAZalitGnF5JS3",
+				"name": "lerpTint",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "start",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "end",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "t",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "gnTekzx6sa2tZMoyHDsKU",
+				"name": "lerpColor",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "start",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number[]",
+									"kind": "canonical"
+								}
+							],
+							"template": "number[]"
+						}
+					},
+					{
+						"identifier": "end",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number[]",
+									"kind": "canonical"
+								}
+							],
+							"template": "number[]"
+						}
+					},
+					{
+						"identifier": "t",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number[]",
+									"kind": "canonical"
+								}
+							],
+							"template": "number[]"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "oouVrgx-IwsizsMPYD5EY",
+				"name": "setPropFromShorthand",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "target",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "AnimateDisplayObject",
+									"kind": "canonical"
+								},
+								{
+									"value": "AnimateDisplayObject",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "prop",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "keyof",
+									"kind": "canonical"
+								}
+							],
+							"template": "keyof"
+						}
+					},
+					{
+						"identifier": "value",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "any",
+									"kind": "canonical"
+								}
+							],
+							"template": "any"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "void",
+									"kind": "canonical"
+								}
+							],
+							"template": "void"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "g2KO4k79wZZmMKNi6hF4t",
+				"name": "buildPowIn",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "power",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								},
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "wsVL5umgNj65irKjotEH1",
+				"name": "buildPowOut",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "power",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								},
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "IlCcAnLyq8HpIAE8jPQC0",
+				"name": "buildPowInOut",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "power",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								},
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "IlJfSLbJ8abKyVwFmGR5-",
+				"name": "Tween",
+				"brief": " Provides timeline playback of movieclip",
+				"type": "ClassDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": [],
+				"members": [
+					{
+						"id": "FxtkeUbWDDsgxJXMVBMnt",
+						"name": "target",
+						"brief": " Target display object.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "gtcDH3QXREH3j1D1pJUIN",
+						"name": "startProps",
+						"brief": " Properties at the start of the tween",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "_VkP6xgxAV0yztAdQM9Sl",
+						"name": "endProps",
+						"brief": "",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n Properties at the end of the tween, as well as any properties that are set\n instead of tweened\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "5yvdx7kKvC9RtHzrkxy3m",
+						"name": "duration",
+						"brief": " duration of tween in frames. A single-frame keyframe has a duration of 0.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "XGXex9bGB0_tubS4hCmCX",
+						"name": "startFrame",
+						"brief": " The frame that the tween starts on",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "TWr-_v57H_nCa7bEuD4z4",
+						"name": "endFrame",
+						"brief": " the frame that the tween ends on",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "_KbmXjdVGFHorIQ_Vg6fj",
+						"name": "ease",
+						"brief": " easing function to use, if any",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "3R3lV2wmeoOo4R9sKEkhp",
+						"name": "isTweenlessFrame",
+						"brief": " If we don't tween.",
+						"access": "public",
+						"scope": "instance",
+						"type": "PropertyDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "ZJ6weAbCZlH1hhTsid9-g",
+						"name": "constructor",
+						"brief": "",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n",
+						"params": [
+							{
+								"identifier": "target",
+								"optional": false,
+								"description": "The target to play",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										},
+										{
+											"value": "AnimateDisplayObject",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "startProps",
+								"optional": false,
+								"description": "The starting properties",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							},
+							{
+								"identifier": "endProps",
+								"optional": false,
+								"description": "The ending properties",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "TweenProps | null",
+											"kind": "canonical"
+										},
+										{
+											"value": "TweenProps",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1 | null"
+								}
+							},
+							{
+								"identifier": "startFrame",
+								"optional": false,
+								"description": "frame number on which to begin tweening",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "duration",
+								"optional": false,
+								"description": "Number of frames to tween",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							},
+							{
+								"identifier": "ease",
+								"optional": true,
+								"description": "Ease function to use",
+								"dataType": {
+									"tokens": [
+										{
+											"value": "EaseMethod",
+											"kind": "canonical"
+										},
+										{
+											"value": "EaseMethod",
+											"kind": "canonical"
+										}
+									],
+									"template": "%1"
+								}
+							}
+						],
+						"returns": [],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "H6fCKf2YXEN1HSO5JvdCf",
+						"name": "setPosition",
+						"brief": " Set the current frame.",
+						"access": "public",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [
+							{
+								"identifier": "currentFrame",
+								"optional": false,
+								"dataType": {
+									"tokens": [
+										{
+											"value": "number",
+											"kind": "canonical"
+										}
+									],
+									"template": "number"
+								}
+							}
+						],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					},
+					{
+						"id": "lTNS2jbOwDGzqSCbmxpaF",
+						"name": "setToEnd",
+						"brief": " Set to the end position",
+						"scope": "instance",
+						"type": "MethodDoc",
+						"description": "\n\n",
+						"params": [],
+						"returns": [
+							{
+								"dataType": {
+									"tokens": [
+										{
+											"value": "void",
+											"kind": "canonical"
+										}
+									],
+									"template": "void"
+								}
+							}
+						],
+						"extends": [],
+						"implements": []
+					}
+				]
+			},
+			{
+				"id": "FTYAHrZGW3cJ1-qtXqeI9",
+				"name": "getEaseFromConfig",
+				"brief": "",
+				"type": "FunctionDoc",
+				"params": [
+					{
+						"identifier": "config",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "EaseMethod | { n : string, s : number }",
+									"kind": "canonical"
+								},
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1 | { n : string, s : number }"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "EaseMethod | null",
+									"kind": "canonical"
+								},
+								{
+									"value": "EaseMethod",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1 | null"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "7H8y7Th4njbvj8D9_rogB",
+				"name": "fillFrames",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Fill frames with booleans of true (showing) and false (hidden).\n\n",
+				"params": [
+					{
+						"identifier": "timeline",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "boolean[]",
+									"kind": "canonical"
+								}
+							],
+							"template": "boolean[]"
+						}
+					},
+					{
+						"identifier": "startFrame",
+						"optional": false,
+						"description": "The start frame when the timeline shows up",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					},
+					{
+						"identifier": "duration",
+						"optional": false,
+						"description": "The length of showing",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "void",
+									"kind": "canonical"
+								}
+							],
+							"template": "void"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "muYlzy0CDj4wUxlH6Ej-4",
+				"name": "hexToUint",
+				"brief": " Convert the Hexidecimal string (e.g., \"#fff\") to uint",
+				"type": "FunctionDoc",
+				"description": "\n\n",
+				"params": [
+					{
+						"identifier": "hex",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "number",
+									"kind": "canonical"
+								}
+							],
+							"template": "number"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "aQa026M0PfgQlhQP6zlbk",
+				"name": "parseValue",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Parse the value of the compressed keyframe.\n\n",
+				"params": [
+					{
+						"identifier": "prop",
+						"optional": false,
+						"description": "The property key",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					},
+					{
+						"identifier": "buffer",
+						"optional": false,
+						"description": "The contents",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "The parsed value",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string | number | boolean | (string | number)[]",
+									"kind": "canonical"
+								}
+							],
+							"template": "string | number | boolean | (string | number)[]"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "ohDMdmkmgCSAZEu6iL0D3",
+				"name": "basicEase",
+				"brief": " Regex to test for a basic ease desccriptor",
+				"defaultValue": "undefined",
+				"readonly": true,
+				"type": "PropertyDoc",
+				"description": "\n\n",
+				"params": [],
+				"returns": [],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "pbVhBn8Wb89BnPc3Fs82i",
+				"name": "parseTween",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Convert serialized tween from a serialized keyframe into TweenData\n `\"D20E25EaseIn;PX3Y5A1.2\"` to: `{ d: 20, e: { s: 25, n:...",
+				"params": [
+					{
+						"identifier": "tweenBuffer",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "Resulting TweenData",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "TweenData",
+									"kind": "canonical"
+								},
+								{
+									"value": "TweenData",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "9eB9ajE0_9sl5fT8lfbSx",
+				"name": "deserializeKeyframes",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Convert serialized array into keyframes\n `\"0x100y100 1x150\"` to: `{ \"0\": {\"x\":100, \"y\": 100}, \"1\": {\"x\": 150} }`\n\n",
+				"params": [
+					{
+						"identifier": "keyframes",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					}
+				],
+				"returns": [
+					{
+						"description": "Resulting keyframes",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "{ [s: number]: KeyframeData }",
+									"kind": "canonical"
+								},
+								{
+									"value": "KeyframeData",
+									"kind": "canonical"
+								}
+							],
+							"template": "{ [s: number]: %1 }"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "oye12S2iZicCMLaGTtPsP",
+				"name": "deserializeShapes",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Convert serialized shapes into draw commands for PIXI.Graphics.\n\n",
+				"params": [
+					{
+						"identifier": "str",
+						"optional": false,
+						"dataType": {
+							"tokens": [
+								{
+									"value": "string",
+									"kind": "canonical"
+								}
+							],
+							"template": "string"
+						}
+					},
+					{
+						"identifier": "Resulting",
+						"description": "shapes map"
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "DrawCommands[]",
+									"kind": "canonical"
+								},
+								{
+									"value": "DrawCommands",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1[]"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "lgrr4-XSBlE98SIp-XyTC",
+				"name": "addMovieClips",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Add movie clips to the upload prepare.\n\n",
+				"params": [
+					{
+						"identifier": "item",
+						"optional": false,
+						"description": "To add to the queue",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "unknown",
+									"kind": "canonical"
+								}
+							],
+							"template": "unknown"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "boolean",
+									"kind": "canonical"
+								}
+							],
+							"template": "boolean"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			},
+			{
+				"id": "v8InG25TrIPClxlK_W4-3",
+				"name": "upload",
+				"brief": "",
+				"type": "FunctionDoc",
+				"description": "\n Upload all the textures and graphics to the GPU.\n\n",
+				"params": [
+					{
+						"identifier": "renderer",
+						"optional": false,
+						"description": "Render to upload to",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "Renderer",
+									"kind": "canonical"
+								},
+								{
+									"value": "Renderer",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "clip",
+						"optional": false,
+						"description": "MovieClip to upload",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "DisplayObject",
+									"kind": "canonical"
+								},
+								{
+									"value": "DisplayObject",
+									"kind": "canonical"
+								}
+							],
+							"template": "%1"
+						}
+					},
+					{
+						"identifier": "done",
+						"optional": false,
+						"description": "When complete",
+						"dataType": {
+							"tokens": [
+								{
+									"value": "() => void",
+									"kind": "canonical"
+								}
+							],
+							"template": "() => void"
+						}
+					}
+				],
+				"returns": [
+					{
+						"dataType": {
+							"tokens": [
+								{
+									"value": "void",
+									"kind": "canonical"
+								}
+							],
+							"template": "void"
+						}
+					}
+				],
+				"extends": [],
+				"implements": []
+			}
+		]
+	},
+	"registry": {}
+}

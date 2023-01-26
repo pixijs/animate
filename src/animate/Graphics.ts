@@ -3,7 +3,7 @@ import { Graphics, GraphicsGeometry, ILineStyleOptions } from '@pixi/graphics';
 import { Sprite } from '@pixi/sprite';
 import { utils } from './utils';
 
-export type DrawCommands = (string|number)[];
+export type DrawCommands = (string | number)[];
 
 export class AnimateGraphics extends Graphics
 {
@@ -266,7 +266,7 @@ export class AnimateGraphics extends Graphics
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask: Graphics|Sprite): this
+    public setMask(mask: Graphics | Sprite): this
     {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
@@ -313,7 +313,7 @@ export class AnimateGraphics extends Graphics
      * @param tint The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint: string|number): this
+    public setTint(tint: string | number): this
     {
         if (typeof tint === 'string')
         {

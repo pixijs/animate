@@ -1,11 +1,10 @@
 import { load } from './load';
 import { sound } from './sound';
-import { MovieClip } from './MovieClip';
+import type { MovieClip } from './MovieClip';
 import { Application } from '@pixi/app';
-import { EventEmitter } from '@pixi/utils';
-import { Loader } from '@pixi/loaders';
-import { IDestroyOptions } from '@pixi/display';
-import { AnimateAsset } from '../AnimateAsset';
+import type { EventEmitter } from '@pixi/utils';
+import type { IDestroyOptions } from '@pixi/display';
+import type { AnimateAsset } from '../AnimateAsset';
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
@@ -34,7 +33,7 @@ export class Scene extends Application
      * @param basePath Optional base directory to prepend to assets.
      * @return instance of PIXI resource loader
      */
-    public load(asset: AnimateAsset, complete?: (instance?: MovieClip) => void, basePath?: string): Loader
+    public load(asset: AnimateAsset, complete?: (instance?: MovieClip) => void, basePath?: string): void
     {
         return load(asset, {
             parent: this.stage,

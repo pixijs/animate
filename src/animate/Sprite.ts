@@ -38,7 +38,7 @@ export class AnimateSprite extends Sprite
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask: Graphics|Sprite): this
+    public setMask(mask: Graphics | Sprite): this
     {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
@@ -85,7 +85,7 @@ export class AnimateSprite extends Sprite
      * @param tint The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint: string|number): this
+    public setTint(tint: string | number): this
     {
         if (typeof tint === 'string')
         {

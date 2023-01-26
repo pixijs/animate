@@ -1,5 +1,5 @@
 import { AnimatorTimeline } from './AnimatorTimeline';
-import { MovieClip } from './MovieClip';
+import type { MovieClip } from './MovieClip';
 
 // Static collection of timelines
 const timelines: AnimatorTimeline[] = [];
@@ -36,8 +36,8 @@ export class Animator
 
     /**
      * Play the entire duration of the MovieClip.
-     * @param instance Movie clip to play.
-     * @param callback Optional callback when complete
+     * @param instance - Movie clip to play.
+     * @param callback - Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
     static play(instance: MovieClip, callback?: () => void): AnimatorTimeline;
@@ -52,7 +52,7 @@ export class Animator
      * @return Timeline object for stopping or getting progress.
      */
     static play(instance: MovieClip, label: string, callback?: () => void): AnimatorTimeline;
-    static play(instance: MovieClip, label?: string|(() => void), callback?: () => void): AnimatorTimeline
+    static play(instance: MovieClip, label?: string | (() => void), callback?: () => void): AnimatorTimeline
     {
         let loop = false;
         let start;
@@ -103,7 +103,7 @@ export class Animator
      * @param callback Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
-    static to(instance: MovieClip, end: string|number, callback?: () => void): AnimatorTimeline
+    static to(instance: MovieClip, end: string | number, callback?: () => void): AnimatorTimeline
     {
         return this.fromTo(
             instance,
@@ -124,8 +124,8 @@ export class Animator
      * @return Timeline object for stopping or getting progress.
      */
     static fromTo(instance: MovieClip,
-        start: number|string,
-        end: number|string,
+        start: number | string,
+        end: number | string,
         loop?: boolean,
         callback?: () => void): AnimatorTimeline
     {

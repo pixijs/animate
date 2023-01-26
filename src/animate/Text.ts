@@ -5,7 +5,8 @@ import { Sprite } from '@pixi/sprite';
 import { utils } from './utils';
 
 // Possible align values
-enum ALIGN_VALUES {
+enum ALIGN_VALUES
+    {
     center = 0,
     right = 1,
     left = -1
@@ -59,7 +60,7 @@ export class AnimateText extends Text
      * @param align Either center (0), right (1), left (-1)
      * @return This instance for chaining
      */
-    public setAlign(align: 'center'|'right'|'left'|0|1|-1): this
+    public setAlign(align: 'center' | 'right' | 'left' | 0 | 1 | -1): this
     {
         if (typeof align === 'string')
         {
@@ -108,7 +109,7 @@ export class AnimateText extends Text
      * @param distance The offset distance
      * @return This instance for chaining
      */
-    public setShadow(color: string|number, angle: number, distance: number): this
+    public setShadow(color: string | number, angle: number, distance: number): this
     {
         const style = this.style;
 
@@ -160,7 +161,7 @@ export class AnimateText extends Text
      * @param mask The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask: Graphics|Sprite): this
+    public setMask(mask: Graphics | Sprite): this
     {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
@@ -207,7 +208,7 @@ export class AnimateText extends Text
      * @param tint The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint: string|number): this
+    public setTint(tint: string | number): this
     {
         if (typeof tint === 'string')
         {
