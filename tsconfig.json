@@ -2,7 +2,8 @@
 	"extends": "@pixi/extension-scripts/lib/configs/tsconfig.json",
 	"compilerOptions": {
 		"strictNullChecks": false,
-		"importsNotUsedAsValues": "error"
+		"importsNotUsedAsValues": "error",
+		"noImplicitAny": false,
 	},
 	"include": [
 		"src/**/*.ts"

@@ -1,9 +1,9 @@
 import * as animate from '../../src/index';
 
-describe('load', () =>
+describe('Timeline', () =>
 {
     it('should exist', () =>
     {
-        expect(animate.load).toBeTruthy();
+        expect(animate.Timeline).toBeTruthy();
     });
 });

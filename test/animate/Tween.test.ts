@@ -1,9 +1,9 @@
 import * as animate from '../../src/index';
 
-describe('load', () =>
+describe('Tween', () =>
 {
     it('should exist', () =>
     {
-        expect(animate.load).toBeTruthy();
+        expect(animate.Tween).toBeTruthy();
     });
 });
