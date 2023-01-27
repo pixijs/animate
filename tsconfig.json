@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"strictNullChecks": false,
 		"importsNotUsedAsValues": "error",
-		"noImplicitAny": false,
+		"noImplicitAny": false, // I have to correct very arcane tests to make this work
 	},
 	"include": [
 		"src/**/*.ts"
