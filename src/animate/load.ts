@@ -49,8 +49,8 @@ const EXPECTED_ASSET_VERSION = 2;
  * }
  * update();
  * ```
- * @param scene Reference to the scene data.
- * @param complete The callback function when complete.
+ * @param scene - Reference to the scene data.
+ * @param complete - The callback function when complete.
  * @return instance of PIXI resource loader
  */
 export function load(scene: AnimateAsset, complete?: Complete): void;
@@ -86,8 +86,8 @@ export function load(scene: AnimateAsset, complete?: Complete): void;
  * }
  * update();
  * ```
- * @param scene Reference to the scene data.
- * @param options Options for loading.
+ * @param scene - Reference to the scene data.
+ * @param options - Options for loading.
  * @return instance of PIXI resource loader
  */
 export function load(scene: AnimateAsset, options: LoadOptions): void;

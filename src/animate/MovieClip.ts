@@ -215,16 +215,15 @@ export class MovieClip extends AnimateContainer
     private parentStartPosition: number;
 
     /**
-     * @param options The options object
+     * @param options - The options object
      */
     constructor(options?: MovieClipOptions);
     /**
-     * @param mode The playback mode default is independent (0),
-     * @param startPosition The starting frame
-     * @param loop If playback is looped
-     * @param labels The frame labels map of label to frames
-     * @param duration The duration, if no duration is provided, auto determines length
-     * @param framerate The framerate to use for independent mode
+     * @param mode - The playback mode default is independent (0),
+     * @param duration - The duration, if no duration is provided, auto determines length
+     * @param loop - If playback is looped
+     * @param framerate - The framerate to use for independent mode
+     * @param labels - The frame labels map of label to frames
      */
     constructor(mode?: number, duration?: number, loop?: boolean, framerate?: number, labels?: LabelMap);
     constructor(
@@ -532,11 +531,11 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a tween to the clip
-     * @param instance The clip to tween
-     * @param properties The property or property to tween
-     * @param startFrame The frame to start tweening
-     * @param duration Number of frames to tween. If 0, then the properties are set with no tweening.
-     * @param ease An optional easing function that takes the tween time from 0-1.
+     * @param instance - The clip to tween
+     * @param properties - The property or property to tween
+     * @param startFrame - The frame to start tweening
+     * @param duration - Number of frames to tween. If 0, then the properties are set with no tweening.
+     * @param ease - An optional easing function that takes the tween time from 0-1.
      */
     public addTween(instance: AnimateDisplayObject,
         properties: TweenProps,
@@ -555,9 +554,9 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a tween to the clip
-     * @param instance The clip to tween
-     * @param properties The property or property to tween
-     * @param startFrame The frame to start tweening
+     * @param instance - The clip to tween
+     * @param properties - The property or property to tween
+     * @param startFrame - The frame to start tweening
      */
     public addKeyframe(instance: AnimateDisplayObject, properties: KeyframeData, startFrame: number): this
     {
@@ -587,10 +586,10 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a child to show for a certain number of frames before automatic removal.
-     * @param instance The clip to show
-     * @param startFrame The starting frame
-     * @param duration The number of frames to display the child before removing it.
-     * @param keyframes The collection of static keyframes to add
+     * @param instance - The clip to show
+     * @param startFrame - The starting frame
+     * @param duration - The number of frames to display the child before removing it.
+     * @param keyframes - The collection of static keyframes to add
      */
     public addTimedChild(instance: AnimateDisplayObject,
         startFrame: number,
@@ -702,8 +701,8 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Handle frame actions, callback is bound to the instance of the MovieClip.
-     * @param callback The clip call on a certain frame
-     * @param startFrame The starting frame index or label
+     * @param callback - The clip call on a certain frame
+     * @param startFrame - The starting frame index or label
      */
     public addAction(callback: FrameAction, startFrame: number | string): this
     {
@@ -749,9 +748,8 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Handle sounds.
-     * @method PIXI.animate.MovieClip#playSound
-     * @param {String} alias The name of the Sound
-     * @param {Boolean} [loop=false] The loop property of the sound
+     * @param alias - The name of the Sound
+     * @param loop - The loop property of the sound
      */
     public playSound(alias: string, loop?: boolean): this
     {
@@ -778,7 +776,7 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to false.
-     * @param positionOrLabel The animation name or frame number to go to.
+     * @param positionOrLabel - The animation name or frame number to go to.
      */
     public gotoAndPlay(positionOrLabel: string | number): void
     {
@@ -788,7 +786,7 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to true.
-     * @param positionOrLabel The animation or frame name to go to.
+     * @param positionOrLabel - The animation or frame name to go to.
      */
     public gotoAndStop(positionOrLabel: string | number): void
     {
@@ -819,7 +817,7 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances the playhead. This occurs automatically each tick by default.
-     * @param time The amount of time in seconds to advance by. Only applicable if framerate is set.
+     * @param time - The amount of time in seconds to advance by. Only applicable if framerate is set.
      */
     public advance(time?: number): void
     {
@@ -862,7 +860,7 @@ export class MovieClip extends AnimateContainer
     }
 
     /**
-     * @param positionOrLabel The animation name or frame number to go to.
+     * @param positionOrLabel - The animation name or frame number to go to.
      */
     protected _goto(positionOrLabel: string | number): void
     {

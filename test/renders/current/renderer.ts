@@ -65,8 +65,8 @@ export class Renderer
     /**
      * Run the solution renderer
      * @method run
-     * @param {String} file Fully resolved path
-     * @param {Function} callback Takes error and result as arguments
+     * @param file -  Fully resolved path
+     * @param callback -  Takes error and result as arguments
      */
     async run(file, callback)
     {
@@ -120,11 +120,9 @@ export class Renderer
     /**
      * Compare a file with a solution.
      * @method compare
-     * @param {String} file The file to load.
-     * @param {Object} solution
-     * @param {Array<String>} solution.webgl
-     * @param {Array<String>} solution.canvas
-     * @param {Function} callback Complete callback, takes err as an error and success boolean as args.
+     * @param file -  The file to load.
+     * @param solution -
+     * @param callback -  Complete callback, takes err as an error and success boolean as args.
      */
     compare(file, solution, callback)
     {
@@ -152,8 +150,8 @@ export class Renderer
      * Compare two arrays of frames
      * @method compareFrames
      * @private
-     * @param {Array} a
-     * @param {Array} b
+     * @param a -
+     * @param b -
      * @return {Boolean} If we're equal
      */
     async compareFrames(a, b, tolerance)

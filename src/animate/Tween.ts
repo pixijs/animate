@@ -398,12 +398,12 @@ export class Tween
     public isTweenlessFrame: boolean;
 
     /**
-     * @param target The target to play
-     * @param startProps The starting properties
-     * @param endProps The ending properties
-     * @param startFrame frame number on which to begin tweening
-     * @param duration Number of frames to tween
-     * @param ease Ease function to use
+     * @param target - The target to play
+     * @param startProps - The starting properties
+     * @param endProps - The ending properties
+     * @param startFrame - frame number on which to begin tweening
+     * @param duration - Number of frames to tween
+     * @param ease - Ease function to use
      */
     constructor(target: AnimateDisplayObject,
         startProps: TweenProps,

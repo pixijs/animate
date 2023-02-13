@@ -7,7 +7,8 @@ export {
     AnimateText as Text,
 } from './animate';
 
-export const VERSION = '__VERSION__';
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+export const VERSION: string = '__VERSION__';
 
 export * from './AnimateAsset';
 

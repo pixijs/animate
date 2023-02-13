@@ -87,7 +87,6 @@ export class AnimatorTimeline
 
     /**
      * Is the animation complete
-     * @method PIXI.animate.AnimatorTimeline#update
      * @param instance
      * @return Callback to do after updateTimeline
      * @private

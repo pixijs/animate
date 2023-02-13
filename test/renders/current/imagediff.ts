@@ -25,8 +25,8 @@ export class ImageDiff
     /**
      * Compare two base64 images
      * @method compare
-     * @param {string} src1
-     * @param {string} src2
+     * @param src1 -
+     * @param src2 -
      * @return {Boolean}
      */
     async compare(src1, src2, tolerance)
@@ -48,7 +48,7 @@ export class ImageDiff
     /**
      * Get an array of pixels
      * @method getImageData
-     * @param {string} src
+     * @param src -
      * @return {Uint8ClampedArray}
      */
     async getImageData(src)

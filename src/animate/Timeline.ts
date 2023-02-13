@@ -19,7 +19,7 @@ export class Timeline extends Array<Tween>
     /**
      * Creates a new Timeline. Must be used instead of a constructor because extending the Array
      * class is a pain: https://blog.simontest.net/extend-array-with-typescript-965cc1134b3
-     * @param target The target for this string of tweens.
+     * @param target - The target for this string of tweens.
      * @returns A new Timeline instance.
      */
     public static create(target: AnimateDisplayObject): Timeline
@@ -42,8 +42,7 @@ export class Timeline extends Array<Tween>
      * Adds one or more tweens (or timelines) to this timeline. The tweens will be paused (to
      * remove them from the normal ticking system and managed by this timeline. Adding a tween to
      * multiple timelines will result in unexpected behaviour.
-     * @method PIXI.animate.Timeline#addTween
-     * @param tween The tween(s) to add. Accepts multiple arguments.
+     * @param tween - The tween(s) to add. Accepts multiple arguments.
      * @return Tween The first tween that was passed in.
      */
     public addTween(properties: TweenProps, startFrame: number, duration: number, ease?: EaseMethod): void
@@ -94,10 +93,9 @@ export class Timeline extends Array<Tween>
      * Add a single keyframe that doesn't tween.
      * Note that this has some capability to insert keyframes into the middle of a timeline, in order to
      * handle how masks are published, it should only be relied upon to add keyframes to the end of a timeline.
-     * @method PIXI.animate.Timeline#addKeyframe
-     * @param {Object} properties The properties to set.
-     * @param {int} startFrame The starting frame index.
-     * @param {int} [duration = 0] The number of frames to hold beyond startFrame (0 is single frame)
+     * @param properties - The properties to set.
+     * @param startFrame - The starting frame index.
+     * @param duration - The number of frames to hold beyond startFrame (0 is single frame)
      */
     public addKeyframe(properties: TweenProps, startFrame: number, duration = 0): void
     {
@@ -181,8 +179,7 @@ export class Timeline extends Array<Tween>
 
     /**
      * Extend the last frame of the tween.
-     * @method PIXI.animate.Timeline#extendLastFrame
-     * @param {int} endFrame The ending frame index.
+     * @param endFrame - The ending frame index.
      */
     public extendLastFrame(endFrame: number): void
     {
@@ -211,8 +208,7 @@ export class Timeline extends Array<Tween>
 
     /**
      * Get the value for a property
-     * @method PIXI.animate.Timeline#getPropFromShorthand
-     * @param {string} prop
+     * @param prop
      */
     private getPropFromShorthand<P extends keyof TweenProps>(prop: P): TweenProps[P]
     {

@@ -28,9 +28,9 @@ export class Scene extends Application
 
     /**
      * Load a stage scene and add it to the stage.
-     * @param asset Reference to the scene to load.
-     * @param complete Callback when finished loading.
-     * @param basePath Optional base directory to prepend to assets.
+     * @param asset - Reference to the scene to load.
+     * @param complete - Callback when finished loading.
+     * @param basePath - Optional base directory to prepend to assets.
      * @return instance of PIXI resource loader
      */
     public load(asset: AnimateAsset, complete?: (instance?: MovieClip) => void, basePath?: string): void
@@ -52,8 +52,8 @@ export class Scene extends Application
 
     /**
      * Destroy and don't use after calling.
-     * @param removeView Automatically remove canvas from DOM.
-     * @param stageOptions Options parameter. A boolean will act as if all options
+     * @param removeView - Automatically remove canvas from DOM.
+     * @param stageOptions - Options parameter. A boolean will act as if all options
      *  have been set to that value
      */
     destroy(removeView?: boolean, stageOptions?: IDestroyOptions | boolean): void

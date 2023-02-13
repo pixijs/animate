@@ -32,9 +32,9 @@ export namespace utils
 
     /**
      * Fill frames with booleans of true (showing) and false (hidden).
-     * @param timeline
-     * @param startFrame The start frame when the timeline shows up
-     * @param duration The length of showing
+     * @param timeline -
+     * @param startFrame - The start frame when the timeline shows up
+     * @param duration - The length of showing
      */
     export function fillFrames(timeline: boolean[], startFrame: number, duration: number): void
     {
@@ -95,8 +95,8 @@ export namespace utils
 
     /**
      * Parse the value of the compressed keyframe.
-     * @param prop The property key
-     * @param buffer The contents
+     * @param prop - The property key
+     * @param buffer - The contents
      * @return The parsed value
      */
     function parseValue(prop: string, buffer: string): string | number | boolean | (string | number)[]
@@ -148,7 +148,7 @@ export namespace utils
     /**
      * Convert serialized tween from a serialized keyframe into TweenData
      * `"D20E25EaseIn;PX3Y5A1.2"` to: `{ d: 20, e: { s: 25, n: "EaseIn" }, p: { x:3, y: 5, sx: 1.2 } }`
-     * @param tweenBuffer
+     * @param tweenBuffer -
      * @return Resulting TweenData
      */
     function parseTween(tweenBuffer: string): TweenData
@@ -272,7 +272,7 @@ export namespace utils
     /**
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
-     * @param keyframes
+     * @param keyframes -
      * @return Resulting keyframes
      */
     export function deserializeKeyframes(keyframes: string): {[s: number]: KeyframeData}
@@ -363,8 +363,7 @@ export namespace utils
 
     /**
      * Convert serialized shapes into draw commands for PIXI.Graphics.
-     * @param str
-     * @param Resulting shapes map
+     * @param str -
      */
     export function deserializeShapes(str: string): DrawCommands[]
     {
@@ -395,7 +394,7 @@ export namespace utils
 
     /**
      * Add movie clips to the upload prepare.
-     * @param {*} item To add to the queue
+     * @param item - item To add to the queue
      */
     export function addMovieClips(item: any): boolean
     {
@@ -422,9 +421,9 @@ export namespace utils
 
     /**
      * Upload all the textures and graphics to the GPU.
-     * @param renderer Render to upload to
-     * @param clip MovieClip to upload
-     * @param done When complete
+     * @param renderer - Render to upload to
+     * @param clip - MovieClip to upload
+     * @param done - When complete
      */
     export function upload(renderer: Renderer, displayObject: DisplayObject, done: () => void): void
     {
