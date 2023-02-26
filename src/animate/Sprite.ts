@@ -14,7 +14,7 @@ export class AnimateSprite extends Sprite
 
     /**
      * Function to set if this is renderable or not. Useful for setting masks.
-     * @param renderable Make renderable. Defaults to false.
+     * @param renderable - Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
     public setRenderable(renderable?: boolean): this
@@ -35,10 +35,10 @@ export class AnimateSprite extends Sprite
 
     /**
      * Setter for mask to be able to chain.
-     * @param mask The mask shape to use
+     * @param mask - The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask: Graphics|Sprite): this
+    public setMask(mask: Graphics | Sprite): this
     {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
@@ -66,7 +66,7 @@ export class AnimateSprite extends Sprite
 
     /**
      * Chainable setter for alpha
-     * @param alpha The alpha amount to use, from 0 to 1
+     * @param alpha - The alpha amount to use, from 0 to 1
      * @return Instance for chaining
      */
     public setAlpha(alpha: number): this
@@ -82,10 +82,10 @@ export class AnimateSprite extends Sprite
 
     /**
      * Set the tint values by color.
-     * @param tint The color value to tint
+     * @param tint - The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint: string|number): this
+    public setTint(tint: string | number): this
     {
         if (typeof tint === 'string')
         {
@@ -102,12 +102,12 @@ export class AnimateSprite extends Sprite
 
     /**
      * Set additive and multiply color, tinting
-     * @param r The multiply red value
-     * @param rA The additive red value
-     * @param g The multiply green value
-     * @param gA The additive green value
-     * @param b The multiply blue value
-     * @param bA The additive blue value
+     * @param r - The multiply red value
+     * @param rA - The additive red value
+     * @param g - The multiply green value
+     * @param gA - The additive green value
+     * @param b - The multiply blue value
+     * @param bA - The additive blue value
      * @return Object for chaining
      */
     public setColorTransform(r: number, rA: number, g: number, gA: number, b: number, bA: number): this

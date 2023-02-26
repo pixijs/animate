@@ -3,12 +3,12 @@ import { TweenProps, EaseMethod, getEaseFromConfig, KeyframeData } from './Tween
 import { utils } from './utils';
 import { sound } from './sound';
 import { AnimateContainer } from './Container';
-import { AnimateDisplayObject } from './DisplayObject';
+import type { AnimateDisplayObject } from './DisplayObject';
 import { Ticker } from '@pixi/ticker';
 import { settings } from '@pixi/settings';
-import { Graphics } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
-import { IDestroyOptions } from '@pixi/display';
+import type { Graphics } from '@pixi/graphics';
+import type { Sprite } from '@pixi/sprite';
+import type { IDestroyOptions } from '@pixi/display';
 const SharedTicker = Ticker.shared;
 
 export interface MovieClipOptions
@@ -80,6 +80,12 @@ export class MovieClip extends AnimateContainer
      * The default framerate if none is specified or there's not parent clip with a framerate.
      */
     public static readonly DEFAULT_FRAMERATE = 24;
+
+    /**
+     * Fast way of checking if a movie clip is actually a movie clip.
+     * Prevents circular references and is faster than instanceof.
+     */
+    public isMovieClip = true;
 
     /**
      * Controls how this MovieClip advances its time. Must be one of 0 (INDEPENDENT), 1 (SINGLE_FRAME), or 2 (SYNCHED).
@@ -201,7 +207,7 @@ export class MovieClip extends AnimateContainer
      * Can be used to clamp or update the currentFrame.
      * @private
      */
-    public _beforeUpdate: (target: MovieClip) => (() => void|null);
+    public _beforeUpdate: (target: MovieClip) => (() => void | null);
 
     /**
      * Internal property used to control child MovieClips relative to parents.
@@ -209,19 +215,24 @@ export class MovieClip extends AnimateContainer
     private parentStartPosition: number;
 
     /**
-     * @param options The options object
+     * @param options - The options object
      */
     constructor(options?: MovieClipOptions);
     /**
-     * @param mode The playback mode default is independent (0),
-     * @param startPosition The starting frame
-     * @param loop If playback is looped
-     * @param labels The frame labels map of label to frames
-     * @param duration The duration, if no duration is provided, auto determines length
-     * @param framerate The framerate to use for independent mode
+     * @param mode - The playback mode default is independent (0),
+     * @param duration - The duration, if no duration is provided, auto determines length
+     * @param loop - If playback is looped
+     * @param framerate - The framerate to use for independent mode
+     * @param labels - The frame labels map of label to frames
      */
     constructor(mode?: number, duration?: number, loop?: boolean, framerate?: number, labels?: LabelMap);
-    constructor(options?: MovieClipOptions|number, duration?: number, loop?: boolean, framerate?: number, labels?: LabelMap)
+    constructor(
+        options?: MovieClipOptions | number,
+        duration?: number,
+        loop?: boolean,
+        framerate?: number,
+        labels?: LabelMap
+    )
     {
         super();
 
@@ -365,7 +376,7 @@ export class MovieClip extends AnimateContainer
     /**
      * Returns the name of the label on or immediately before the current frame.
      */
-    public get currentLabel(): string|null
+    public get currentLabel(): string | null
     {
         const labels = this._labels;
         let current: string = null;
@@ -458,7 +469,7 @@ export class MovieClip extends AnimateContainer
     /**
      * Convert values of properties
      */
-    private _parseProperties(properties: TweenProps & {t?: string|number; v?: number|boolean}): void
+    private _parseProperties(properties: TweenProps & {t?: string | number; v?: number | boolean}): void
     {
         // Convert any string colors to uints
         if (typeof properties.t === 'string')
@@ -493,7 +504,7 @@ export class MovieClip extends AnimateContainer
     /**
      * Add mask or masks
      */
-    public addTimedMask(instance: AnimateDisplayObject, keyframes: {[frame: number]: Graphics|Sprite}): this
+    public addTimedMask(instance: AnimateDisplayObject, keyframes: {[frame: number]: Graphics | Sprite}): this
     {
         for (const i in keyframes)
         {
@@ -520,11 +531,11 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a tween to the clip
-     * @param instance The clip to tween
-     * @param properties The property or property to tween
-     * @param startFrame The frame to start tweening
-     * @param duration Number of frames to tween. If 0, then the properties are set with no tweening.
-     * @param ease An optional easing function that takes the tween time from 0-1.
+     * @param instance - The clip to tween
+     * @param properties - The property or property to tween
+     * @param startFrame - The frame to start tweening
+     * @param duration - Number of frames to tween. If 0, then the properties are set with no tweening.
+     * @param ease - An optional easing function that takes the tween time from 0-1.
      */
     public addTween(instance: AnimateDisplayObject,
         properties: TweenProps,
@@ -543,9 +554,9 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a tween to the clip
-     * @param instance The clip to tween
-     * @param properties The property or property to tween
-     * @param startFrame The frame to start tweening
+     * @param instance - The clip to tween
+     * @param properties - The property or property to tween
+     * @param startFrame - The frame to start tweening
      */
     public addKeyframe(instance: AnimateDisplayObject, properties: KeyframeData, startFrame: number): this
     {
@@ -575,15 +586,15 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Add a child to show for a certain number of frames before automatic removal.
-     * @param instance The clip to show
-     * @param startFrame The starting frame
-     * @param duration The number of frames to display the child before removing it.
-     * @param keyframes The collection of static keyframes to add
+     * @param instance - The clip to show
+     * @param startFrame - The starting frame
+     * @param duration - The number of frames to display the child before removing it.
+     * @param keyframes - The collection of static keyframes to add
      */
     public addTimedChild(instance: AnimateDisplayObject,
         startFrame: number,
         duration?: number,
-        keyframes?: string|{[frame: number]: KeyframeData}): this
+        keyframes?: string | {[frame: number]: KeyframeData}): this
     {
         if (startFrame === undefined) // jshint ignore:line
         {
@@ -690,10 +701,10 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Handle frame actions, callback is bound to the instance of the MovieClip.
-     * @param callback The clip call on a certain frame
-     * @param startFrame The starting frame index or label
+     * @param callback - The clip call on a certain frame
+     * @param startFrame - The starting frame index or label
      */
-    public addAction(callback: FrameAction, startFrame: number|string): this
+    public addAction(callback: FrameAction, startFrame: number | string): this
     {
         if (typeof startFrame === 'string')
         {
@@ -737,9 +748,8 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Handle sounds.
-     * @method PIXI.animate.MovieClip#playSound
-     * @param {String} alias The name of the Sound
-     * @param {Boolean} [loop=false] The loop property of the sound
+     * @param alias - The name of the Sound
+     * @param loop - The loop property of the sound
      */
     public playSound(alias: string, loop?: boolean): this
     {
@@ -766,9 +776,9 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to false.
-     * @param positionOrLabel The animation name or frame number to go to.
+     * @param positionOrLabel - The animation name or frame number to go to.
      */
-    public gotoAndPlay(positionOrLabel: string|number): void
+    public gotoAndPlay(positionOrLabel: string | number): void
     {
         this.paused = false;
         this._goto(positionOrLabel);
@@ -776,9 +786,9 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances this movie clip to the specified position or label and sets paused to true.
-     * @param positionOrLabel The animation or frame name to go to.
+     * @param positionOrLabel - The animation or frame name to go to.
      */
-    public gotoAndStop(positionOrLabel: string|number): void
+    public gotoAndStop(positionOrLabel: string | number): void
     {
         this.paused = true;
         this._goto(positionOrLabel);
@@ -793,6 +803,7 @@ export class MovieClip extends AnimateContainer
         let o: MovieClip = this;
         let fps = o._framerate;
 
+        // eslint-disable-next-line no-unmodified-loop-condition
         while ((o = o.parent as MovieClip) && !fps)
         {
             if (o.mode === MovieClip.INDEPENDENT)
@@ -806,7 +817,7 @@ export class MovieClip extends AnimateContainer
 
     /**
      * Advances the playhead. This occurs automatically each tick by default.
-     * @param time The amount of time in seconds to advance by. Only applicable if framerate is set.
+     * @param time - The amount of time in seconds to advance by. Only applicable if framerate is set.
      */
     public advance(time?: number): void
     {
@@ -849,9 +860,9 @@ export class MovieClip extends AnimateContainer
     }
 
     /**
-     * @param positionOrLabel The animation name or frame number to go to.
+     * @param positionOrLabel - The animation name or frame number to go to.
      */
-    protected _goto(positionOrLabel: string|number): void
+    protected _goto(positionOrLabel: string | number): void
     {
         const pos = typeof positionOrLabel === 'string' ? this._labelDict[positionOrLabel] : positionOrLabel;
 
@@ -1088,7 +1099,7 @@ export class MovieClip extends AnimateContainer
         }
     }
 
-    destroy(options?: IDestroyOptions|boolean): void
+    destroy(options?: IDestroyOptions | boolean): void
     {
         if (this._tickListener)
         {

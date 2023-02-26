@@ -1,6 +1,6 @@
-import { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprite, DrawCommands } from './animate';
-import { Texture } from '@pixi/core';
-import { Spritesheet } from '@pixi/spritesheet';
+import type { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprite, DrawCommands } from './animate';
+import type { Texture } from '@pixi/core';
+import type { Spritesheet } from '@pixi/spritesheet';
 
 interface PixiAnimate
 {
@@ -53,7 +53,7 @@ export interface AnimateAsset
      * Dictionary of display object constructors used within this scene. This is an empty object
      * before setup() is run, but can be overwritten with a shared library dictionary (before setup() is run).
      */
-    lib: { [id: string]: (new () => (MovieClip|AnimateContainer))};
+    lib: { [id: string]: (new () => (MovieClip | AnimateContainer))};
     /**
      * Dictionary of loaded shape instructions for this scene. This is intially an empty object that
      * can be filled by animate.load(), or by a custom loading system. It must be filled before

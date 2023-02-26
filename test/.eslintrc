@@ -1,0 +1,8 @@
+{
+    "extends": [
+        "@pixi/eslint-config"
+    ],
+    "ignorePatterns": [
+        "*/assets/"
+    ]
+}

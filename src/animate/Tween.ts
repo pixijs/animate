@@ -1,12 +1,13 @@
-import { AnimateDisplayObject } from './DisplayObject';
-import { Graphics } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
+import type { AnimateDisplayObject } from './DisplayObject';
+import type { Graphics } from '@pixi/graphics';
+import type { Sprite } from '@pixi/sprite';
 
 export type EaseMethod = (input: number) => number;
 
 // NOTE ABOUT KEYS OF TweenProps: Use "(myProps[key] as any) = myVal;"
 // Typescript is unhelpful in this case: https://github.com/microsoft/TypeScript/issues/31663
-export interface TweenProps {
+export interface TweenProps
+{
     x?: number;
     y?: number;
     sx?: number;
@@ -18,19 +19,19 @@ export interface TweenProps {
     t?: number;
     v?: boolean;
     c?: number[];
-    m?: Graphics|Sprite;
+    m?: Graphics | Sprite;
     g?: any;
     /** Eases for any of the tweenable properties, if published as a per-property ease */
-    e?: {[P in TweenablePropNames]?: EaseMethod|{n: string; s: number}};
+    e?: {[P in TweenablePropNames]?: EaseMethod | {n: string; s: number}};
 }
 
-export type TweenablePropNames = keyof Omit<TweenProps, 'm'|'g'|'e'|'v'>;
+export type TweenablePropNames = keyof Omit<TweenProps, 'm' | 'g' | 'e' | 'v'>;
 
 export interface TweenData
 {
     d: number;
     p: TweenProps;
-    e?: EaseMethod|{n: string; s: number};
+    e?: EaseMethod | {n: string; s: number};
 }
 
 export interface KeyframeData extends TweenProps
@@ -397,16 +398,16 @@ export class Tween
     public isTweenlessFrame: boolean;
 
     /**
-     * @param target The target to play
-     * @param startProps The starting properties
-     * @param endProps The ending properties
-     * @param startFrame frame number on which to begin tweening
-     * @param duration Number of frames to tween
-     * @param ease Ease function to use
+     * @param target - The target to play
+     * @param startProps - The starting properties
+     * @param endProps - The ending properties
+     * @param startFrame - frame number on which to begin tweening
+     * @param duration - Number of frames to tween
+     * @param ease - Ease function to use
      */
     constructor(target: AnimateDisplayObject,
         startProps: TweenProps,
-        endProps: TweenProps|null,
+        endProps: TweenProps | null,
         startFrame: number,
         duration: number,
         ease?: EaseMethod)

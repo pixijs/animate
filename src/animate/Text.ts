@@ -5,7 +5,8 @@ import { Sprite } from '@pixi/sprite';
 import { utils } from './utils';
 
 // Possible align values
-enum ALIGN_VALUES {
+enum ALIGN_VALUES
+    {
     center = 0,
     right = 1,
     left = -1
@@ -38,8 +39,8 @@ const STYLE_PROPS = {
 
 /**
  * Check if a value is undefined, fallback to default value
- * @param value The value to check
- * @param defaultValue The default value if value is undefined
+ * @param value - The value to check
+ * @param defaultValue - The default value if value is undefined
  * @return Either the value or the default value
  */
 function isUndefinedOr<T>(value: T, defaultValue: T): T
@@ -56,10 +57,10 @@ export class AnimateText extends Text
     /**
      * Setter for the alignment, also sets the anchor point
      * to make sure the positioning is correct.
-     * @param align Either center (0), right (1), left (-1)
+     * @param align - Either center (0), right (1), left (-1)
      * @return This instance for chaining
      */
-    public setAlign(align: 'center'|'right'|'left'|0|1|-1): this
+    public setAlign(align: 'center' | 'right' | 'left' | 0 | 1 | -1): this
     {
         if (typeof align === 'string')
         {
@@ -77,10 +78,10 @@ export class AnimateText extends Text
 
     /**
      * Set the style, a chainable version of style setter
-     * @param style
+     * @param style -
      * @return This instance for chaining.
      */
-    // TODO: improve typing of style parameter (needs ITextStyle interface to exist)
+    // TODO: improve typing of style parameter - (needs ITextStyle interface to exist)
     public setStyle(style: any): this
     {
         // Replace short STYLE_PROPS with long names
@@ -103,12 +104,12 @@ export class AnimateText extends Text
 
     /**
      * Initial setting of the drop shadow.
-     * @param color The color to set
-     * @param angle The angle of offset, in radians
-     * @param distance The offset distance
+     * @param color - The color to set
+     * @param angle - The angle of offset, in radians
+     * @param distance - The offset distance
      * @return This instance for chaining
      */
-    public setShadow(color: string|number, angle: number, distance: number): this
+    public setShadow(color: string | number, angle: number, distance: number): this
     {
         const style = this.style;
 
@@ -136,7 +137,7 @@ export class AnimateText extends Text
 
     /**
      * Function to set if this is renderable or not. Useful for setting masks.
-     * @param renderable Make renderable. Defaults to false.
+     * @param renderable - Make renderable. Defaults to false.
      * @return This instance, for chaining.
      */
     public setRenderable(renderable?: boolean): this
@@ -157,10 +158,10 @@ export class AnimateText extends Text
 
     /**
      * Setter for mask to be able to chain.
-     * @param mask The mask shape to use
+     * @param mask - The mask shape to use
      * @return Instance for chaining
      */
-    public setMask(mask: Graphics|Sprite): this
+    public setMask(mask: Graphics | Sprite): this
     {
         // According to PIXI, only Graphics and Sprites can
         // be used as mask, let's ignore everything else, like other
@@ -188,7 +189,7 @@ export class AnimateText extends Text
 
     /**
      * Chainable setter for alpha
-     * @param alpha The alpha amount to use, from 0 to 1
+     * @param alpha - The alpha amount to use, from 0 to 1
      * @return Instance for chaining
      */
     public setAlpha(alpha: number): this
@@ -204,10 +205,10 @@ export class AnimateText extends Text
 
     /**
      * Set the tint values by color.
-     * @param tint The color value to tint
+     * @param tint - The color value to tint
      * @return Object for chaining
      */
-    public setTint(tint: string|number): this
+    public setTint(tint: string | number): this
     {
         if (typeof tint === 'string')
         {
@@ -232,12 +233,12 @@ export class AnimateText extends Text
 
     /**
      * Set additive and multiply color, tinting
-     * @param r The multiply red value
-     * @param rA The additive red value
-     * @param g The multiply green value
-     * @param gA The additive green value
-     * @param b The multiply blue value
-     * @param bA The additive blue value
+     * @param r - The multiply red value
+     * @param rA - The additive red value
+     * @param g - The multiply green value
+     * @param gA - The additive green value
+     * @param b - The multiply blue value
+     * @param bA - The additive blue value
      * @return Object for chaining
      */
     public setColorTransform(r: number, rA: number, g: number, gA: number, b: number, bA: number): this

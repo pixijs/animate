@@ -1,12 +1,15 @@
-import { Loader, ILoaderResource } from '@pixi/loaders';
-import { Container } from '@pixi/display';
-import { AnimateAsset } from '../AnimateAsset';
-import { MovieClip } from './MovieClip';
-import { DrawCommands } from './Graphics';
+import type { Container } from '@pixi/display';
+import type { AnimateAsset } from '../AnimateAsset';
+import type { MovieClip } from './MovieClip';
+import type { DrawCommands } from './Graphics';
 import { utils } from './utils';
+import { Assets } from '@pixi/assets';
+import { Texture } from '@pixi/core';
+import { Spritesheet } from '@pixi/spritesheet';
 
-type Complete = (instance: MovieClip|null, loader: Loader) => void;
-export interface LoadOptions {
+type Complete = (instance: MovieClip | null) => void;
+export interface LoadOptions
+{
     /**
      * The Container to auto-add the stage to, if createInstance is true.
      */
@@ -27,10 +30,6 @@ export interface LoadOptions {
      * Metadata to be handed off to the loader for assets that are loaded.
      */
     metadata?: any;
-    /**
-     * Pre-existing loader to use.
-     */
-    loader?: Loader;
 }
 
 const EXPECTED_ASSET_VERSION = 2;
@@ -50,11 +49,11 @@ const EXPECTED_ASSET_VERSION = 2;
  * }
  * update();
  * ```
- * @param scene Reference to the scene data.
- * @param complete The callback function when complete.
+ * @param scene - Reference to the scene data.
+ * @param complete - The callback function when complete.
  * @return instance of PIXI resource loader
  */
-export function load(scene: AnimateAsset, complete?: Complete): Loader;
+export function load(scene: AnimateAsset, complete?: Complete): void;
 /**
  * Load the stage class and preload any assets
  * ```
@@ -87,19 +86,18 @@ export function load(scene: AnimateAsset, complete?: Complete): Loader;
  * }
  * update();
  * ```
- * @param scene Reference to the scene data.
- * @param options Options for loading.
+ * @param scene - Reference to the scene data.
+ * @param options - Options for loading.
  * @return instance of PIXI resource loader
  */
-export function load(scene: AnimateAsset, options: LoadOptions): Loader;
-export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptions): Loader
+export function load(scene: AnimateAsset, options: LoadOptions): void;
+export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOptions): void
 {
     const complete: Complete = typeof optionsOrComplete === 'function' ? optionsOrComplete : optionsOrComplete?.complete;
     let basePath = '';
     let parent: Container = null;
     let metadata: any;
     let createInstance = false;
-    let loader: Loader;
 
     // check scene and warn about it
     const { version } = scene;
@@ -124,10 +122,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
         parent = optionsOrComplete.parent;
         metadata = optionsOrComplete.metadata;
         createInstance = !!optionsOrComplete.createInstance;
-        loader = optionsOrComplete.loader;
     }
-
-    loader = loader || new Loader();
 
     function done(): void
     {
@@ -139,7 +134,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
         }
         if (complete)
         {
-            complete(instance, loader);
+            complete(instance);
         }
     }
 
@@ -148,7 +143,9 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
 
     if (assets && Object.keys(assets).length)
     {
+        const promises: Promise<any>[] = [];
         // assetBaseDir can accept either with trailing slash or not
+
         if (basePath)
         {
             basePath += '/';
@@ -170,26 +167,24 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
                     data = metadata.default;
                 }
             }
-            loader.add(id, basePath + assets[id], data, (resource: ILoaderResource) =>
+            promises.push(Assets.load({ alias: [id], src: basePath + assets[id], data }).then((loadedAsset) =>
             {
-                if (!resource.data)
+                if (!loadedAsset)
                 {
-                    return;
+                    return; // not sure if this can evet happen
                 }
-                if (resource.spritesheet)
+                if (loadedAsset instanceof Spritesheet)
                 {
-                    // handle spritesheets
-                    scene.spritesheets.push(resource.spritesheet);
+                    scene.spritesheets.push(loadedAsset);
                 }
-                else if (resource.data.nodeName === 'IMG')
+                else if (loadedAsset instanceof Texture)
                 {
-                    // handle individual textures
-                    scene.textures[resource.name] = resource.texture;
+                    scene.textures[id] = loadedAsset;
                 }
-                else if (resource.url.search(/\.shapes\.(json|txt)(?:$|\?)/i) > -1)
+                else if (Array.isArray(loadedAsset) || typeof loadedAsset === 'string')
                 {
                     // save shape data
-                    let items: string|DrawCommands[] = resource.data;
+                    let items: string | DrawCommands[] = loadedAsset;
 
                     // Decode string to map of files
                     if (typeof items === 'string')
@@ -212,18 +207,15 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete|LoadOptio
                             }
                         }
                     }
-                    scene.shapes[resource.name] = items;
+                    scene.shapes[id] = items;
                 }
-            });
+            }));
         }
-        loader.onComplete.once(done);
-        loader.load();
+        Promise.all(promises).then(done);
     }
     else
     {
         // tiny case where there's only text and no shapes/animations
         done();
     }
-
-    return loader;
 }

@@ -1,5 +1,5 @@
 import { AnimatorTimeline } from './AnimatorTimeline';
-import { MovieClip } from './MovieClip';
+import type { MovieClip } from './MovieClip';
 
 // Static collection of timelines
 const timelines: AnimatorTimeline[] = [];
@@ -36,8 +36,8 @@ export class Animator
 
     /**
      * Play the entire duration of the MovieClip.
-     * @param instance Movie clip to play.
-     * @param callback Optional callback when complete
+     * @param instance - Movie clip to play.
+     * @param callback - Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
     static play(instance: MovieClip, callback?: () => void): AnimatorTimeline;
@@ -45,14 +45,14 @@ export class Animator
      * Play an animation by frame labels. For instance, play animation sequence from
      * 'idle' to 'idle_stop' or 'idle_loop'. If no event label is provided, will
      * play the entire duration of the MovieClip.
-     * @param instance Movie clip to play.
-     * @param label The frame label event to call, if no event is provided
+     * @param instance - Movie clip to play.
+     * @param label - The frame label event to call, if no event is provided
      *        will use the entire length of the MovieClip.
-     * @param callback Optional callback when complete
+     * @param callback - Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
     static play(instance: MovieClip, label: string, callback?: () => void): AnimatorTimeline;
-    static play(instance: MovieClip, label?: string|(() => void), callback?: () => void): AnimatorTimeline
+    static play(instance: MovieClip, label?: string | (() => void), callback?: () => void): AnimatorTimeline
     {
         let loop = false;
         let start;
@@ -98,12 +98,12 @@ export class Animator
 
     /**
      * Play an animation from the current frame to an end frame or label.
-     * @param instance Movie clip to play.
-     * @param end The end frame or label.
-     * @param callback Optional callback when complete
+     * @param instance - Movie clip to play.
+     * @param end - The end frame or label.
+     * @param callback - Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
-    static to(instance: MovieClip, end: string|number, callback?: () => void): AnimatorTimeline
+    static to(instance: MovieClip, end: string | number, callback?: () => void): AnimatorTimeline
     {
         return this.fromTo(
             instance,
@@ -116,16 +116,16 @@ export class Animator
 
     /**
      * Play a MovieClip from a start to end frame.
-     * @param instance Movie clip to play.
-     * @param start The starting frame index or label.
-     * @param end The ending frame index or label.
-     * @param loop If the animation should loop.
-     * @param callback Optional callback when complete
+     * @param instance - Movie clip to play.
+     * @param start - The starting frame index or label.
+     * @param end - The ending frame index or label.
+     * @param loop - If the animation should loop.
+     * @param callback - Optional callback when complete
      * @return Timeline object for stopping or getting progress.
      */
     static fromTo(instance: MovieClip,
-        start: number|string,
-        end: number|string,
+        start: number | string,
+        end: number | string,
         loop?: boolean,
         callback?: () => void): AnimatorTimeline
     {
@@ -193,7 +193,7 @@ export class Animator
 
     /**
      * Stop the animation by instance.
-     * @param instance Movie clip to play.
+     * @param instance - Movie clip to play.
      */
     static stop(instance: MovieClip): void
     {
@@ -223,7 +223,7 @@ export class Animator
     /**
      * Stop the animation
      * @private
-     * @param timeline Timeline to stop.
+     * @param timeline - Timeline to stop.
      */
     static _internalStop(timeline: AnimatorTimeline): void
     {

@@ -6,6 +6,17 @@ A plugin for PixiJS which provides a runtime for content export using PixiAnimat
 
 ## Running Content
 
+### Re-Export your `.fla`
+Use this Animate CC plugin https://github.com/pixijs/animate-extension and follow this steps:
+1. Install the plugin
+1. Open your old `.fla` file
+1. Convert to PixiJS Animate (from the File menu), creating a new `.fla` file
+1. **From that new `.fla` file** go to publishing settings (from the File menu)
+1. Select the V2 format on the first dropdown
+1. Export your project, you should have a `.js` file and some folders with it.
+
+**Only things added to the stage will be exported!**
+
 ### Installing Library
 
 To run content exported with Pixi Animate, you must load the JavaScript library within your project. You can install using [NPM](http://www.npmjs.org) or your package manager of choice:
@@ -17,11 +28,20 @@ npm install @pixi/animate
 
 ### Dependencies
 
-* [PixiJS v6](http://pixijs.com) is required
+| PixiJS | @pixi/animate |
+|---|---|
+| v5.x - v6.x | v2.x |
+| v7.x | v3.x |
 
 ## Documentation
 
 https://pixijs.io/animate/
+
+## Breaking changes from v2.x to v3.x
+* Compatibility with PixiJS v7
+ * This means the library now uses `Assets` to download anything needed.
+* Removed V1 export compatibility. Only V2 exports are now compatible.
+ *  Removed tests for V1 assets
 
 ## Breaking Changes from v1.3
 * DisplayObject, Container, Graphics, Sprite, and Text from PIXI are no longer modified. Instead, subclasses are provided from the library with the same names (or on the PIXI.animate namespace).

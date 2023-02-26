@@ -1,16 +1,17 @@
-import { DrawCommands } from './Graphics';
-import { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
-import { MovieClip } from './MovieClip';
-import { DisplayObject } from '@pixi/display';
-import { Renderer } from '@pixi/core';
-import { Prepare } from '@pixi/prepare';
+import type { DrawCommands } from './Graphics';
+import type { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
+import type { DisplayObject } from '@pixi/display';
+import type { Renderer } from '@pixi/core';
+import type { Prepare } from '@pixi/prepare';
+import type { MovieClip } from './MovieClip';
 
 // If the movieclip plugin is installed
 let _prepare: Prepare = null;
 
 /* eslint-disable @typescript-eslint/no-namespace, no-inner-declarations */
 // awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
-export namespace utils {
+export namespace utils
+{
 
     /**
      * Convert the Hexidecimal string (e.g., "#fff") to uint
@@ -31,9 +32,9 @@ export namespace utils {
 
     /**
      * Fill frames with booleans of true (showing) and false (hidden).
-     * @param timeline
-     * @param startFrame The start frame when the timeline shows up
-     * @param duration The length of showing
+     * @param timeline -
+     * @param startFrame - The start frame when the timeline shows up
+     * @param duration - The length of showing
      */
     export function fillFrames(timeline: boolean[], startFrame: number, duration: number): void
     {
@@ -94,18 +95,18 @@ export namespace utils {
 
     /**
      * Parse the value of the compressed keyframe.
-     * @param prop The property key
-     * @param buffer The contents
+     * @param prop - The property key
+     * @param buffer - The contents
      * @return The parsed value
      */
-    function parseValue(prop: string, buffer: string): string|number|boolean|(string|number)[]
+    function parseValue(prop: string, buffer: string): string | number | boolean | (string | number)[]
     {
         switch (prop)
         {
             // Color transforms are parsed as an array
             case 'c':
             {
-                const buff: (string|number)[] = buffer.split(',');
+                const buff: (string | number)[] = buffer.split(',');
 
                 buff.forEach((val, i, buffer) =>
                 {
@@ -147,7 +148,7 @@ export namespace utils {
     /**
      * Convert serialized tween from a serialized keyframe into TweenData
      * `"D20E25EaseIn;PX3Y5A1.2"` to: `{ d: 20, e: { s: 25, n: "EaseIn" }, p: { x:3, y: 5, sx: 1.2 } }`
-     * @param tweenBuffer
+     * @param tweenBuffer -
      * @return Resulting TweenData
      */
     function parseTween(tweenBuffer: string): TweenData
@@ -157,7 +158,7 @@ export namespace utils {
         let i = 0;
         let buffer = '';
         let handlingProps = false;
-        let prop: keyof TweenProps|keyof TweenData;
+        let prop: keyof TweenProps | keyof TweenData;
 
         // tween format:
         // D20E25EaseIn;PX3Y5A1.2
@@ -271,7 +272,7 @@ export namespace utils {
     /**
      * Convert serialized array into keyframes
      * `"0x100y100 1x150"` to: `{ "0": {"x":100, "y": 100}, "1": {"x": 150} }`
-     * @param keyframes
+     * @param keyframes -
      * @return Resulting keyframes
      */
     export function deserializeKeyframes(keyframes: string): {[s: number]: KeyframeData}
@@ -362,8 +363,7 @@ export namespace utils {
 
     /**
      * Convert serialized shapes into draw commands for PIXI.Graphics.
-     * @param str
-     * @param Resulting shapes map
+     * @param str -
      */
     export function deserializeShapes(str: string): DrawCommands[]
     {
@@ -394,15 +394,17 @@ export namespace utils {
 
     /**
      * Add movie clips to the upload prepare.
-     * @param {*} item To add to the queue
+     * @param item - item To add to the queue
      */
     export function addMovieClips(item: any): boolean
     {
-        if (item instanceof MovieClip)
+        if (item.isMovieClip)
         {
-            item._timedChildTimelines.forEach((timeline) =>
+            const mc = item as MovieClip;
+
+            mc._timedChildTimelines.forEach((timeline) =>
             {
-                const index = item.children.indexOf(timeline.target);
+                const index = mc.children.indexOf(timeline.target);
 
                 if (index === -1)
                 {
@@ -419,9 +421,9 @@ export namespace utils {
 
     /**
      * Upload all the textures and graphics to the GPU.
-     * @param renderer Render to upload to
-     * @param clip MovieClip to upload
-     * @param done When complete
+     * @param renderer - Render to upload to
+     * @param clip - MovieClip to upload
+     * @param done - When complete
      */
     export function upload(renderer: Renderer, displayObject: DisplayObject, done: () => void): void
     {
@@ -431,6 +433,6 @@ export namespace utils {
             _prepare.registerFindHook(addMovieClips);
         }
         // eslint-disable-next-line no-unused-expressions
-        _prepare?.upload(displayObject, done);
+        _prepare?.upload(displayObject).then(done);
     }
 }

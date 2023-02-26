@@ -1,4 +1,4 @@
-import { MovieClip } from './MovieClip';
+import type { MovieClip } from './MovieClip';
 import { Animator } from './Animator';
 
 const pool: AnimatorTimeline[] = [];
@@ -11,7 +11,7 @@ export class AnimatorTimeline
     /**
      * Bound copy of update().
      */
-    private _update: (instance: MovieClip) => (() => void|null);
+    private _update: (instance: MovieClip) => (() => void | null);
 
     /**
      * Instance of clip to play.
@@ -87,7 +87,6 @@ export class AnimatorTimeline
 
     /**
      * Is the animation complete
-     * @method PIXI.animate.AnimatorTimeline#update
      * @param instance
      * @return Callback to do after updateTimeline
      * @private
