@@ -35,7 +35,7 @@ npm install @pixi/animate
 
 ## Documentation
 
-https://pixijs.io/animate/
+https://pixijs.io/animate/docs/
 
 ## Breaking changes from v2.x to v3.x
 * Compatibility with PixiJS v7
