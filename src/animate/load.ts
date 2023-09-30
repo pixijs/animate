@@ -56,10 +56,9 @@ const EXPECTED_ASSET_VERSION = 2;
  * ```
  * @param scene - Reference to the scene data.
  * @param complete - The callback function when complete.
- * @param progress - The callback function when progressed.
  * @return instance of PIXI resource loader
  */
-export function load(scene: AnimateAsset, complete?: Complete, progress?: Progress): void;
+export function load(scene: AnimateAsset, complete?: Complete): void;
 /**
  * Load the stage class and preload any assets
  * ```
@@ -100,6 +99,8 @@ export function load(scene: AnimateAsset, options: LoadOptions): void;
 export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOptions): void
 {
     const complete: Complete = typeof optionsOrComplete === 'function' ? optionsOrComplete : optionsOrComplete?.complete;
+    const progress: Progress | undefined = typeof optionsOrComplete === 'function' ? undefined : optionsOrComplete?.progress;
+
     let basePath = '';
     let parent: Container = null;
     let metadata: any;
@@ -161,7 +162,7 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOpt
         }
         for (const id in assets)
         {
-            totalAssets++;
+            if (progress) totalAssets++;
 
             let data = null;
 
@@ -178,19 +179,18 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOpt
                     data = metadata.default;
                 }
             }
-            promises.push(Assets.load({ alias: [id], src: basePath + assets[id], data }, progress =>
+            promises.push(Assets.load({ alias: [id], src: basePath + assets[id], data }).then((loadedAsset) =>
             {
-                if (optionsOrComplete && typeof optionsOrComplete !== 'function')
+                if (progress)
                 {
-                    if (optionsOrComplete.progress) optionsOrComplete.progress(progress * loadedAssets / totalAssets);
+                    loadedAssets++;
+
+                    progress(loadedAssets / totalAssets);
                 }
-            }).then((loadedAsset) =>
-            {
-                loadedAssets++;
 
                 if (!loadedAsset)
                 {
-                    return; // not sure if this can event happen
+                    return; // not sure if this can ever happen
                 }
                 if (loadedAsset instanceof Spritesheet)
                 {
