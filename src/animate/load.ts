@@ -8,6 +8,7 @@ import { Texture } from '@pixi/core';
 import { Spritesheet } from '@pixi/spritesheet';
 
 type Complete = (instance: MovieClip | null) => void;
+type Progress = (value: number) => void;
 export interface LoadOptions
 {
     /**
@@ -18,6 +19,10 @@ export interface LoadOptions
      * Callback for load completion.
      */
     complete?: Complete;
+    /**
+     * Callback for load progress.
+     */
+    progress?: Progress;
     /**
      * Base root directory
      */
@@ -94,6 +99,8 @@ export function load(scene: AnimateAsset, options: LoadOptions): void;
 export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOptions): void
 {
     const complete: Complete = typeof optionsOrComplete === 'function' ? optionsOrComplete : optionsOrComplete?.complete;
+    const progress: Progress | undefined = typeof optionsOrComplete === 'function' ? undefined : optionsOrComplete?.progress;
+
     let basePath = '';
     let parent: Container = null;
     let metadata: any;
@@ -143,6 +150,9 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOpt
 
     if (assets && Object.keys(assets).length)
     {
+        let totalAssets = 0;
+        let loadedAssets = 0;
+
         const promises: Promise<any>[] = [];
         // assetBaseDir can accept either with trailing slash or not
 
@@ -152,6 +162,8 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOpt
         }
         for (const id in assets)
         {
+            if (progress) totalAssets++;
+
             let data = null;
 
             if (metadata)
@@ -169,9 +181,16 @@ export function load(scene: AnimateAsset, optionsOrComplete?: Complete | LoadOpt
             }
             promises.push(Assets.load({ alias: [id], src: basePath + assets[id], data }).then((loadedAsset) =>
             {
+                if (progress)
+                {
+                    loadedAssets++;
+
+                    progress(loadedAssets / totalAssets);
+                }
+
                 if (!loadedAsset)
                 {
-                    return; // not sure if this can evet happen
+                    return; // not sure if this can ever happen
                 }
                 if (loadedAsset instanceof Spritesheet)
                 {
