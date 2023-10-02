@@ -1,7 +1,7 @@
 {
   "name": "@pixi/animate",
   "description": "PIXI plugin for the PixiAnimate Extension",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "bundle": "dist/animate.js",
