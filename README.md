@@ -2,6 +2,15 @@
 
 A plugin for PixiJS which provides a runtime for content export using PixiAnimate Extension.
 
+> **This fork: PixiJS 8 port (`v8-port` branch).** Ports the runtime from PixiJS 7 to PixiJS 8 (tested against pixi.js 8.19). Asset format is unchanged (v2). Notable changes:
+> - `Graphics.drawCommands` is now a fill/stroke-flush state machine (v8 fills explicitly; v7's implicit `beginFill` semantics are emulated). Holes (`bh`/`eh`) map to v8 `GraphicsContext.cut()`.
+> - Own `setTransform` implementation on all Animate display classes (removed in v8).
+> - `Scene` requires async init: `await scene.init({...})` before `load()` (PixiJS 8 `Application` API).
+> - `utils.upload` uses the v8 `PrepareSystem`; off-stage MovieClip timeline targets are queued manually (find-hooks were removed in v8).
+> - Peer dependency is now `pixi.js@^8.0.0` (single package, no `@pixi/*` scoped packages).
+>
+> Verified by rendering real published v2 content (timelines, masks, text, buttons). The Electron/jest render-snapshot test suite has not been ported yet (snapshots are v7-era; TODO).
+
 [![Build Status](https://travis-ci.org/pixijs/animate.svg?branch=master)](https://travis-ci.org/pixijs/animate) [![Dependency Status](https://david-dm.org/pixijs/animate.svg)](https://david-dm.org/pixijs/animate) [![npm version](https://badge.fury.io/js/animate.svg)](https://badge.fury.io/js/animate)
 
 ## Running Content

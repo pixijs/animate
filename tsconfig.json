@@ -4,6 +4,9 @@
 		"strictNullChecks": false,
 		"importsNotUsedAsValues": "error",
 		"noImplicitAny": false, // I have to correct very arcane tests to make this work
+		// pixi.js v8 type definitions require newer TS libs (VideoFrame, generic
+		// typed arrays); don't type-check dependency declaration files
+		"skipLibCheck": true,
 	},
 	"include": [
 		"src/**/*.ts"

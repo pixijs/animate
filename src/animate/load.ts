@@ -1,11 +1,9 @@
-import type { Container } from '@pixi/display';
+import { Assets, Texture, Spritesheet } from 'pixi.js';
+import type { Container } from 'pixi.js';
 import type { AnimateAsset } from '../AnimateAsset';
 import type { MovieClip } from './MovieClip';
 import type { DrawCommands } from './Graphics';
 import { utils } from './utils';
-import { Assets } from '@pixi/assets';
-import { Texture } from '@pixi/core';
-import { Spritesheet } from '@pixi/spritesheet';
 
 type Complete = (instance: MovieClip | null) => void;
 type Progress = (value: number) => void;

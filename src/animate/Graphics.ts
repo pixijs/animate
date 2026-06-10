@@ -1,19 +1,13 @@
-import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
-import { Graphics, GraphicsGeometry, ILineStyleOptions } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
+import { ColorMatrixFilter, Graphics, FillInput, StrokeInput, Sprite } from 'pixi.js';
 import { utils } from './utils';
 
 export type DrawCommands = (string | number)[];
 
 export class AnimateGraphics extends Graphics
 {
-    constructor(geometry?: GraphicsGeometry)
-    {
-        super(geometry);
-
-        // overwrite with a cleaner version, so fewer function calls are involved
-        this.s = super.lineStyle;
-    }
+    private _pendingFill: FillInput = null;
+    private _pendingStroke: StrokeInput = null;
+    private _pathDirty = false;
 
     // **************************
     //     Graphics methods
@@ -48,6 +42,8 @@ export class AnimateGraphics extends Graphics
                 params.push(item);
             }
         }
+        // v8: fills/strokes are explicit instructions, flush whatever is pending
+        this._flushDraw();
 
         return this;
     }
@@ -57,89 +53,198 @@ export class AnimateGraphics extends Graphics
     public d = this.drawCommands;
 
     /**
+     * v8 port: apply pending fill/stroke styles to the path built so far.
+     * In v7 beginFill/lineStyle applied implicitly to subsequent path commands;
+     * in v8 we buffer the style and emit fill()/stroke() instructions here.
+     */
+    private _flushDraw(): void
+    {
+        if (this._pathDirty)
+        {
+            if (this._pendingFill !== null)
+            {
+                super.fill(this._pendingFill);
+            }
+            if (this._pendingStroke !== null)
+            {
+                super.stroke(this._pendingStroke);
+            }
+            if (this._pendingFill === null && this._pendingStroke === null)
+            {
+                super.beginPath();
+            }
+        }
+        this._pendingFill = null;
+        this._pendingStroke = null;
+        this._pathDirty = false;
+    }
+
+    /**
      * Shortcut for `closePath`.
      **/
-    public cp = super.closePath;
+    public cp(): this
+    {
+        return super.closePath();
+    }
 
     /**
-     * Shortcut for `beginHole`
+     * Shortcut for `beginHole`. v8 port: flush the outer shape now; the
+     * following path commands build the hole, attached via cut() in eh().
      **/
-    public bh = super.beginHole;
+    public bh(): this
+    {
+        const fill = this._pendingFill;
+        const stroke = this._pendingStroke;
+
+        this._flushDraw();
+        // keep styles around in case more shapes follow after the hole
+        this._pendingFill = fill;
+        this._pendingStroke = stroke;
+
+        return this;
+    }
 
     /**
-     * Shortcut for `endHole`
+     * Shortcut for `endHole`. v8 port: cut() attaches the active path as a
+     * hole on the last emitted fill/stroke instruction.
      **/
-    public eh = super.endHole;
+    public eh(): this
+    {
+        this.context.cut();
+        this._pathDirty = false;
+
+        return this;
+    }
 
     /**
      * Shortcut for `moveTo`.
      **/
-    public m = super.moveTo;
+    public m(x: number, y: number): this
+    {
+        this._pathDirty = true;
+
+        return super.moveTo(x, y);
+    }
 
     /**
      * Shortcut for `lineTo`.
      **/
-    public l = super.lineTo;
+    public l(x: number, y: number): this
+    {
+        this._pathDirty = true;
+
+        return super.lineTo(x, y);
+    }
 
     /**
      * Shortcut for `quadraticCurveTo`.
      **/
-    public q = super.quadraticCurveTo;
+    public q(cpX: number, cpY: number, toX: number, toY: number): this
+    {
+        this._pathDirty = true;
+
+        return super.quadraticCurveTo(cpX, cpY, toX, toY);
+    }
 
     /**
      * Shortcut for `bezierCurveTo`.
      **/
-    public b = super.bezierCurveTo;
+    public b(cpX: number, cpY: number, cpX2: number, cpY2: number, toX: number, toY: number): this
+    {
+        this._pathDirty = true;
+
+        return super.bezierCurveTo(cpX, cpY, cpX2, cpY2, toX, toY);
+    }
 
     /**
      * Shortcut for `beginFill`.
      **/
-    public f = super.beginFill;
+    public f(color?: string | number, alpha?: number): this
+    {
+        this._flushDraw();
+        this._pendingFill = { color: color as any, alpha: alpha === undefined ? 1 : alpha };
+
+        return this;
+    }
 
     /**
      * Shortcut for `lineStyle`.
      **/
-    public s(width: number, color?: number, alpha?: number, alignment?: number, native?: boolean): this;
-    public s(options?: ILineStyleOptions): this;
-    public s(...args: any[]): this
+    public s(width?: number, color?: string | number, alpha?: number): this
     {
-        return super.lineStyle(...args);
+        if (this._pathDirty)
+        {
+            this._flushDraw();
+        }
+        this._pendingStroke = { width, color: color as any, alpha: alpha === undefined ? 1 : alpha };
+
+        return this;
     }
 
     /**
      * Shortcut for `drawRect`.
      **/
-    public dr = super.drawRect;
+    public dr(x: number, y: number, w: number, h: number): this
+    {
+        this._pathDirty = true;
+
+        return super.rect(x, y, w, h);
+    }
 
     /**
      * Shortcut for `drawRoundedRect`.
      **/
-    public rr = super.drawRoundedRect;
+    public rr(x: number, y: number, w: number, h: number, radius: number): this
+    {
+        this._pathDirty = true;
+
+        return super.roundRect(x, y, w, h, radius);
+    }
 
     /**
      * Shortcut for `drawRoundedRect`.
      **/
-    public rc = super.drawRoundedRect;
+    public rc = this.rr;
 
     /**
      * Shortcut for `drawCircle`.
      **/
-    public dc = super.drawCircle;
+    public dc(x: number, y: number, radius: number): this
+    {
+        this._pathDirty = true;
+
+        return super.circle(x, y, radius);
+    }
 
     /**
      * Shortcut for `arc`.
      **/
-    public ar = super.arc;
+    public ar(cx: number, cy: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): this
+    {
+        this._pathDirty = true;
+
+        return super.arc(cx, cy, radius, startAngle, endAngle, anticlockwise);
+    }
 
     /**
      * Shortcut for `arcTo`.
      **/
-    public at = super.arcTo;
+    public at(x1: number, y1: number, x2: number, y2: number, radius: number): this
+    {
+        this._pathDirty = true;
+
+        return super.arcTo(x1, y1, x2, y2, radius);
+    }
 
     /**
      * Shortcut for `drawEllipse`.
      */
-    public de = super.drawEllipse;
+    public de(x: number, y: number, w: number, h: number): this
+    {
+        this._pathDirty = true;
+
+        return super.ellipse(x, y, w, h);
+    }
 
     /**
      * Placeholder method for a linear gradient fill. Pixi does not support linear gradient fills,
@@ -259,7 +364,34 @@ export class AnimateGraphics extends Graphics
     /**
      * Shortcut for `setTransform`.
      */
-    public t = super.setTransform;
+    // v7 numeric signature; v8 base class has a deprecated Matrix-based overload
+    public setTransform(...args: any[]): this
+    {
+        const [x = 0, y = 0, scaleX = 1, scaleY = 1, rotation = 0, skewX = 0, skewY = 0, pivotX = 0, pivotY = 0] = args;
+
+        this.position.set(x, y);
+        this.scale.set(scaleX, scaleY);
+        this.rotation = rotation;
+        this.skew.set(skewX, skewY);
+        this.pivot.set(pivotX, pivotY);
+
+        return this;
+    }
+    public t = this.setTransform;
+
+    /**
+     * v8 removed Container#name in favor of label; published animate assets
+     * assign `.name` directly, so keep it as a first-class alias (no
+     * deprecation warning).
+     */
+    public get name(): string
+    {
+        return this.label;
+    }
+    public set name(value: string)
+    {
+        this.label = value;
+    }
 
     /**
      * Setter for mask to be able to chain.

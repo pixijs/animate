@@ -7,4 +7,4 @@
 .DS_Store
 /*.d.ts
 .nyc_output
-example.api.json*
+example.api.json**.tgz

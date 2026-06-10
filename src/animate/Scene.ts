@@ -1,15 +1,16 @@
 import { load } from './load';
 import { sound } from './sound';
 import type { MovieClip } from './MovieClip';
-import { Application } from '@pixi/app';
-import type { EventEmitter } from '@pixi/utils';
-import type { IDestroyOptions } from '@pixi/display';
+import { Application } from 'pixi.js';
+import type { EventEmitter, DestroyOptions } from 'pixi.js';
 import type { AnimateAsset } from '../AnimateAsset';
 
 /**
  * Extends the PIXI.Application class to provide easy loading.
+ * Note (v8): Application requires async initialization before use:
  * ```
  * const scene = new PIXI.animate.Scene();
+ * await scene.init({ width: 800, height: 600 });
  * scene.load(lib.StageName);
  * ```
  */
@@ -56,13 +57,14 @@ export class Scene extends Application
      * @param stageOptions - Options parameter. A boolean will act as if all options
      *  have been set to that value
      */
-    destroy(removeView?: boolean, stageOptions?: IDestroyOptions | boolean): void
+    destroy(removeView?: boolean, stageOptions?: DestroyOptions | boolean): void
     {
         if (this.instance)
         {
             this.instance.destroy(true);
             this.instance = null;
         }
-        super.destroy(removeView, stageOptions as IDestroyOptions);
+        // v8 destroy signature: (rendererDestroyOptions, options)
+        super.destroy({ removeView: !!removeView }, stageOptions as DestroyOptions);
     }
 }

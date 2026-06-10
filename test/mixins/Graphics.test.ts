@@ -32,20 +32,48 @@ describe('Graphics', () =>
         expect(p.drawCommands).toBeTruthy();
         expect(p.d).toBeTruthy();
         expect(p.drawCommands).toEqual(p.d);
-        expect(p.cp).toEqual(p.closePath);
-        expect(p.bh).toEqual(p.beginHole);
-        expect(p.eh).toEqual(p.endHole);
-        expect(p.m).toEqual(p.moveTo);
-        expect(p.l).toEqual(p.lineTo);
-        expect(p.q).toEqual(p.quadraticCurveTo);
-        expect(p.b).toEqual(p.bezierCurveTo);
-        expect(p.f).toEqual(p.beginFill);
-        expect(p.s).toEqual(p.lineStyle);
-        expect(p.dr).toEqual(p.drawRect);
-        expect(p.rr).toEqual(p.drawRoundedRect);
-        expect(p.dc).toEqual(p.drawCircle);
-        expect(p.ar).toEqual(p.arc);
-        expect(p.at).toEqual(p.arcTo);
-        expect(p.de).toEqual(p.drawEllipse);
+        // v8 port: shortcuts are own wrapper methods (they buffer pending
+        // fill/stroke state), no longer references to the pixi.js methods
+        expect(typeof p.cp).toEqual('function');
+        expect(typeof p.bh).toEqual('function');
+        expect(typeof p.eh).toEqual('function');
+        expect(typeof p.m).toEqual('function');
+        expect(typeof p.l).toEqual('function');
+        expect(typeof p.q).toEqual('function');
+        expect(typeof p.b).toEqual('function');
+        expect(typeof p.f).toEqual('function');
+        expect(typeof p.s).toEqual('function');
+        expect(typeof p.dr).toEqual('function');
+        expect(typeof p.rr).toEqual('function');
+        expect(typeof p.dc).toEqual('function');
+        expect(typeof p.ar).toEqual('function');
+        expect(typeof p.at).toEqual('function');
+        expect(typeof p.de).toEqual('function');
+    });
+
+    it('should emit fill/stroke instructions from drawCommands (v8 semantics)', () =>
+    {
+        const p = new Graphics();
+
+        // square fill with a square hole
+        p.drawCommands([
+            'f', 0xff0000, 1,
+            'm', 0, 0, 'l', 100, 0, 'l', 100, 100, 'l', 0, 100, 'cp',
+            'bh',
+            'm', 25, 25, 'l', 75, 25, 'l', 75, 75, 'l', 25, 75, 'cp',
+            'eh',
+        ]);
+        const fills = p.context.instructions.filter((i) => i.action === 'fill');
+
+        expect(fills.length).toEqual(1);
+        expect((fills[0].data as any).hole).toBeTruthy();
+
+        // stroke-only path
+        const p2 = new Graphics();
+
+        p2.drawCommands(['s', 2, 0x00ff00, 1, 'm', 0, 0, 'l', 50, 50]);
+        const strokes = p2.context.instructions.filter((i) => i.action === 'stroke');
+
+        expect(strokes.length).toEqual(1);
     });
 });

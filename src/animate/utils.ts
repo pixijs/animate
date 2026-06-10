@@ -1,12 +1,7 @@
 import type { DrawCommands } from './Graphics';
 import type { TweenProps, KeyframeData, TweenData, TweenablePropNames } from './Tween';
-import type { DisplayObject } from '@pixi/display';
-import type { Renderer } from '@pixi/core';
-import type { Prepare } from '@pixi/prepare';
+import type { Container as DisplayObject, Renderer } from 'pixi.js';
 import type { MovieClip } from './MovieClip';
-
-// If the movieclip plugin is installed
-let _prepare: Prepare = null;
 
 /* eslint-disable @typescript-eslint/no-namespace, no-inner-declarations */
 // awkwardly named instead of the final export of 'utils' to avoid problems in .d.ts build tools.
@@ -393,46 +388,53 @@ export namespace utils
     }
 
     /**
-     * Add movie clips to the upload prepare.
-     * @param item - item To add to the queue
+     * Collect MovieClip timed children that are not currently on the
+     * display list, so they can be uploaded ahead of time. v8 replacement
+     * for the removed PrepareSystem find-hook mechanism.
+     * @param item - item to walk
+     * @param found - collected off-stage timeline targets
      */
-    export function addMovieClips(item: any): boolean
+    export function addMovieClips(item: DisplayObject, found: DisplayObject[] = []): DisplayObject[]
     {
-        if (item.isMovieClip)
+        if ((item as MovieClip).isMovieClip)
         {
             const mc = item as MovieClip;
 
             mc._timedChildTimelines.forEach((timeline) =>
             {
-                const index = mc.children.indexOf(timeline.target);
+                const target = timeline.target as DisplayObject;
 
-                if (index === -1)
+                if (target && mc.children.indexOf(target as any) === -1)
                 {
-                    // eslint-disable-next-line no-unused-expressions
-                    _prepare?.add(timeline.target);
+                    found.push(target);
+                    addMovieClips(target, found);
                 }
             });
-
-            return true;
         }
+        item.children?.forEach((child) => addMovieClips(child as DisplayObject, found));
 
-        return false;
+        return found;
     }
 
     /**
      * Upload all the textures and graphics to the GPU.
      * @param renderer - Render to upload to
-     * @param clip - MovieClip to upload
+     * @param displayObject - MovieClip to upload
      * @param done - When complete
      */
     export function upload(renderer: Renderer, displayObject: DisplayObject, done: () => void): void
     {
-        if (!_prepare)
+        const prepare = (renderer as any).prepare;
+
+        if (!prepare)
         {
-            _prepare = renderer.plugins.prepare;
-            _prepare.registerFindHook(addMovieClips);
+            done();
+
+            return;
         }
-        // eslint-disable-next-line no-unused-expressions
-        _prepare?.upload(displayObject).then(done);
+        // v8 PrepareSystem has no find-hooks; queue off-stage MovieClip
+        // timeline targets manually, then upload the visible tree.
+        addMovieClips(displayObject).forEach((extra) => prepare.add(extra));
+        prepare.upload(displayObject).then(done);
     }
 }

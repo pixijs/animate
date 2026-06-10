@@ -1,4 +1,4 @@
-import { EventEmitter } from '@pixi/utils';
+import { EventEmitter } from 'pixi.js';
 /**
  * @description Event emitter for all sound events. This emits a single
  * `play` event which contains the alias, loop and MovieClip which is playing

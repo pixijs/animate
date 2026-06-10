@@ -1,6 +1,5 @@
 import type { MovieClip, AnimateContainer, AnimateGraphics, AnimateText, AnimateSprite, DrawCommands } from './animate';
-import type { Texture } from '@pixi/core';
-import type { Spritesheet } from '@pixi/spritesheet';
+import type { Texture, Spritesheet } from 'pixi.js';
 
 interface PixiAnimate
 {

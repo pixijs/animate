@@ -1,7 +1,4 @@
-import { ColorMatrixFilter } from '@pixi/filter-color-matrix';
-import { Text, TextStyleAlign } from '@pixi/text';
-import { Graphics } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
+import { ColorMatrixFilter, Text, TextStyleAlign, Graphics, Sprite } from 'pixi.js';
 import { utils } from './utils';
 
 // Possible align values
@@ -50,6 +47,12 @@ function isUndefinedOr<T>(value: T, defaultValue: T): T
 
 export class AnimateText extends Text
 {
+    constructor(text?: string)
+    {
+        // v8: the (text, style) constructor overload is deprecated
+        super({ text });
+    }
+
     // **************************
     //     Text methods
     // **************************
@@ -120,9 +123,11 @@ export class AnimateText extends Text
         {
             color = `#${color.toString(16)}`;
         }
-        style.dropShadowColor = isUndefinedOr(color, style.dropShadowColor);
-        style.dropShadowAngle = isUndefinedOr(angle, style.dropShadowAngle);
-        style.dropShadowDistance = isUndefinedOr(distance, style.dropShadowDistance);
+        const shadow = style.dropShadow as any;
+
+        shadow.color = isUndefinedOr(color, shadow.color);
+        shadow.angle = isUndefinedOr(angle, shadow.angle);
+        shadow.distance = isUndefinedOr(distance, shadow.distance);
 
         return this;
     }
@@ -154,7 +159,31 @@ export class AnimateText extends Text
     /**
      * Shortcut for `setTransform`.
      */
-    public t = super.setTransform;
+    public setTransform(x = 0, y = 0, scaleX = 1, scaleY = 1, rotation = 0, skewX = 0, skewY = 0, pivotX = 0, pivotY = 0): this
+    {
+        this.position.set(x, y);
+        this.scale.set(scaleX, scaleY);
+        this.rotation = rotation;
+        this.skew.set(skewX, skewY);
+        this.pivot.set(pivotX, pivotY);
+
+        return this;
+    }
+    public t = this.setTransform;
+
+    /**
+     * v8 removed Container#name in favor of label; published animate assets
+     * assign `.name` directly, so keep it as a first-class alias (no
+     * deprecation warning).
+     */
+    public get name(): string
+    {
+        return this.label;
+    }
+    public set name(value: string)
+    {
+        this.label = value;
+    }
 
     /**
      * Setter for mask to be able to chain.

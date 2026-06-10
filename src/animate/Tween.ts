@@ -1,6 +1,5 @@
 import type { AnimateDisplayObject } from './DisplayObject';
-import type { Graphics } from '@pixi/graphics';
-import type { Sprite } from '@pixi/sprite';
+import type { Graphics, Sprite } from 'pixi.js';
 
 export type EaseMethod = (input: number) => number;
 
@@ -193,25 +192,25 @@ function setPropFromShorthand(target: AnimateDisplayObject, prop: keyof TweenPro
     switch (prop)
     {
         case 'x':
-            target.transform.position.x = value;
+            target.position.x = value;
             break;
         case 'y':
-            target.transform.position.y = value;
+            target.position.y = value;
             break;
         case 'sx':
-            target.transform.scale.x = value;
+            target.scale.x = value;
             break;
         case 'sy':
-            target.transform.scale.y = value;
+            target.scale.y = value;
             break;
         case 'kx':
-            target.transform.skew.x = value;
+            target.skew.x = value;
             break;
         case 'ky':
-            target.transform.skew.y = value;
+            target.skew.y = value;
             break;
         case 'r':
-            target.transform.rotation = value;
+            target.rotation = value;
             break;
         case 'a':
             target.alpha = value;

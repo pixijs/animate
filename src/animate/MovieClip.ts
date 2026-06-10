@@ -4,11 +4,9 @@ import { utils } from './utils';
 import { sound } from './sound';
 import { AnimateContainer } from './Container';
 import type { AnimateDisplayObject } from './DisplayObject';
-import { Ticker } from '@pixi/ticker';
-import { settings } from '@pixi/settings';
-import type { Graphics } from '@pixi/graphics';
-import type { Sprite } from '@pixi/sprite';
-import type { IDestroyOptions } from '@pixi/display';
+import { Ticker } from 'pixi.js';
+import type { Graphics, Sprite, DestroyOptions } from 'pixi.js';
+const TARGET_FPMS = 0.06;
 const SharedTicker = Ticker.shared;
 
 export interface MovieClipOptions
@@ -335,7 +333,7 @@ export class MovieClip extends AnimateContainer
         SharedTicker.add(this._tickListener, null);
     }
 
-    private _tickListener(tickerDeltaTime: number): void
+    private _tickListener(ticker: import("pixi.js").Ticker): void
     {
         if (this.paused || !this.selfAdvance)
         {
@@ -347,7 +345,7 @@ export class MovieClip extends AnimateContainer
 
             return;
         }
-        const seconds = tickerDeltaTime / settings.TARGET_FPMS / 1000;
+        const seconds = ticker.deltaTime / TARGET_FPMS / 1000;
 
         this.advance(seconds);
     }
@@ -1099,7 +1097,7 @@ export class MovieClip extends AnimateContainer
         }
     }
 
-    destroy(options?: IDestroyOptions | boolean): void
+    destroy(options?: DestroyOptions | boolean): void
     {
         if (this._tickListener)
         {
@@ -1140,7 +1138,7 @@ export class MovieClip extends AnimateContainer
             // Don't destroy children in the display list
             if (this.children.indexOf(hiddenChildren[i]) < 0)
             {
-                hiddenChildren[i].destroy(options as IDestroyOptions);
+                hiddenChildren[i].destroy(options as DestroyOptions);
             }
         }
         hiddenChildren.length = 0;
@@ -1151,6 +1149,6 @@ export class MovieClip extends AnimateContainer
         this._beforeUpdate = null;
         this._labels = null;
         this._labelDict = null;
-        super.destroy(options as IDestroyOptions);
+        super.destroy(options as DestroyOptions);
     }
 }
